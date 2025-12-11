@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tes Mood Lengkap — Zeli</title>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  :root{
+    --accent:#ff7bb5;
+    --soft:#ffeef7;
+    --card:#ffffff;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    font-family: "Poppins", sans-serif;
+    margin:0;
+    background:var(--soft);
+    transition:background 0.6s ease;
+  }
+
+  header{padding:18px 12px;text-align:center}
+  header h1{margin:0;color:#ff4d9e;font-size:20px}
+
+  .page{display:none;padding:14px;}
+  #home{display:block}
+
+  .container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:16px;
+    max-width:980px;
+    margin:18px auto;
+  }
+
+  .card{
+    background:var(--card);
+    padding:18px;border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    cursor:pointer;transition:transform .25s,box-shadow .25s;
+    display:flex;align-items:center;justify-content:center;height:100px;
+  }
+  .card:hover{transform:scale(1.04);box-shadow:0 12px 30px rgba(0,0,0,0.12)}
+  .card-title{color:#ff379b;font-weight:700;text-align:center}
+
+  .test-box{
+    max-width:520px;margin:16px auto;padding:20px;border-radius:16px;background:var(--card);
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    transform-origin:center;
+  }
+
+  label{display:block;margin-top:12px;font-weight:600}
+  select{width:100%;padding:10px;border-radius:10px;margin-top:6px;border:1px solid #eee}
+
+  .btn{
+    display:inline-block;padding:12px;border-radius:12px;border:0;background:var(--accent);
+    color:#fff;font-weight:700;margin-top:14px;cursor:pointer;width:100%;
+  }
+  .btn.secondary{background:#bdbdbd}
+  .actions{display:flex;gap:8px;margin-top:12px}
+  .small{padding:8px;border-radius:10px;font-size:14px;width:auto;flex:1}
+
+  /* progress */
+  .progress{width:100%;height:18px;background:#ffe3ef;border-radius:20px;overflow:hidden;margin-top:12px;display:none}
+  .progress-fill{height:100%;width:0%;border-radius:20px;transition:width .8s ease}
+
+  .result-text{margin-top:10px;font-size:20px;font-weight:800;opacity:0;transition:opacity .5s}
+
+  /* chart area */
+  .chart-wrap{margin-top:16px;background:#fafafa;padding:12px;border-radius:12px}
+
+  /* zoom animation */
+  .zoom-in{
+    animation: zoomIn .28s ease both;
+  }
+  @keyframes zoomIn{
+    from{opacity:0; transform:scale(.92) translateY(10px)}
+    to{opacity:1; transform:scale(1) translateY(0)}
+  }
+
+  /* result/help row */
+  .row{display:flex;gap:8px;align-items:center}
+  .muted{opacity:.75;font-size:13px}
+  .note{font-size:13px;color:#555;margin-top:8px}
+
+  /* responsive */
+  @media (max-width:520px){
+    .card{height:90px;padding:12px}
+  }
+</style>
+</head>
+<body>
+
+<header><h1>Tes Mood Lengkap — Pilih Tes Kamu</h1></header>
+
+<!-- HOME -->
+<div id="home" class="page">
+  <div class="container">
+    <div class="card" onclick="showPage('mood')"><div class="card-title">Tes Mood Harian</div></div>
+    <div class="card" onclick="showPage('relationship')"><div class="card-title">Tes Hubungan Pasangan</div></div>
+    <div class="card" onclick="showPage('family')"><div class="card-title">Tes Keluarga</div></div>
+    <div class="card" onclick="showPage('school')"><div class="card-title">Mood Sekolah</div></div>
+    <div class="card" onclick="showPage('stress')"><div class="card-title">Tingkat Stres</div></div>
+    <div class="card" onclick="showPage('social')"><div class="card-title">Social Battery</div></div>
+    <div class="card" onclick="showPage('overthinking')"><div class="card-title">Overthinking Meter</div></div>
+  </div>
+
+  <p style="text-align:center;margin-top:6px" class="muted">Hasil akan disimpan sebagai riwayat — bisa dilihat di bawah tiap tes.</p>
+</div>
+
+<!-- --- Reusable test template sections --- -->
+<!-- Mood -->
+<div id="mood" class="page">
+  <div class="test-box zoom-in" id="box-mood">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Tes Mood Harian</h2>
+
+    <label>Semangat hari ini?</label>
+    <select id="m1"><option value="1">Tidak semangat</option><option value="3">Biasa aja</option><option value="5">Semangat banget!</option></select>
+
+    <label>Perasaan sekarang?</label>
+    <select id="m2"><option value="1">Gelisah</option><option value="3">Netral</option><option value="5">Tenang</option></select>
+
+    <label>Energi tubuh?</label>
+    <select id="m3"><option value="1">Lelah</option><option value="3">Cukup</option><option value="5">Full power!</option></select>
+
+    <button class="btn" onclick="hitung('mood')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-mood"><div class="progress-fill" id="fill-mood"></div></div>
+    <div class="result-text" id="hasil-mood"></div>
+
+    <div class="chart-wrap">
+      <canvas id="chart-mood" height="80"></canvas>
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('mood')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('mood')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('mood')">Buat Instagram Story PNG</button>
+    </div>
+    <p class="note">Catatan: otomatis posting ke Status/Story tidak diperbolehkan oleh browser — tombol Status akan menyalin teks & membuka WhatsApp agar kamu bisa paste sendiri. Untuk Instagram Story, file PNG akan diunduh; tinggal upload ke Instagram.</p>
+  </div>
+</div>
+
+<!-- Relationship -->
+<div id="relationship" class="page">
+  <div class="test-box zoom-in" id="box-relationship">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Tes Hubungan Pasangan</h2>
+
+    <label>Kenyamanan komunikasi?</label>
+    <select id="r1"><option value="1">Buruk</option><option value="3">Lumayan</option><option value="5">Bagus</option></select>
+
+    <label>Rasa kepercayaan?</label>
+    <select id="r2"><option value="1">Rendah</option><option value="3">Sedang</option><option value="5">Tinggi</option></select>
+
+    <label>Kehangatan hubungan?</label>
+    <select id="r3"><option value="1">Dingin</option><option value="3">Normal</option><option value="5">Dekat</option></select>
+
+    <button class="btn" onclick="hitung('relationship')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-relationship"><div class="progress-fill" id="fill-relationship"></div></div>
+    <div class="result-text" id="hasil-relationship"></div>
+
+    <div class="chart-wrap"><canvas id="chart-relationship" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('relationship')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('relationship')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('relationship')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- Family -->
+<div id="family" class="page">
+  <div class="test-box zoom-in" id="box-family">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Tes Mood Keluarga</h2>
+
+    <label>Keharmonisan keluarga?</label>
+    <select id="f1"><option value="1">Tidak harmonis</option><option value="3">Cukup</option><option value="5">Harmonis</option></select>
+
+    <label>Dukungan emosional?</label>
+    <select id="f2"><option value="1">Minim</option><option value="3">Ada</option><option value="5">Besar</option></select>
+
+    <label>Frekuensi konflik?</label>
+    <select id="f3"><option value="1">Sering</option><option value="3">Kadang</option><option value="5">Jarang</option></select>
+
+    <button class="btn" onclick="hitung('family')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-family"><div class="progress-fill" id="fill-family"></div></div>
+    <div class="result-text" id="hasil-family"></div>
+
+    <div class="chart-wrap"><canvas id="chart-family" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('family')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('family')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('family')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- School -->
+<div id="school" class="page">
+  <div class="test-box zoom-in" id="box-school">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Tes Mood Sekolah</h2>
+
+    <label>Semangat belajar?</label>
+    <select id="s1"><option value="1">Tidak semangat</option><option value="3">Lumayan</option><option value="5">Semangat!</option></select>
+
+    <label>Stres tugas?</label>
+    <select id="s2"><option value="5">Tinggi</option><option value="3">Sedang</option><option value="1">Rendah</option></select>
+
+    <button class="btn" onclick="hitung('school')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-school"><div class="progress-fill" id="fill-school"></div></div>
+    <div class="result-text" id="hasil-school"></div>
+
+    <div class="chart-wrap"><canvas id="chart-school" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('school')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('school')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('school')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- Stress -->
+<div id="stress" class="page">
+  <div class="test-box zoom-in" id="box-stress">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Tingkat Stres</h2>
+
+    <label>Kecemasan?</label>
+    <select id="t1"><option value="5">Tinggi</option><option value="3">Sedang</option><option value="1">Rendah</option></select>
+
+    <label>Kelelahan?</label>
+    <select id="t2"><option value="5">Parah</option><option value="3">Lumayan</option><option value="1">Ringan</option></select>
+
+    <button class="btn" onclick="hitung('stress')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-stress"><div class="progress-fill" id="fill-stress"></div></div>
+    <div class="result-text" id="hasil-stress"></div>
+
+    <div class="chart-wrap"><canvas id="chart-stress" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('stress')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('stress')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('stress')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- Social -->
+<div id="social" class="page">
+  <div class="test-box zoom-in" id="box-social">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Social Battery</h2>
+
+    <label>Capek ketemu orang?</label>
+    <select id="sb1"><option value="5">Banget</option><option value="3">Lumayan</option><option value="1">Tidak</option></select>
+
+    <label>Butuh waktu sendiri?</label>
+    <select id="sb2"><option value="5">Iya banget</option><option value="3">Kadang</option><option value="1">Tidak</option></select>
+
+    <button class="btn" onclick="hitung('social')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-social"><div class="progress-fill" id="fill-social"></div></div>
+    <div class="result-text" id="hasil-social"></div>
+
+    <div class="chart-wrap"><canvas id="chart-social" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('social')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('social')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('social')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- Overthinking -->
+<div id="overthinking" class="page">
+  <div class="test-box zoom-in" id="box-overthinking">
+    <h2 style="text-align:center;color:#ff4d9e;margin:0 0 8px">Overthinking Meter</h2>
+
+    <label>Pikiran muter-muter?</label>
+    <select id="o1"><option value="5">Parah</option><option value="3">Kadang</option><option value="1">Tidak</option></select>
+
+    <label>Sulit tidur karena mikir?</label>
+    <select id="o2"><option value="5">Banget</option><option value="3">Kadang</option><option value="1">Tidak</option></select>
+
+    <button class="btn" onclick="hitung('overthinking')">Lihat Hasil</button>
+    <button class="btn secondary" onclick="backHome()">Kembali</button>
+
+    <div class="progress" id="progress-overthinking"><div class="progress-fill" id="fill-overthinking"></div></div>
+    <div class="result-text" id="hasil-overthinking"></div>
+
+    <div class="chart-wrap"><canvas id="chart-overthinking" height="80"></canvas></div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="small btn" onclick="shareWhatsAppAuto('overthinking')">Share ke WhatsApp (Chat)</button>
+      <button class="small btn" onclick="shareWhatsAppStatus('overthinking')">Share ke WhatsApp Status</button>
+      <button class="small btn" onclick="makeStoryPNG('overthinking')">Buat Instagram Story PNG</button>
+    </div>
+  </div>
+</div>
+
+<!-- hidden canvas for story generation -->
+<canvas id="story-canvas" width="1080" height="1920" style="display:none"></canvas>
+
+<script>
+/* ---------- Utilities ---------- */
+const moodColors = [
+  {min:90, color:"#d9c2ff", label:"Excellent"},
+  {min:70, color:"#c8ffd9", label:"Good"},
+  {min:50, color:"#fff5c2", label:"Normal"},
+  {min:30, color:"#ffe1b8", label:"Low"},
+  {min:0,  color:"#ffc5d6", label:"Bad"}
+];
+
+function bgForPercent(p){
+  for(let m of moodColors) if(p>=m.min) return m.color;
+  return "#ffc5d6";
+}
+function labelForPercent(p){
+  for(let m of moodColors) if(p>=m.min) return m.label;
+  return "Bad";
+}
+
+/* ---------- Pages & animations (zoom pop) ---------- */
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.style.display='none');
+  const el = document.getElementById(page);
+  el.style.display='block';
+  // reset base bg
+  document.body.style.background = "var(--soft)";
+  // add zoom animation to inner test-box if exists
+  const box = el.querySelector('.test-box');
+  if(box){
+    box.classList.remove('zoom-in');
+    // force reflow to restart animation
+    void box.offsetWidth;
+    box.classList.add('zoom-in');
+  }
+  // load saved results & chart
+  loadSavedAndRender(page);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function backHome(){ showPage('home'); }
+
+/* ---------- Calculation, storing, history ---------- */
+function hitung(id){
+  const selects = document.querySelectorAll(`#${id} select`);
+  let total = 0;
+  selects.forEach(s=> total += parseInt(s.value));
+  const persen = Math.round((total / (selects.length * 5)) * 100);
+
+  // store latest snapshot and push to history (timestamp)
+  localStorage.setItem("hasil-"+id, persen);
+  const histKey = "history-"+id;
+  const hist = JSON.parse(localStorage.getItem(histKey) || "[]");
+  hist.push({t:Date.now(), v:persen});
+  // keep last 30 entries
+  if(hist.length>30) hist.shift();
+  localStorage.setItem(histKey, JSON.stringify(hist));
+
+  tampilkanHasil(id, persen, true);
+  renderChart(id);
+}
+
+/* ---------- show result, progress, bg color ---------- */
+function tampilkanHasil(id, persen, animate){
+  const bar = document.getElementById(`progress-${id}`);
+  const fill = document.getElementById(`fill-${id}`);
+  const text = document.getElementById(`hasil-${id}`);
+
+  if(!bar || !fill || !text) return;
+  bar.style.display = "block";
+  text.style.opacity = 0;
+  text.textContent = persen + "% — " + labelForPercent(persen);
+
+  if(animate){
+    fill.style.width = "0%";
+    setTimeout(()=> fill.style.width = persen + "%", 60);
+  } else fill.style.width = persen + "%";
+
+  // color fill by level (soft)
+  if(persen>=90) fill.style.background = "#b89cff";
+  else if(persen>=70) fill.style.background = "#7ee2a9";
+  else if(persen>=50) fill.style.background = "#ffe18b";
+  else if(persen>=30) fill.style.background = "#ffc57f";
+  else fill.style.background = "#ff9bb3";
+
+  setTimeout(()=> text.style.opacity = 1, 200);
+
+  // change page bg color according to 5-level palette (body)
+  document.body.style.background = bgForPercent(persen);
+}
+
+/* ---------- load saved & initial render ---------- */
+function loadSavedAndRender(page){
+  // load saved percent
+  const saved = localStorage.getItem("hasil-"+page);
+  if(saved !== null){
+    tampilkanHasil(page, Number(saved), false);
+  } else {
+    // hide progress if none
+    const bar = document.getElementById(`progress-${page}`);
+    if(bar) bar.style.display = "none";
+    const text = document.getElementById(`hasil-${page}`);
+    if(text) text.style.opacity = 0;
+  }
+  // draw chart
+  renderChart(page);
+}
+
+/* ---------- Chart.js rendering for history ---------- */
+const charts = {}; // cache Chart instances
+
+function renderChart(id){
+  const key = "history-"+id;
+  const raw = JSON.parse(localStorage.getItem(key) || "[]");
+  const labels = raw.map(e=> {
+    const d = new Date(e.t);
+    return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`; 
+  });
+  const data = raw.map(e=> e.v);
+
+  const ctx = document.getElementById(`chart-${id}`);
+  if(!ctx) return;
+
+  // destroy existing to avoid overlay (Chart.js v3+)
+  if(charts[id]) { charts[id].destroy(); delete charts[id]; }
+
+  charts[id] = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Riwayat (%)',
+        data: data,
+        fill: true,
+        tension: 0.35,
+        backgroundColor: 'rgba(255, 123, 181, 0.12)',
+        borderColor: 'rgba(255, 123, 181, 1)',
+        pointRadius: 3,
+        pointBackgroundColor: 'rgba(255,123,181,1)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: { suggestedMin:0, suggestedMax:100 }
+      },
+      plugins:{
+        legend:{display:false}
+      }
+    }
+  });
+}
+
+/* ---------- Share to WhatsApp (chat) ---------- */
+function shareWhatsAppAuto(id){
+  const percent = localStorage.getItem("hasil-"+id);
+  if(!percent){
+    alert("Belum ada hasil. Isikan tes dulu lalu klik 'Lihat Hasil'.");
+    return;
+  }
+  const label = labelForPercent(Number(percent));
+  const text = `Hasil Tes "${niceName(id)}": ${percent}% — ${label}.\nCoba cek tes ini juga!`;
+  // open WhatsApp web / app
+  const urlMobile = "whatsapp://send?text=" + encodeURIComponent(text);
+  const urlWeb = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+  // try open app first, then web
+  window.open(urlMobile, "_blank") || window.open(urlWeb, "_blank");
+}
+
+/* ---------- Share to WhatsApp Status helper ---------- */
+/* Browser can't auto-post to status. We'll copy text to clipboard + open WhatsApp so user can paste into Status. */
+function shareWhatsAppStatus(id){
+  const percent = localStorage.getItem("hasil-"+id);
+  if(!percent){ alert("Belum ada hasil. Lakukan tes dulu."); return; }
+  const label = labelForPercent(Number(percent));
+  const text = `Hasil Tes "${niceName(id)}": ${percent}% — ${label}.\n(Share by paste to Status)`;
+  // copy to clipboard
+  navigator.clipboard?.writeText(text).then(()=>{
+    // open WhatsApp to let user paste into Status
+    const openUrl = "https://web.whatsapp.com/"; // web opens on desktop
+    // for mobile, use app scheme
+    const mobile = "whatsapp://";
+    // try open whatsapp
+    window.open(mobile, "_blank");
+    // also open web as fallback
+    window.open(openUrl, "_blank");
+    alert("Teks hasil sudah disalin. Buka WhatsApp → Status → paste. (Browser tidak mengizinkan auto-post)");
+  }).catch(()=> {
+    alert("Gagal menyalin otomatis. Silakan salin manual berikut:\n\n" + text);
+    window.open("https://web.whatsapp.com/", "_blank");
+  });
+}
+
+/* ---------- Instagram Story PNG generator (canvas) ---------- */
+function makeStoryPNG(id){
+  const percent = localStorage.getItem("hasil-"+id);
+  if(!percent){ alert("Belum ada hasil. Lakukan tes dulu."); return; }
+  const p = Number(percent);
+  const label = labelForPercent(p);
+  const canvas = document.getElementById('story-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // size 1080x1920 (portrait)
+  const w = canvas.width, h = canvas.height;
+  // background
+  ctx.fillStyle = bgForPercent(p);
+  ctx.fillRect(0,0,w,h);
+
+  // big circle or decoration
+  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  ctx.beginPath();
+  ctx.arc(w*0.8, h*0.2, 260, 0, Math.PI*2);
+  ctx.fill();
+
+  // Title
+  ctx.fillStyle = "#3a2a3f";
+  ctx.font = "bold 72px Poppins, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Tes Mood", w/2, 220);
+
+  // Percent big
+  ctx.font = "bold 200px Poppins, sans-serif";
+  ctx.fillStyle = "#2d1b2a";
+  ctx.fillText(p + "%", w/2, h/2 - 30);
+
+  // Label
+  ctx.font = "bold 48px Poppins, sans-serif";
+  ctx.fillStyle = "#2d1b2a";
+  ctx.fillText(label, w/2, h/2 + 100);
+
+  // small footer
+  ctx.font = "20px Poppins, sans-serif";
+  ctx.fillStyle = "#2d1b2a";
+  const time = new Date().toLocaleString();
+  ctx.fillText("Generated by Tes Mood • " + time, w/2, h - 60);
+
+  // create image and download
+  const dataUrl = canvas.toDataURL("image/png");
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = `tes-mood-${id}-${Date.now()}.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  // note: user can upload this PNG to Instagram Story
+}
+
+/* ---------- utility: nice name ---------- */
+function niceName(id){
+  const map = {
+    mood:"Tes Mood Harian",
+    relationship:"Hubungan Pasangan",
+    family:"Keluarga",
+    school:"Mood Sekolah",
+    stress:"Tingkat Stres",
+    social:"Social Battery",
+    overthinking:"Overthinking Meter"
+  };
+  return map[id] || id;
+}
+
+/* ---------- On load: try to render any existing charts for home when user opens a test via showPage ---------- */
+document.addEventListener("DOMContentLoaded", ()=>{
+  // nothing to do on home; charts render on showPage
+});
+</script>
+
+</body>
+</html>
