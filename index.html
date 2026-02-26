@@ -98,7 +98,7 @@
             background: linear-gradient(135deg, #2a1810 0%, #1a0f0a 100%);
             border-radius: 0 12px 12px 0;
             transform-origin: left center;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 1.5s cubic-bezier(0.645, 0.045, 0.355, 1);
             box-shadow: 
                 inset -5px 0 20px rgba(0,0,0,0.5),
                 5px 5px 30px rgba(0,0,0,0.5);
@@ -106,6 +106,7 @@
             align-items: center;
             justify-content: center;
             z-index: 20;
+            backface-visibility: hidden;
         }
 
         .book-cover::before {
@@ -120,6 +121,10 @@
 
         .book-cover.open {
             transform: rotateY(-160deg);
+        }
+
+        .book-cover.close {
+            transform: rotateY(0deg);
         }
 
         .cover-ornament {
@@ -167,25 +172,56 @@
             background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 100%);
         }
 
-        .page {
+        /* Page flip animation */
+        .page-flip {
+            position: absolute;
+            inset: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 10;
+        }
+
+        .page-flip.flipped {
+            transform: rotateY(-160deg);
+            z-index: 5;
+        }
+
+        .page-flip .page-front {
             position: absolute;
             inset: 0;
             padding: 35px 30px 30px 40px;
-            opacity: 0;
-            transform: translateX(30px);
-            transition: all 0.8s ease;
+            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 5%, var(--page) 100%);
+            border-radius: 0 8px 8px 0;
+            backface-visibility: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        .page.active {
-            opacity: 1;
-            transform: translateX(0);
+        .page-flip .page-back {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(270deg, var(--page-shadow) 0%, var(--page) 5%, var(--page) 100%);
+            border-radius: 8px 0 0 8px;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
         }
 
-        .page.exit {
+        .page-static {
+            position: absolute;
+            inset: 0;
+            padding: 35px 30px 30px 40px;
+            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 5%, var(--page) 100%);
+            display: flex;
+            flex-direction: column;
             opacity: 0;
-            transform: translateX(-30px);
+            transform: scale(0.95);
+            transition: all 0.8s ease;
+        }
+
+        .page-static.active {
+            opacity: 1;
+            transform: scale(1);
         }
 
         .page-header {
@@ -228,13 +264,29 @@
             justify-content: center;
             color: #2a2015;
             font-size: 16px;
-            line-height: 1.9;
+            line-height: 2;
             text-align: center;
         }
 
         .page-content p {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             font-style: italic;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .page-content p:nth-child(1) { animation-delay: 0.3s; }
+        .page-content p:nth-child(2) { animation-delay: 0.8s; }
+        .page-content p:nth-child(3) { animation-delay: 1.3s; }
+        .page-content p:nth-child(4) { animation-delay: 1.8s; }
+        .page-content p:nth-child(5) { animation-delay: 2.3s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .page-content .signature {
@@ -243,18 +295,253 @@
             font-style: italic;
             color: var(--accent-dark);
             font-size: 18px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 2.5s;
         }
 
-        /* Typewriter effect */
-        .typewriter-text {
-            display: inline;
-            border-right: 2px solid var(--accent);
-            animation: blink 0.7s infinite;
+        /* Closing message */
+        .closing-message {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 18, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
         }
 
-        @keyframes blink {
-            0%, 100% { border-color: var(--accent); }
-            50% { border-color: transparent; }
+        .closing-message.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .closing-content {
+            text-align: center;
+            padding: 40px;
+            max-width: 90%;
+        }
+
+        .closing-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--accent);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+
+        .closing-content p {
+            font-size: 20px;
+            color: var(--fg);
+            font-style: italic;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards 1s;
+        }
+
+        .closing-content .heart {
+            font-size: 50px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: pulseHeart 1.5s ease-in-out infinite, fadeInUp 1s ease forwards 1.5s;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Form input */
+        .form-container {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        .form-container.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .form-textarea {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            color: var(--fg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            line-height: 1.8;
+            resize: none;
+            margin-bottom: 15px;
+        }
+
+        .form-textarea::placeholder {
+            color: #555;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .word-counter {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .word-counter.valid {
+            color: #4ade80;
+        }
+
+        .word-counter.invalid {
+            color: #f87171;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .btn-submit.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.95);
+        }
+
+        /* Credit screen */
+        .credit-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 400;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .credit-screen.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .credit-content {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .credit-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: creditFadeIn 1s ease forwards;
+        }
+
+        .credit-item {
+            margin-bottom: 30px;
+            opacity: 0;
+        }
+
+        .credit-item h3 {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .credit-item p {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: var(--fg);
+        }
+
+        .credit-message {
+            margin-top: 50px;
+            padding: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            opacity: 0;
+        }
+
+        .credit-message h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .credit-message p {
+            font-size: 14px;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        @keyframes creditFadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes creditSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Tombol final */
@@ -477,6 +764,12 @@
             transform: scale(1);
         }
 
+        .book-wrapper.hide {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
         /* Decorative elements */
         .corner-decor {
             position: fixed;
@@ -541,9 +834,10 @@
 
         @media (max-width: 400px) {
             .pages { min-height: 420px; }
-            .page { padding: 25px 20px 25px 30px; }
+            .page-flip .page-front,
+            .page-static { padding: 25px 20px 25px 30px; }
             .page-title { font-size: 16px; }
-            .page-content { font-size: 14px; }
+            .page-content { font-size: 14px; line-height: 1.8; }
             .cover-ornament .border-frame { padding: 30px 20px; }
         }
 
@@ -617,84 +911,181 @@
         </div>
     </div>
 
+    <!-- Closing Message -->
+    <div id="closingMessage" class="closing-message">
+        <div class="closing-content">
+            <h2>Dion...</h2>
+            <p>Terimalah cintaku ini.<br>Dengan sepenuh hati, aku menunggumu.</p>
+            <div class="heart">💗</div>
+        </div>
+    </div>
+
     <!-- Final Buttons -->
     <div id="finalButtons" class="final-buttons">
-        <button onclick="acceptLove()" class="btn-accept">BETA MAU, AIKO</button>
+        <button onclick="showForm()" class="btn-accept">BETA MAU, AIKO</button>
         <button id="btnDecline" class="btn-decline">Sonde...</button>
+    </div>
+
+    <!-- Form Container -->
+    <div id="formContainer" class="form-container">
+        <div class="form-header">
+            <h2>Tulis Perasaanmu</h2>
+            <p>Curahkan semua yang ada di hatimu, minimal 500 kata</p>
+        </div>
+        <textarea id="loveLetter" class="form-textarea" placeholder="Mulai menulis...">&#13;&#10;</textarea>
+        <div id="wordCounter" class="word-counter">0 / 500 kata</div>
+        <button id="btnSubmit" onclick="submitLetter()" class="btn-submit">Kirim Cinta</button>
+    </div>
+
+    <!-- Credit Screen -->
+    <div id="creditScreen" class="credit-screen">
+        <div class="credit-content">
+            <h1 class="credit-title">Momen Mengharukan</h1>
+            
+            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 0.5s;">
+                <h3>Pembuat</h3>
+                <p>Gilang Raditya</p>
+            </div>
+            
+            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 1s;">
+                <h3>Tema</h3>
+                <p>Gilang Raditya</p>
+            </div>
+            
+            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 1.5s;">
+                <h3>Pesan</h3>
+                <p>Aiko</p>
+            </div>
+            
+            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 2s;">
+                <h3>Latar</h3>
+                <p>Aiko</p>
+            </div>
+            
+            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 2.5s;">
+                <h3>Pendukung Penuh Atas Percintaan Ini</h3>
+                <p style="font-size: 14px; line-height: 1.8;">Gilang, Gendis, Sarofah, Farah, Aiko, Firda, Videla, dan Teman Kelas 6B</p>
+            </div>
+            
+            <div class="credit-message" style="animation: creditSlideUp 0.8s ease forwards 3s;">
+                <h3>Pesan Kita Semua</h3>
+                <p>"CONGRATS! AIKO & DION!"</p>
+            </div>
+        </div>
     </div>
 
     <!-- YouTube Player -->
     <div id="player"></div>
 
     <script>
-        // Data pesan
+        // Data pesan - Lebih banyak dan lebih romantis
         const messages = {
             id: [
                 {
-                    title: "Awal Mula",
-                    content: `<p>Dion, masih ingat pertama kali kita saling cerita?</p>
-                              <p>Aku tidak menyangka obrolan sederhana itu akan membawa aku ke sini...</p>
-                              <p>Ke sebuah tempat yang tidak pernah aku duga sebelumnya.</p>`
+                    title: "Awal Pertemuan",
+                    content: `<p>Dion, masih ingat pertama kali kita saling berbicara?</p>
+                              <p>Saat itu aku tidak menyangka bahwa obrolan sederhana akan mengubah segalanya...</p>
+                              <p>Tak kusangka, dari sekadar kata-kata, tumbuh benih yang kini bersemi di hati.</p>`
                 },
                 {
                     title: "Tentang Senyumanmu",
-                    content: `<p>Setiap kali kamu tersenyum, ada sesuatu yang berubah di dalam hatiku.</p>
-                              <p>Seperti mentari pagi yang menyapa, menghangatkan setiap sudut yang gelap.</p>
-                              <p>Kamu punya cara ajaib untuk membuat segalanya terasa lebih baik.</p>`
+                    content: `<p>Setiap kali kamu tersenyum, ada matahari yang terbit di dalam hatiku.</p>
+                              <p>Seperti pagi yang hangat menyapa malam yang dingin.</p>
+                              <p>Kamu punya cara ajaib untuk menerangi hari-hariku yang kelabu.</p>`
                 },
                 {
                     title: "Kehadiranmu",
-                    content: `<p>Di antara ribuan orang yang datang dan pergi dalam hidupku,</p>
-                              <p>Kamu hadir dengan cara yang berbeda.</p>
-                              <p>Kamu mengerti tanpa perlu aku menjelaskan.</p>
-                              <p>Kamu ada tanpa perlu aku meminta.</p>`
+                    content: `<p>Di antara jutaan bintang di langit, kamu adalah yang paling terang.</p>
+                              <p>Di antara ribuan orang yang datang dan pergi, kamu yang tetap ada.</p>
+                              <p>Kamu mengerti tanpa perlu aku berkata apa-apa.</p>`
                 },
                 {
-                    title: "Malam-Malam",
-                    content: `<p>Aku sering terjaga di malam-malam sunyi,</p>
-                              <p>berpikir tentang bagaimana wajahmu saat tertawa,</p>
-                              <p>bagaimana suaramu saat berbicara,</p>
-                              <p>dan bagaimana kamu membuatku merasa... istimewa.</p>`
+                    title: "Malam-Malam Sunyi",
+                    content: `<p>Aku sering terjaga di malam-malam yang sunyi...</p>
+                              <p>Memikirkan bagaimana matamu berkilau saat tertawa.</p>
+                              <p>Bagaimana suaramu menenangkan setiap gelisah di hatiku.</p>
+                              <p>Bagaimana kamu membuatku merasa... berharga.</p>`
                 },
                 {
-                    title: "Sebuah Kenyataan",
-                    content: `<p>Sudah lama aku menyimpan ini sendiri.</p>
+                    title: "Tentang Rasa",
+                    content: `<p>Ada rasa yang tumbuh perlahan, seperti bunga di musim semi.</p>
+                              <p>Awalnya aku sangka ini hanya kekaguman sementara.</p>
+                              <p>Tapi semakin hari, semakin dalam akar-akarnya menancap.</p>
+                              <p>Semakin lama, semakin indah bunganya mekar.</p>`
+                },
+                {
+                    title: "Harapan",
+                    content: `<p>Sering aku berangan-angan tentang "kita".</p>
+                              <p>Tentang bagaimana indahnya jika kita bisa berjalan bersama.</p>
+                              <p>Berbagi tawa, berbagi cerita, berbagi hari-hari.</p>
+                              <p>Menjadi saksi setiap momen kehidupan satu sama lain.</p>`
+                },
+                {
+                    title: "Ketulusan",
+                    content: `<p>Sudah lama aku menyimpan perasaan ini sendiri.</p>
                               <p>Sudah lama aku berpura-pura bahwa ini hanya persahabatan.</p>
-                              <p>Tapi hari ini, aku tidak ingin bersembunyi lagi.</p>`
+                              <p>Tapi hari ini, aku tidak bisa lagi bersembunyi.</p>
+                              <p>Hari ini, aku ingin jujur pada diriku sendiri.</p>`
+                },
+                {
+                    title: "Untukmu",
+                    content: `<p>Dion, kamu adalah alasan aku percaya pada keajaiban.</p>
+                              <p>Kamu adalah bukti bahwa hal-hal indah bisa datang tanpa diduga.</p>
+                              <p>Dan aku bersyukur setiap hari karena kehadiranmu.</p>`
                 }
             ],
             ntt: [
                 {
                     title: "Mula Pertama",
-                    content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua saling cerita?</p>
-                              <p>Beta sonde sangka obrolan sederhana itu bawa beta sampai sini...</p>
-                              <p>Sampai satu tempat yang beta sonde pernah bayang sebelum ini.</p>`
+                    content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua omong?</p>
+                              <p>Pas itu beta sonde sangka kalau obrolan sederhana bisa ubah semuanya...</p>
+                              <p>Tau sonde dari, dari cuma kata-kata, tumbuh biji yang sekarang tu bersemi di hati.</p>`
                 },
                 {
                     title: "Tentang Ko Pung Senyum",
-                    content: `<p>Tiap kali ko senyum, ada sesuatu yang berubah di dalam beta pung hati.</p>
-                              <p>Seperti matahari pagi yang datang, hangatkan semua sudut yang gelap.</p>
-                              <p>Ko punya cara ajaib bikin semua rasa lebih baik.</p>`
+                    content: `<p>Tiap kali ko senyum, ada matahari yang terbit di dalam beta pung hati.</p>
+                              <p>Seperti pagi yang hangat sapa malam yang dingin.</p>
+                              <p>Ko punya cara ajaib bikin terang beta pung hari-hari yang kelabu.</p>`
                 },
                 {
                     title: "Ada Ko",
-                    content: `<p>Di antara ribuan orang yang datang dan pergi di beta pung hidup,</p>
-                              <p>Ko hadir dengan cara yang lain dari yang lain.</p>
-                              <p>Ko mengerti tanpa beta harus jelasin.</p>
-                              <p>Ko ada tanpa beta harus minta.</p>`
+                    content: `<p>Di antara jutaan bintang di langit, ko tu yang paling terang.</p>
+                              <p>Di antara ribuan orang yang datang dan pergi, ko yang tetap ada.</p>
+                              <p>Ko mengerti tanpa beta harus omong apa-apa.</p>`
                 },
                 {
-                    title: "Malam-Malam",
-                    content: `<p>Beta sering bangun di malam-malam sunyi,</p>
-                              <p>fikir tentang ko pung muka pas ko tertawa,</p>
-                              <p>ko pung suara pas ko omong,</p>
-                              <p>dan gimana ko bikin beta rasa... istimewa.</p>`
+                    title: "Malam-Malam Sunyi",
+                    content: `<p>Beta sering bangun di malam-malam yang sunyi...</p>
+                              <p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p>
+                              <p>ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p>
+                              <p>Dan gimana ko bikin beta rasa... berharga.</p>`
                 },
                 {
-                    title: "Satu Kebenaran",
+                    title: "Tentang Rasa",
+                    content: `<p>Ada rasa yang tumbuh pelan-pelan, seperti bunga di musim semi.</p>
+                              <p>Mula-mula beta sangka ni cuma kagum sebentar.</p>
+                              <p>Tapi makin hari, makin dalam akar-akarnya nyangkut.</p>
+                              <p>Makin lama, makin indah bunganya mekar.</p>`
+                },
+                {
+                    title: "Harapan",
+                    content: `<p>Sering beta hayal tentang "katong dua".</p>
+                              <p>Tentang gimana indahnya kalau katong bisa jalan sama-sama.</p>
+                              <p>Bagi tawa, bagi cerita, bagi hari-hari.</p>
+                              <p>Jadi saksi tiap momen hidup satu sama lain.</p>`
+                },
+                {
+                    title: "Ketulusan",
                     content: `<p>Suda lama beta simpan ni rasa sendiri.</p>
                               <p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p>
-                              <p>Tapi hari ini, beta sonde mau sembunyi lagi.</p>`
+                              <p>Tapi hari ini, beta sonde bisa sembunyi lagi.</p>
+                              <p>Hari ini, beta mau jujur pada beta sendiri.</p>`
+                },
+                {
+                    title: "Untuk Ko",
+                    content: `<p>Dion, ko tu alasan beta percaya pada keajaiban.</p>
+                              <p>Ko tu bukti kalau hal-hal indah bisa datang tanpa diduga.</p>
+                              <p>Dan beta bersyukur tiap hari karena ko ada.</p>`
                 }
             ],
             confessions: {
@@ -703,16 +1094,18 @@
                     content: `<p>Dion...</p>
                               <p>Aku tidak mau kita hanya menjadi teman.</p>
                               <p>Aku ingin lebih dari itu. Jauh lebih banyak dari itu.</p>
-                              <p style="font-size: 18px; margin-top: 20px;">Aku sayang kamu, Yon.</p>
-                              <p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p>`
+                              <p style="font-size: 20px; margin-top: 25px;">Aku sayang kamu, Yon.</p>
+                              <p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p>
+                              <p class="signature">~ Aiko</p>`
                 },
                 ntt: {
                     title: "Dari Hati",
                     content: `<p>Dion...</p>
                               <p>Beta sonde mau katong dua cuma jadi teman.</p>
                               <p>Beta mau lebih dari itu. Lebih banyak dari itu.</p>
-                              <p style="font-size: 18px; margin-top: 20px;">Beta sayang ko, Yon.</p>
-                              <p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p>`
+                              <p style="font-size: 20px; margin-top: 25px;">Beta sayang ko, Yon.</p>
+                              <p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p>
+                              <p class="signature">~ Aiko</p>`
                 }
             }
         };
@@ -722,7 +1115,7 @@
         let totalPages = 0;
         let player = null;
         let audioAllowed = false;
-        let isPlaying = false;
+        let userMessage = '';
 
         // Initialize YouTube API
         var tag = document.createElement('script');
@@ -753,7 +1146,6 @@
         }
 
         function checkAudioPermission() {
-            // Check if we're in a context that typically requires user interaction
             const audioPopup = document.getElementById('audioPopup');
             audioPopup.classList.remove('hidden');
         }
@@ -763,7 +1155,6 @@
             document.getElementById('audioPopup').classList.add('hidden');
             if (player && player.playVideo) {
                 player.playVideo();
-                isPlaying = true;
             }
         }
 
@@ -772,31 +1163,24 @@
             document.getElementById('step0').classList.add('hidden');
             document.getElementById('loadingScreen').classList.remove('hidden');
             
-            // Check audio permission
             checkAudioPermission();
             
-            // Setup progress dots
-            totalPages = messages[selectedLang].length + 1; // +1 for confession
+            totalPages = messages[selectedLang].length + 1;
             setupProgressDots();
-            
-            // Generate pages
             generatePages();
             
-            // Start after delay
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('bookWrapper').classList.add('visible');
                 document.getElementById('progressDots').classList.remove('hidden');
                 
-                // Start particles
                 createParticles();
                 
-                // Open book and start reading
                 setTimeout(() => {
                     document.getElementById('bookCover').classList.add('open');
                     setTimeout(() => {
                         startReading();
-                    }, 1200);
+                    }, 1500);
                 }, 800);
             }, 2000);
         }
@@ -823,26 +1207,27 @@
             const container = document.getElementById('pagesContainer');
             container.innerHTML = '';
             
-            // Regular pages
             messages[selectedLang].forEach((msg, idx) => {
                 const page = document.createElement('div');
-                page.className = 'page';
+                page.className = 'page-flip';
                 page.id = `page-${idx}`;
                 page.innerHTML = `
-                    <div class="page-header">
-                        <div class="page-number">Bab ${idx + 1}</div>
-                        <h2 class="page-title">${msg.title}</h2>
+                    <div class="page-front">
+                        <div class="page-header">
+                            <div class="page-number">Bab ${idx + 1}</div>
+                            <h2 class="page-title">${msg.title}</h2>
+                        </div>
+                        <div class="page-content">
+                            ${msg.content}
+                        </div>
                     </div>
-                    <div class="page-content">
-                        ${msg.content}
-                    </div>
+                    <div class="page-back"></div>
                 `;
                 container.appendChild(page);
             });
             
-            // Confession page
             const confPage = document.createElement('div');
-            confPage.className = 'page';
+            confPage.className = 'page-static';
             confPage.id = 'page-confession';
             const conf = messages.confessions[selectedLang];
             confPage.innerHTML = `
@@ -852,7 +1237,6 @@
                 </div>
                 <div class="page-content">
                     ${conf.content}
-                    <p class="signature">~ Aiko</p>
                 </div>
             `;
             container.appendChild(confPage);
@@ -863,51 +1247,62 @@
         }
 
         function showPage(idx) {
-            if (idx > 0) {
-                const prevPage = document.getElementById(idx === messages[selectedLang].length ? `page-confession` : `page-${idx - 1}`);
-                if (prevPage) {
-                    prevPage.classList.remove('active');
-                    prevPage.classList.add('exit');
-                }
-            }
-            
             const pageId = idx === messages[selectedLang].length ? 'page-confession' : `page-${idx}`;
             const page = document.getElementById(pageId);
             
             if (page) {
-                page.classList.add('active');
+                if (page.classList.contains('page-flip')) {
+                    // Flip animation
+                    setTimeout(() => {
+                        page.classList.add('flipped');
+                    }, 300);
+                } else {
+                    // Static page (confession)
+                    page.classList.add('active');
+                }
+                
                 currentPage = idx;
                 updateProgress();
                 
-                // Trigger heavy particles on important pages
                 if (idx === 0 || idx === messages[selectedLang].length - 1 || idx === messages[selectedLang].length) {
                     triggerHeavyParticles();
                 }
                 
-                // Auto advance with typewriter feel
-                const readingTime = idx === messages[selectedLang].length ? 8000 : 6000;
+                // Longer reading time - 10 seconds per page
+                const readingTime = idx === messages[selectedLang].length ? 12000 : 10000;
                 setTimeout(() => {
                     if (idx < messages[selectedLang].length) {
                         showPage(idx + 1);
                     } else {
-                        // Show final buttons
-                        showFinalButtons();
+                        showClosingMessage();
                     }
                 }, readingTime);
             }
         }
 
-        function showFinalButtons() {
-            document.getElementById('finalButtons').classList.add('visible');
+        function showClosingMessage() {
             document.getElementById('progressDots').classList.add('hidden');
-            triggerHeavyParticles();
+            
+            // Show closing message
+            setTimeout(() => {
+                document.getElementById('closingMessage').classList.add('visible');
+                
+                setTimeout(() => {
+                    document.getElementById('closingMessage').classList.remove('visible');
+                    document.getElementById('bookWrapper').classList.add('hide');
+                    
+                    setTimeout(() => {
+                        document.getElementById('finalButtons').classList.add('visible');
+                        triggerHeavyParticles();
+                    }, 1000);
+                }, 5000);
+            }, 500);
         }
 
         // Particles system
         function createParticles() {
             const container = document.getElementById('particles');
             
-            // Create sparkles
             for (let i = 0; i < 15; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'particle sparkle';
@@ -917,7 +1312,6 @@
                 container.appendChild(sparkle);
             }
             
-            // Create stars
             for (let i = 0; i < 30; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle star';
@@ -927,7 +1321,6 @@
                 container.appendChild(star);
             }
             
-            // Create falling petals
             setInterval(() => {
                 if (Math.random() > 0.7) {
                     const petal = document.createElement('div');
@@ -956,9 +1349,36 @@
             }
         }
 
-        // Final buttons
-        function acceptLove() {
-            // Create celebration effect
+        function showForm() {
+            document.getElementById('finalButtons').classList.remove('visible');
+            document.getElementById('formContainer').classList.add('visible');
+            
+            const textarea = document.getElementById('loveLetter');
+            const counter = document.getElementById('wordCounter');
+            const btn = document.getElementById('btnSubmit');
+            
+            textarea.addEventListener('input', function() {
+                const words = this.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+                counter.textContent = `${words} / 500 kata`;
+                
+                if (words >= 500) {
+                    counter.classList.add('valid');
+                    counter.classList.remove('invalid');
+                    btn.classList.add('enabled');
+                } else {
+                    counter.classList.remove('valid');
+                    counter.classList.add('invalid');
+                    btn.classList.remove('enabled');
+                }
+            });
+            
+            triggerHeavyParticles();
+        }
+
+        function submitLetter() {
+            userMessage = document.getElementById('loveLetter').value;
+            
+            // Celebration particles
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
@@ -974,8 +1394,19 @@
             }
             
             setTimeout(() => {
-                window.location.href = "https://wa.me/081387580283?text=Aiko, beta juga sayang ko. Beta mau jalan bareng ko. ❤️";
-            }, 1500);
+                document.getElementById('formContainer').classList.remove('visible');
+                document.getElementById('creditScreen').classList.add('visible');
+                
+                // Animate credit items
+                animateCredits();
+            }, 2000);
+        }
+
+        function animateCredits() {
+            const items = document.querySelectorAll('.credit-item');
+            items.forEach((item, idx) => {
+                item.style.animationDelay = `${0.5 + idx * 0.5}s`;
+            });
         }
 
         // Run away button
