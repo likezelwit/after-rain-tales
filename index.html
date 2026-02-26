@@ -180,9 +180,8 @@
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
-        /* Kelas untuk menumpuk halaman dengan benar */
         .page-flip.flipping {
-            z-index: 200 !important; /* Pastikan halaman yang dibalik di atas semua */
+            z-index: 200 !important;
         }
 
         .page-flip.flipped {
@@ -281,7 +280,6 @@
             transform: translateY(20px);
         }
 
-        /* Animasi teks: Fade in dari bawah ke atas */
         .page-content.animate p {
             animation: fadeInUpCorrect 0.8s ease forwards;
         }
@@ -292,14 +290,8 @@
         .page-content.animate p:nth-child(5) { animation-delay: 1.8s; }
 
         @keyframes fadeInUpCorrect {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .page-content .signature {
@@ -475,21 +467,19 @@
             transform: scale(0.95);
         }
 
-        /* Credit screen */
+        /* Credit screen - REVAMPED */
         .credit-screen {
             position: fixed;
             inset: 0;
             background: #000;
             z-index: 400;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            align-items: flex-start; /* Start from bottom logic handled by content */
             justify-content: center;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
-            overflow-y: auto;
-            padding: 40px 20px;
+            overflow: hidden; /* Important for scroll clip */
         }
 
         .credit-screen.visible {
@@ -497,79 +487,108 @@
             pointer-events: auto;
         }
 
+        /* Viewport for the scrolling text */
+        .credit-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Content container that moves */
         .credit-content {
+            position: absolute;
+            width: 100%;
+            padding: 40px 30px;
             text-align: center;
-            max-width: 400px;
-        }
-
-        .credit-title {
+            bottom: 0; /* Start position logic handled by animation */
+            transform: translateY(100%); /* Start off-screen bottom */
+            color: #fff;
             font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: var(--accent);
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s ease;
-        }
-        .credit-screen.visible .credit-title { 
-            opacity: 1;
-            transform: translateY(0);
         }
 
-        /* Item Credit: Awalnya di bawah (translateY) dan transparan */
-        .credit-item {
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(40px); /* Posisi awal di bawah */
-            transition: all 1s ease; /* Animasi pergerakan naik */
+        .credit-content.scrolling {
+            animation: scrollUpAnimation 50s linear forwards;
         }
 
-        /* Class yang ditambahkan JS untuk memunculkan */
-        .credit-item.visible {
-            opacity: 1;
-            transform: translateY(0); /* Bergerak ke posisi normal */
+        @keyframes scrollUpAnimation {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100%); }
         }
 
-        .credit-item h3 {
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 8px;
+        /* Credit Typography */
+        .credit-section {
+            margin-bottom: 60px;
         }
 
-        .credit-item p {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            color: var(--fg);
-        }
-
-        .credit-message {
-            margin-top: 50px;
-            padding: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1s ease;
-        }
-
-        .credit-message.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .credit-message h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 24px;
-            color: var(--gold);
-            margin-bottom: 15px;
-        }
-
-        .credit-message p {
+        .credit-section-title {
             font-size: 14px;
-            color: #999;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .credit-role {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .credit-name {
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .credit-subtitle {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .credit-list-names {
+            font-size: 16px;
+            color: #ccc;
             line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .credit-big-text {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .credit-highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Final Credit Line */
+        .credit-final {
+            margin-top: 80px;
+            font-size: 24px;
+            color: var(--accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+        }
+        
+        .credit-small {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
         }
 
         /* Tombol final */
@@ -637,9 +656,7 @@
             padding: 20px;
         }
 
-        .audio-popup.hidden {
-            display: none;
-        }
+        .audio-popup.hidden { display: none; }
 
         .audio-popup-content {
             background: linear-gradient(135deg, #1a1a25 0%, #0f0f18 100%);
@@ -683,9 +700,7 @@
             transition: all 0.3s ease;
         }
 
-        .audio-btn:active {
-            transform: scale(0.95);
-        }
+        .audio-btn:active { transform: scale(0.95); }
 
         /* Loading */
         .loading-screen {
@@ -735,9 +750,7 @@
 
         .step-0.hidden { display: none; }
 
-        .lang-container {
-            text-align: center;
-        }
+        .lang-container { text-align: center; }
 
         .lang-title {
             font-family: 'Playfair Display', serif;
@@ -829,9 +842,7 @@
             z-index: 50;
         }
 
-        .progress-dots.hidden {
-            display: none;
-        }
+        .progress-dots.hidden { display: none; }
 
         .progress-dot {
             width: 6px;
@@ -848,8 +859,7 @@
 
         @media (max-width: 400px) {
             .pages { min-height: 420px; height: 420px; }
-            .page-flip .page-front,
-            .page-static { padding: 25px 20px 25px 30px; }
+            .page-flip .page-front, .page-static { padding: 25px 20px 25px 30px; }
             .page-title { font-size: 16px; }
             .page-content { font-size: 14px; line-height: 1.8; }
             .cover-ornament .border-frame { padding: 30px 20px; }
@@ -919,9 +929,7 @@
                 </div>
 
                 <!-- Pages -->
-                <div class="pages" id="pagesContainer">
-                    <!-- Pages will be generated dynamically -->
-                </div>
+                <div class="pages" id="pagesContainer"></div>
             </div>
         </div>
     </div>
@@ -940,7 +948,7 @@
         <button onclick="showForm()" class="btn-accept">BETA MAU, AIKO</button>
     </div>
 
-    <!-- Decline Button (separate from container) -->
+    <!-- Decline Button -->
     <button id="btnDecline" class="btn-decline" style="display: none;">Sonde...</button>
 
     <!-- Form Container -->
@@ -956,37 +964,9 @@
 
     <!-- Credit Screen -->
     <div id="creditScreen" class="credit-screen">
-        <div class="credit-content">
-            <h1 class="credit-title">Momen Mengharukan</h1>
-            
-            <div class="credit-item" id="credit-1">
-                <h3>Pembuat</h3>
-                <p>Gilang Raditya</p>
-            </div>
-            
-            <div class="credit-item" id="credit-2">
-                <h3>Tema</h3>
-                <p>Gilang Raditya</p>
-            </div>
-            
-            <div class="credit-item" id="credit-3">
-                <h3>Pesan</h3>
-                <p>Aiko</p>
-            </div>
-            
-            <div class="credit-item" id="credit-4">
-                <h3>Latar</h3>
-                <p>Aiko</p>
-            </div>
-            
-            <div class="credit-item" id="credit-5">
-                <h3>Pendukung Penuh Atas Percintaan Ini</h3>
-                <p style="font-size: 14px; line-height: 1.8;">Gilang, Gendis, Sarofah, Farah, Aiko, Firda, Videla, dan Teman Kelas 6B</p>
-            </div>
-            
-            <div class="credit-message" id="credit-msg">
-                <h3>Pesan Kita Semua</h3>
-                <p>"CONGRATS! AIKO & DION!"</p>
+        <div class="credit-viewport">
+            <div class="credit-content" id="creditScroller">
+                <!-- Credit content generated via JS for cleaner HTML -->
             </div>
         </div>
     </div>
@@ -1040,30 +1020,15 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0',
-                width: '0',
+                height: '0', width: '0',
                 videoId: '4ZLBcD5MD9c',
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onError': onPlayerError
-                }
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'modestbranding': 1 },
+                events: { 'onReady': onPlayerReady, 'onError': onPlayerError }
             });
         }
 
-        function onPlayerReady(event) {
-            console.log('YouTube player ready');
-        }
-
-        function onPlayerError(event) {
-            console.log('YouTube player error:', event.data);
-        }
+        function onPlayerReady(event) { console.log('YouTube player ready'); }
+        function onPlayerError(event) { console.log('YouTube player error:', event.data); }
 
         // ==================== AUDIO PERMISSION ====================
         function checkAudioPermission() {
@@ -1080,7 +1045,6 @@
         // ==================== LANGUAGE SELECTION ====================
         function selectLang(lang) {
             selectedLang = lang;
-            
             document.getElementById('step0').classList.add('hidden');
             document.getElementById('loadingScreen').classList.remove('hidden');
             
@@ -1108,7 +1072,6 @@
         function setupProgressDots() {
             const container = document.getElementById('progressDots');
             container.innerHTML = '';
-            
             for (let i = 0; i < totalPages; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
@@ -1120,11 +1083,8 @@
         function updateProgress() {
             const dots = document.querySelectorAll('.progress-dot');
             dots.forEach(function(dot, idx) {
-                if (idx <= currentPage) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                if (idx <= currentPage) dot.classList.add('active');
+                else dot.classList.remove('active');
             });
         }
 
@@ -1136,10 +1096,8 @@
             const messageList = messages[selectedLang];
             const pageCount = messageList.length;
             
-            // Generate flip pages (reverse z-index for proper stacking)
             for (let i = 0; i < pageCount; i++) {
                 const page = document.createElement('div');
-                // Halaman pertama harus punya z-index tertinggi agar tampil di atas
                 const zIndex = pageCount - i + 10;
                 
                 page.className = 'page-flip';
@@ -1153,16 +1111,13 @@
                             '<div class="page-number">Bab ' + (i + 1) + '</div>' +
                             '<h2 class="page-title">' + msg.title + '</h2>' +
                         '</div>' +
-                        '<div class="page-content" id="content-' + i + '">' +
-                            msg.content +
-                        '</div>' +
+                        '<div class="page-content" id="content-' + i + '">' + msg.content + '</div>' +
                     '</div>' +
                     '<div class="page-back"></div>';
                 
                 container.appendChild(page);
             }
             
-            // Generate confession page (static)
             const confPage = document.createElement('div');
             confPage.className = 'page-static';
             confPage.id = 'page-confession';
@@ -1173,17 +1128,13 @@
                     '<div class="page-number">Akhir</div>' +
                     '<h2 class="page-title">' + conf.title + '</h2>' +
                 '</div>' +
-                '<div class="page-content" id="content-conf">' +
-                    conf.content +
-                '</div>';
+                '<div class="page-content" id="content-conf">' + conf.content + '</div>';
             
             container.appendChild(confPage);
         }
 
-        // ==================== READING FLOW (FIXED LOGIC) ====================
-        function startReading() {
-            showPage(0);
-        }
+        // ==================== READING FLOW ====================
+        function startReading() { showPage(0); }
 
         function showPage(idx) {
             if (isAnimating) return;
@@ -1194,10 +1145,7 @@
             const pageId = isConfession ? 'page-confession' : 'page-' + idx;
             const page = document.getElementById(pageId);
             
-            if (!page) {
-                showClosingMessage();
-                return;
-            }
+            if (!page) { showClosingMessage(); return; }
             
             isAnimating = true;
             currentPage = idx;
@@ -1206,48 +1154,29 @@
             const contentEl = page.querySelector('.page-content');
             
             if (page.classList.contains('page-flip')) {
-                // 1. Siapkan halaman untuk dibalik (bawa ke depan)
                 page.classList.add('flipping');
+                if (contentEl) contentEl.classList.add('animate');
                 
-                // 2. Animasikan teks masuk
-                if (contentEl) {
-                    contentEl.classList.add('animate');
-                }
-                
-                // 3. Tentukan durasi membaca
-                // Animasi teks butuh ~2.5 detik. Beri waktu baca total 7 detik.
                 const readingDuration = 7000;
                 
-                // 4. Setelah selesai membaca, balik halaman
                 setTimeout(function() {
                     page.classList.add('flipped');
                     page.classList.remove('flipping');
-                    // z-index akan diatur oleh CSS class .flipped ke 0
                     
-                    // 5. Setelah animasi balik selesai (1 detik), lanjut ke halaman berikutnya
                     setTimeout(function() {
                         isAnimating = false;
                         showPage(idx + 1);
-                    }, 1100); // Sedikit lebih lama dari transisi CSS (1s)
+                    }, 1100);
                     
                 }, readingDuration);
                 
-                // Trigger partikel di halaman tertentu
-                if (idx === 0 || idx === messageList.length - 1) {
-                    triggerHeavyParticles();
-                }
+                if (idx === 0 || idx === messageList.length - 1) triggerHeavyParticles();
                 
             } else {
-                // Static page (confession)
                 page.classList.add('active');
-                
-                if (contentEl) {
-                    contentEl.classList.add('animate');
-                }
-                
+                if (contentEl) contentEl.classList.add('animate');
                 triggerHeavyParticles();
                 
-                // Schedule closing message
                 setTimeout(function() {
                     isAnimating = false;
                     showClosingMessage();
@@ -1269,7 +1198,6 @@
                     setTimeout(function() {
                         document.getElementById('finalButtons').classList.add('visible');
                         
-                        // Show decline button
                         const declineBtn = document.getElementById('btnDecline');
                         declineBtn.style.display = 'block';
                         declineBtn.style.bottom = '80px';
@@ -1286,7 +1214,6 @@
         function createParticles() {
             const container = document.getElementById('particles');
             
-            // Sparkles
             for (let i = 0; i < 15; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'particle sparkle';
@@ -1296,7 +1223,6 @@
                 container.appendChild(sparkle);
             }
             
-            // Stars
             for (let i = 0; i < 30; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle star';
@@ -1306,7 +1232,6 @@
                 container.appendChild(star);
             }
             
-            // Falling petals (interval)
             setInterval(function() {
                 if (Math.random() > 0.7) {
                     const petal = document.createElement('div');
@@ -1316,17 +1241,13 @@
                     petal.style.left = (Math.random() * 100) + '%';
                     petal.style.animationDuration = (Math.random() * 5 + 6) + 's';
                     container.appendChild(petal);
-                    
-                    setTimeout(function() {
-                        if (petal.parentNode) petal.remove();
-                    }, 10000);
+                    setTimeout(function() { if (petal.parentNode) petal.remove(); }, 10000);
                 }
             }, 800);
         }
 
         function triggerHeavyParticles() {
             const container = document.getElementById('particles');
-            
             for (let i = 0; i < 20; i++) {
                 (function(index) {
                     setTimeout(function() {
@@ -1337,16 +1258,13 @@
                         petal.style.left = (Math.random() * 100) + '%';
                         petal.style.animationDuration = (Math.random() * 4 + 4) + 's';
                         container.appendChild(petal);
-                        
-                        setTimeout(function() {
-                            if (petal.parentNode) petal.remove();
-                        }, 8000);
+                        setTimeout(function() { if (petal.parentNode) petal.remove(); }, 8000);
                     }, index * 100);
                 })(i);
             }
         }
 
-        // ==================== FORM ====================
+        // ==================== FORM & WORD COUNTER (FIXED) ====================
         function showForm() {
             document.getElementById('finalButtons').classList.remove('visible');
             document.getElementById('btnDecline').style.display = 'none';
@@ -1361,12 +1279,15 @@
             counter.classList.remove('valid', 'invalid');
             btn.classList.remove('enabled');
             
-            // Remove existing listener to prevent duplicates
-            textarea.oninput = null;
+            textarea.oninput = null; // Clear previous listener
             
             textarea.addEventListener('input', function() {
-                const text = this.value.trim();
-                const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                // Robust word count using regex to match non-whitespace sequences
+                const text = this.value;
+                // Match any sequence of non-whitespace characters
+                const wordsArray = text.match(/\S+/g);
+                const words = wordsArray ? wordsArray.length : 0;
+                
                 counter.textContent = words + ' / 500 kata';
                 
                 if (words >= 500) {
@@ -1375,7 +1296,8 @@
                     btn.classList.add('enabled');
                 } else {
                     counter.classList.remove('valid');
-                    counter.classList.add('invalid');
+                    if (words > 0) counter.classList.add('invalid');
+                    else counter.classList.remove('invalid');
                     btn.classList.remove('enabled');
                 }
             });
@@ -1383,6 +1305,7 @@
             triggerHeavyParticles();
         }
 
+        // ==================== SUBMIT & CREDITS ====================
         function submitLetter() {
             userMessage = document.getElementById('loveLetter').value;
             
@@ -1398,10 +1321,7 @@
                         heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
                         heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
                         container.appendChild(heart);
-                        
-                        setTimeout(function() {
-                            if (heart.parentNode) heart.remove();
-                        }, 6000);
+                        setTimeout(function() { if (heart.parentNode) heart.remove(); }, 6000);
                     }, index * 50);
                 })(i);
             }
@@ -1409,30 +1329,112 @@
             setTimeout(function() {
                 document.getElementById('formContainer').classList.remove('visible');
                 document.getElementById('creditScreen').classList.add('visible');
-                animateCredits();
+                startCreditsScroll();
             }, 2000);
         }
 
-        // ==================== CREDITS (FIXED ANIMATION) ====================
-        function animateCredits() {
-            const items = [
-                { el: document.getElementById('credit-1'), delay: 500 },
-                { el: document.getElementById('credit-2'), delay: 1000 },
-                { el: document.getElementById('credit-3'), delay: 1500 },
-                { el: document.getElementById('credit-4'), delay: 2000 },
-                { el: document.getElementById('credit-5'), delay: 2500 },
-                { el: document.getElementById('credit-msg'), delay: 3000 }
-            ];
+        function startCreditsScroll() {
+            const container = document.getElementById('creditScroller');
+            
+            // Inject Credit Content
+            container.innerHTML = `
+                <div class="credit-section">
+                    <div class="credit-section-title">The Leads</div>
+                    <div class="credit-role">Pemeran Utama</div>
+                    <div class="credit-name">Aiko <span class="credit-subtitle">sebagai The Brave Heart (Pemberani)</span></div>
+                    <div class="credit-name">Dion <span class="credit-subtitle">sebagai The Reason Why (Alasan Hati)</span></div>
+                </div>
 
-            // CSS sudah mengatur posisi awal (translateY(40px) & opacity 0)
-            // JS hanya perlu menambahkan class 'visible' untuk trigger transisi CSS
-            items.forEach(function(item) {
-                if (item.el) {
-                    setTimeout(function() {
-                        item.el.classList.add('visible');
-                    }, item.delay);
-                }
-            });
+                <div class="credit-section">
+                    <div class="credit-section-title">Direction & Writing</div>
+                    <div class="credit-role">Sutradara & Penulis</div>
+                    <div class="credit-name">Executive Director: Aiko</div>
+                    <div class="credit-name">Screenplay Writer: Aiko <span class="credit-subtitle">(Berdasarkan kisah nyata)</span></div>
+                    <div class="credit-name">Dialogue Editor: Aiko <span class="credit-subtitle">(Bahasa NTT Specialist)</span></div>
+                </div>
+
+                <div class="credit-section">
+                    <div class="credit-section-title">Technical Production</div>
+                    <div class="credit-role">Tim Belakang Layar</div>
+                    <div class="credit-name">Chief Technology Officer (CTO): Gilang</div>
+                    <div class="credit-name">Lead Web Architect: Gilang <span class="credit-subtitle">(Pejuang Kode)</span></div>
+                    <div class="credit-name">Visual Effect (VFX) Artist: Kelopak Bunga 🌸 Engine</div>
+                    <div class="credit-name">Sound Engineer: YouTube Music Algorithm</div>
+                </div>
+
+                <div class="credit-section">
+                    <div class="credit-section-title">Support System</div>
+                    <div class="credit-role">Tim Pendukung</div>
+                    <div class="credit-name">Emotional Support: Teman-teman Aiko</div>
+                    <div class="credit-name">Security & Encryption: "Borgol Asmara" System</div>
+                    <div class="credit-name">Head of Butterflies: Aiko's Heart <span class="credit-subtitle">(Ketua Tim Deg-degan)</span></div>
+                </div>
+
+                <div class="credit-section">
+                    <div class="credit-section-title">Soundtrack</div>
+                    <div class="credit-role">Musik</div>
+                    <div class="credit-name">Tema Musik: Surat Cinta Untuk Starla (Dion)</div>
+                    <div class="credit-name">Music Coordinator: Penjaga Mood Dion</div>
+                </div>
+
+                <div class="credit-section">
+                    <div class="credit-section-title">Daftar Pendukung Cinta</div>
+                    <div class="credit-list-names">
+                        Sarofah<br>
+                        Fairus<br>
+                        Diana<br>
+                        Aiko<br>
+                        Gilang<br>
+                        Farah<br>
+                        Firda<br>
+                        Videla<br>
+                        Gendis<br>
+                        Ainun<br>
+                        Keisya<br>
+                        <br>
+                        Serta seluruh Kelas 6B yang mendukung cinta ini!
+                    </div>
+                </div>
+
+                <div class="credit-section">
+                    <div class="credit-section-title">Special Thanks</div>
+                    <div class="credit-role">Penghargaan Khusus</div>
+                    <div class="credit-big-text">
+                        Tuhan Yang Maha Esa<br>
+                        Kedua Orang Tua <span class="credit-subtitle">(Restu adalah kunci)</span><br>
+                        Seluruh Rakyat NTT <span class="credit-subtitle">(Saksi bisu perjuangan Aiko)</span>
+                    </div>
+                </div>
+
+                <div class="credit-final">
+                    © 2026 AIKO & DION PRODUCTIONS<br>
+                    <span style="font-size: 16px; display: block; margin-top: 10px; color: #fff;">Vonis Akhir: Bahagia Selamanya.</span>
+                </div>
+                
+                <div class="credit-small">
+                    Mengarahkan ke WhatsApp dalam beberapa detik...
+                </div>
+            `;
+
+            // Trigger Animation
+            // Force reflow
+            void container.offsetWidth;
+            container.classList.add('scrolling');
+
+            // Calculate duration (approx 50s) then redirect
+            // The CSS animation is set to 50s.
+            setTimeout(function() {
+                redirectToWhatsApp();
+            }, 51000); // Slightly longer than animation
+        }
+
+        function redirectToWhatsApp() {
+            // Encode message for URL
+            const encodedText = encodeURIComponent(userMessage);
+            // Indonesian number format: 858... -> 62858...
+            const phoneNumber = "6285880929519"; 
+            const url = "https://wa.me/" + phoneNumber + "?text=" + encodedText;
+            window.location.href = url;
         }
 
         // ==================== DECLINE BUTTON ====================
