@@ -7,113 +7,110 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body { background: #1a1a1a; overflow: hidden; font-family: 'Georgia', serif; }
-        .heart { position: absolute; color: #ff4d4d; animation: fall linear infinite; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+        body { background: #0f172a; overflow: hidden; font-family: 'Georgia', serif; }
+        .heart { position: absolute; color: #fb7185; animation: fall linear infinite; pointer-events: none; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
         #btnSonde { position: absolute; transition: 0.1s; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .glow-text { text-shadow: 0 0 15px rgba(251, 113, 133, 0.5); }
     </style>
 </head>
-<body class="text-stone-200">
+<body class="text-stone-100">
 
     <div id="heartContainer"></div>
 
-    <iframe id="music" class="hidden" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" allow="autoplay"></iframe>
+    <iframe id="music" class="hidden" src="https://www.youtube.com/embed/HSOtku1j600?autoplay=1&loop=1" allow="autoplay"></iframe>
 
     <div id="step1" class="flex flex-col items-center justify-center h-screen p-6 text-center">
         <div class="animate__animated animate__fadeIn">
-            <h1 class="text-4xl font-bold mb-4 text-pink-500">🔒 Dekrit Rahasia</h1>
-            <p class="mb-8">Sidang ini cuma bisa dibuka oleh terdakwa bernama **DION**.</p>
-            <button onmousedown="startScan()" onmouseup="stopScan()" class="w-32 h-32 rounded-full border-4 border-pink-500 flex items-center justify-center text-4xl bg-pink-500/20 active:scale-90 transition">
-                ☝️
+            <h1 class="text-3xl font-light mb-2 tracking-widest uppercase glow-text">Halo, Dion.</h1>
+            <p class="mb-10 text-stone-400 italic">Ada pesan kecil yang su lama beta simpan buat ko...</p>
+            <button onmousedown="startScan()" onmouseup="stopScan()" class="w-24 h-24 rounded-full border border-rose-500/50 flex items-center justify-center text-2xl bg-rose-500/10 active:scale-90 transition shadow-[0_0_20px_rgba(251,113,133,0.2)]">
+                🌙
             </button>
-            <p id="scanText" class="mt-4 text-sm text-stone-500 uppercase tracking-widest">Tahan Jempol buat Verifikasi</p>
+            <p id="scanText" class="mt-6 text-[10px] text-stone-500 uppercase tracking-[0.3em]">Sentuh untuk membuka</p>
         </div>
     </div>
 
     <div id="step2" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center">
-        <div class="glass p-8 rounded-3xl max-w-sm animate__animated animate__backInRight">
-            <span class="text-5xl">🎞️</span>
-            <h2 class="text-2xl font-bold mt-4 text-amber-400">Barang Bukti #1</h2>
-            <p class="mt-4 italic">"Ingat ko sonde pas katong dua dudu cerita di situ? Beta rasa waktu tu jalan lambat skali..."</p>
-            <button onclick="nextStep(2, 3)" class="mt-8 bg-stone-700 px-6 py-2 rounded-full">Lanjut...</button>
+        <div class="glass p-10 rounded-2xl max-w-sm animate__animated animate__fadeInUp">
+            <h2 class="text-rose-400 text-xs uppercase tracking-widest mb-4">Momen Itu...</h2>
+            <p class="text-lg leading-relaxed italic">"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali, beta sonde mau itu berakhir."</p>
+            <button onclick="nextStep(2, 3)" class="mt-10 text-stone-500 hover:text-white transition text-xs uppercase tracking-widest underline underline-offset-8">Lanjut</button>
         </div>
     </div>
 
     <div id="step3" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center">
-        <div class="glass p-8 rounded-3xl max-w-sm animate__animated animate__zoomIn">
-            <span class="text-5xl">💌</span>
-            <h2 class="text-2xl font-bold mt-4 text-amber-400">Isi Hati Aiko</h2>
-            <p class="mt-4 leading-relaxed">"Beta sonde sanggup liat ko jauh-jauh. Tiap kali ko ada, beta pung dunia rasa pas sa."</p>
-            <button onclick="triggerLove(); nextStep(3, 4)" class="mt-8 bg-pink-600 px-6 py-2 rounded-full">Buka Vonis...</button>
+        <div class="glass p-10 rounded-2xl max-w-sm animate__animated animate__fadeInUp">
+            <h2 class="text-rose-400 text-xs uppercase tracking-widest mb-4">Tentang Ko</h2>
+            <p class="text-lg leading-relaxed italic">"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."</p>
+            <button onclick="triggerLove(); nextStep(3, 4)" class="mt-10 text-stone-500 hover:text-white transition text-xs uppercase tracking-widest underline underline-offset-8">Sedikit lagi...</button>
         </div>
     </div>
 
     <div id="step4" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center relative">
-        <div class="animate__animated animate__pulse animate__infinite">
-            <h2 class="text-5xl font-black text-red-500 mb-6 drop-shadow-lg">VONIS CINTA!</h2>
+        <div class="animate__animated animate__fadeIn">
+            <h2 class="text-xs uppercase tracking-[0.5em] text-rose-500 mb-10 glow-text font-bold">Jujur Dari Hati</h2>
         </div>
-        <div class="glass p-6 rounded-2xl max-w-lg border-2 border-pink-500 shadow-[0_0_30px_rgba(236,72,153,0.3)]">
-            <p class="text-xl leading-relaxed font-bold italic">
-                "Dion, beta sonde mau main rahasia lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon! Ko mau ko sonde jadi beta pung pacar?"
+        <div class="glass p-8 rounded-3xl max-w-lg shadow-2xl">
+            <p class="text-xl leading-relaxed font-medium">
+                "Dion, beta sonde mau tutup-tutup lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon. <br><br>
+                <span class="text-rose-400">Ko mau ko sonde jalan bareng beta jadi pacar?</span>"
             </p>
         </div>
 
-        <div class="mt-12 flex gap-8">
-            <button onclick="finalDecision()" class="bg-green-600 hover:bg-green-500 px-10 py-4 rounded-xl font-black text-xl shadow-xl active:scale-95 transition">
-                MAU (GAS!)
+        <div class="mt-16 flex flex-col md:flex-row gap-6 items-center">
+            <button onclick="finalDecision()" class="bg-rose-600 hover:bg-rose-500 px-12 py-4 rounded-full font-bold tracking-widest shadow-lg active:scale-95 transition text-sm">
+                BETA MAU, AIKO
             </button>
-            <button id="btnSonde" onmouseover="lari(this)" class="bg-red-700 px-10 py-4 rounded-xl font-black text-xl">
-                SONDE
+            <button id="btnSonde" onmouseover="lari(this)" class="text-stone-500 text-xs border border-stone-700 px-6 py-2 rounded-full">
+                Sonde...
             </button>
         </div>
     </div>
 
     <script>
-        // Fitur Scan Jempol
         let scanTimer;
         function startScan() {
-            document.getElementById('scanText').innerText = "Scanning... Tahan!";
-            scanTimer = setTimeout(() => {
-                nextStep(1, 2);
-            }, 2000);
+            document.getElementById('scanText').innerText = "Membuka pesan...";
+            scanTimer = setTimeout(() => { nextStep(1, 2); }, 1500);
         }
         function stopScan() {
             clearTimeout(scanTimer);
-            document.getElementById('scanText').innerText = "Gagal! Tahan lebih lama.";
+            document.getElementById('scanText').innerText = "Sentuh untuk membuka";
         }
 
-        // Navigasi
         function nextStep(curr, next) {
-            document.getElementById('step' + curr).classList.add('hidden');
-            document.getElementById('step' + next).classList.remove('hidden');
+            document.getElementById('step' + curr).classList.add('animate__animated', 'animate__fadeOut');
+            setTimeout(() => {
+                document.getElementById('step' + curr).classList.add('hidden');
+                document.getElementById('step' + next).classList.remove('hidden');
+            }, 500);
         }
 
-        // Tombol Kabur
         function lari(btn) {
             btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
             btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
         }
 
-        // Efek Hati Jatuh
         function triggerLove() {
-            for(let i=0; i<30; i++) {
+            for(let i=0; i<40; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart';
-                    heart.innerHTML = '❤️';
+                    heart.innerHTML = '🌸'; // Pakai kelopak bunga biar lebih elegan
                     heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                    heart.style.duration = (Math.random() * 3 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
                     document.getElementById('heartContainer').appendChild(heart);
-                }, i * 100);
+                    setTimeout(() => heart.remove(), 5000);
+                }, i * 150);
             }
         }
 
-        // Hasil Akhir
         function finalDecision() {
-            alert('TOK TOK TOK! SAH! ❤️\n\nDion su jadi pacar Aiko!\nKabari Aiko sekarang di 081387580283');
-            window.location.href = "https://wa.me/081387580283?text=BETA+MAU+YON!+I+LOVE+YOU+TOO+AIKO! ❤️";
+            alert('❤️ Terima kasih su jujur, Yon.');
+            window.location.href = "https://wa.me/081387580283?text=Aiko, beta juga sayang ko. Beta mau jalan bareng ko. ❤️";
         }
     </script>
 </body>
