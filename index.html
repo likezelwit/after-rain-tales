@@ -2,114 +2,197 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Khusus Buat Dion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body { background: #0f172a; overflow: hidden; font-family: 'Georgia', serif; }
-        .heart { position: absolute; color: #fb7185; animation: fall linear infinite; pointer-events: none; }
+        body { background: #0f172a; overflow: hidden; font-family: 'Georgia', serif; touch-action: manipulation; }
+        .heart { position: absolute; color: #fb7185; animation: fall linear infinite; pointer-events: none; z-index: 50; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-        #btnSonde { position: absolute; transition: 0.1s; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        #btnSonde { position: absolute; transition: 0.1s; touch-action: none; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
         .glow-text { text-shadow: 0 0 15px rgba(251, 113, 133, 0.5); }
+        /* Memastikan tampilan HP pas */
+        .step-container { min-height: 100vh; width: 100vw; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     </style>
 </head>
 <body class="text-stone-100">
 
     <div id="heartContainer"></div>
 
-    <iframe id="music" class="hidden" src="https://www.youtube.com/embed/HSOtku1j600?autoplay=1&loop=1" allow="autoplay"></iframe>
+    <div id="player"></div>
 
-    <div id="step1" class="flex flex-col items-center justify-center h-screen p-6 text-center">
+    <div id="step0" class="step-container text-center animate__animated animate__fadeIn">
+        <h1 class="text-2xl font-light mb-8 tracking-widest uppercase glow-text">Pilih Bahasa / Choose Language</h1>
+        <div class="flex flex-col gap-4 w-full max-w-[250px]">
+            <button onclick="initApp('id')" class="bg-white/10 border border-white/20 py-4 rounded-xl hover:bg-white/20 transition">Bahasa Indonesia</button>
+            <button onclick="initApp('ntt')" class="bg-rose-500/20 border border-rose-500/40 py-4 rounded-xl hover:bg-rose-500/30 transition font-bold">Bahasa NTT</button>
+        </div>
+        
+        <div id="loading" class="hidden mt-10">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
+            <p class="mt-4 text-xs text-stone-500 italic uppercase tracking-widest">Menyiapkan Suasana...</p>
+        </div>
+    </div>
+
+    <div id="step1" class="hidden step-container text-center">
         <div class="animate__animated animate__fadeIn">
-            <h1 class="text-3xl font-light mb-2 tracking-widest uppercase glow-text">Halo, Dion.</h1>
-            <p class="mb-10 text-stone-400 italic">Ada pesan kecil yang su lama beta simpan buat ko...</p>
-            <button onmousedown="startScan()" onmouseup="stopScan()" class="w-24 h-24 rounded-full border border-rose-500/50 flex items-center justify-center text-2xl bg-rose-500/10 active:scale-90 transition shadow-[0_0_20px_rgba(251,113,133,0.2)]">
+            <h1 id="t-halo" class="text-3xl font-light mb-2 tracking-widest uppercase glow-text">Halo, Dion.</h1>
+            <p id="t-pesan" class="mb-12 text-stone-400 italic px-4">Ada pesan kecil yang su lama beta simpan buat ko...</p>
+            <button onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()" class="w-28 h-28 rounded-full border border-rose-500/50 flex items-center justify-center text-3xl bg-rose-500/10 active:scale-90 transition shadow-[0_0_30px_rgba(251,113,133,0.3)] mx-auto">
                 🌙
             </button>
-            <p id="scanText" class="mt-6 text-[10px] text-stone-500 uppercase tracking-[0.3em]">Sentuh untuk membuka</p>
+            <p id="scanText" class="mt-8 text-[10px] text-stone-500 uppercase tracking-[0.3em]">Sentuh & Tahan</p>
         </div>
     </div>
 
-    <div id="step2" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center">
-        <div class="glass p-10 rounded-2xl max-w-sm animate__animated animate__fadeInUp">
-            <h2 class="text-rose-400 text-xs uppercase tracking-widest mb-4">Momen Itu...</h2>
-            <p class="text-lg leading-relaxed italic">"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali, beta sonde mau itu berakhir."</p>
-            <button onclick="nextStep(2, 3)" class="mt-10 text-stone-500 hover:text-white transition text-xs uppercase tracking-widest underline underline-offset-8">Lanjut</button>
+    <div id="step2" class="hidden step-container text-center">
+        <div class="glass p-8 rounded-3xl max-w-[90%] animate__animated animate__fadeInUp">
+            <h2 id="t-momen-judul" class="text-rose-400 text-[10px] uppercase tracking-[0.3em] mb-6">Momen Itu...</h2>
+            <p id="t-momen-isi" class="text-lg leading-relaxed italic px-2">"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali..."</p>
+            <button onclick="nextStep(2, 3)" class="mt-12 text-stone-400 hover:text-white transition text-[10px] uppercase tracking-widest underline underline-offset-8">Lanjut</button>
         </div>
     </div>
 
-    <div id="step3" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center">
-        <div class="glass p-10 rounded-2xl max-w-sm animate__animated animate__fadeInUp">
-            <h2 class="text-rose-400 text-xs uppercase tracking-widest mb-4">Tentang Ko</h2>
-            <p class="text-lg leading-relaxed italic">"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."</p>
-            <button onclick="triggerLove(); nextStep(3, 4)" class="mt-10 text-stone-500 hover:text-white transition text-xs uppercase tracking-widest underline underline-offset-8">Sedikit lagi...</button>
+    <div id="step3" class="hidden step-container text-center">
+        <div class="glass p-8 rounded-3xl max-w-[90%] animate__animated animate__fadeInUp">
+            <h2 id="t-tentang-judul" class="text-rose-400 text-[10px] uppercase tracking-[0.3em] mb-6">Tentang Ko</h2>
+            <p id="t-tentang-isi" class="text-lg leading-relaxed italic px-2">"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."</p>
+            <button onclick="triggerLove(); nextStep(3, 4)" class="mt-12 text-stone-400 hover:text-white transition text-[10px] uppercase tracking-widest underline underline-offset-8">Sedikit lagi...</button>
         </div>
     </div>
 
-    <div id="step4" class="hidden flex flex-col items-center justify-center h-screen p-6 text-center relative">
+    <div id="step4" class="hidden step-container text-center relative">
         <div class="animate__animated animate__fadeIn">
-            <h2 class="text-xs uppercase tracking-[0.5em] text-rose-500 mb-10 glow-text font-bold">Jujur Dari Hati</h2>
+            <h2 class="text-[10px] uppercase tracking-[0.5em] text-rose-500 mb-10 glow-text font-bold">Jujur Dari Hati</h2>
         </div>
-        <div class="glass p-8 rounded-3xl max-w-lg shadow-2xl">
-            <p class="text-xl leading-relaxed font-medium">
+        <div class="glass p-6 rounded-3xl max-w-[95%] shadow-2xl">
+            <p id="t-final-isi" class="text-xl leading-relaxed font-medium">
                 "Dion, beta sonde mau tutup-tutup lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon. <br><br>
                 <span class="text-rose-400">Ko mau ko sonde jalan bareng beta jadi pacar?</span>"
             </p>
         </div>
 
-        <div class="mt-16 flex flex-col md:flex-row gap-6 items-center">
-            <button onclick="finalDecision()" class="bg-rose-600 hover:bg-rose-500 px-12 py-4 rounded-full font-bold tracking-widest shadow-lg active:scale-95 transition text-sm">
-                BETA MAU, AIKO
+        <div class="mt-16 flex flex-col gap-6 w-full px-10">
+            <button onclick="finalDecision()" class="bg-rose-600 hover:bg-rose-500 py-5 rounded-2xl font-bold tracking-widest shadow-lg active:scale-95 transition text-sm uppercase">
+                BETA MAU, AIKO ❤️
             </button>
-            <button id="btnSonde" onmouseover="lari(this)" class="text-stone-500 text-xs border border-stone-700 px-6 py-2 rounded-full">
+            <button id="btnSonde" onmouseover="lari(this)" ontouchstart="lari(this)" class="text-stone-500 text-[10px] border border-stone-800 py-3 rounded-xl">
                 Sonde...
             </button>
         </div>
     </div>
 
     <script>
+        let selectedLang = 'ntt';
+        const content = {
+            id: {
+                halo: "Halo, Dion.", pesan: "Ada pesan kecil yang sudah lama aku simpan buat kamu...",
+                m1j: "Momen Itu...", m1i: '"Ingat nggak pas kita berdua duduk cerita waktu itu? Aku rasa waktu itu jalan lambat sekali, aku nggak mau itu berakhir."',
+                m2j: "Tentang Kamu", m2i: '"Tiap kali kamu ada di dekat aku, dunia aku rasanya tenang saja. Cara kamu hargai aku yang bikin aku jatuh hati."',
+                fi: '"Dion, aku nggak mau tutup-tutupi lagi. Hati aku sudah terpikat mati di kamu. Aku sayang kamu, Yon. <br><br><span class=\"text-rose-400\">Kamu mau nggak jalan bareng aku jadi pacar?</span>"',
+                btn: "AKU MAU, AIKO ❤️", scan: "Sentuh & Tahan"
+            },
+            ntt: {
+                halo: "Halo, Dion.", pesan: "Ada pesan kecil yang su lama beta simpan buat ko...",
+                m1j: "Momen Itu...", m1i: '"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali, beta sonde mau itu berakhir."',
+                m2j: "Tentang Ko", m2i: '"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."',
+                fi: '"Dion, beta sonde mau tutup-tutup lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon. <br><br><span class=\"text-rose-400\">Ko mau ko sonde jalan bareng beta jadi pacar?</span>"',
+                btn: "BETA MAU, AIKO ❤️", scan: "Sentuh & Tahan"
+            }
+        };
+
+        // YouTube Player API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0', width: '0',
+                videoId: '4ZLBcD5MD9c',
+                events: { 'onReady': onPlayerReady }
+            });
+        }
+
+        let isMusicReady = false;
+        function onPlayerReady(event) {
+            isMusicReady = true;
+        }
+
+        function initApp(lang) {
+            selectedLang = lang;
+            document.querySelector('#step0 div').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+
+            // Apply Texts
+            document.getElementById('t-halo').innerText = content[lang].halo;
+            document.getElementById('t-pesan').innerText = content[lang].pesan;
+            document.getElementById('t-momen-judul').innerText = content[lang].m1j;
+            document.getElementById('t-momen-isi').innerText = content[lang].m1i;
+            document.getElementById('t-tentang-judul').innerText = content[lang].m2j;
+            document.getElementById('t-tentang-isi').innerText = content[lang].m2i;
+            document.getElementById('t-final-isi').innerHTML = content[lang].fi;
+            document.querySelector('#step4 button').innerText = content[lang].btn;
+            document.getElementById('scanText').innerText = content[lang].scan;
+
+            // Wait for music
+            let checkReady = setInterval(() => {
+                if(isMusicReady) {
+                    player.playVideo();
+                    clearInterval(checkReady);
+                    nextStep(0, 1);
+                }
+            }, 500);
+        }
+
+        function nextStep(curr, next) {
+            const currentEl = document.getElementById('step' + curr);
+            currentEl.classList.add('animate__animated', 'animate__fadeOut');
+            setTimeout(() => {
+                currentEl.classList.add('hidden');
+                document.getElementById('step' + next).classList.remove('hidden');
+                document.getElementById('step' + next).classList.add('animate__animated', 'animate__fadeIn');
+            }, 500);
+        }
+
         let scanTimer;
         function startScan() {
-            document.getElementById('scanText').innerText = "Membuka pesan...";
+            document.getElementById('scanText').innerText = selectedLang === 'ntt' ? "Membuka pesan..." : "Membuka pesan...";
             scanTimer = setTimeout(() => { nextStep(1, 2); }, 1500);
         }
         function stopScan() {
             clearTimeout(scanTimer);
-            document.getElementById('scanText').innerText = "Sentuh untuk membuka";
-        }
-
-        function nextStep(curr, next) {
-            document.getElementById('step' + curr).classList.add('animate__animated', 'animate__fadeOut');
-            setTimeout(() => {
-                document.getElementById('step' + curr).classList.add('hidden');
-                document.getElementById('step' + next).classList.remove('hidden');
-            }, 500);
+            document.getElementById('scanText').innerText = content[selectedLang].scan;
         }
 
         function lari(btn) {
-            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
 
         function triggerLove() {
-            for(let i=0; i<40; i++) {
+            for(let i=0; i<30; i++) {
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart';
-                    heart.innerHTML = '🌸'; // Pakai kelopak bunga biar lebih elegan
+                    heart.innerHTML = '🌸';
                     heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-                    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
                     document.getElementById('heartContainer').appendChild(heart);
-                    setTimeout(() => heart.remove(), 5000);
+                    setTimeout(() => heart.remove(), 3000);
                 }, i * 150);
             }
         }
 
         function finalDecision() {
-            alert('❤️ Terima kasih su jujur, Yon.');
+            alert(selectedLang === 'ntt' ? '❤️ Terima kasih su jujur, Yon.' : '❤️ Terima kasih sudah jujur, Yon.');
             window.location.href = "https://wa.me/081387580283?text=Aiko, beta juga sayang ko. Beta mau jalan bareng ko. ❤️";
         }
     </script>
