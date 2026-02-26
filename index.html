@@ -17,7 +17,7 @@
             --page-shadow: #e8dfd0;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background: var(--bg);
@@ -94,7 +94,7 @@
         .book-cover {
             position: absolute;
             width: 100%;
-            height: 100%;
+            height: 500px;
             background: linear-gradient(135deg, #2a1810 0%, #1a0f0a 100%);
             border-radius: 0 12px 12px 0;
             transform-origin: left center;
@@ -105,7 +105,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100; /* Cover di paling atas awalnya */
+            z-index: 100;
             backface-visibility: hidden;
         }
 
@@ -121,7 +121,7 @@
 
         .book-cover.open {
             transform: rotateY(-160deg);
-            z-index: 0; /* Turun z-index setelah terbuka */
+            z-index: 5;
         }
 
         .cover-ornament {
@@ -152,11 +152,12 @@
             position: relative;
             background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 5%, var(--page) 100%);
             border-radius: 0 8px 8px 0;
-            min-height: 480px;
+            min-height: 500px;
+            height: 500px;
             box-shadow: 
                 inset 3px 0 10px rgba(0,0,0,0.1),
                 5px 5px 20px rgba(0,0,0,0.3);
-            overflow: visible; /* Biarkan overflow untuk efek 3D */
+            overflow: hidden;
         }
 
         .pages::before {
@@ -176,15 +177,18 @@
             inset: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 10;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
         /* Kelas untuk menumpuk halaman dengan benar */
-        .page-flip.stack-top { z-index: 50; }
+        .page-flip.flipping {
+            z-index: 200 !important; /* Pastikan halaman yang dibalik di atas semua */
+        }
+
         .page-flip.flipped {
             transform: rotateY(-160deg);
-            z-index: 0;
+            z-index: 0 !important;
+            pointer-events: none;
         }
 
         .page-flip .page-front {
@@ -217,7 +221,7 @@
             opacity: 0;
             transform: scale(0.95);
             transition: all 0.8s ease;
-            z-index: 5; /* Di bawah halaman yang akan dibalik */
+            z-index: 5;
         }
 
         .page-static.active {
@@ -273,20 +277,25 @@
         .page-content p {
             margin-bottom: 18px;
             font-style: italic;
-            opacity: 0; /* Awalnya tersembunyi */
+            opacity: 0;
+            transform: translateY(20px);
         }
 
-        /* Animasi teks hanya ketika kelas 'animate' ditambahkan */
+        /* Animasi teks: Fade in dari bawah ke atas */
         .page-content.animate p {
-            animation: fadeInUp 0.8s ease forwards;
+            animation: fadeInUpCorrect 0.8s ease forwards;
         }
-        .page-content.animate p:nth-child(1) { animation-delay: 0.3s; }
-        .page-content.animate p:nth-child(2) { animation-delay: 0.8s; }
-        .page-content.animate p:nth-child(3) { animation-delay: 1.3s; }
-        .page-content.animate p:nth-child(4) { animation-delay: 1.8s; }
-        .page-content.animate p:nth-child(5) { animation-delay: 2.3s; }
+        .page-content.animate p:nth-child(1) { animation-delay: 0.2s; }
+        .page-content.animate p:nth-child(2) { animation-delay: 0.6s; }
+        .page-content.animate p:nth-child(3) { animation-delay: 1.0s; }
+        .page-content.animate p:nth-child(4) { animation-delay: 1.4s; }
+        .page-content.animate p:nth-child(5) { animation-delay: 1.8s; }
 
-        @keyframes fadeInUp {
+        @keyframes fadeInUpCorrect {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -300,9 +309,10 @@
             color: var(--accent-dark);
             font-size: 18px;
             opacity: 0;
+            transform: translateY(20px);
         }
         .page-content.animate .signature {
-            animation: fadeInUp 0.8s ease forwards 2.5s;
+            animation: fadeInUpCorrect 0.8s ease forwards 2.2s;
         }
 
         /* Closing message */
@@ -336,8 +346,9 @@
             color: var(--accent);
             margin-bottom: 30px;
             opacity: 0;
+            transform: translateY(20px);
         }
-        .closing-message.visible h2 { animation: fadeInUp 1s ease forwards 0.5s; }
+        .closing-message.visible h2 { animation: fadeInUpCorrect 1s ease forwards 0.5s; }
 
         .closing-content p {
             font-size: 20px;
@@ -345,16 +356,19 @@
             font-style: italic;
             line-height: 1.8;
             opacity: 0;
+            transform: translateY(20px);
         }
-        .closing-message.visible p { animation: fadeInUp 1s ease forwards 1s; }
+        .closing-message.visible p { animation: fadeInUpCorrect 1s ease forwards 1s; }
 
         .closing-content .heart {
             font-size: 50px;
             margin-top: 30px;
             opacity: 0;
-            animation: pulseHeart 1.5s ease-in-out infinite;
+            transform: translateY(20px);
         }
-        .closing-message.visible .heart { animation: pulseHeart 1.5s ease-in-out infinite, fadeInUp 1s ease forwards 1.5s; }
+        .closing-message.visible .heart { 
+            animation: fadeInUpCorrect 1s ease forwards 1.5s, pulseHeart 1.5s ease-in-out infinite 2.5s; 
+        }
 
         @keyframes pulseHeart {
             0%, 100% { transform: scale(1); }
@@ -425,6 +439,7 @@
             font-size: 12px;
             color: #666;
             margin-bottom: 15px;
+            transition: color 0.3s ease;
         }
 
         .word-counter.valid {
@@ -448,6 +463,7 @@
             transition: all 0.3s ease;
             opacity: 0.5;
             pointer-events: none;
+            align-self: center;
         }
 
         .btn-submit.enabled {
@@ -492,13 +508,26 @@
             color: var(--accent);
             margin-bottom: 40px;
             opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
         }
-        /* Animasi dijalankan saat class visible ditambahkan */
-        .credit-screen.visible .credit-title { animation: creditFadeIn 1s ease forwards; }
+        .credit-screen.visible .credit-title { 
+            opacity: 1;
+            transform: translateY(0);
+        }
 
+        /* Item Credit: Awalnya di bawah (translateY) dan transparan */
         .credit-item {
             margin-bottom: 30px;
             opacity: 0;
+            transform: translateY(40px); /* Posisi awal di bawah */
+            transition: all 1s ease; /* Animasi pergerakan naik */
+        }
+
+        /* Class yang ditambahkan JS untuk memunculkan */
+        .credit-item.visible {
+            opacity: 1;
+            transform: translateY(0); /* Bergerak ke posisi normal */
         }
 
         .credit-item h3 {
@@ -521,6 +550,13 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .credit-message.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .credit-message h3 {
@@ -534,21 +570,6 @@
             font-size: 14px;
             color: #999;
             line-height: 1.6;
-        }
-
-        @keyframes creditFadeIn {
-            to { opacity: 1; }
-        }
-
-        @keyframes creditSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Tombol final */
@@ -600,7 +621,8 @@
             border: 1px solid #333;
             cursor: pointer;
             transition: all 0.2s ease;
-            position: absolute;
+            position: fixed;
+            z-index: 101;
         }
 
         /* Audio popup */
@@ -613,6 +635,10 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+        }
+
+        .audio-popup.hidden {
+            display: none;
         }
 
         .audio-popup-content {
@@ -803,6 +829,10 @@
             z-index: 50;
         }
 
+        .progress-dots.hidden {
+            display: none;
+        }
+
         .progress-dot {
             width: 6px;
             height: 6px;
@@ -817,12 +847,13 @@
         }
 
         @media (max-width: 400px) {
-            .pages { min-height: 420px; }
+            .pages { min-height: 420px; height: 420px; }
             .page-flip .page-front,
             .page-static { padding: 25px 20px 25px 30px; }
             .page-title { font-size: 16px; }
             .page-content { font-size: 14px; line-height: 1.8; }
             .cover-ornament .border-frame { padding: 30px 20px; }
+            .book-cover { height: 420px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -876,7 +907,7 @@
         <div class="book-container">
             <div class="book">
                 <!-- Book Cover -->
-                <div id="bookCover" class="book-cover" style="height: 500px;">
+                <div id="bookCover" class="book-cover">
                     <div class="cover-ornament">
                         <div class="border-frame">
                             <div style="font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px;">Sebuah</div>
@@ -907,8 +938,10 @@
     <!-- Final Buttons -->
     <div id="finalButtons" class="final-buttons">
         <button onclick="showForm()" class="btn-accept">BETA MAU, AIKO</button>
-        <button id="btnDecline" class="btn-decline">Sonde...</button>
     </div>
+
+    <!-- Decline Button (separate from container) -->
+    <button id="btnDecline" class="btn-decline" style="display: none;">Sonde...</button>
 
     <!-- Form Container -->
     <div id="formContainer" class="form-container">
@@ -962,7 +995,7 @@
     <div id="player"></div>
 
     <script>
-        // Data pesan
+        // ==================== DATA ====================
         const messages = {
             id: [
                 { title: "Awal Pertemuan", content: `<p>Dion, masih ingat pertama kali kita saling berbicara?</p><p>Saat itu aku tidak menyangka bahwa obrolan sederhana akan mengubah segalanya...</p><p>Tak kusangka, dari sekadar kata-kata, tumbuh benih yang kini bersemi di hati.</p>` },
@@ -978,7 +1011,7 @@
                 { title: "Mula Pertama", content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua omong?</p><p>Pas itu beta sonde sangka kalau obrolan sederhana bisa ubah semuanya...</p><p>Tau sonde dari, dari cuma kata-kata, tumbuh biji yang sekarang tu bersemi di hati.</p>` },
                 { title: "Tentang Ko Pung Senyum", content: `<p>Tiap kali ko senyum, ada matahari yang terbit di dalam beta pung hati.</p><p>Seperti pagi yang hangat sapa malam yang dingin.</p><p>Ko punya cara ajaib bikin terang beta pung hari-hari yang kelabu.</p>` },
                 { title: "Ada Ko", content: `<p>Di antara jutaan bintang di langit, ko tu yang paling terang.</p><p>Di antara ribuan orang yang datang dan pergi, ko yang tetap ada.</p><p>Ko mengerti tanpa beta harus omong apa-apa.</p>` },
-                { title: "Malam-Malam Sunyi", content: `<p>Beta sering bangun di malam-malam yang sunyi...</p><p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p><p>ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p><p>Dan gimana ko bikin beta rasa... berharga.</p>` },
+                { title: "Malam-Malam Sunyi", content: `<p>Beta sering bangun di malam-malam yang sunyi...</p><p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p><p>Ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p><p>Dan gimana ko bikin beta rasa... berharga.</p>` },
                 { title: "Tentang Rasa", content: `<p>Ada rasa yang tumbuh pelan-pelan, seperti bunga di musim semi.</p><p>Mula-mula beta sangka ni cuma kagum sebentar.</p><p>Tapi makin hari, makin dalam akar-akarnya nyangkut.</p><p>Makin lama, makin indah bunganya mekar.</p>` },
                 { title: "Harapan", content: `<p>Sering beta hayal tentang "katong dua".</p><p>Tentang gimana indahnya kalau katong bisa jalan sama-sama.</p><p>Bagi tawa, bagi cerita, bagi hari-hari.</p><p>Jadi saksi tiap momen hidup satu sama lain.</p>` },
                 { title: "Ketulusan", content: `<p>Suda lama beta simpan ni rasa sendiri.</p><p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p><p>Tapi hari ini, beta sonde bisa sembunyi lagi.</p><p>Hari ini, beta mau jujur pada beta sendiri.</p>` },
@@ -990,13 +1023,16 @@
             }
         };
 
+        // ==================== STATE VARIABLES ====================
         let selectedLang = 'ntt';
         let currentPage = 0;
         let totalPages = 0;
         let player = null;
         let userMessage = '';
+        let pageTimer = null;
+        let isAnimating = false;
 
-        // Initialize YouTube API
+        // ==================== YOUTUBE API ====================
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -1004,26 +1040,47 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0', width: '0',
+                height: '0',
+                width: '0',
                 videoId: '4ZLBcD5MD9c',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'modestbranding': 1 },
-                events: { 'onReady': onPlayerReady }
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onError': onPlayerError
+                }
             });
         }
 
-        function onPlayerReady(event) { console.log('Player ready'); }
+        function onPlayerReady(event) {
+            console.log('YouTube player ready');
+        }
 
+        function onPlayerError(event) {
+            console.log('YouTube player error:', event.data);
+        }
+
+        // ==================== AUDIO PERMISSION ====================
         function checkAudioPermission() {
             document.getElementById('audioPopup').classList.remove('hidden');
         }
 
         function allowAudio() {
             document.getElementById('audioPopup').classList.add('hidden');
-            if (player && player.playVideo) player.playVideo();
+            if (player && typeof player.playVideo === 'function') {
+                player.playVideo();
+            }
         }
 
+        // ==================== LANGUAGE SELECTION ====================
         function selectLang(lang) {
             selectedLang = lang;
+            
             document.getElementById('step0').classList.add('hidden');
             document.getElementById('loadingScreen').classList.remove('hidden');
             
@@ -1033,23 +1090,25 @@
             setupProgressDots();
             generatePages();
             
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('bookWrapper').classList.add('visible');
                 document.getElementById('progressDots').classList.remove('hidden');
                 
                 createParticles();
                 
-                setTimeout(() => {
+                setTimeout(function() {
                     document.getElementById('bookCover').classList.add('open');
-                    setTimeout(() => startReading(), 1500);
+                    setTimeout(startReading, 1500);
                 }, 800);
             }, 2000);
         }
 
+        // ==================== PROGRESS DOTS ====================
         function setupProgressDots() {
             const container = document.getElementById('progressDots');
             container.innerHTML = '';
+            
             for (let i = 0; i < totalPages; i++) {
                 const dot = document.createElement('div');
                 dot.className = 'progress-dot';
@@ -1060,177 +1119,255 @@
 
         function updateProgress() {
             const dots = document.querySelectorAll('.progress-dot');
-            dots.forEach((dot, idx) => dot.classList.toggle('active', idx <= currentPage));
+            dots.forEach(function(dot, idx) {
+                if (idx <= currentPage) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
         }
 
+        // ==================== PAGE GENERATION ====================
         function generatePages() {
             const container = document.getElementById('pagesContainer');
             container.innerHTML = '';
             
-            messages[selectedLang].forEach((msg, idx) => {
+            const messageList = messages[selectedLang];
+            const pageCount = messageList.length;
+            
+            // Generate flip pages (reverse z-index for proper stacking)
+            for (let i = 0; i < pageCount; i++) {
                 const page = document.createElement('div');
-                // Atur z-index terbalik agar halaman pertama di posisi teratas
-                const zIndex = (messages[selectedLang].length - idx) + 10;
+                // Halaman pertama harus punya z-index tertinggi agar tampil di atas
+                const zIndex = pageCount - i + 10;
+                
                 page.className = 'page-flip';
                 page.style.zIndex = zIndex;
-                page.id = `page-${idx}`;
+                page.id = 'page-' + i;
                 
-                page.innerHTML = `
-                    <div class="page-front">
-                        <div class="page-header">
-                            <div class="page-number">Bab ${idx + 1}</div>
-                            <h2 class="page-title">${msg.title}</h2>
-                        </div>
-                        <div class="page-content" id="content-${idx}">
-                            ${msg.content}
-                        </div>
-                    </div>
-                    <div class="page-back"></div>
-                `;
+                const msg = messageList[i];
+                page.innerHTML = 
+                    '<div class="page-front">' +
+                        '<div class="page-header">' +
+                            '<div class="page-number">Bab ' + (i + 1) + '</div>' +
+                            '<h2 class="page-title">' + msg.title + '</h2>' +
+                        '</div>' +
+                        '<div class="page-content" id="content-' + i + '">' +
+                            msg.content +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="page-back"></div>';
+                
                 container.appendChild(page);
-            });
+            }
             
-            // Halaman Konfesi (Paling bawah)
+            // Generate confession page (static)
             const confPage = document.createElement('div');
             confPage.className = 'page-static';
             confPage.id = 'page-confession';
+            
             const conf = messages.confessions[selectedLang];
-            confPage.innerHTML = `
-                <div class="page-header">
-                    <div class="page-number">Akhir</div>
-                    <h2 class="page-title">${conf.title}</h2>
-                </div>
-                <div class="page-content" id="content-conf">
-                    ${conf.content}
-                </div>
-            `;
+            confPage.innerHTML = 
+                '<div class="page-header">' +
+                    '<div class="page-number">Akhir</div>' +
+                    '<h2 class="page-title">' + conf.title + '</h2>' +
+                '</div>' +
+                '<div class="page-content" id="content-conf">' +
+                    conf.content +
+                '</div>';
+            
             container.appendChild(confPage);
         }
 
-        function startReading() { showPage(0); }
+        // ==================== READING FLOW (FIXED LOGIC) ====================
+        function startReading() {
+            showPage(0);
+        }
 
         function showPage(idx) {
-            const pageId = idx === messages[selectedLang].length ? 'page-confession' : `page-${idx}`;
+            if (isAnimating) return;
+            
+            const messageList = messages[selectedLang];
+            const isConfession = (idx >= messageList.length);
+            
+            const pageId = isConfession ? 'page-confession' : 'page-' + idx;
             const page = document.getElementById(pageId);
             
-            if (page) {
-                if (page.classList.contains('page-flip')) {
-                    // Tambahkan kelas animasi teks SEBELUM flip dimulai
-                    const content = page.querySelector('.page-content');
-                    if(content) content.classList.add('animate');
-
-                    // Flip animation
-                    setTimeout(() => {
-                        page.classList.add('flipped');
-                        page.style.zIndex = 0; // Turunkan z-index setelah flip
-                    }, 500); // Sedikit delay agar animasi teks terlihat dulu
-                } else {
-                    // Static page (confession)
-                    page.classList.add('active');
-                    const content = page.querySelector('.page-content');
-                    if(content) content.classList.add('animate');
+            if (!page) {
+                showClosingMessage();
+                return;
+            }
+            
+            isAnimating = true;
+            currentPage = idx;
+            updateProgress();
+            
+            const contentEl = page.querySelector('.page-content');
+            
+            if (page.classList.contains('page-flip')) {
+                // 1. Siapkan halaman untuk dibalik (bawa ke depan)
+                page.classList.add('flipping');
+                
+                // 2. Animasikan teks masuk
+                if (contentEl) {
+                    contentEl.classList.add('animate');
                 }
                 
-                currentPage = idx;
-                updateProgress();
+                // 3. Tentukan durasi membaca
+                // Animasi teks butuh ~2.5 detik. Beri waktu baca total 7 detik.
+                const readingDuration = 7000;
                 
-                if (idx === 0 || idx === messages[selectedLang].length - 1 || idx === messages[selectedLang].length) {
+                // 4. Setelah selesai membaca, balik halaman
+                setTimeout(function() {
+                    page.classList.add('flipped');
+                    page.classList.remove('flipping');
+                    // z-index akan diatur oleh CSS class .flipped ke 0
+                    
+                    // 5. Setelah animasi balik selesai (1 detik), lanjut ke halaman berikutnya
+                    setTimeout(function() {
+                        isAnimating = false;
+                        showPage(idx + 1);
+                    }, 1100); // Sedikit lebih lama dari transisi CSS (1s)
+                    
+                }, readingDuration);
+                
+                // Trigger partikel di halaman tertentu
+                if (idx === 0 || idx === messageList.length - 1) {
                     triggerHeavyParticles();
                 }
                 
-                // Durasi baca lebih lama
-                const readingTime = idx === messages[selectedLang].length ? 12000 : 10000;
-                setTimeout(() => {
-                    if (idx < messages[selectedLang].length) {
-                        showPage(idx + 1);
-                    } else {
-                        showClosingMessage();
-                    }
-                }, readingTime);
+            } else {
+                // Static page (confession)
+                page.classList.add('active');
+                
+                if (contentEl) {
+                    contentEl.classList.add('animate');
+                }
+                
+                triggerHeavyParticles();
+                
+                // Schedule closing message
+                setTimeout(function() {
+                    isAnimating = false;
+                    showClosingMessage();
+                }, 8000);
             }
         }
 
+        // ==================== CLOSING MESSAGE ====================
         function showClosingMessage() {
             document.getElementById('progressDots').classList.add('hidden');
             
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('closingMessage').classList.add('visible');
                 
-                setTimeout(() => {
+                setTimeout(function() {
                     document.getElementById('closingMessage').classList.remove('visible');
                     document.getElementById('bookWrapper').classList.add('hide');
                     
-                    setTimeout(() => {
+                    setTimeout(function() {
                         document.getElementById('finalButtons').classList.add('visible');
+                        
+                        // Show decline button
+                        const declineBtn = document.getElementById('btnDecline');
+                        declineBtn.style.display = 'block';
+                        declineBtn.style.bottom = '80px';
+                        declineBtn.style.left = '50%';
+                        declineBtn.style.transform = 'translateX(-50%)';
+                        
                         triggerHeavyParticles();
                     }, 1000);
                 }, 5000);
             }, 500);
         }
 
+        // ==================== PARTICLES ====================
         function createParticles() {
             const container = document.getElementById('particles');
             
+            // Sparkles
             for (let i = 0; i < 15; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'particle sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                sparkle.style.left = (Math.random() * 100) + '%';
+                sparkle.style.top = (Math.random() * 100) + '%';
+                sparkle.style.animationDelay = (Math.random() * 3) + 's';
                 container.appendChild(sparkle);
             }
             
+            // Stars
             for (let i = 0; i < 30; i++) {
                 const star = document.createElement('div');
                 star.className = 'particle star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.animationDelay = (Math.random() * 2) + 's';
                 container.appendChild(star);
             }
             
-            setInterval(() => {
+            // Falling petals (interval)
+            setInterval(function() {
                 if (Math.random() > 0.7) {
                     const petal = document.createElement('div');
                     petal.className = 'particle petal';
-                    petal.innerHTML = ['🌸', '💮', '✿', '❀'][Math.floor(Math.random() * 4)];
-                    petal.style.left = Math.random() * 100 + '%';
+                    const petals = ['🌸', '💮', '✿', '❀'];
+                    petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+                    petal.style.left = (Math.random() * 100) + '%';
                     petal.style.animationDuration = (Math.random() * 5 + 6) + 's';
                     container.appendChild(petal);
-                    setTimeout(() => petal.remove(), 10000);
+                    
+                    setTimeout(function() {
+                        if (petal.parentNode) petal.remove();
+                    }, 10000);
                 }
             }, 800);
         }
 
         function triggerHeavyParticles() {
             const container = document.getElementById('particles');
+            
             for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const petal = document.createElement('div');
-                    petal.className = 'particle petal';
-                    petal.innerHTML = ['🌸', '💮', '✿', '❀', '💗'][Math.floor(Math.random() * 5)];
-                    petal.style.left = Math.random() * 100 + '%';
-                    petal.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                    container.appendChild(petal);
-                    setTimeout(() => petal.remove(), 8000);
-                }, i * 100);
+                (function(index) {
+                    setTimeout(function() {
+                        const petal = document.createElement('div');
+                        petal.className = 'particle petal';
+                        const petals = ['🌸', '💮', '✿', '❀', '💗'];
+                        petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+                        petal.style.left = (Math.random() * 100) + '%';
+                        petal.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                        container.appendChild(petal);
+                        
+                        setTimeout(function() {
+                            if (petal.parentNode) petal.remove();
+                        }, 8000);
+                    }, index * 100);
+                })(i);
             }
         }
 
+        // ==================== FORM ====================
         function showForm() {
             document.getElementById('finalButtons').classList.remove('visible');
+            document.getElementById('btnDecline').style.display = 'none';
             document.getElementById('formContainer').classList.add('visible');
             
             const textarea = document.getElementById('loveLetter');
             const counter = document.getElementById('wordCounter');
             const btn = document.getElementById('btnSubmit');
             
-            // Hapus listener lama jika ada (mencegah duplikasi)
-            textarea.oninput = null; 
+            textarea.value = '';
+            counter.textContent = '0 / 500 kata';
+            counter.classList.remove('valid', 'invalid');
+            btn.classList.remove('enabled');
+            
+            // Remove existing listener to prevent duplicates
+            textarea.oninput = null;
             
             textarea.addEventListener('input', function() {
-                const words = this.value.trim().split(/\s+/).filter(w => w.length > 0).length;
-                counter.textContent = `${words} / 500 kata`;
+                const text = this.value.trim();
+                const words = text.length > 0 ? text.split(/\s+/).length : 0;
+                counter.textContent = words + ' / 500 kata';
                 
                 if (words >= 500) {
                     counter.classList.add('valid');
@@ -1252,62 +1389,73 @@
             // Celebration particles
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'particle petal';
-                    heart.innerHTML = '💗';
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                    container.appendChild(heart);
-                    setTimeout(() => heart.remove(), 6000);
-                }, i * 50);
+                (function(index) {
+                    setTimeout(function() {
+                        const heart = document.createElement('div');
+                        heart.className = 'particle petal';
+                        heart.innerHTML = '💗';
+                        heart.style.left = (Math.random() * 100) + '%';
+                        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                        container.appendChild(heart);
+                        
+                        setTimeout(function() {
+                            if (heart.parentNode) heart.remove();
+                        }, 6000);
+                    }, index * 50);
+                })(i);
             }
             
-            setTimeout(() => {
+            setTimeout(function() {
                 document.getElementById('formContainer').classList.remove('visible');
                 document.getElementById('creditScreen').classList.add('visible');
                 animateCredits();
             }, 2000);
         }
 
+        // ==================== CREDITS (FIXED ANIMATION) ====================
         function animateCredits() {
             const items = [
-                { el: document.getElementById('credit-1'), delay: 0.5 },
-                { el: document.getElementById('credit-2'), delay: 1.0 },
-                { el: document.getElementById('credit-3'), delay: 1.5 },
-                { el: document.getElementById('credit-4'), delay: 2.0 },
-                { el: document.getElementById('credit-5'), delay: 2.5 },
-                { el: document.getElementById('credit-msg'), delay: 3.0 }
+                { el: document.getElementById('credit-1'), delay: 500 },
+                { el: document.getElementById('credit-2'), delay: 1000 },
+                { el: document.getElementById('credit-3'), delay: 1500 },
+                { el: document.getElementById('credit-4'), delay: 2000 },
+                { el: document.getElementById('credit-5'), delay: 2500 },
+                { el: document.getElementById('credit-msg'), delay: 3000 }
             ];
 
-            items.forEach(item => {
-                if(item.el) {
-                    item.el.style.animation = `creditSlideUp 0.8s ease forwards ${item.delay}s`;
+            // CSS sudah mengatur posisi awal (translateY(40px) & opacity 0)
+            // JS hanya perlu menambahkan class 'visible' untuk trigger transisi CSS
+            items.forEach(function(item) {
+                if (item.el) {
+                    setTimeout(function() {
+                        item.el.classList.add('visible');
+                    }, item.delay);
                 }
             });
         }
 
-        // Run away button
-        const btnDecline = document.getElementById('btnDecline');
-        btnDecline.addEventListener('mouseenter', moveButton);
-        btnDecline.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
-
-        function moveButton() {
+        // ==================== DECLINE BUTTON ====================
+        function moveDeclineButton() {
             const btn = document.getElementById('btnDecline');
-            const maxX = window.innerWidth - 120;
-            const maxY = window.innerHeight - 60;
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
+            if (btn.style.display === 'none') return;
+            
+            const maxX = window.innerWidth - 150;
+            const maxY = window.innerHeight - 80;
+            const newX = Math.max(20, Math.random() * maxX);
+            const newY = Math.max(20, Math.random() * maxY);
             
             btn.style.left = newX + 'px';
             btn.style.top = newY + 'px';
             btn.style.bottom = 'auto';
-            btn.style.transform = 'translate(0, 0)';
+            btn.style.transform = 'none';
         }
+
+        document.getElementById('btnDecline').addEventListener('mouseenter', moveDeclineButton);
+        document.getElementById('btnDecline').addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveDeclineButton();
+        });
     </script>
 </body>
 </html>
