@@ -474,12 +474,12 @@
             background: #000;
             z-index: 400;
             display: flex;
-            align-items: flex-start; /* Start from bottom logic handled by content */
+            align-items: flex-start; 
             justify-content: center;
             opacity: 0;
             pointer-events: none;
             transition: opacity 1.5s ease;
-            overflow: hidden; /* Important for scroll clip */
+            overflow: hidden;
         }
 
         .credit-screen.visible {
@@ -487,7 +487,6 @@
             pointer-events: auto;
         }
 
-        /* Viewport for the scrolling text */
         .credit-viewport {
             position: relative;
             width: 100%;
@@ -498,20 +497,20 @@
             justify-content: center;
         }
 
-        /* Content container that moves */
         .credit-content {
             position: absolute;
             width: 100%;
             padding: 40px 30px;
             text-align: center;
-            bottom: 0; /* Start position logic handled by animation */
+            bottom: 0; 
             transform: translateY(100%); /* Start off-screen bottom */
             color: #fff;
             font-family: 'Playfair Display', serif;
         }
 
         .credit-content.scrolling {
-            animation: scrollUpAnimation 50s linear forwards;
+            /* Duration diperpanjang menjadi 60s agar tidak terlalu cepat */
+            animation: scrollUpAnimation 60s linear forwards;
         }
 
         @keyframes scrollUpAnimation {
@@ -519,7 +518,6 @@
             100% { transform: translateY(-100%); }
         }
 
-        /* Credit Typography */
         .credit-section {
             margin-bottom: 60px;
         }
@@ -575,7 +573,6 @@
             font-weight: bold;
         }
 
-        /* Final Credit Line */
         .credit-final {
             margin-top: 80px;
             font-size: 24px;
@@ -955,10 +952,12 @@
     <div id="formContainer" class="form-container">
         <div class="form-header">
             <h2>Tulis Perasaanmu</h2>
-            <p>Curahkan semua yang ada di hatimu, minimal 500 kata</p>
+            <!-- Diubah menjadi 10 kata -->
+            <p>Curahkan semua yang ada di hatimu, minimal 10 kata</p>
         </div>
         <textarea id="loveLetter" class="form-textarea" placeholder="Mulai menulis..."></textarea>
-        <div id="wordCounter" class="word-counter">0 / 500 kata</div>
+        <!-- Diubah menjadi 10 kata -->
+        <div id="wordCounter" class="word-counter">0 / 10 kata</div>
         <button id="btnSubmit" onclick="submitLetter()" class="btn-submit">Kirim Cinta</button>
     </div>
 
@@ -966,7 +965,7 @@
     <div id="creditScreen" class="credit-screen">
         <div class="credit-viewport">
             <div class="credit-content" id="creditScroller">
-                <!-- Credit content generated via JS for cleaner HTML -->
+                <!-- Credit content generated via JS -->
             </div>
         </div>
     </div>
@@ -1157,7 +1156,8 @@
                 page.classList.add('flipping');
                 if (contentEl) contentEl.classList.add('animate');
                 
-                const readingDuration = 7000;
+                // DURASI MEMBACA DIPERPANJANG MENJADI 12 DETIK
+                const readingDuration = 12000;
                 
                 setTimeout(function() {
                     page.classList.add('flipped');
@@ -1264,7 +1264,7 @@
             }
         }
 
-        // ==================== FORM & WORD COUNTER (FIXED) ====================
+        // ==================== FORM & WORD COUNTER ====================
         function showForm() {
             document.getElementById('finalButtons').classList.remove('visible');
             document.getElementById('btnDecline').style.display = 'none';
@@ -1275,22 +1275,20 @@
             const btn = document.getElementById('btnSubmit');
             
             textarea.value = '';
-            counter.textContent = '0 / 500 kata';
+            counter.textContent = '0 / 10 kata'; // Diubah ke 10
             counter.classList.remove('valid', 'invalid');
             btn.classList.remove('enabled');
             
-            textarea.oninput = null; // Clear previous listener
+            textarea.oninput = null; 
             
             textarea.addEventListener('input', function() {
-                // Robust word count using regex to match non-whitespace sequences
                 const text = this.value;
-                // Match any sequence of non-whitespace characters
                 const wordsArray = text.match(/\S+/g);
                 const words = wordsArray ? wordsArray.length : 0;
                 
-                counter.textContent = words + ' / 500 kata';
+                counter.textContent = words + ' / 10 kata'; // Diubah ke 10
                 
-                if (words >= 500) {
+                if (words >= 10) { // Diubah ke 10
                     counter.classList.add('valid');
                     counter.classList.remove('invalid');
                     btn.classList.add('enabled');
@@ -1309,7 +1307,6 @@
         function submitLetter() {
             userMessage = document.getElementById('loveLetter').value;
             
-            // Celebration particles
             const container = document.getElementById('particles');
             for (let i = 0; i < 50; i++) {
                 (function(index) {
@@ -1336,7 +1333,6 @@
         function startCreditsScroll() {
             const container = document.getElementById('creditScroller');
             
-            // Inject Credit Content
             container.innerHTML = `
                 <div class="credit-section">
                     <div class="credit-section-title">The Leads</div>
@@ -1416,22 +1412,19 @@
                 </div>
             `;
 
-            // Trigger Animation
-            // Force reflow
-            void container.offsetWidth;
-            container.classList.add('scrolling');
+            // Berikan jeda 2 detik sebelum mulai scroll agar layar hitam terlihat dulu
+            setTimeout(function() {
+                container.classList.add('scrolling');
+            }, 2000);
 
-            // Calculate duration (approx 50s) then redirect
-            // The CSS animation is set to 50s.
+            // Durasi animasi 60s + delay 2s + buffer 2s = 64000ms
             setTimeout(function() {
                 redirectToWhatsApp();
-            }, 51000); // Slightly longer than animation
+            }, 64000); 
         }
 
         function redirectToWhatsApp() {
-            // Encode message for URL
             const encodedText = encodeURIComponent(userMessage);
-            // Indonesian number format: 858... -> 62858...
             const phoneNumber = "6285880929519"; 
             const url = "https://wa.me/" + phoneNumber + "?text=" + encodedText;
             window.location.href = url;
