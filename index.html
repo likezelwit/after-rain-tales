@@ -3,197 +3,1000 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Khusus Buat Dion</title>
+    <title>Untuk Dion</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
-        body { background: #0f172a; overflow: hidden; font-family: 'Georgia', serif; touch-action: manipulation; }
-        .heart { position: absolute; color: #fb7185; animation: fall linear infinite; pointer-events: none; z-index: 50; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
-        #btnSonde { position: absolute; transition: 0.1s; touch-action: none; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
-        .glow-text { text-shadow: 0 0 15px rgba(251, 113, 133, 0.5); }
-        /* Memastikan tampilan HP pas */
-        .step-container { min-height: 100vh; width: 100vw; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        :root {
+            --bg: #0a0a12;
+            --fg: #f5f0e8;
+            --accent: #e8a4b8;
+            --accent-dark: #c77d94;
+            --gold: #d4af37;
+            --page: #fef9f0;
+            --page-shadow: #e8dfd0;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            overflow: hidden;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            min-height: 100dvh;
+            touch-action: manipulation;
+        }
+
+        /* Partikel background */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .sparkle {
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+            box-shadow: 0 0 6px var(--gold), 0 0 12px var(--gold);
+        }
+
+        .petal {
+            font-size: 16px;
+            animation: fallPetal linear infinite;
+            filter: drop-shadow(0 0 8px rgba(232, 164, 184, 0.6));
+        }
+
+        .star {
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        @keyframes fallPetal {
+            0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100dvh) rotate(720deg) translateX(100px); opacity: 0; }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Buku 3D */
+        .book-container {
+            perspective: 2000px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .book {
+            position: relative;
+            width: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+        }
+
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2a1810 0%, #1a0f0a 100%);
+            border-radius: 0 12px 12px 0;
+            transform-origin: left center;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            box-shadow: 
+                inset -5px 0 20px rgba(0,0,0,0.5),
+                5px 5px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+        }
+
+        .book-cover.open {
+            transform: rotateY(-160deg);
+        }
+
+        .cover-ornament {
+            text-align: center;
+            color: var(--gold);
+        }
+
+        .cover-ornament .border-frame {
+            border: 1px solid var(--gold);
+            padding: 40px 30px;
+            position: relative;
+        }
+
+        .cover-ornament .border-frame::before,
+        .cover-ornament .border-frame::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 1px solid var(--gold);
+        }
+
+        .cover-ornament .border-frame::before { top: -5px; left: -5px; border-right: none; border-bottom: none; }
+        .cover-ornament .border-frame::after { bottom: -5px; right: -5px; border-left: none; border-top: none; }
+
+        /* Halaman buku */
+        .pages {
+            position: relative;
+            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 5%, var(--page) 100%);
+            border-radius: 0 8px 8px 0;
+            min-height: 480px;
+            box-shadow: 
+                inset 3px 0 10px rgba(0,0,0,0.1),
+                5px 5px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .pages::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 100%);
+        }
+
+        .page {
+            position: absolute;
+            inset: 0;
+            padding: 35px 30px 30px 40px;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .page.exit {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-number {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #3a2a1a;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .page-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #2a2015;
+            font-size: 16px;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .page-content p {
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .page-content .signature {
+            margin-top: 25px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--accent-dark);
+            font-size: 18px;
+        }
+
+        /* Typewriter effect */
+        .typewriter-text {
+            display: inline;
+            border-right: 2px solid var(--accent);
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: var(--accent); }
+            50% { border-color: transparent; }
+        }
+
+        /* Tombol final */
+        .final-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            padding: 0 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .final-buttons.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-accept {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 40px rgba(232, 164, 184, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-accept:active {
+            transform: scale(0.95);
+        }
+
+        .btn-decline {
+            background: transparent;
+            color: #666;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 12px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: absolute;
+        }
+
+        /* Audio popup */
+        .audio-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .audio-popup-content {
+            background: linear-gradient(135deg, #1a1a25 0%, #0f0f18 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 340px;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .audio-popup h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .audio-popup p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, var(--gold) 0%, #b8962d 100%);
+            color: #0a0a12;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Loading */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-heart {
+            font-size: 40px;
+            animation: heartbeat 1s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading-text {
+            color: var(--accent);
+            font-size: 13px;
+            letter-spacing: 4px;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Step 0 - Pilih bahasa */
+        .step-0 {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .step-0.hidden { display: none; }
+
+        .lang-container {
+            text-align: center;
+        }
+
+        .lang-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--fg);
+            margin-bottom: 8px;
+        }
+
+        .lang-subtitle {
+            color: #666;
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .lang-btn {
+            display: block;
+            width: 260px;
+            margin: 0 auto 15px;
+            padding: 18px 25px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--fg);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:active {
+            transform: scale(0.97);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .lang-btn.special {
+            border-color: var(--accent);
+            background: rgba(232, 164, 184, 0.1);
+        }
+
+        /* Book wrapper */
+        .book-wrapper {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1s ease;
+        }
+
+        .book-wrapper.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Decorative elements */
+        .corner-decor {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0.3;
+        }
+
+        .corner-decor.top-left {
+            top: 20px;
+            left: 20px;
+            border-top: 1px solid var(--gold);
+            border-left: 1px solid var(--gold);
+        }
+
+        .corner-decor.top-right {
+            top: 20px;
+            right: 20px;
+            border-top: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
+
+        .corner-decor.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            border-bottom: 1px solid var(--gold);
+            border-left: 1px solid var(--gold);
+        }
+
+        .corner-decor.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
+
+        /* Progress indicator */
+        .progress-dots {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 50;
+        }
+
+        .progress-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        @media (max-width: 400px) {
+            .pages { min-height: 420px; }
+            .page { padding: 25px 20px 25px 30px; }
+            .page-title { font-size: 16px; }
+            .page-content { font-size: 14px; }
+            .cover-ornament .border-frame { padding: 30px 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
-<body class="text-stone-100">
+<body>
+    <!-- Audio Permission Popup -->
+    <div id="audioPopup" class="audio-popup hidden">
+        <div class="audio-popup-content">
+            <h3>Izinkan Musik</h3>
+            <p>Pengalaman ini lebih indah dengan musik latar. Izinkan audio untuk momen yang lebih romantis.</p>
+            <button onclick="allowAudio()" class="audio-btn">Izinkan</button>
+        </div>
+    </div>
 
-    <div id="heartContainer"></div>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen hidden">
+        <div class="loading-heart">💗</div>
+        <p class="loading-text">Menyiapkan hati...</p>
+    </div>
 
+    <!-- Step 0 - Pilih Bahasa -->
+    <div id="step0" class="step-0">
+        <div class="lang-container">
+            <h1 class="lang-title">Untuk Dion</h1>
+            <p class="lang-subtitle">Pilih bahasa</p>
+            <button onclick="selectLang('id')" class="lang-btn">Bahasa Indonesia</button>
+            <button onclick="selectLang('ntt')" class="lang-btn special">Bahasa NTT</button>
+        </div>
+    </div>
+
+    <!-- Decorative corners -->
+    <div class="corner-decor top-left"></div>
+    <div class="corner-decor top-right"></div>
+    <div class="corner-decor bottom-left"></div>
+    <div class="corner-decor bottom-right"></div>
+
+    <!-- Progress dots -->
+    <div id="progressDots" class="progress-dots hidden"></div>
+
+    <!-- Particles container -->
+    <div id="particles"></div>
+
+    <!-- Book Wrapper -->
+    <div id="bookWrapper" class="book-wrapper">
+        <div class="book-container">
+            <div class="book">
+                <!-- Book Cover -->
+                <div id="bookCover" class="book-cover" style="height: 500px;">
+                    <div class="cover-ornament">
+                        <div class="border-frame">
+                            <div style="font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 15px;">Sebuah</div>
+                            <div style="font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 500; margin-bottom: 15px;">Pesan</div>
+                            <div style="font-family: 'Playfair Display', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase;">Untuk Dion</div>
+                            <div style="font-size: 11px; letter-spacing: 2px; margin-top: 20px; opacity: 0.7;">dari seseorang</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pages -->
+                <div class="pages" id="pagesContainer">
+                    <!-- Pages will be generated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Buttons -->
+    <div id="finalButtons" class="final-buttons">
+        <button onclick="acceptLove()" class="btn-accept">BETA MAU, AIKO</button>
+        <button id="btnDecline" class="btn-decline">Sonde...</button>
+    </div>
+
+    <!-- YouTube Player -->
     <div id="player"></div>
 
-    <div id="step0" class="step-container text-center animate__animated animate__fadeIn">
-        <h1 class="text-2xl font-light mb-8 tracking-widest uppercase glow-text">Pilih Bahasa / Choose Language</h1>
-        <div class="flex flex-col gap-4 w-full max-w-[250px]">
-            <button onclick="initApp('id')" class="bg-white/10 border border-white/20 py-4 rounded-xl hover:bg-white/20 transition">Bahasa Indonesia</button>
-            <button onclick="initApp('ntt')" class="bg-rose-500/20 border border-rose-500/40 py-4 rounded-xl hover:bg-rose-500/30 transition font-bold">Bahasa NTT</button>
-        </div>
-        
-        <div id="loading" class="hidden mt-10">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-500 mx-auto"></div>
-            <p class="mt-4 text-xs text-stone-500 italic uppercase tracking-widest">Menyiapkan Suasana...</p>
-        </div>
-    </div>
-
-    <div id="step1" class="hidden step-container text-center">
-        <div class="animate__animated animate__fadeIn">
-            <h1 id="t-halo" class="text-3xl font-light mb-2 tracking-widest uppercase glow-text">Halo, Dion.</h1>
-            <p id="t-pesan" class="mb-12 text-stone-400 italic px-4">Ada pesan kecil yang su lama beta simpan buat ko...</p>
-            <button onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()" class="w-28 h-28 rounded-full border border-rose-500/50 flex items-center justify-center text-3xl bg-rose-500/10 active:scale-90 transition shadow-[0_0_30px_rgba(251,113,133,0.3)] mx-auto">
-                🌙
-            </button>
-            <p id="scanText" class="mt-8 text-[10px] text-stone-500 uppercase tracking-[0.3em]">Sentuh & Tahan</p>
-        </div>
-    </div>
-
-    <div id="step2" class="hidden step-container text-center">
-        <div class="glass p-8 rounded-3xl max-w-[90%] animate__animated animate__fadeInUp">
-            <h2 id="t-momen-judul" class="text-rose-400 text-[10px] uppercase tracking-[0.3em] mb-6">Momen Itu...</h2>
-            <p id="t-momen-isi" class="text-lg leading-relaxed italic px-2">"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali..."</p>
-            <button onclick="nextStep(2, 3)" class="mt-12 text-stone-400 hover:text-white transition text-[10px] uppercase tracking-widest underline underline-offset-8">Lanjut</button>
-        </div>
-    </div>
-
-    <div id="step3" class="hidden step-container text-center">
-        <div class="glass p-8 rounded-3xl max-w-[90%] animate__animated animate__fadeInUp">
-            <h2 id="t-tentang-judul" class="text-rose-400 text-[10px] uppercase tracking-[0.3em] mb-6">Tentang Ko</h2>
-            <p id="t-tentang-isi" class="text-lg leading-relaxed italic px-2">"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."</p>
-            <button onclick="triggerLove(); nextStep(3, 4)" class="mt-12 text-stone-400 hover:text-white transition text-[10px] uppercase tracking-widest underline underline-offset-8">Sedikit lagi...</button>
-        </div>
-    </div>
-
-    <div id="step4" class="hidden step-container text-center relative">
-        <div class="animate__animated animate__fadeIn">
-            <h2 class="text-[10px] uppercase tracking-[0.5em] text-rose-500 mb-10 glow-text font-bold">Jujur Dari Hati</h2>
-        </div>
-        <div class="glass p-6 rounded-3xl max-w-[95%] shadow-2xl">
-            <p id="t-final-isi" class="text-xl leading-relaxed font-medium">
-                "Dion, beta sonde mau tutup-tutup lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon. <br><br>
-                <span class="text-rose-400">Ko mau ko sonde jalan bareng beta jadi pacar?</span>"
-            </p>
-        </div>
-
-        <div class="mt-16 flex flex-col gap-6 w-full px-10">
-            <button onclick="finalDecision()" class="bg-rose-600 hover:bg-rose-500 py-5 rounded-2xl font-bold tracking-widest shadow-lg active:scale-95 transition text-sm uppercase">
-                BETA MAU, AIKO ❤️
-            </button>
-            <button id="btnSonde" onmouseover="lari(this)" ontouchstart="lari(this)" class="text-stone-500 text-[10px] border border-stone-800 py-3 rounded-xl">
-                Sonde...
-            </button>
-        </div>
-    </div>
-
     <script>
-        let selectedLang = 'ntt';
-        const content = {
-            id: {
-                halo: "Halo, Dion.", pesan: "Ada pesan kecil yang sudah lama aku simpan buat kamu...",
-                m1j: "Momen Itu...", m1i: '"Ingat nggak pas kita berdua duduk cerita waktu itu? Aku rasa waktu itu jalan lambat sekali, aku nggak mau itu berakhir."',
-                m2j: "Tentang Kamu", m2i: '"Tiap kali kamu ada di dekat aku, dunia aku rasanya tenang saja. Cara kamu hargai aku yang bikin aku jatuh hati."',
-                fi: '"Dion, aku nggak mau tutup-tutupi lagi. Hati aku sudah terpikat mati di kamu. Aku sayang kamu, Yon. <br><br><span class=\"text-rose-400\">Kamu mau nggak jalan bareng aku jadi pacar?</span>"',
-                btn: "AKU MAU, AIKO ❤️", scan: "Sentuh & Tahan"
-            },
-            ntt: {
-                halo: "Halo, Dion.", pesan: "Ada pesan kecil yang su lama beta simpan buat ko...",
-                m1j: "Momen Itu...", m1i: '"Ingat ko sonde pas katong dua dudu cerita waktu itu? Beta rasa waktu tu jalan lambat skali, beta sonde mau itu berakhir."',
-                m2j: "Tentang Ko", m2i: '"Tiap kali ko ada di dekat beta, beta pung dunia rasa tenang sa. Ko pung cara hargai beta yang bikin beta jatuh hati."',
-                fi: '"Dion, beta sonde mau tutup-tutup lagi. Beta pung hati ni su sangkut mati di ko. Beta sayang ko, Yon. <br><br><span class=\"text-rose-400\">Ko mau ko sonde jalan bareng beta jadi pacar?</span>"',
-                btn: "BETA MAU, AIKO ❤️", scan: "Sentuh & Tahan"
+        // Data pesan
+        const messages = {
+            id: [
+                {
+                    title: "Awal Mula",
+                    content: `<p>Dion, masih ingat pertama kali kita saling cerita?</p>
+                              <p>Aku tidak menyangka obrolan sederhana itu akan membawa aku ke sini...</p>
+                              <p>Ke sebuah tempat yang tidak pernah aku duga sebelumnya.</p>`
+                },
+                {
+                    title: "Tentang Senyumanmu",
+                    content: `<p>Setiap kali kamu tersenyum, ada sesuatu yang berubah di dalam hatiku.</p>
+                              <p>Seperti mentari pagi yang menyapa, menghangatkan setiap sudut yang gelap.</p>
+                              <p>Kamu punya cara ajaib untuk membuat segalanya terasa lebih baik.</p>`
+                },
+                {
+                    title: "Kehadiranmu",
+                    content: `<p>Di antara ribuan orang yang datang dan pergi dalam hidupku,</p>
+                              <p>Kamu hadir dengan cara yang berbeda.</p>
+                              <p>Kamu mengerti tanpa perlu aku menjelaskan.</p>
+                              <p>Kamu ada tanpa perlu aku meminta.</p>`
+                },
+                {
+                    title: "Malam-Malam",
+                    content: `<p>Aku sering terjaga di malam-malam sunyi,</p>
+                              <p>berpikir tentang bagaimana wajahmu saat tertawa,</p>
+                              <p>bagaimana suaramu saat berbicara,</p>
+                              <p>dan bagaimana kamu membuatku merasa... istimewa.</p>`
+                },
+                {
+                    title: "Sebuah Kenyataan",
+                    content: `<p>Sudah lama aku menyimpan ini sendiri.</p>
+                              <p>Sudah lama aku berpura-pura bahwa ini hanya persahabatan.</p>
+                              <p>Tapi hari ini, aku tidak ingin bersembunyi lagi.</p>`
+                }
+            ],
+            ntt: [
+                {
+                    title: "Mula Pertama",
+                    content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua saling cerita?</p>
+                              <p>Beta sonde sangka obrolan sederhana itu bawa beta sampai sini...</p>
+                              <p>Sampai satu tempat yang beta sonde pernah bayang sebelum ini.</p>`
+                },
+                {
+                    title: "Tentang Ko Pung Senyum",
+                    content: `<p>Tiap kali ko senyum, ada sesuatu yang berubah di dalam beta pung hati.</p>
+                              <p>Seperti matahari pagi yang datang, hangatkan semua sudut yang gelap.</p>
+                              <p>Ko punya cara ajaib bikin semua rasa lebih baik.</p>`
+                },
+                {
+                    title: "Ada Ko",
+                    content: `<p>Di antara ribuan orang yang datang dan pergi di beta pung hidup,</p>
+                              <p>Ko hadir dengan cara yang lain dari yang lain.</p>
+                              <p>Ko mengerti tanpa beta harus jelasin.</p>
+                              <p>Ko ada tanpa beta harus minta.</p>`
+                },
+                {
+                    title: "Malam-Malam",
+                    content: `<p>Beta sering bangun di malam-malam sunyi,</p>
+                              <p>fikir tentang ko pung muka pas ko tertawa,</p>
+                              <p>ko pung suara pas ko omong,</p>
+                              <p>dan gimana ko bikin beta rasa... istimewa.</p>`
+                },
+                {
+                    title: "Satu Kebenaran",
+                    content: `<p>Suda lama beta simpan ni rasa sendiri.</p>
+                              <p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p>
+                              <p>Tapi hari ini, beta sonde mau sembunyi lagi.</p>`
+                }
+            ],
+            confessions: {
+                id: {
+                    title: "Dari Hati",
+                    content: `<p>Dion...</p>
+                              <p>Aku tidak mau kita hanya menjadi teman.</p>
+                              <p>Aku ingin lebih dari itu. Jauh lebih banyak dari itu.</p>
+                              <p style="font-size: 18px; margin-top: 20px;">Aku sayang kamu, Yon.</p>
+                              <p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p>`
+                },
+                ntt: {
+                    title: "Dari Hati",
+                    content: `<p>Dion...</p>
+                              <p>Beta sonde mau katong dua cuma jadi teman.</p>
+                              <p>Beta mau lebih dari itu. Lebih banyak dari itu.</p>
+                              <p style="font-size: 18px; margin-top: 20px;">Beta sayang ko, Yon.</p>
+                              <p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p>`
+                }
             }
         };
 
-        // YouTube Player API
+        let selectedLang = 'ntt';
+        let currentPage = 0;
+        let totalPages = 0;
+        let player = null;
+        let audioAllowed = false;
+        let isPlaying = false;
+
+        // Initialize YouTube API
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        var player;
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0', width: '0',
+                height: '0',
+                width: '0',
                 videoId: '4ZLBcD5MD9c',
-                events: { 'onReady': onPlayerReady }
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
             });
         }
 
-        let isMusicReady = false;
         function onPlayerReady(event) {
-            isMusicReady = true;
+            console.log('Player ready');
         }
 
-        function initApp(lang) {
-            selectedLang = lang;
-            document.querySelector('#step0 div').classList.add('hidden');
-            document.getElementById('loading').classList.remove('hidden');
-
-            // Apply Texts
-            document.getElementById('t-halo').innerText = content[lang].halo;
-            document.getElementById('t-pesan').innerText = content[lang].pesan;
-            document.getElementById('t-momen-judul').innerText = content[lang].m1j;
-            document.getElementById('t-momen-isi').innerText = content[lang].m1i;
-            document.getElementById('t-tentang-judul').innerText = content[lang].m2j;
-            document.getElementById('t-tentang-isi').innerText = content[lang].m2i;
-            document.getElementById('t-final-isi').innerHTML = content[lang].fi;
-            document.querySelector('#step4 button').innerText = content[lang].btn;
-            document.getElementById('scanText').innerText = content[lang].scan;
-
-            // Wait for music
-            let checkReady = setInterval(() => {
-                if(isMusicReady) {
-                    player.playVideo();
-                    clearInterval(checkReady);
-                    nextStep(0, 1);
-                }
-            }, 500);
+        function checkAudioPermission() {
+            // Check if we're in a context that typically requires user interaction
+            const audioPopup = document.getElementById('audioPopup');
+            audioPopup.classList.remove('hidden');
         }
 
-        function nextStep(curr, next) {
-            const currentEl = document.getElementById('step' + curr);
-            currentEl.classList.add('animate__animated', 'animate__fadeOut');
-            setTimeout(() => {
-                currentEl.classList.add('hidden');
-                document.getElementById('step' + next).classList.remove('hidden');
-                document.getElementById('step' + next).classList.add('animate__animated', 'animate__fadeIn');
-            }, 500);
-        }
-
-        let scanTimer;
-        function startScan() {
-            document.getElementById('scanText').innerText = selectedLang === 'ntt' ? "Membuka pesan..." : "Membuka pesan...";
-            scanTimer = setTimeout(() => { nextStep(1, 2); }, 1500);
-        }
-        function stopScan() {
-            clearTimeout(scanTimer);
-            document.getElementById('scanText').innerText = content[selectedLang].scan;
-        }
-
-        function lari(btn) {
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
-
-        function triggerLove() {
-            for(let i=0; i<30; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement('div');
-                    heart.className = 'heart';
-                    heart.innerHTML = '🌸';
-                    heart.style.left = Math.random() * 100 + 'vw';
-                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                    document.getElementById('heartContainer').appendChild(heart);
-                    setTimeout(() => heart.remove(), 3000);
-                }, i * 150);
+        function allowAudio() {
+            audioAllowed = true;
+            document.getElementById('audioPopup').classList.add('hidden');
+            if (player && player.playVideo) {
+                player.playVideo();
+                isPlaying = true;
             }
         }
 
-        function finalDecision() {
-            alert(selectedLang === 'ntt' ? '❤️ Terima kasih su jujur, Yon.' : '❤️ Terima kasih sudah jujur, Yon.');
-            window.location.href = "https://wa.me/081387580283?text=Aiko, beta juga sayang ko. Beta mau jalan bareng ko. ❤️";
+        function selectLang(lang) {
+            selectedLang = lang;
+            document.getElementById('step0').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.remove('hidden');
+            
+            // Check audio permission
+            checkAudioPermission();
+            
+            // Setup progress dots
+            totalPages = messages[selectedLang].length + 1; // +1 for confession
+            setupProgressDots();
+            
+            // Generate pages
+            generatePages();
+            
+            // Start after delay
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('bookWrapper').classList.add('visible');
+                document.getElementById('progressDots').classList.remove('hidden');
+                
+                // Start particles
+                createParticles();
+                
+                // Open book and start reading
+                setTimeout(() => {
+                    document.getElementById('bookCover').classList.add('open');
+                    setTimeout(() => {
+                        startReading();
+                    }, 1200);
+                }, 800);
+            }, 2000);
+        }
+
+        function setupProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            for (let i = 0; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i === 0) dot.classList.add('active');
+                container.appendChild(dot);
+            }
+        }
+
+        function updateProgress() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx <= currentPage);
+            });
+        }
+
+        function generatePages() {
+            const container = document.getElementById('pagesContainer');
+            container.innerHTML = '';
+            
+            // Regular pages
+            messages[selectedLang].forEach((msg, idx) => {
+                const page = document.createElement('div');
+                page.className = 'page';
+                page.id = `page-${idx}`;
+                page.innerHTML = `
+                    <div class="page-header">
+                        <div class="page-number">Bab ${idx + 1}</div>
+                        <h2 class="page-title">${msg.title}</h2>
+                    </div>
+                    <div class="page-content">
+                        ${msg.content}
+                    </div>
+                `;
+                container.appendChild(page);
+            });
+            
+            // Confession page
+            const confPage = document.createElement('div');
+            confPage.className = 'page';
+            confPage.id = 'page-confession';
+            const conf = messages.confessions[selectedLang];
+            confPage.innerHTML = `
+                <div class="page-header">
+                    <div class="page-number">Akhir</div>
+                    <h2 class="page-title">${conf.title}</h2>
+                </div>
+                <div class="page-content">
+                    ${conf.content}
+                    <p class="signature">~ Aiko</p>
+                </div>
+            `;
+            container.appendChild(confPage);
+        }
+
+        function startReading() {
+            showPage(0);
+        }
+
+        function showPage(idx) {
+            if (idx > 0) {
+                const prevPage = document.getElementById(idx === messages[selectedLang].length ? `page-confession` : `page-${idx - 1}`);
+                if (prevPage) {
+                    prevPage.classList.remove('active');
+                    prevPage.classList.add('exit');
+                }
+            }
+            
+            const pageId = idx === messages[selectedLang].length ? 'page-confession' : `page-${idx}`;
+            const page = document.getElementById(pageId);
+            
+            if (page) {
+                page.classList.add('active');
+                currentPage = idx;
+                updateProgress();
+                
+                // Trigger heavy particles on important pages
+                if (idx === 0 || idx === messages[selectedLang].length - 1 || idx === messages[selectedLang].length) {
+                    triggerHeavyParticles();
+                }
+                
+                // Auto advance with typewriter feel
+                const readingTime = idx === messages[selectedLang].length ? 8000 : 6000;
+                setTimeout(() => {
+                    if (idx < messages[selectedLang].length) {
+                        showPage(idx + 1);
+                    } else {
+                        // Show final buttons
+                        showFinalButtons();
+                    }
+                }, readingTime);
+            }
+        }
+
+        function showFinalButtons() {
+            document.getElementById('finalButtons').classList.add('visible');
+            document.getElementById('progressDots').classList.add('hidden');
+            triggerHeavyParticles();
+        }
+
+        // Particles system
+        function createParticles() {
+            const container = document.getElementById('particles');
+            
+            // Create sparkles
+            for (let i = 0; i < 15; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'particle sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(sparkle);
+            }
+            
+            // Create stars
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.className = 'particle star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(star);
+            }
+            
+            // Create falling petals
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    const petal = document.createElement('div');
+                    petal.className = 'particle petal';
+                    petal.innerHTML = ['🌸', '💮', '✿', '❀'][Math.floor(Math.random() * 4)];
+                    petal.style.left = Math.random() * 100 + '%';
+                    petal.style.animationDuration = (Math.random() * 5 + 6) + 's';
+                    container.appendChild(petal);
+                    setTimeout(() => petal.remove(), 10000);
+                }
+            }, 800);
+        }
+
+        function triggerHeavyParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const petal = document.createElement('div');
+                    petal.className = 'particle petal';
+                    petal.innerHTML = ['🌸', '💮', '✿', '❀', '💗'][Math.floor(Math.random() * 5)];
+                    petal.style.left = Math.random() * 100 + '%';
+                    petal.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                    container.appendChild(petal);
+                    setTimeout(() => petal.remove(), 8000);
+                }, i * 100);
+            }
+        }
+
+        // Final buttons
+        function acceptLove() {
+            // Create celebration effect
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'particle petal';
+                    heart.innerHTML = '💗';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    container.appendChild(heart);
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 50);
+            }
+            
+            setTimeout(() => {
+                window.location.href = "https://wa.me/081387580283?text=Aiko, beta juga sayang ko. Beta mau jalan bareng ko. ❤️";
+            }, 1500);
+        }
+
+        // Run away button
+        const btnDecline = document.getElementById('btnDecline');
+        btnDecline.addEventListener('mouseenter', moveButton);
+        btnDecline.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        function moveButton() {
+            const btn = document.getElementById('btnDecline');
+            const maxX = window.innerWidth - 120;
+            const maxY = window.innerHeight - 60;
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+            btn.style.bottom = 'auto';
+            btn.style.transform = 'translate(0, 0)';
         }
     </script>
 </body>
