@@ -105,7 +105,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 20;
+            z-index: 100; /* Cover di paling atas awalnya */
             backface-visibility: hidden;
         }
 
@@ -121,10 +121,7 @@
 
         .book-cover.open {
             transform: rotateY(-160deg);
-        }
-
-        .book-cover.close {
-            transform: rotateY(0deg);
+            z-index: 0; /* Turun z-index setelah terbuka */
         }
 
         .cover-ornament {
@@ -159,7 +156,7 @@
             box-shadow: 
                 inset 3px 0 10px rgba(0,0,0,0.1),
                 5px 5px 20px rgba(0,0,0,0.3);
-            overflow: hidden;
+            overflow: visible; /* Biarkan overflow untuk efek 3D */
         }
 
         .pages::before {
@@ -170,6 +167,7 @@
             bottom: 0;
             width: 30px;
             background: linear-gradient(90deg, rgba(0,0,0,0.08) 0%, transparent 100%);
+            z-index: 0;
         }
 
         /* Page flip animation */
@@ -182,9 +180,11 @@
             z-index: 10;
         }
 
+        /* Kelas untuk menumpuk halaman dengan benar */
+        .page-flip.stack-top { z-index: 50; }
         .page-flip.flipped {
             transform: rotateY(-160deg);
-            z-index: 5;
+            z-index: 0;
         }
 
         .page-flip .page-front {
@@ -217,11 +217,13 @@
             opacity: 0;
             transform: scale(0.95);
             transition: all 0.8s ease;
+            z-index: 5; /* Di bawah halaman yang akan dibalik */
         }
 
         .page-static.active {
             opacity: 1;
             transform: scale(1);
+            z-index: 60;
         }
 
         .page-header {
@@ -271,16 +273,18 @@
         .page-content p {
             margin-bottom: 18px;
             font-style: italic;
-            opacity: 0;
-            transform: translateY(15px);
-            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0; /* Awalnya tersembunyi */
         }
 
-        .page-content p:nth-child(1) { animation-delay: 0.3s; }
-        .page-content p:nth-child(2) { animation-delay: 0.8s; }
-        .page-content p:nth-child(3) { animation-delay: 1.3s; }
-        .page-content p:nth-child(4) { animation-delay: 1.8s; }
-        .page-content p:nth-child(5) { animation-delay: 2.3s; }
+        /* Animasi teks hanya ketika kelas 'animate' ditambahkan */
+        .page-content.animate p {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        .page-content.animate p:nth-child(1) { animation-delay: 0.3s; }
+        .page-content.animate p:nth-child(2) { animation-delay: 0.8s; }
+        .page-content.animate p:nth-child(3) { animation-delay: 1.3s; }
+        .page-content.animate p:nth-child(4) { animation-delay: 1.8s; }
+        .page-content.animate p:nth-child(5) { animation-delay: 2.3s; }
 
         @keyframes fadeInUp {
             to {
@@ -296,8 +300,9 @@
             color: var(--accent-dark);
             font-size: 18px;
             opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
-            animation-delay: 2.5s;
+        }
+        .page-content.animate .signature {
+            animation: fadeInUp 0.8s ease forwards 2.5s;
         }
 
         /* Closing message */
@@ -331,8 +336,8 @@
             color: var(--accent);
             margin-bottom: 30px;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards 0.5s;
         }
+        .closing-message.visible h2 { animation: fadeInUp 1s ease forwards 0.5s; }
 
         .closing-content p {
             font-size: 20px;
@@ -340,15 +345,16 @@
             font-style: italic;
             line-height: 1.8;
             opacity: 0;
-            animation: fadeInUp 1s ease forwards 1s;
         }
+        .closing-message.visible p { animation: fadeInUp 1s ease forwards 1s; }
 
         .closing-content .heart {
             font-size: 50px;
             margin-top: 30px;
             opacity: 0;
-            animation: pulseHeart 1.5s ease-in-out infinite, fadeInUp 1s ease forwards 1.5s;
+            animation: pulseHeart 1.5s ease-in-out infinite;
         }
+        .closing-message.visible .heart { animation: pulseHeart 1.5s ease-in-out infinite, fadeInUp 1s ease forwards 1.5s; }
 
         @keyframes pulseHeart {
             0%, 100% { transform: scale(1); }
@@ -486,8 +492,9 @@
             color: var(--accent);
             margin-bottom: 40px;
             opacity: 0;
-            animation: creditFadeIn 1s ease forwards;
         }
+        /* Animasi dijalankan saat class visible ditambahkan */
+        .credit-screen.visible .credit-title { animation: creditFadeIn 1s ease forwards; }
 
         .credit-item {
             margin-bottom: 30px;
@@ -780,33 +787,10 @@
             opacity: 0.3;
         }
 
-        .corner-decor.top-left {
-            top: 20px;
-            left: 20px;
-            border-top: 1px solid var(--gold);
-            border-left: 1px solid var(--gold);
-        }
-
-        .corner-decor.top-right {
-            top: 20px;
-            right: 20px;
-            border-top: 1px solid var(--gold);
-            border-right: 1px solid var(--gold);
-        }
-
-        .corner-decor.bottom-left {
-            bottom: 20px;
-            left: 20px;
-            border-bottom: 1px solid var(--gold);
-            border-left: 1px solid var(--gold);
-        }
-
-        .corner-decor.bottom-right {
-            bottom: 20px;
-            right: 20px;
-            border-bottom: 1px solid var(--gold);
-            border-right: 1px solid var(--gold);
-        }
+        .corner-decor.top-left { top: 20px; left: 20px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+        .corner-decor.top-right { top: 20px; right: 20px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+        .corner-decor.bottom-left { bottom: 20px; left: 20px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+        .corner-decor.bottom-right { bottom: 20px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
 
         /* Progress indicator */
         .progress-dots {
@@ -932,7 +916,7 @@
             <h2>Tulis Perasaanmu</h2>
             <p>Curahkan semua yang ada di hatimu, minimal 500 kata</p>
         </div>
-        <textarea id="loveLetter" class="form-textarea" placeholder="Mulai menulis...">&#13;&#10;</textarea>
+        <textarea id="loveLetter" class="form-textarea" placeholder="Mulai menulis..."></textarea>
         <div id="wordCounter" class="word-counter">0 / 500 kata</div>
         <button id="btnSubmit" onclick="submitLetter()" class="btn-submit">Kirim Cinta</button>
     </div>
@@ -942,32 +926,32 @@
         <div class="credit-content">
             <h1 class="credit-title">Momen Mengharukan</h1>
             
-            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 0.5s;">
+            <div class="credit-item" id="credit-1">
                 <h3>Pembuat</h3>
                 <p>Gilang Raditya</p>
             </div>
             
-            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 1s;">
+            <div class="credit-item" id="credit-2">
                 <h3>Tema</h3>
                 <p>Gilang Raditya</p>
             </div>
             
-            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 1.5s;">
+            <div class="credit-item" id="credit-3">
                 <h3>Pesan</h3>
                 <p>Aiko</p>
             </div>
             
-            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 2s;">
+            <div class="credit-item" id="credit-4">
                 <h3>Latar</h3>
                 <p>Aiko</p>
             </div>
             
-            <div class="credit-item" style="animation: creditSlideUp 0.8s ease forwards 2.5s;">
+            <div class="credit-item" id="credit-5">
                 <h3>Pendukung Penuh Atas Percintaan Ini</h3>
                 <p style="font-size: 14px; line-height: 1.8;">Gilang, Gendis, Sarofah, Farah, Aiko, Firda, Videla, dan Teman Kelas 6B</p>
             </div>
             
-            <div class="credit-message" style="animation: creditSlideUp 0.8s ease forwards 3s;">
+            <div class="credit-message" id="credit-msg">
                 <h3>Pesan Kita Semua</h3>
                 <p>"CONGRATS! AIKO & DION!"</p>
             </div>
@@ -978,135 +962,31 @@
     <div id="player"></div>
 
     <script>
-        // Data pesan - Lebih banyak dan lebih romantis
+        // Data pesan
         const messages = {
             id: [
-                {
-                    title: "Awal Pertemuan",
-                    content: `<p>Dion, masih ingat pertama kali kita saling berbicara?</p>
-                              <p>Saat itu aku tidak menyangka bahwa obrolan sederhana akan mengubah segalanya...</p>
-                              <p>Tak kusangka, dari sekadar kata-kata, tumbuh benih yang kini bersemi di hati.</p>`
-                },
-                {
-                    title: "Tentang Senyumanmu",
-                    content: `<p>Setiap kali kamu tersenyum, ada matahari yang terbit di dalam hatiku.</p>
-                              <p>Seperti pagi yang hangat menyapa malam yang dingin.</p>
-                              <p>Kamu punya cara ajaib untuk menerangi hari-hariku yang kelabu.</p>`
-                },
-                {
-                    title: "Kehadiranmu",
-                    content: `<p>Di antara jutaan bintang di langit, kamu adalah yang paling terang.</p>
-                              <p>Di antara ribuan orang yang datang dan pergi, kamu yang tetap ada.</p>
-                              <p>Kamu mengerti tanpa perlu aku berkata apa-apa.</p>`
-                },
-                {
-                    title: "Malam-Malam Sunyi",
-                    content: `<p>Aku sering terjaga di malam-malam yang sunyi...</p>
-                              <p>Memikirkan bagaimana matamu berkilau saat tertawa.</p>
-                              <p>Bagaimana suaramu menenangkan setiap gelisah di hatiku.</p>
-                              <p>Bagaimana kamu membuatku merasa... berharga.</p>`
-                },
-                {
-                    title: "Tentang Rasa",
-                    content: `<p>Ada rasa yang tumbuh perlahan, seperti bunga di musim semi.</p>
-                              <p>Awalnya aku sangka ini hanya kekaguman sementara.</p>
-                              <p>Tapi semakin hari, semakin dalam akar-akarnya menancap.</p>
-                              <p>Semakin lama, semakin indah bunganya mekar.</p>`
-                },
-                {
-                    title: "Harapan",
-                    content: `<p>Sering aku berangan-angan tentang "kita".</p>
-                              <p>Tentang bagaimana indahnya jika kita bisa berjalan bersama.</p>
-                              <p>Berbagi tawa, berbagi cerita, berbagi hari-hari.</p>
-                              <p>Menjadi saksi setiap momen kehidupan satu sama lain.</p>`
-                },
-                {
-                    title: "Ketulusan",
-                    content: `<p>Sudah lama aku menyimpan perasaan ini sendiri.</p>
-                              <p>Sudah lama aku berpura-pura bahwa ini hanya persahabatan.</p>
-                              <p>Tapi hari ini, aku tidak bisa lagi bersembunyi.</p>
-                              <p>Hari ini, aku ingin jujur pada diriku sendiri.</p>`
-                },
-                {
-                    title: "Untukmu",
-                    content: `<p>Dion, kamu adalah alasan aku percaya pada keajaiban.</p>
-                              <p>Kamu adalah bukti bahwa hal-hal indah bisa datang tanpa diduga.</p>
-                              <p>Dan aku bersyukur setiap hari karena kehadiranmu.</p>`
-                }
+                { title: "Awal Pertemuan", content: `<p>Dion, masih ingat pertama kali kita saling berbicara?</p><p>Saat itu aku tidak menyangka bahwa obrolan sederhana akan mengubah segalanya...</p><p>Tak kusangka, dari sekadar kata-kata, tumbuh benih yang kini bersemi di hati.</p>` },
+                { title: "Tentang Senyumanmu", content: `<p>Setiap kali kamu tersenyum, ada matahari yang terbit di dalam hatiku.</p><p>Seperti pagi yang hangat menyapa malam yang dingin.</p><p>Kamu punya cara ajaib untuk menerangi hari-hariku yang kelabu.</p>` },
+                { title: "Kehadiranmu", content: `<p>Di antara jutaan bintang di langit, kamu adalah yang paling terang.</p><p>Di antara ribuan orang yang datang dan pergi, kamu yang tetap ada.</p><p>Kamu mengerti tanpa perlu aku berkata apa-apa.</p>` },
+                { title: "Malam-Malam Sunyi", content: `<p>Aku sering terjaga di malam-malam yang sunyi...</p><p>Memikirkan bagaimana matamu berkilau saat tertawa.</p><p>Bagaimana suaramu menenangkan setiap gelisah di hatiku.</p><p>Bagaimana kamu membuatku merasa... berharga.</p>` },
+                { title: "Tentang Rasa", content: `<p>Ada rasa yang tumbuh perlahan, seperti bunga di musim semi.</p><p>Awalnya aku sangka ini hanya kekaguman sementara.</p><p>Tapi semakin hari, semakin dalam akar-akarnya menancap.</p><p>Semakin lama, semakin indah bunganya mekar.</p>` },
+                { title: "Harapan", content: `<p>Sering aku berangan-angan tentang "kita".</p><p>Tentang bagaimana indahnya jika kita bisa berjalan bersama.</p><p>Berbagi tawa, berbagi cerita, berbagi hari-hari.</p><p>Menjadi saksi setiap momen kehidupan satu sama lain.</p>` },
+                { title: "Ketulusan", content: `<p>Sudah lama aku menyimpan perasaan ini sendiri.</p><p>Sudah lama aku berpura-pura bahwa ini hanya persahabatan.</p><p>Tapi hari ini, aku tidak bisa lagi bersembunyi.</p><p>Hari ini, aku ingin jujur pada diriku sendiri.</p>` },
+                { title: "Untukmu", content: `<p>Dion, kamu adalah alasan aku percaya pada keajaiban.</p><p>Kamu adalah bukti bahwa hal-hal indah bisa datang tanpa diduga.</p><p>Dan aku bersyukur setiap hari karena kehadiranmu.</p>` }
             ],
             ntt: [
-                {
-                    title: "Mula Pertama",
-                    content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua omong?</p>
-                              <p>Pas itu beta sonde sangka kalau obrolan sederhana bisa ubah semuanya...</p>
-                              <p>Tau sonde dari, dari cuma kata-kata, tumbuh biji yang sekarang tu bersemi di hati.</p>`
-                },
-                {
-                    title: "Tentang Ko Pung Senyum",
-                    content: `<p>Tiap kali ko senyum, ada matahari yang terbit di dalam beta pung hati.</p>
-                              <p>Seperti pagi yang hangat sapa malam yang dingin.</p>
-                              <p>Ko punya cara ajaib bikin terang beta pung hari-hari yang kelabu.</p>`
-                },
-                {
-                    title: "Ada Ko",
-                    content: `<p>Di antara jutaan bintang di langit, ko tu yang paling terang.</p>
-                              <p>Di antara ribuan orang yang datang dan pergi, ko yang tetap ada.</p>
-                              <p>Ko mengerti tanpa beta harus omong apa-apa.</p>`
-                },
-                {
-                    title: "Malam-Malam Sunyi",
-                    content: `<p>Beta sering bangun di malam-malam yang sunyi...</p>
-                              <p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p>
-                              <p>ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p>
-                              <p>Dan gimana ko bikin beta rasa... berharga.</p>`
-                },
-                {
-                    title: "Tentang Rasa",
-                    content: `<p>Ada rasa yang tumbuh pelan-pelan, seperti bunga di musim semi.</p>
-                              <p>Mula-mula beta sangka ni cuma kagum sebentar.</p>
-                              <p>Tapi makin hari, makin dalam akar-akarnya nyangkut.</p>
-                              <p>Makin lama, makin indah bunganya mekar.</p>`
-                },
-                {
-                    title: "Harapan",
-                    content: `<p>Sering beta hayal tentang "katong dua".</p>
-                              <p>Tentang gimana indahnya kalau katong bisa jalan sama-sama.</p>
-                              <p>Bagi tawa, bagi cerita, bagi hari-hari.</p>
-                              <p>Jadi saksi tiap momen hidup satu sama lain.</p>`
-                },
-                {
-                    title: "Ketulusan",
-                    content: `<p>Suda lama beta simpan ni rasa sendiri.</p>
-                              <p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p>
-                              <p>Tapi hari ini, beta sonde bisa sembunyi lagi.</p>
-                              <p>Hari ini, beta mau jujur pada beta sendiri.</p>`
-                },
-                {
-                    title: "Untuk Ko",
-                    content: `<p>Dion, ko tu alasan beta percaya pada keajaiban.</p>
-                              <p>Ko tu bukti kalau hal-hal indah bisa datang tanpa diduga.</p>
-                              <p>Dan beta bersyukur tiap hari karena ko ada.</p>`
-                }
+                { title: "Mula Pertama", content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua omong?</p><p>Pas itu beta sonde sangka kalau obrolan sederhana bisa ubah semuanya...</p><p>Tau sonde dari, dari cuma kata-kata, tumbuh biji yang sekarang tu bersemi di hati.</p>` },
+                { title: "Tentang Ko Pung Senyum", content: `<p>Tiap kali ko senyum, ada matahari yang terbit di dalam beta pung hati.</p><p>Seperti pagi yang hangat sapa malam yang dingin.</p><p>Ko punya cara ajaib bikin terang beta pung hari-hari yang kelabu.</p>` },
+                { title: "Ada Ko", content: `<p>Di antara jutaan bintang di langit, ko tu yang paling terang.</p><p>Di antara ribuan orang yang datang dan pergi, ko yang tetap ada.</p><p>Ko mengerti tanpa beta harus omong apa-apa.</p>` },
+                { title: "Malam-Malam Sunyi", content: `<p>Beta sering bangun di malam-malam yang sunyi...</p><p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p><p>ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p><p>Dan gimana ko bikin beta rasa... berharga.</p>` },
+                { title: "Tentang Rasa", content: `<p>Ada rasa yang tumbuh pelan-pelan, seperti bunga di musim semi.</p><p>Mula-mula beta sangka ni cuma kagum sebentar.</p><p>Tapi makin hari, makin dalam akar-akarnya nyangkut.</p><p>Makin lama, makin indah bunganya mekar.</p>` },
+                { title: "Harapan", content: `<p>Sering beta hayal tentang "katong dua".</p><p>Tentang gimana indahnya kalau katong bisa jalan sama-sama.</p><p>Bagi tawa, bagi cerita, bagi hari-hari.</p><p>Jadi saksi tiap momen hidup satu sama lain.</p>` },
+                { title: "Ketulusan", content: `<p>Suda lama beta simpan ni rasa sendiri.</p><p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p><p>Tapi hari ini, beta sonde bisa sembunyi lagi.</p><p>Hari ini, beta mau jujur pada beta sendiri.</p>` },
+                { title: "Untuk Ko", content: `<p>Dion, ko tu alasan beta percaya pada keajaiban.</p><p>Ko tu bukti kalau hal-hal indah bisa datang tanpa diduga.</p><p>Dan beta bersyukur tiap hari karena ko ada.</p>` }
             ],
             confessions: {
-                id: {
-                    title: "Dari Hati",
-                    content: `<p>Dion...</p>
-                              <p>Aku tidak mau kita hanya menjadi teman.</p>
-                              <p>Aku ingin lebih dari itu. Jauh lebih banyak dari itu.</p>
-                              <p style="font-size: 20px; margin-top: 25px;">Aku sayang kamu, Yon.</p>
-                              <p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p>
-                              <p class="signature">~ Aiko</p>`
-                },
-                ntt: {
-                    title: "Dari Hati",
-                    content: `<p>Dion...</p>
-                              <p>Beta sonde mau katong dua cuma jadi teman.</p>
-                              <p>Beta mau lebih dari itu. Lebih banyak dari itu.</p>
-                              <p style="font-size: 20px; margin-top: 25px;">Beta sayang ko, Yon.</p>
-                              <p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p>
-                              <p class="signature">~ Aiko</p>`
-                }
+                id: { title: "Dari Hati", content: `<p>Dion...</p><p>Aku tidak mau kita hanya menjadi teman.</p><p>Aku ingin lebih dari itu. Jauh lebih banyak dari itu.</p><p style="font-size: 20px; margin-top: 25px;">Aku sayang kamu, Yon.</p><p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p><p class="signature">~ Aiko</p>` },
+                ntt: { title: "Dari Hati", content: `<p>Dion...</p><p>Beta sonde mau katong dua cuma jadi teman.</p><p>Beta mau lebih dari itu. Lebih banyak dari itu.</p><p style="font-size: 20px; margin-top: 25px;">Beta sayang ko, Yon.</p><p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p><p class="signature">~ Aiko</p>` }
             }
         };
 
@@ -1114,7 +994,6 @@
         let currentPage = 0;
         let totalPages = 0;
         let player = null;
-        let audioAllowed = false;
         let userMessage = '';
 
         // Initialize YouTube API
@@ -1125,37 +1004,22 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '0',
-                width: '0',
+                height: '0', width: '0',
                 videoId: '4ZLBcD5MD9c',
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'modestbranding': 1
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'modestbranding': 1 },
+                events: { 'onReady': onPlayerReady }
             });
         }
 
-        function onPlayerReady(event) {
-            console.log('Player ready');
-        }
+        function onPlayerReady(event) { console.log('Player ready'); }
 
         function checkAudioPermission() {
-            const audioPopup = document.getElementById('audioPopup');
-            audioPopup.classList.remove('hidden');
+            document.getElementById('audioPopup').classList.remove('hidden');
         }
 
         function allowAudio() {
-            audioAllowed = true;
             document.getElementById('audioPopup').classList.add('hidden');
-            if (player && player.playVideo) {
-                player.playVideo();
-            }
+            if (player && player.playVideo) player.playVideo();
         }
 
         function selectLang(lang) {
@@ -1178,9 +1042,7 @@
                 
                 setTimeout(() => {
                     document.getElementById('bookCover').classList.add('open');
-                    setTimeout(() => {
-                        startReading();
-                    }, 1500);
+                    setTimeout(() => startReading(), 1500);
                 }, 800);
             }, 2000);
         }
@@ -1198,9 +1060,7 @@
 
         function updateProgress() {
             const dots = document.querySelectorAll('.progress-dot');
-            dots.forEach((dot, idx) => {
-                dot.classList.toggle('active', idx <= currentPage);
-            });
+            dots.forEach((dot, idx) => dot.classList.toggle('active', idx <= currentPage));
         }
 
         function generatePages() {
@@ -1209,15 +1069,19 @@
             
             messages[selectedLang].forEach((msg, idx) => {
                 const page = document.createElement('div');
+                // Atur z-index terbalik agar halaman pertama di posisi teratas
+                const zIndex = (messages[selectedLang].length - idx) + 10;
                 page.className = 'page-flip';
+                page.style.zIndex = zIndex;
                 page.id = `page-${idx}`;
+                
                 page.innerHTML = `
                     <div class="page-front">
                         <div class="page-header">
                             <div class="page-number">Bab ${idx + 1}</div>
                             <h2 class="page-title">${msg.title}</h2>
                         </div>
-                        <div class="page-content">
+                        <div class="page-content" id="content-${idx}">
                             ${msg.content}
                         </div>
                     </div>
@@ -1226,6 +1090,7 @@
                 container.appendChild(page);
             });
             
+            // Halaman Konfesi (Paling bawah)
             const confPage = document.createElement('div');
             confPage.className = 'page-static';
             confPage.id = 'page-confession';
@@ -1235,16 +1100,14 @@
                     <div class="page-number">Akhir</div>
                     <h2 class="page-title">${conf.title}</h2>
                 </div>
-                <div class="page-content">
+                <div class="page-content" id="content-conf">
                     ${conf.content}
                 </div>
             `;
             container.appendChild(confPage);
         }
 
-        function startReading() {
-            showPage(0);
-        }
+        function startReading() { showPage(0); }
 
         function showPage(idx) {
             const pageId = idx === messages[selectedLang].length ? 'page-confession' : `page-${idx}`;
@@ -1252,13 +1115,20 @@
             
             if (page) {
                 if (page.classList.contains('page-flip')) {
+                    // Tambahkan kelas animasi teks SEBELUM flip dimulai
+                    const content = page.querySelector('.page-content');
+                    if(content) content.classList.add('animate');
+
                     // Flip animation
                     setTimeout(() => {
                         page.classList.add('flipped');
-                    }, 300);
+                        page.style.zIndex = 0; // Turunkan z-index setelah flip
+                    }, 500); // Sedikit delay agar animasi teks terlihat dulu
                 } else {
                     // Static page (confession)
                     page.classList.add('active');
+                    const content = page.querySelector('.page-content');
+                    if(content) content.classList.add('animate');
                 }
                 
                 currentPage = idx;
@@ -1268,7 +1138,7 @@
                     triggerHeavyParticles();
                 }
                 
-                // Longer reading time - 10 seconds per page
+                // Durasi baca lebih lama
                 const readingTime = idx === messages[selectedLang].length ? 12000 : 10000;
                 setTimeout(() => {
                     if (idx < messages[selectedLang].length) {
@@ -1283,7 +1153,6 @@
         function showClosingMessage() {
             document.getElementById('progressDots').classList.add('hidden');
             
-            // Show closing message
             setTimeout(() => {
                 document.getElementById('closingMessage').classList.add('visible');
                 
@@ -1299,7 +1168,6 @@
             }, 500);
         }
 
-        // Particles system
         function createParticles() {
             const container = document.getElementById('particles');
             
@@ -1357,6 +1225,9 @@
             const counter = document.getElementById('wordCounter');
             const btn = document.getElementById('btnSubmit');
             
+            // Hapus listener lama jika ada (mencegah duplikasi)
+            textarea.oninput = null; 
+            
             textarea.addEventListener('input', function() {
                 const words = this.value.trim().split(/\s+/).filter(w => w.length > 0).length;
                 counter.textContent = `${words} / 500 kata`;
@@ -1396,16 +1267,24 @@
             setTimeout(() => {
                 document.getElementById('formContainer').classList.remove('visible');
                 document.getElementById('creditScreen').classList.add('visible');
-                
-                // Animate credit items
                 animateCredits();
             }, 2000);
         }
 
         function animateCredits() {
-            const items = document.querySelectorAll('.credit-item');
-            items.forEach((item, idx) => {
-                item.style.animationDelay = `${0.5 + idx * 0.5}s`;
+            const items = [
+                { el: document.getElementById('credit-1'), delay: 0.5 },
+                { el: document.getElementById('credit-2'), delay: 1.0 },
+                { el: document.getElementById('credit-3'), delay: 1.5 },
+                { el: document.getElementById('credit-4'), delay: 2.0 },
+                { el: document.getElementById('credit-5'), delay: 2.5 },
+                { el: document.getElementById('credit-msg'), delay: 3.0 }
+            ];
+
+            items.forEach(item => {
+                if(item.el) {
+                    item.el.style.animation = `creditSlideUp 0.8s ease forwards ${item.delay}s`;
+                }
             });
         }
 
