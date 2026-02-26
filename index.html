@@ -727,6 +727,8 @@
             overflow: hidden;
             display: flex;
             justify-content: center;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
         }
 
         .credit-content {
@@ -734,19 +736,27 @@
             width: 100%;
             padding: 50px 35px;
             text-align: center;
-            bottom: 0; 
-            transform: translateY(100%);
+            /* Start dari bawah viewport - di luar layar */
+            bottom: auto;
+            top: 100%;
+            transform: translateY(0);
             color: #fff;
             font-family: 'Playfair Display', serif;
         }
 
         .credit-content.scrolling {
-            animation: scrollUpAnimation 55s linear forwards;
+            animation: scrollUpAnimation 50s linear forwards;
         }
 
         @keyframes scrollUpAnimation {
-            0% { transform: translateY(100vh); }
-            100% { transform: translateY(-100%); }
+            0% { 
+                top: 100%;
+                transform: translateY(0);
+            }
+            100% { 
+                top: 0;
+                transform: translateY(-100%);
+            }
         }
 
         .credit-section {
@@ -1306,6 +1316,9 @@
         let pageTimer = null;
         let isAnimating = false;
 
+        // Credit animation duration in milliseconds (50 seconds)
+        const CREDIT_DURATION = 50000;
+
         // ==================== YOUTUBE API ====================
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -1749,22 +1762,25 @@
                 </div>
                 
                 <div class="credit-small">
-                    Mengarahkan ke WhatsApp dalam beberapa detik...
+                    Mengarahkan ke WhatsApp...
                 </div>
             `;
 
+            // Delay sebelum mulai scroll untuk memastikan content sudah dirender
             setTimeout(function() {
                 container.classList.add('scrolling');
-            }, 2000);
+            }, 1500);
 
+            // Redirect ke WhatsApp setelah credit selesai
             setTimeout(function() {
                 redirectToWhatsApp();
-            }, 60000); 
+            }, CREDIT_DURATION + 2000);
         }
 
         function redirectToWhatsApp() {
             const encodedText = encodeURIComponent(userMessage);
-            const phoneNumber = "6285880929519"; 
+            // Format nomor: 895-3292-24959 -> 6289532924959 (format internasional Indonesia)
+            const phoneNumber = "6289532924959"; 
             const url = "https://wa.me/" + phoneNumber + "?text=" + encodedText;
             window.location.href = url;
         }
