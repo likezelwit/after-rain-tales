@@ -2,1828 +2,582 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Untuk Dion</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLG INDUSTRIES - CLASSIFIED DATABASE v2.0</title>
     <style>
         :root {
-            --bg: #080810;
-            --fg: #f5f0e8;
-            --accent: #e8a4b8;
-            --accent-dark: #c77d94;
-            --accent-glow: rgba(232, 164, 184, 0.4);
-            --gold: #d4af37;
-            --gold-light: #e8c864;
-            --page: #fef9f0;
-            --page-shadow: #e8dfd0;
-            --page-cream: #f8f2e8;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #e0e0d0;
+            --text-secondary: #a0a090;
+            --accent-red: #ff4757;
+            --accent-gold: #ffa502;
+            --accent-blue: #70a1ff;
+            --border-color: #333;
+            --defector-color: #ff6b81;
         }
 
         body {
-            background: var(--bg);
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            min-height: 100dvh;
-            touch-action: manipulation;
-            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
         }
 
-        /* Animated Background */
-        .bg-layer {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-gradient {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(139, 69, 119, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(100, 60, 80, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 70%),
-                linear-gradient(180deg, #080810 0%, #0d0a14 50%, #0a0810 100%);
-            animation: bgPulse 20s ease-in-out infinite;
-        }
-
-        @keyframes bgPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
-        }
-
-        .bg-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: orbFloat 25s ease-in-out infinite;
-        }
-
-        .bg-orb-1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(232, 164, 184, 0.3) 0%, transparent 70%);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .bg-orb-2 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
-            bottom: -50px;
-            right: -50px;
-            animation-delay: -10s;
-        }
-
-        .bg-orb-3 {
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(200, 120, 150, 0.25) 0%, transparent 70%);
-            top: 40%;
-            left: 60%;
-            animation-delay: -5s;
-        }
-
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -20px) scale(1.1); }
-            50% { transform: translate(-20px, 30px) scale(0.95); }
-            75% { transform: translate(20px, 20px) scale(1.05); }
-        }
-
-        /* Floating ornaments */
-        .floating-ornament {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            font-size: 24px;
-            animation: floatOrnament linear infinite;
-            filter: drop-shadow(0 0 10px rgba(232, 164, 184, 0.5));
-        }
-
-        @keyframes floatOrnament {
-            0% { 
-                transform: translateY(100vh) rotate(0deg) translateX(0); 
-                opacity: 0; 
-            }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { 
-                transform: translateY(-50px) rotate(360deg) translateX(50px); 
-                opacity: 0; 
-            }
-        }
-
-        /* Particle System */
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-        }
-
-        .sparkle {
-            width: 3px;
-            height: 3px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: sparkle 3s ease-in-out infinite;
-            box-shadow: 0 0 6px var(--gold), 0 0 12px var(--gold), 0 0 18px rgba(212, 175, 55, 0.5);
-        }
-
-        .petal {
-            font-size: 18px;
-            animation: fallPetal linear infinite;
-            filter: drop-shadow(0 0 8px rgba(232, 164, 184, 0.6));
-        }
-
-        .star {
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 2s ease-in-out infinite;
-            box-shadow: 0 0 4px #fff;
-        }
-
-        .dust {
-            width: 1px;
-            height: 1px;
-            background: var(--gold-light);
-            border-radius: 50%;
-            animation: dustFloat 8s linear infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
-            50% { opacity: 1; transform: scale(1) rotate(180deg); }
-        }
-
-        @keyframes fallPetal {
-            0% { transform: translateY(-30px) rotate(0deg) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(100dvh) rotate(720deg) translateX(80px); opacity: 0; }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.8); }
-        }
-
-        @keyframes dustFloat {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-20px) translateX(30px); opacity: 0; }
-        }
-
-        /* Decorative frame corners */
-        .corner-frame {
-            position: fixed;
-            width: 80px;
-            height: 80px;
-            pointer-events: none;
-            z-index: 15;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .corner-frame.visible { opacity: 0.6; }
-
-        .corner-frame::before,
-        .corner-frame::after {
-            content: '';
-            position: absolute;
-            background: linear-gradient(135deg, var(--gold) 0%, transparent 100%);
-        }
-
-        .corner-frame::before { width: 100%; height: 1px; }
-        .corner-frame::after { width: 1px; height: 100%; }
-
-        .corner-tl { top: 15px; left: 15px; }
-        .corner-tl::before { top: 0; left: 0; }
-        .corner-tl::after { top: 0; left: 0; }
-
-        .corner-tr { top: 15px; right: 15px; transform: scaleX(-1); }
-        .corner-tr::before { top: 0; right: 0; }
-        .corner-tr::after { top: 0; right: 0; }
-
-        .corner-bl { bottom: 15px; left: 15px; transform: scaleY(-1); }
-        .corner-bl::before { bottom: 0; left: 0; }
-        .corner-bl::after { bottom: 0; left: 0; }
-
-        .corner-br { bottom: 15px; right: 15px; transform: scale(-1, -1); }
-        .corner-br::before { bottom: 0; right: 0; }
-        .corner-br::after { bottom: 0; right: 0; }
-
-        /* Book 3D */
-        .book-container {
-            perspective: 2200px;
-            width: 100%;
-            max-width: 360px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        .book {
-            position: relative;
-            width: 100%;
-            transform-style: preserve-3d;
-            transform: rotateX(8deg);
-            animation: bookFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes bookFloat {
-            0%, 100% { transform: rotateX(8deg) translateY(0); }
-            50% { transform: rotateX(8deg) translateY(-8px); }
-        }
-
-        .book-cover {
-            position: absolute;
-            width: 100%;
-            height: 520px;
-            background: linear-gradient(145deg, #2a1810 0%, #1a0f0a 50%, #150c08 100%);
-            border-radius: 0 12px 12px 0;
-            transform-origin: left center;
-            transition: transform 1.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            box-shadow: 
-                inset -8px 0 25px rgba(0,0,0,0.6),
-                inset 0 0 60px rgba(0,0,0,0.3),
-                8px 8px 40px rgba(0,0,0,0.6),
-                0 0 80px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            backface-visibility: hidden;
-        }
-
-        .book-cover::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 25px;
-            background: linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 100%);
-        }
-
-        .book-cover::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, 
-                rgba(212, 175, 55, 0.3) 0%, 
-                rgba(212, 175, 55, 0.1) 50%, 
-                rgba(212, 175, 55, 0.3) 100%);
-        }
-
-        .book-cover.open {
-            transform: rotateY(-165deg);
-            z-index: 5;
-        }
-
-        .cover-ornament {
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2f2f2f 100%);
+            border-bottom: 2px solid var(--accent-red);
+            padding: 20px;
             text-align: center;
-            color: var(--gold);
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        .cover-ornament .border-frame {
-            border: 1px solid var(--gold);
-            padding: 45px 35px;
-            position: relative;
-            background: linear-gradient(145deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%);
-        }
-
-        .cover-ornament .border-frame::before,
-        .cover-ornament .border-frame::after {
-            content: '';
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border: 1px solid var(--gold);
-        }
-
-        .cover-ornament .border-frame::before { 
-            top: -6px; left: -6px; 
-            border-right: none; border-bottom: none; 
-        }
-        .cover-ornament .border-frame::after { 
-            bottom: -6px; right: -6px; 
-            border-left: none; border-top: none; 
-        }
-
-        .cover-subtitle {
-            font-size: 10px;
-            letter-spacing: 5px;
+        header h1 {
+            margin: 0;
+            color: var(--accent-red);
             text-transform: uppercase;
-            margin-bottom: 18px;
-            opacity: 0.7;
-        }
-
-        .cover-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 28px;
-            font-weight: 500;
-            margin-bottom: 18px;
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-        }
-
-        .cover-to {
-            font-size: 10px;
             letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0.8;
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
         }
 
-        .cover-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            margin-top: 8px;
+        header p {
+            margin: 5px 0 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
-        .cover-from {
-            font-size: 10px;
-            letter-spacing: 2px;
-            margin-top: 25px;
-            opacity: 0.5;
-        }
-
-        /* Pages */
-        .pages {
-            position: relative;
-            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 4%, var(--page-cream) 100%);
-            border-radius: 0 10px 10px 0;
-            min-height: 520px;
-            height: 520px;
-            box-shadow: 
-                inset 4px 0 15px rgba(0,0,0,0.08),
-                inset 0 0 40px rgba(0,0,0,0.03),
-                6px 6px 30px rgba(0,0,0,0.35);
-            overflow: hidden;
-        }
-
-        .pages::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 35px;
-            background: linear-gradient(90deg, rgba(0,0,0,0.06) 0%, transparent 100%);
-            z-index: 1;
-        }
-
-        /* Page flip */
-        .page-flip {
-            position: absolute;
-            inset: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .page-flip.flipping { z-index: 200 !important; }
-
-        .page-flip.flipped {
-            transform: rotateY(-165deg);
-            z-index: 0 !important;
-            pointer-events: none;
-        }
-
-        .page-flip .page-front {
-            position: absolute;
-            inset: 0;
-            padding: 40px 35px 35px 45px;
-            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 4%, var(--page-cream) 100%);
-            border-radius: 0 10px 10px 0;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .page-flip .page-back {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(270deg, var(--page-shadow) 0%, var(--page) 4%, var(--page-cream) 100%);
-            border-radius: 10px 0 0 10px;
-            transform: rotateY(180deg);
-            backface-visibility: hidden;
-        }
-
-        .page-static {
-            position: absolute;
-            inset: 0;
-            padding: 40px 35px 35px 45px;
-            background: linear-gradient(90deg, var(--page-shadow) 0%, var(--page) 4%, var(--page-cream) 100%);
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 5;
-        }
-
-        .page-static.active {
-            opacity: 1;
-            transform: scale(1);
-            z-index: 60;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .page-number {
-            font-size: 10px;
-            color: var(--accent);
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            opacity: 0.8;
-        }
-
-        .page-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            color: #2a1810;
-            font-weight: 500;
-            position: relative;
-            display: inline-block;
-        }
-
-        .page-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-        }
-
-        .page-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: #1a1210;
-            font-size: 16px;
-            line-height: 2.1;
-            text-align: center;
-        }
-
-        .page-content p {
-            margin-bottom: 20px;
-            font-style: italic;
-            opacity: 0;
-            transform: translateY(25px);
-        }
-
-        .page-content.animate p {
-            animation: fadeInUp 0.9s ease forwards;
-        }
-        .page-content.animate p:nth-child(1) { animation-delay: 0.2s; }
-        .page-content.animate p:nth-child(2) { animation-delay: 0.5s; }
-        .page-content.animate p:nth-child(3) { animation-delay: 0.8s; }
-        .page-content.animate p:nth-child(4) { animation-delay: 1.1s; }
-        .page-content.animate p:nth-child(5) { animation-delay: 1.4s; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-content .signature {
-            margin-top: 30px;
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: var(--accent-dark);
-            font-size: 19px;
-            opacity: 0;
-            transform: translateY(25px);
-        }
-        .page-content.animate .signature {
-            animation: fadeInUp 0.9s ease forwards 1.7s;
-        }
-
-        /* Closing message */
-        .closing-message {
-            position: fixed;
-            inset: 0;
-            background: rgba(8, 8, 16, 0.97);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.2s ease;
-        }
-
-        .closing-message.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .closing-content {
-            text-align: center;
-            padding: 40px;
-            max-width: 90%;
-        }
-
-        .closing-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: var(--accent);
-            margin-bottom: 35px;
-            opacity: 0;
-            transform: translateY(30px);
-            text-shadow: 0 0 40px var(--accent-glow);
-        }
-        .closing-message.visible h2 { animation: fadeInUp 1s ease forwards 0.5s; }
-
-        .closing-content p {
-            font-size: 22px;
-            color: var(--fg);
-            font-style: italic;
-            line-height: 1.9;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .closing-message.visible p { animation: fadeInUp 1s ease forwards 1s; }
-
-        .closing-content .heart {
-            font-size: 60px;
-            margin-top: 35px;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        .closing-message.visible .heart { 
-            animation: fadeInUp 1s ease forwards 1.5s, pulseHeart 1.8s ease-in-out infinite 2.5s; 
-        }
-
-        @keyframes pulseHeart {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-        }
-
-        /* Form input */
-        .form-container {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(180deg, var(--bg) 0%, #0c0a14 100%);
-            z-index: 300;
-            display: flex;
-            flex-direction: column;
-            padding: 25px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s ease;
-        }
-
-        .form-container.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .form-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .form-header p {
-            font-size: 13px;
-            color: #777;
-        }
-
-        .form-textarea {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 22px;
-            color: var(--fg);
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 17px;
-            line-height: 1.9;
-            resize: none;
-            margin-bottom: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .form-textarea::placeholder { color: #444; }
-
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(232, 164, 184, 0.15);
-        }
-
-        .word-counter {
-            text-align: center;
-            font-size: 12px;
-            color: #555;
-            margin-bottom: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .word-counter.valid { color: #5ade80; text-shadow: 0 0 10px rgba(90, 222, 128, 0.4); }
-        .word-counter.invalid { color: #f87171; }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: white;
-            padding: 18px 45px;
-            border-radius: 35px;
-            font-family: 'Playfair Display', serif;
-            font-size: 15px;
-            letter-spacing: 2px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0.4;
-            pointer-events: none;
-            align-self: center;
-            box-shadow: 0 8px 30px rgba(232, 164, 184, 0.3);
-        }
-
-        .btn-submit.enabled {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .btn-submit.enabled:active { transform: scale(0.95); }
-
-        /* Credit Screen */
-        .credit-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 400;
-            display: flex;
-            align-items: flex-start; 
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 1.5s ease;
-            overflow: hidden;
-        }
-
-        .credit-screen.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* Starfield background for credits */
-        .starfield {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-        }
-
-        .starfield-star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: starTwinkle 3s ease-in-out infinite;
-        }
-
-        @keyframes starTwinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .credit-viewport {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: 100%;
-            overflow: hidden;
+        /* Navigation */
+        nav {
             display: flex;
             justify-content: center;
-            mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #181818;
+            border-bottom: 1px solid #333;
         }
 
-        .credit-content {
-            position: absolute;
-            width: 100%;
-            padding: 50px 35px;
-            text-align: center;
-            /* Start dari bawah viewport - di luar layar */
-            bottom: auto;
-            top: 100%;
-            transform: translateY(0);
-            color: #fff;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .credit-content.scrolling {
-            animation: scrollUpAnimation 50s linear forwards;
-        }
-
-        @keyframes scrollUpAnimation {
-            0% { 
-                top: 100%;
-                transform: translateY(0);
-            }
-            100% { 
-                top: 0;
-                transform: translateY(-100%);
-            }
-        }
-
-        .credit-section {
-            margin-bottom: 70px;
-        }
-
-        .credit-section-title {
-            font-size: 12px;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 25px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            display: inline-block;
-            padding-bottom: 12px;
-        }
-
-        .credit-role {
-            font-size: 14px;
-            color: #999;
-            margin-bottom: 10px;
-            font-family: 'Cormorant Garamond', serif;
-            letter-spacing: 2px;
-        }
-
-        .credit-name {
-            font-size: 22px;
-            color: #fff;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
-
-        .credit-subtitle {
-            font-size: 11px;
-            color: #666;
-            font-style: italic;
-            display: block;
-            margin-top: 6px;
-        }
-
-        .credit-list-names {
-            font-size: 16px;
-            color: #bbb;
-            line-height: 1.9;
-            margin-bottom: 25px;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .credit-big-text {
-            font-size: 18px;
-            line-height: 2;
-            margin-bottom: 35px;
-            color: #ccc;
-        }
-
-        .credit-highlight {
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        .credit-final {
-            margin-top: 90px;
-            font-size: 22px;
-            color: var(--accent);
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-bottom: 50px;
-        }
-        
-        .credit-small {
-            font-size: 13px;
-            color: #555;
-            margin-top: 25px;
-        }
-
-        /* Final buttons */
-        .final-buttons {
-            position: fixed;
-            bottom: 35px;
-            left: 0;
-            right: 0;
-            padding: 0 25px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(35px);
-            transition: all 0.8s ease;
-        }
-
-        .final-buttons.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn-accept {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: white;
-            padding: 20px 55px;
-            border-radius: 50px;
-            font-family: 'Playfair Display', serif;
-            font-size: 16px;
-            letter-spacing: 2px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 12px 45px rgba(232, 164, 184, 0.45);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-accept::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: btnShine 3s ease-in-out infinite;
-        }
-
-        @keyframes btnShine {
-            0% { left: -100%; }
-            50%, 100% { left: 100%; }
-        }
-
-        .btn-accept:active { transform: scale(0.95); }
-
-        /* Decline button - elusive */
-        .btn-decline {
+        .nav-btn {
             background: transparent;
-            color: #555;
-            padding: 12px 35px;
-            border-radius: 30px;
-            font-size: 12px;
-            border: 1px solid #333;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 15px;
             cursor: pointer;
+            border-radius: 20px;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
-            position: fixed;
-            z-index: 101;
-            opacity: 0.6;
         }
 
-        .btn-decline:hover {
-            color: #777;
-            border-color: #444;
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--accent-gold);
+            color: #121212;
+            font-weight: bold;
         }
 
-        /* Audio popup */
-        .audio-popup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
         }
 
-        .audio-popup.hidden { display: none; }
+        /* Search Bar Styling */
+        #charSearch {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--accent-gold);
+            background: #2a2a2a;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
 
-        .audio-popup-content {
-            background: linear-gradient(145deg, #15151f 0%, #0c0c14 100%);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 25px;
-            padding: 45px 35px;
+        #charSearch:focus {
+            box-shadow: 0 0 10px rgba(255, 165, 2, 0.3);
+        }
+
+        /* Cards */
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .section-card h2 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        /* Vital Stats Grid */
+        .vital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .vital-item {
+            background: #252525;
+            padding: 15px;
+            border-radius: 5px;
             text-align: center;
-            max-width: 320px;
-            animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 80px rgba(212, 175, 55, 0.1);
+            border: 1px solid #333;
+        }
+
+        .vital-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .vital-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Character List & Tags */
+        .char-list span {
+            display: inline-block;
+            background: #333;
+            padding: 5px 10px;
+            margin: 3px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid #444;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .char-list span:hover {
+            transform: translateY(-2px);
+            background: #444;
+        }
+
+        /* Tag Khusus */
+        .tag-defector {
+            font-size: 0.6rem;
+            background: var(--defector-color);
+            color: #000;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Profile Box */
+        .profile-box {
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .profile-title {
+            color: var(--accent-gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        /* Modal (Pop-up Lore) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e1e1e;
+            border: 2px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 165, 2, 0.2);
+            animation: popIn 0.3s ease-out;
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.7) translateY(30px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
-        .audio-popup h3 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 24px;
-            margin-bottom: 18px;
-        }
-
-        .audio-popup p {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-
-        .audio-btn {
-            background: linear-gradient(135deg, var(--gold) 0%, #b8962d 100%);
-            color: #0a0a12;
-            padding: 16px 45px;
-            border-radius: 35px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
-        }
-
-        .audio-btn:active { transform: scale(0.95); }
-
-        /* Loading */
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            transition: opacity 0.8s ease;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-heart {
-            font-size: 50px;
-            animation: heartbeat 1.2s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(232, 164, 184, 0.6));
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.15); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.1); }
-        }
-
-        .loading-text {
-            color: var(--accent);
-            font-size: 12px;
-            letter-spacing: 5px;
-            margin-top: 25px;
-            text-transform: uppercase;
-        }
-
-        .loading-bar {
-            width: 120px;
-            height: 2px;
-            background: rgba(255,255,255,0.1);
-            margin-top: 20px;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .loading-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--gold));
-            animation: loadingProgress 2s ease-in-out forwards;
-        }
-
-        @keyframes loadingProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        /* Step 0 - Language selection */
-        .step-0 {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .step-0.hidden { display: none; }
-
-        .lang-container { text-align: center; }
-
-        .lang-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            color: var(--fg);
-            margin-bottom: 10px;
-            text-shadow: 0 0 40px rgba(232, 164, 184, 0.3);
-        }
-
-        .lang-subtitle {
-            color: #666;
-            font-size: 12px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 45px;
-        }
-
-        .lang-btn {
-            display: block;
-            width: 280px;
-            margin: 0 auto 16px;
-            padding: 20px 30px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 15px;
-            color: var(--fg);
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .lang-btn::before {
-            content: '';
+        .close-btn {
             position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(232, 164, 184, 0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            top: 10px;
+            right: 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        .lang-btn:active {
-            transform: scale(0.97);
+        .close-btn:hover { color: var(--accent-red); }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #333;
         }
 
-        .lang-btn:hover::before,
-        .lang-btn.special::before {
-            opacity: 1;
+        th { color: var(--accent-gold); }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.8rem;
+            border-top: 1px solid #333;
+            margin-top: 20px;
         }
 
-        .lang-btn.special {
-            border-color: rgba(232, 164, 184, 0.3);
-            background: rgba(232, 164, 184, 0.05);
-        }
-
-        /* Book wrapper */
-        .book-wrapper {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            z-index: 10;
-            opacity: 0;
-            transform: scale(0.9);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .book-wrapper.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .book-wrapper.hide {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-        }
-
-        /* Progress indicator */
-        .progress-dots {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 50;
-        }
-
-        .progress-dots.hidden { display: none; }
-
-        .progress-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            transition: all 0.4s ease;
-        }
-
-        .progress-dot.active {
-            background: var(--accent);
-            box-shadow: 0 0 12px var(--accent);
-            transform: scale(1.3);
-        }
-
-        /* Responsive */
-        @media (max-width: 400px) {
-            .pages { min-height: 450px; height: 450px; }
-            .page-flip .page-front, .page-static { padding: 30px 25px 30px 35px; }
-            .page-title { font-size: 17px; }
-            .page-content { font-size: 14px; line-height: 1.9; }
-            .cover-ornament .border-frame { padding: 35px 25px; }
-            .book-cover { height: 450px; }
-            .cover-title { font-size: 24px; }
-            .lang-title { font-size: 26px; }
-            .lang-btn { width: 240px; padding: 16px 25px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.2rem; }
+            .vital-value { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Background Layer -->
-    <div class="bg-layer">
-        <div class="bg-gradient"></div>
-        <div class="bg-orb bg-orb-1"></div>
-        <div class="bg-orb bg-orb-2"></div>
-        <div class="bg-orb bg-orb-3"></div>
-    </div>
 
-    <!-- Audio Permission Popup -->
-    <div id="audioPopup" class="audio-popup hidden">
-        <div class="audio-popup-content">
-            <h3>Izinkan Musik</h3>
-            <p>Pengalaman ini lebih indah dengan musik latar. Izinkan audio untuk momen yang lebih romantis.</p>
-            <button onclick="allowAudio()" class="audio-btn">Izinkan</button>
-        </div>
-    </div>
+<header>
+    <h1>GLG INDUSTRIES</h1>
+    <p>RESTRICTED DATABASE // SYSTEM v2.0</p>
+</header>
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen hidden">
-        <div class="loading-heart">💗</div>
-        <p class="loading-text">Menyiapkan hati...</p>
-        <div class="loading-bar"><div class="loading-bar-fill"></div></div>
-    </div>
+<nav id="navbar">
+    <button class="nav-btn active" onclick="showSection('home')">HOME</button>
+    <button class="nav-btn" onclick="showSection('individuals')">INDIVIDUALS</button>
+    <button class="nav-btn" onclick="showSection('profiles')">PROFILES</button>
+    <button class="nav-btn" onclick="showSection('groups')">GROUPS</button>
+</nav>
 
-    <!-- Step 0 - Language Selection -->
-    <div id="step0" class="step-0">
-        <div class="lang-container">
-            <h1 class="lang-title">Untuk Dion</h1>
-            <p class="lang-subtitle">Pilih bahasa</p>
-            <button onclick="selectLang('id')" class="lang-btn">Bahasa Indonesia</button>
-            <button onclick="selectLang('ntt')" class="lang-btn special">Bahasa NTT</button>
-        </div>
-    </div>
+<div class="container">
+    
+    <!-- SEARCH BAR -->
+    <input type="text" id="charSearch" onkeyup="searchChar()" placeholder="Cari entitas (Misa, SIN, Brilioan...)">
 
-    <!-- Corner Frames -->
-    <div id="cornerTL" class="corner-frame corner-tl"></div>
-    <div id="cornerTR" class="corner-frame corner-tr"></div>
-    <div id="cornerBL" class="corner-frame corner-bl"></div>
-    <div id="cornerBR" class="corner-frame corner-br"></div>
-
-    <!-- Progress dots -->
-    <div id="progressDots" class="progress-dots hidden"></div>
-
-    <!-- Particles container -->
-    <div id="particles"></div>
-
-    <!-- Book Wrapper -->
-    <div id="bookWrapper" class="book-wrapper">
-        <div class="book-container">
-            <div class="book">
-                <!-- Book Cover -->
-                <div id="bookCover" class="book-cover">
-                    <div class="cover-ornament">
-                        <div class="border-frame">
-                            <div class="cover-subtitle">Sebuah</div>
-                            <div class="cover-title">Pesan</div>
-                            <div class="cover-to">Untuk</div>
-                            <div class="cover-name">Dion</div>
-                            <div class="cover-from">dari seseorang yang terpesona</div>
-                        </div>
-                    </div>
+    <!-- HOME SECTION -->
+    <div id="home" class="section-content">
+        <div class="section-card">
+            <h2>DATA VITAL SISTEM</h2>
+            <div class="vital-grid">
+                <div class="vital-item">
+                    <span class="vital-label">TOTAL ENTITAS</span>
+                    <span id="counter" class="vital-value">0</span>
                 </div>
+                <div class="vital-item">
+                    <span class="vital-label">DALANG UTAMA</span>
+                    <span class="vital-value">EX-109</span>
+                </div>
+                <div class="vital-item">
+                    <span class="vital-label">PEMBANTU UTAMA</span>
+                    <span class="vital-value">SIN</span>
+                </div>
+                <div class="vital-item">
+                    <span class="vital-label">KASTA TERTINGGI</span>
+                    <span class="vital-value">THE GOD</span>
+                </div>
+            </div>
+        </div>
 
-                <!-- Pages -->
-                <div class="pages" id="pagesContainer"></div>
+        <div class="section-card">
+            <h2>SISTEM KEAGAMAAN</h2>
+            <p><strong style="color:var(--accent-blue)">MalAstreoin:</strong> Agama Malian</p>
+            <p><strong style="color:var(--accent-red)">SilAstrein:</strong> Agama SIN</p>
+        </div>
+    </div>
+
+    <!-- INDIVIDUALS SECTION -->
+    <div id="individuals" class="section-content" style="display:none;">
+        
+        <div class="section-card">
+            <h2>CH 1: Awal Mula & Defectors</h2>
+            <div class="char-list">
+                <!-- Misa, Briam, Lian, Ludwi ditandai Defector -->
+                <span onclick="showLore('Misa', 'The Tiny Schoolgirl', 'Experimen 023. Tinggi se-lutut Adre. Defector yang membelot ke Jacks Group untuk tobat.', 'SilAstrein (Ex)')">MISA <span class="tag-defector">Defector</span></span>
+                <span onclick="showLore('Adre', 'The Human', 'Satu-satunya manusia murni terjebak loop. Patokan ukuran.', 'None')">Adre</span>
+                <span onclick="showLore('Miya', 'The Tiny Chef', 'Koki istana setinggi lutut.', 'None')">Miya</span>
+                <span onclick="showLore('Kks', 'Butler', 'Pelayan kembar dari kertas.', 'None')">Kks</span>
+                <span onclick="showLore('Loid', 'Maid', 'Pelayan kembar dari kertas.', 'None')">Loid</span>
+                <span>Pos</span><span>Musho</span>
+                <!-- Trio Defector -->
+                <span onclick="showLore('Briam', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Briam <span class="tag-defector">Defector</span></span>
+                <span onclick="showLore('Lian', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Lian <span class="tag-defector">Defector</span></span>
+                <span onclick="showLore('Ludwi', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Ludwi <span class="tag-defector">Defector</span></span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>CH 2: Keluarga Yos & Antagonis</h2>
+            <div class="char-list">
+                <span style="border-color:#ffa502;" onclick="showLore('Mommy Yos', 'The Noble', 'Elegan, manipulatif. Setinggi dada Adre.', 'MalAstreoin')">Mommy Yos</span>
+                <span style="border-color:#ffa502;">Daddy Yos</span>
+                <span style="border-color:#ffa502;">Child Yos</span>
+                <span style="border-color:#ffa502;">Yos's Sister</span>
+                <span>Kit Kitchien!</span><span>Bedrooo</span><span>Waste</span><span>Lily</span>
+                <span>Frezze</span><span>Chi</span><span>Pipz</span><span>Protey</span>
+                <span>EX-009</span><span>EX-621</span><span>EX-001</span><span>EX-000</span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>CH 3: The Babies & Sisters</h2>
+            <div class="char-list">
+                <span>Baby</span><span>Baby Doll</span><span>Doll Kras</span>
+                <span>Mis (Sister)</span><span>Miza (Sister)</span>
+                <span>Saly</span><span>Nightmare</span><span>Braids</span>
+                <span style="color:#ff4757; font-weight:bold;" onclick="showLore('THE GOD', 'EX-0199', 'Kasta tertinggi dalam hierarki GLG Industries.', 'Unknown')">THE GOD</span>
+                <span>Purpel</span><span>Sian</span><span>Mian</span><span>Martin</span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>CH 4: Pasukan SIN</h2>
+            <div class="char-list">
+                <span>Sintin</span><span>Sindack</span><span>Sinsin</span><span>988Sin</span><span>8</span><span>16</span>
+                <span>Proppls</span><span>Doggy</span><span>Puppy Miled</span><span>Msaaa</span>
+                <span>Kisst</span><span>Hugg</span><span>Adrean</span><span>Juni</span><span>July</span><span>Oct</span>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>CH 5: The Ancestors</h2>
+            <div class="char-list">
+                <span onclick="showLore('Brilioan', 'Wakil SIN', 'Orang paling cerdas, antagonis genius. Fanatik SilAstrein.', 'SilAstrein (Fanatik)')">Brilioan</span>
+                <span style="border-color:#70a1ff;">Grandma SIN</span>
+                <span style="border-color:#70a1ff;">Grandma Msaa</span>
+                <span style="border-color:#70a1ff;">Grandma Misa</span>
+                <span style="border-color:#70a1ff;">Granma 109</span>
+                <span style="border-color:#70a1ff;">Grandma Adr</span>
             </div>
         </div>
     </div>
 
-    <!-- Closing Message -->
-    <div id="closingMessage" class="closing-message">
-        <div class="closing-content">
-            <h2>Dion...</h2>
-            <p>Terimalah cintaku ini.<br>Dengan sepenuh hati, aku menunggumu.</p>
-            <div class="heart">💗</div>
+    <!-- PROFILES SECTION -->
+    <div id="profiles" class="section-content" style="display:none;">
+        <div class="section-card">
+            <h2>PROFIL KUNCI</h2>
+            
+            <div class="profile-box">
+                <div class="profile-title">ADRE <span style="font-size:0.7rem; background:#555; padding:2px 5px; border-radius:3px;">THE HUMAN</span></div>
+                <p>Satunya manusia murni terjebak loop. Pakaian era 1897. Patokan ukuran karakter.</p>
+            </div>
+
+            <div class="profile-box">
+                <div class="profile-title">MISA <span style="font-size:0.7rem; background:var(--defector-color); color:#000; padding:2px 5px; border-radius:3px;">DEFECTOR</span></div>
+                <p>Tinggi se-lutut Adre. Umur 25 tahun dalam tubuh mungil. Kini bergabung dengan Jacks Group.</p>
+            </div>
+
+            <div class="profile-box">
+                <div class="profile-title">BRILIOAN <span style="font-size:0.7rem; background:var(--accent-red); padding:2px 5px; border-radius:3px;">WAKIL SIN</span></div>
+                <p>The Evil Genius. Orang paling cerdas di database. Fanatik agama SilAstrein.</p>
+            </div>
         </div>
     </div>
 
-    <!-- Final Buttons -->
-    <div id="finalButtons" class="final-buttons">
-        <button onclick="showForm()" class="btn-accept">BETA MAU, AIKO</button>
-    </div>
-
-    <!-- Decline Button -->
-    <button id="btnDecline" class="btn-decline" style="display: none;">Sonde...</button>
-
-    <!-- Form Container -->
-    <div id="formContainer" class="form-container">
-        <div class="form-header">
-            <h2>Tulis Perasaanmu</h2>
-            <p>Curahkan semua yang ada di hatimu, minimal 10 kata</p>
+    <!-- GROUPS SECTION -->
+    <div id="groups" class="section-content" style="display:none;">
+        <div class="section-card">
+            <h2>HIERARKI KEKUASAAN (REVISI)</h2>
+            <table>
+                <tr>
+                    <th>Nama Grup</th>
+                    <th>Jumlah</th>
+                    <th>Status/Deskripsi</th>
+                </tr>
+                <tr>
+                    <td>Jacks Group</td>
+                    <td>66.711</td>
+                    <td>Infrastruktur pabrik. Tempat berteduh para <strong>Defectors</strong> (Misa, Briam, dkk).</td>
+                </tr>
+                <tr>
+                    <td>Nightmare FU</td>
+                    <td>921</td>
+                    <td>Kelompok terkutuk, antagonis berbahaya.</td>
+                </tr>
+                <tr>
+                    <td>SMA DU</td>
+                    <td>872</td>
+                    <td>Bangsawan & Jenius (Keluarga Yos, Brilioan).</td>
+                </tr>
+                <tr>
+                    <td>Smileng FU</td>
+                    <td>92</td>
+                    <td><strong style="color:var(--defector-color)">Pembunuh Tersenyum</strong>. Circle utama namun berbahaya.</td>
+                </tr>
+                <tr>
+                    <td>Long FU</td>
+                    <td>13</td>
+                    <td>Kasta Dewa (Para Grandma & The God).</td>
+                </tr>
+                <tr>
+                    <td>Fuyunnis Brianlin</td>
+                    <td>6</td>
+                    <td>Elit tempur, jago bela diri.</td>
+                </tr>
+            </table>
         </div>
-        <textarea id="loveLetter" class="form-textarea" placeholder="Mulai menulis..."></textarea>
-        <div id="wordCounter" class="word-counter">0 / 10 kata</div>
-        <button id="btnSubmit" onclick="submitLetter()" class="btn-submit">Kirim Cinta</button>
     </div>
 
-    <!-- Credit Screen -->
-    <div id="creditScreen" class="credit-screen">
-        <div class="starfield" id="starfield"></div>
-        <div class="credit-viewport">
-            <div class="credit-content" id="creditScroller"></div>
+</div>
+
+<!-- MODAL POP-UP -->
+<div id="loreModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="modal-name" style="margin-top:0; color:var(--accent-gold);">Nama</h3>
+        <p id="modal-title" style="font-style:italic; color:#ccc; margin-bottom:10px;">Title</p>
+        <hr style="border-color:#333;">
+        <p id="modal-desc" style="margin-top:15px;">Deskripsi...</p>
+        <div style="margin-top:15px; font-size:0.8rem;">
+            <strong>Keyakinan:</strong> <span id="modal-religion" style="color:var(--accent-blue);">-</span>
         </div>
     </div>
+</div>
 
-    <!-- YouTube Player -->
-    <div id="player"></div>
+<footer>
+    GLG INDUSTRIES DATABASE SYSTEM v2.0<br>
+    Initialized. System Ready.
+</footer>
 
-    <script>
-        // ==================== DATA ====================
-        const messages = {
-            id: [
-                { title: "Awal Pertemuan", content: `<p>Dion, masih ingat pertama kali kita saling berbicara?</p><p>Saat itu aku tidak menyangka bahwa obrolan sederhana akan mengubah segalanya...</p><p>Tak kusangka, dari sekadar kata-kata, tumbuh benih yang kini bersemi di hati.</p>` },
-                { title: "Tentang Senyumanmu", content: `<p>Setiap kali kamu tersenyum, ada matahari yang terbit di dalam hatiku.</p><p>Seperti pagi yang hangat menyapa malam yang dingin.</p><p>Kamu punya cara ajaib untuk menerangi hari-hariku yang kelabu.</p>` },
-                { title: "Kehadiranmu", content: `<p>Di antara jutaan bintang di langit, kamu adalah yang paling terang.</p><p>Di antara ribuan orang yang datang dan pergi, kamu yang tetap ada.</p><p>Kamu mengerti tanpa perlu aku berkata apa-apa.</p>` },
-                { title: "Malam-Malam Sunyi", content: `<p>Aku sering terjaga di malam-malam yang sunyi...</p><p>Memikirkan bagaimana matamu berkilau saat tertawa.</p><p>Bagaimana suaramu menenangkan setiap gelisah di hatiku.</p><p>Bagaimana kamu membuatku merasa... berharga.</p>` },
-                { title: "Tentang Rasa", content: `<p>Ada rasa yang tumbuh perlahan, seperti bunga di musim semi.</p><p>Awalnya aku sangka ini hanya kekaguman sementara.</p><p>Tapi semakin hari, semakin dalam akar-akarnya menancap.</p><p>Semakin lama, semakin indah bunganya mekar.</p>` },
-                { title: "Harapan", content: `<p>Sering aku berangan-angan tentang "kita".</p><p>Tentang bagaimana indahnya jika kita bisa berjalan bersama.</p><p>Berbagi tawa, berbagi cerita, berbagi hari-hari.</p><p>Menjadi saksi setiap momen kehidupan satu sama lain.</p>` },
-                { title: "Ketulusan", content: `<p>Sudah lama aku menyimpan perasaan ini sendiri.</p><p>Sudah lama aku berpura-pura bahwa ini hanya persahabatan.</p><p>Tapi hari ini, aku tidak bisa lagi bersembunyi.</p><p>Hari ini, aku ingin jujur pada diriku sendiri.</p>` },
-                { title: "Untukmu", content: `<p>Dion, kamu adalah alasan aku percaya pada keajaiban.</p><p>Kamu adalah bukti bahwa hal-hal indah bisa datang tanpa diduga.</p><p>Dan aku bersyukur setiap hari karena kehadiranmu.</p>` }
-            ],
-            ntt: [
-                { title: "Mula Pertama", content: `<p>Dion, ko masih ingat sonde pas mula pertama katong dua omong?</p><p>Pas itu beta sonde sangka kalau obrolan sederhana bisa ubah semuanya...</p><p>Tau sonde dari, dari cuma kata-kata, tumbuh biji yang sekarang tu bersemi di hati.</p>` },
-                { title: "Tentang Ko Pung Senyum", content: `<p>Tiap kali ko senyum, ada matahari yang terbit di dalam beta pung hati.</p><p>Seperti pagi yang hangat sapa malam yang dingin.</p><p>Ko punya cara ajaib bikin terang beta pung hari-hari yang kelabu.</p>` },
-                { title: "Ada Ko", content: `<p>Di antara jutaan bintang di langit, ko tu yang paling terang.</p><p>Di antara ribuan orang yang datang dan pergi, ko yang tetap ada.</p><p>Ko mengerti tanpa beta harus omong apa-apa.</p>` },
-                { title: "Malam-Malam Sunyi", content: `<p>Beta sering bangun di malam-malam yang sunyi...</p><p>Fikir tentang ko pung mata yang kilau pas ko tertawa.</p><p>Ko pung suara yang tenang kan setiap gelisah di beta pung hati.</p><p>Dan gimana ko bikin beta rasa... berharga.</p>` },
-                { title: "Tentang Rasa", content: `<p>Ada rasa yang tumbuh pelan-pelan, seperti bunga di musim semi.</p><p>Mula-mula beta sangka ni cuma kagum sebentar.</p><p>Tapi makin hari, makin dalam akar-akarnya nyangkut.</p><p>Makin lama, makin indah bunganya mekar.</p>` },
-                { title: "Harapan", content: `<p>Sering beta hayal tentang "katong dua".</p><p>Tentang gimana indahnya kalau katong bisa jalan sama-sama.</p><p>Bagi tawa, bagi cerita, bagi hari-hari.</p><p>Jadi saksi tiap momen hidup satu sama lain.</p>` },
-                { title: "Ketulusan", content: `<p>Suda lama beta simpan ni rasa sendiri.</p><p>Suda lama beta pura-pura kalau ni cuma persahabatan.</p><p>Tapi hari ini, beta sonde bisa sembunyi lagi.</p><p>Hari ini, beta mau jujur pada beta sendiri.</p>` },
-                { title: "Untuk Ko", content: `<p>Dion, ko tu alasan beta percaya pada keajaiban.</p><p>Ko tu bukti kalau hal-hal indah bisa datang tanpa diduga.</p><p>Dan beta bersyukur tiap hari karena ko ada.</p>` }
-            ],
-            confessions: {
-                id: { title: "Dari Hati", content: `<p>Dion...</p><p>Aku tidak mau kita hanya menjadi teman.</p><p>Aku ingin lebih dari itu. Jauh lebih banyak dari itu.</p><p style="font-size: 22px; margin-top: 28px;">Aku sayang kamu, Yon.</p><p style="font-size: 16px;">Dari seseorang yang selalu memikirkanmu.</p><p class="signature">~ Aiko</p>` },
-                ntt: { title: "Dari Hati", content: `<p>Dion...</p><p>Beta sonde mau katong dua cuma jadi teman.</p><p>Beta mau lebih dari itu. Lebih banyak dari itu.</p><p style="font-size: 22px; margin-top: 28px;">Beta sayang ko, Yon.</p><p style="font-size: 16px;">Dari orang yang selalu fikirin ko.</p><p class="signature">~ Aiko</p>` }
-            }
-        };
+<script>
+    // 1. FITUR COUNTER ANIMASI
+    window.onload = function() {
+        animateCount("counter", 0, 68618, 1500);
+    };
 
-        // ==================== STATE VARIABLES ====================
-        let selectedLang = 'ntt';
-        let currentPage = 0;
-        let totalPages = 0;
-        let player = null;
-        let userMessage = '';
-        let pageTimer = null;
-        let isAnimating = false;
+    function animateCount(id, start, end, duration) {
+        let obj = document.getElementById(id);
+        let range = end - start;
+        let minTimer = 50;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        stepTime = Math.max(stepTime, minTimer);
+        let startTime = new Date().getTime();
+        let endTime = startTime + duration;
+        let timer;
 
-        // Credit animation duration in milliseconds (50 seconds)
-        const CREDIT_DURATION = 50000;
-
-        // ==================== YOUTUBE API ====================
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '0', width: '0',
-                videoId: '4ZLBcD5MD9c',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'modestbranding': 1 },
-                events: { 'onReady': onPlayerReady, 'onError': onPlayerError }
-            });
-        }
-
-        function onPlayerReady(event) { console.log('YouTube player ready'); }
-        function onPlayerError(event) { console.log('YouTube player error:', event.data); }
-
-        // ==================== AUDIO PERMISSION ====================
-        function checkAudioPermission() {
-            document.getElementById('audioPopup').classList.remove('hidden');
-        }
-
-        function allowAudio() {
-            document.getElementById('audioPopup').classList.add('hidden');
-            if (player && typeof player.playVideo === 'function') {
-                player.playVideo();
+        function run() {
+            let now = new Date().getTime();
+            let remaining = Math.max((endTime - now) / duration, 0);
+            let value = Math.round(end - (remaining * range));
+            obj.innerHTML = value.toLocaleString('id-ID');
+            if (value === end) {
+                clearInterval(timer);
             }
         }
+        timer = setInterval(run, stepTime);
+        run();
+    }
 
-        // ==================== LANGUAGE SELECTION ====================
-        function selectLang(lang) {
-            selectedLang = lang;
-            document.getElementById('step0').classList.add('hidden');
-            document.getElementById('loadingScreen').classList.remove('hidden');
-            
-            checkAudioPermission();
-            
-            totalPages = messages[selectedLang].length + 1;
-            setupProgressDots();
-            generatePages();
-            createStarfield();
-            
-            setTimeout(function() {
-                document.getElementById('loadingScreen').classList.add('hidden');
-                document.getElementById('bookWrapper').classList.add('visible');
-                document.getElementById('progressDots').classList.remove('hidden');
-                
-                // Show corner frames
-                document.querySelectorAll('.corner-frame').forEach(function(el) {
-                    el.classList.add('visible');
-                });
-                
-                createParticles();
-                
-                setTimeout(function() {
-                    document.getElementById('bookCover').classList.add('open');
-                    setTimeout(startReading, 1800);
-                }, 800);
-            }, 2500);
+    // 2. FITUR NAVIGASI TAB
+    function showSection(sectionId) {
+        var sections = document.getElementsByClassName("section-content");
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = "none";
         }
-
-        // ==================== PROGRESS DOTS ====================
-        function setupProgressDots() {
-            const container = document.getElementById('progressDots');
-            container.innerHTML = '';
-            for (let i = 0; i < totalPages; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'progress-dot';
-                if (i === 0) dot.classList.add('active');
-                container.appendChild(dot);
-            }
+        document.getElementById(sectionId).style.display = "block";
+        
+        var buttons = document.getElementsByClassName("nav-btn");
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
         }
+        event.currentTarget.classList.add("active");
+        
+        // Reset search saat pindah tab
+        document.getElementById('charSearch').value = '';
+        searchChar();
+    }
 
-        function updateProgress() {
-            const dots = document.querySelectorAll('.progress-dot');
-            dots.forEach(function(dot, idx) {
-                if (idx <= currentPage) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        }
-
-        // ==================== PAGE GENERATION ====================
-        function generatePages() {
-            const container = document.getElementById('pagesContainer');
-            container.innerHTML = '';
-            
-            const messageList = messages[selectedLang];
-            const pageCount = messageList.length;
-            
-            for (let i = 0; i < pageCount; i++) {
-                const page = document.createElement('div');
-                const zIndex = pageCount - i + 10;
+    // 3. FITUR SEARCH BAR
+    function searchChar() {
+        var input = document.getElementById('charSearch');
+        var filter = input.value.toLowerCase();
+        
+        // Cari di semua section content (biar bisa search walau tab disembunyikan)
+        var sections = document.getElementsByClassName("section-content");
+        
+        for (var s = 0; s < sections.length; s++) {
+            var cards = sections[s].getElementsByClassName("section-card");
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var spans = card.getElementsByClassName("char-list")[0];
                 
-                page.className = 'page-flip';
-                page.style.zIndex = zIndex;
-                page.id = 'page-' + i;
-                
-                const msg = messageList[i];
-                page.innerHTML = 
-                    '<div class="page-front">' +
-                        '<div class="page-header">' +
-                            '<div class="page-number">Bab ' + (i + 1) + '</div>' +
-                            '<h2 class="page-title">' + msg.title + '</h2>' +
-                        '</div>' +
-                        '<div class="page-content" id="content-' + i + '">' + msg.content + '</div>' +
-                    '</div>' +
-                    '<div class="page-back"></div>';
-                
-                container.appendChild(page);
-            }
-            
-            const confPage = document.createElement('div');
-            confPage.className = 'page-static';
-            confPage.id = 'page-confession';
-            
-            const conf = messages.confessions[selectedLang];
-            confPage.innerHTML = 
-                '<div class="page-header">' +
-                    '<div class="page-number">Akhir</div>' +
-                    '<h2 class="page-title">' + conf.title + '</h2>' +
-                '</div>' +
-                '<div class="page-content" id="content-conf">' + conf.content + '</div>';
-            
-            container.appendChild(confPage);
-        }
-
-        // ==================== READING FLOW ====================
-        function startReading() { showPage(0); }
-
-        function showPage(idx) {
-            if (isAnimating) return;
-            
-            const messageList = messages[selectedLang];
-            const isConfession = (idx >= messageList.length);
-            
-            const pageId = isConfession ? 'page-confession' : 'page-' + idx;
-            const page = document.getElementById(pageId);
-            
-            if (!page) { showClosingMessage(); return; }
-            
-            isAnimating = true;
-            currentPage = idx;
-            updateProgress();
-            
-            const contentEl = page.querySelector('.page-content');
-            
-            if (page.classList.contains('page-flip')) {
-                page.classList.add('flipping');
-                if (contentEl) contentEl.classList.add('animate');
-                
-                // Reading duration 12 seconds
-                const readingDuration = 12000;
-                
-                setTimeout(function() {
-                    page.classList.add('flipped');
-                    page.classList.remove('flipping');
+                if (spans) {
+                    var items = spans.getElementsByTagName("span");
+                    var cardHasMatch = false;
                     
-                    setTimeout(function() {
-                        isAnimating = false;
-                        showPage(idx + 1);
-                    }, 1200);
+                    for (var j = 0; j < items.length; j++) {
+                        var txtValue = items[j].textContent || items[j].innerText;
+                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                            items[j].style.display = "";
+                            cardHasMatch = true;
+                        } else {
+                            items[j].style.display = "none";
+                        }
+                    }
                     
-                }, readingDuration);
-                
-                if (idx === 0 || idx === messageList.length - 1) triggerHeavyParticles();
-                
-            } else {
-                page.classList.add('active');
-                if (contentEl) contentEl.classList.add('animate');
-                triggerHeavyParticles();
-                
-                setTimeout(function() {
-                    isAnimating = false;
-                    showClosingMessage();
-                }, 8000);
-            }
-        }
-
-        // ==================== CLOSING MESSAGE ====================
-        function showClosingMessage() {
-            document.getElementById('progressDots').classList.add('hidden');
-            document.querySelectorAll('.corner-frame').forEach(function(el) {
-                el.classList.remove('visible');
-            });
-            
-            setTimeout(function() {
-                document.getElementById('closingMessage').classList.add('visible');
-                
-                setTimeout(function() {
-                    document.getElementById('closingMessage').classList.remove('visible');
-                    document.getElementById('bookWrapper').classList.add('hide');
-                    
-                    setTimeout(function() {
-                        document.getElementById('finalButtons').classList.add('visible');
-                        
-                        const declineBtn = document.getElementById('btnDecline');
-                        declineBtn.style.display = 'block';
-                        declineBtn.style.bottom = '100px';
-                        declineBtn.style.left = '50%';
-                        declineBtn.style.transform = 'translateX(-50%)';
-                        
-                        triggerHeavyParticles();
-                    }, 1000);
-                }, 5000);
-            }, 500);
-        }
-
-        // ==================== PARTICLES ====================
-        function createParticles() {
-            const container = document.getElementById('particles');
-            
-            // Sparkles
-            for (let i = 0; i < 20; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'particle sparkle';
-                sparkle.style.left = (Math.random() * 100) + '%';
-                sparkle.style.top = (Math.random() * 100) + '%';
-                sparkle.style.animationDelay = (Math.random() * 3) + 's';
-                container.appendChild(sparkle);
-            }
-            
-            // Stars
-            for (let i = 0; i < 40; i++) {
-                const star = document.createElement('div');
-                star.className = 'particle star';
-                star.style.left = (Math.random() * 100) + '%';
-                star.style.top = (Math.random() * 100) + '%';
-                star.style.animationDelay = (Math.random() * 2) + 's';
-                container.appendChild(star);
-            }
-            
-            // Dust particles
-            for (let i = 0; i < 30; i++) {
-                const dust = document.createElement('div');
-                dust.className = 'particle dust';
-                dust.style.left = (Math.random() * 100) + '%';
-                dust.style.top = (Math.random() * 100) + '%';
-                dust.style.animationDelay = (Math.random() * 8) + 's';
-                container.appendChild(dust);
-            }
-            
-            // Floating petals interval
-            setInterval(function() {
-                if (Math.random() > 0.5) {
-                    const petal = document.createElement('div');
-                    petal.className = 'particle petal';
-                    const petals = ['🌸', '💮', '✿', '❀', '💕'];
-                    petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
-                    petal.style.left = (Math.random() * 100) + '%';
-                    petal.style.animationDuration = (Math.random() * 6 + 7) + 's';
-                    container.appendChild(petal);
-                    setTimeout(function() { if (petal.parentNode) petal.remove(); }, 12000);
+                    // Sembunyikan kartu jika isinya tidak ada yang cocok
+                    if (filter.length > 0) {
+                        card.style.display = cardHasMatch ? "" : "none";
+                    } else {
+                        card.style.display = ""; // Tampilkan semua jika search kosong
+                    }
                 }
-            }, 600);
-
-            // Floating ornaments
-            setInterval(function() {
-                if (Math.random() > 0.7) {
-                    const ornament = document.createElement('div');
-                    ornament.className = 'floating-ornament';
-                    const ornaments = ['✦', '✧', '❋', '❊', '✵'];
-                    ornament.innerHTML = ornaments[Math.floor(Math.random() * ornaments.length)];
-                    ornament.style.left = (Math.random() * 100) + '%';
-                    ornament.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                    container.appendChild(ornament);
-                    setTimeout(function() { if (ornament.parentNode) ornament.remove(); }, 25000);
-                }
-            }, 2000);
-        }
-
-        function triggerHeavyParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                (function(index) {
-                    setTimeout(function() {
-                        const petal = document.createElement('div');
-                        petal.className = 'particle petal';
-                        const petals = ['🌸', '💮', '✿', '❀', '💗', '💕', '✨'];
-                        petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
-                        petal.style.left = (Math.random() * 100) + '%';
-                        petal.style.animationDuration = (Math.random() * 4 + 5) + 's';
-                        container.appendChild(petal);
-                        setTimeout(function() { if (petal.parentNode) petal.remove(); }, 9000);
-                    }, index * 80);
-                })(i);
             }
         }
+    }
 
-        // ==================== STARFIELD FOR CREDITS ====================
-        function createStarfield() {
-            const container = document.getElementById('starfield');
-            container.innerHTML = '';
-            
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'starfield-star';
-                const size = Math.random() * 2 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = (Math.random() * 100) + '%';
-                star.style.top = (Math.random() * 100) + '%';
-                star.style.animationDelay = (Math.random() * 3) + 's';
-                container.appendChild(star);
-            }
-        }
+    // 4. FITUR MODAL POP-UP
+    function showLore(name, title, desc, religion) {
+        document.getElementById('modal-name').innerText = name;
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-desc').innerText = desc;
+        document.getElementById('modal-religion').innerText = religion;
+        document.getElementById('loreModal').style.display = 'flex';
+    }
 
-        // ==================== FORM & WORD COUNTER ====================
-        function showForm() {
-            document.getElementById('finalButtons').classList.remove('visible');
-            document.getElementById('btnDecline').style.display = 'none';
-            document.getElementById('formContainer').classList.add('visible');
-            
-            const textarea = document.getElementById('loveLetter');
-            const counter = document.getElementById('wordCounter');
-            const btn = document.getElementById('btnSubmit');
-            
-            textarea.value = '';
-            counter.textContent = '0 / 10 kata';
-            counter.classList.remove('valid', 'invalid');
-            btn.classList.remove('enabled');
-            
-            textarea.oninput = null;
-            
-            textarea.addEventListener('input', function() {
-                const text = this.value;
-                const wordsArray = text.match(/\S+/g);
-                const words = wordsArray ? wordsArray.length : 0;
-                
-                counter.textContent = words + ' / 10 kata';
-                
-                if (words >= 10) {
-                    counter.classList.add('valid');
-                    counter.classList.remove('invalid');
-                    btn.classList.add('enabled');
-                } else {
-                    counter.classList.remove('valid');
-                    if (words > 0) counter.classList.add('invalid');
-                    else counter.classList.remove('invalid');
-                    btn.classList.remove('enabled');
-                }
-            });
-            
-            triggerHeavyParticles();
-        }
+    function closeModal(e) {
+        document.getElementById('loreModal').style.display = 'none';
+    }
 
-        // ==================== SUBMIT & CREDITS ====================
-        function submitLetter() {
-            userMessage = document.getElementById('loveLetter').value;
-            
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 60; i++) {
-                (function(index) {
-                    setTimeout(function() {
-                        const heart = document.createElement('div');
-                        heart.className = 'particle petal';
-                        heart.innerHTML = '💗';
-                        heart.style.left = (Math.random() * 100) + '%';
-                        heart.style.fontSize = (Math.random() * 25 + 18) + 'px';
-                        heart.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                        container.appendChild(heart);
-                        setTimeout(function() { if (heart.parentNode) heart.remove(); }, 8000);
-                    }, index * 40);
-                })(i);
-            }
-            
-            setTimeout(function() {
-                document.getElementById('formContainer').classList.remove('visible');
-                document.getElementById('creditScreen').classList.add('visible');
-                startCreditsScroll();
-            }, 2500);
-        }
+</script>
 
-        function startCreditsScroll() {
-            const container = document.getElementById('creditScroller');
-            
-            container.innerHTML = `
-                <div class="credit-section">
-                    <div class="credit-section-title">The Leads</div>
-                    <div class="credit-role">Pemeran Utama</div>
-                    <div class="credit-name">Aiko <span class="credit-subtitle">sebagai The Brave Heart</span></div>
-                    <div class="credit-name">Dion <span class="credit-subtitle">sebagai The Reason Why</span></div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Direction and Writing</div>
-                    <div class="credit-role">Sutradara dan Penulis</div>
-                    <div class="credit-name">Executive Director: Aiko</div>
-                    <div class="credit-name">Screenplay Writer: Aiko <span class="credit-subtitle">(Berdasarkan kisah nyata)</span></div>
-                    <div class="credit-name">Dialogue Editor: Aiko <span class="credit-subtitle">(Bahasa NTT Specialist)</span></div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Technical Production</div>
-                    <div class="credit-role">Tim Belakang Layar</div>
-                    <div class="credit-name">Chief Technology Officer: Gilang</div>
-                    <div class="credit-name">Lead Web Architect: Gilang <span class="credit-subtitle">(Pejuang Kode)</span></div>
-                    <div class="credit-name">Visual Effect Artist: Kelopak Bunga Engine</div>
-                    <div class="credit-name">Sound Engineer: YouTube Music Algorithm</div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Support System</div>
-                    <div class="credit-role">Tim Pendukung</div>
-                    <div class="credit-name">Emotional Support: Teman-teman Aiko</div>
-                    <div class="credit-name">Security System: Borgol Asmara Protocol</div>
-                    <div class="credit-name">Head of Butterflies: Aiko's Heart <span class="credit-subtitle">(Ketua Tim Deg-degan)</span></div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Soundtrack</div>
-                    <div class="credit-role">Musik</div>
-                    <div class="credit-name">Tema Musik: Surat Cinta Untuk Starla</div>
-                    <div class="credit-name">Music Coordinator: Penjaga Mood Dion</div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Daftar Pendukung Cinta</div>
-                    <div class="credit-list-names">
-                        Sarofah | Fairus | Diana<br>
-                        Aiko | Gilang | Farah<br>
-                        Firda | Videla | Gendis<br>
-                        Ainun | Keisya<br><br>
-                        Serta seluruh Kelas 6B yang mendukung cinta ini!
-                    </div>
-                </div>
-
-                <div class="credit-section">
-                    <div class="credit-section-title">Special Thanks</div>
-                    <div class="credit-role">Penghargaan Khusus</div>
-                    <div class="credit-big-text">
-                        Tuhan Yang Maha Esa<br>
-                        Kedua Orang Tua <span class="credit-subtitle">(Restu adalah kunci)</span><br>
-                        Seluruh Rakyat NTT <span class="credit-subtitle">(Saksi bisu perjuangan Aiko)</span>
-                    </div>
-                </div>
-
-                <div class="credit-final">
-                    2026 AIKO AND DION PRODUCTIONS<br>
-                    <span style="font-size: 14px; display: block; margin-top: 12px; color: #999;">Vonis Akhir: Bahagia Selamanya</span>
-                </div>
-                
-                <div class="credit-small">
-                    Mengarahkan ke WhatsApp...
-                </div>
-            `;
-
-            // Delay sebelum mulai scroll untuk memastikan content sudah dirender
-            setTimeout(function() {
-                container.classList.add('scrolling');
-            }, 1500);
-
-            // Redirect ke WhatsApp setelah credit selesai
-            setTimeout(function() {
-                redirectToWhatsApp();
-            }, CREDIT_DURATION + 2000);
-        }
-
-        function redirectToWhatsApp() {
-            const encodedText = encodeURIComponent(userMessage);
-            // Format nomor: 895-3292-24959 -> 6289532924959 (format internasional Indonesia)
-            const phoneNumber = "6289532924959"; 
-            const url = "https://wa.me/" + phoneNumber + "?text=" + encodedText;
-            window.location.href = url;
-        }
-
-        // ==================== DECLINE BUTTON - ELUSIVE ====================
-        function moveDeclineButton() {
-            const btn = document.getElementById('btnDecline');
-            if (btn.style.display === 'none') return;
-            
-            const padding = 30;
-            const maxX = window.innerWidth - btn.offsetWidth - padding;
-            const maxY = window.innerHeight - btn.offsetHeight - padding;
-            
-            // Random position away from current
-            let newX = Math.random() * maxX;
-            let newY = Math.random() * maxY;
-            
-            // Ensure minimum distance from center button
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight - 120;
-            const distance = Math.sqrt(Math.pow(newX - centerX, 2) + Math.pow(newY - centerY, 2));
-            
-            if (distance < 150) {
-                newX = newX < centerX ? newX - 100 : newX + 100;
-                newY = newY < centerY ? newY - 100 : newY + 100;
-            }
-            
-            newX = Math.max(padding, Math.min(maxX, newX));
-            newY = Math.max(padding, Math.min(maxY, newY));
-            
-            btn.style.left = newX + 'px';
-            btn.style.top = newY + 'px';
-            btn.style.bottom = 'auto';
-            btn.style.transform = 'none';
-            btn.style.transition = 'all 0.2s ease';
-        }
-
-        document.getElementById('btnDecline').addEventListener('mouseenter', moveDeclineButton);
-        document.getElementById('btnDecline').addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            moveDeclineButton();
-        });
-        document.getElementById('btnDecline').addEventListener('focus', moveDeclineButton);
-    </script>
 </body>
 </html>
