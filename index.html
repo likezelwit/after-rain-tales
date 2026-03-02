@@ -501,6 +501,96 @@
       transform: scale(1.3);
     }
 
+    /* Story Card Styles */
+    .story-card-container {
+      display: none;
+      padding: 100px 24px 60px;
+      min-height: 100vh;
+    }
+
+    .story-card-container.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .story-chapter-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--border);
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-crimson), var(--accent-gold));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .story-chapter-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--accent-gold);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 60px rgba(201, 162, 39, 0.15);
+    }
+
+    .story-chapter-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .story-chapter-card:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+
+    .chapter-number {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--border);
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .story-chapter-card:hover .chapter-number {
+      color: var(--accent-gold);
+      opacity: 0.3;
+    }
+
+    .chapter-status {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: 0.65rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .status-prologue {
+      background: linear-gradient(135deg, var(--accent-purple), #2d1a38);
+      color: var(--fg-primary);
+    }
+
+    .status-chapter {
+      background: linear-gradient(135deg, var(--accent-gold), #8b6914);
+      color: var(--bg-primary);
+    }
+
+    .status-finale {
+      background: linear-gradient(135deg, var(--accent-crimson), #5c1111);
+      color: var(--fg-primary);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -513,6 +603,8 @@
       .entity-label { font-size: 0.45rem; height: 40px; }
       .height-ruler { min-width: 1600px; }
       .story-nav { flex-direction: column; gap: 12px; }
+      .story-chapter-card { padding: 20px; }
+      .chapter-number { font-size: 2rem; }
     }
   </style>
 </head>
@@ -814,15 +906,31 @@
     <nav class="story-nav">
       <button onclick="showDatabasePage()" class="chapter-nav-btn">KEMBALI KE DATABASE</button>
       <div class="font-display text-lg" style="color: var(--accent-gold);">PAPERCRAFT CO - CERITA</div>
-      <div class="flex gap-2">
-        <button class="chapter-nav-btn" onclick="prevChapter()">SEBELUMNYA</button>
-        <button class="chapter-nav-btn" onclick="nextChapter()">SELANJUTNYA</button>
+      <div id="storyNavActions" style="display: none;">
+        <button class="chapter-nav-btn" onclick="showChapterCards()">DAFTAR CHAPTER</button>
       </div>
     </nav>
 
-    <div id="storyContent"></div>
+    <!-- Chapter Cards Container -->
+    <div id="storyCardContainer" class="story-card-container active">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h1 class="font-display text-3xl md:text-5xl font-black tracking-wider mb-4" style="color: var(--accent-gold);">
+            PAPERCRAFT CO
+          </h1>
+          <p class="text-lg text-[var(--fg-secondary)] italic mb-2">Cerita Lengkap</p>
+          <p class="text-sm text-[var(--fg-secondary)]">Klik chapter untuk membaca cerita</p>
+        </div>
+        
+        <div id="chapterCardsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      </div>
+    </div>
 
-    <div class="chapter-indicator" id="chapterIndicator"></div>
+    <!-- Story Content Container -->
+    <div id="storyContentContainer" class="story-chapter">
+      <div id="storyContent"></div>
+      <div class="chapter-indicator" id="chapterIndicator"></div>
+    </div>
   </div>
 
   <!-- Modal -->
@@ -848,6 +956,8 @@
     const storyChapters = [
       {
         title: "PROLOG - Pabrik Kertas yang Terlupakan",
+        preview: "Tahun 1897, Adre menemukan warisan tak terduga - sebuah pabrik kertas tua yang menyimpan rahasia ribuan tahun...",
+        status: "prologue",
         content: `
           <p>Tahun 1897, di sebuah lembah terpencil antara pegunungan yang diselimuti kabut, berdiri sebuah pabrik tua yang telah lama ditinggalkan. Namanya GLG Industries - dulunya adalah pabrik kertas terbesar di benua itu.</p>
           <p>Adre, seorang insinyur muda berpakaian sederhana era Victoria, berdiri di depan gerbang besi berkarat pabrik itu. Surat wasis yang ditemukannya di loteng neneknya menunjuk ke tempat ini - sebuah warisan yang tak pernah ia duga ada.</p>
@@ -857,6 +967,8 @@
       },
       {
         title: "CHAPTER 1 - Dunia Kertas",
+        preview: "Adre terbangun di dunia yang sama sekali berbeda - sebuah realm di mana kertas hidup, bernapas, dan memiliki kehendak sendiri...",
+        status: "chapter",
         content: `
           <p>Adre terbangun di ruangan yang sama sekali berbeda. Lantai, dinding, langit-langit - semuanya terbuat dari kertas. Bukan kertas biasa, tapi kertas yang hidup, bernapas, bergerak.</p>
           <p>"Selamat datang di loop, Manusia."</p>
@@ -868,6 +980,8 @@
       },
       {
         title: "CHAPTER 2 - Keluarga Yos",
+        preview: "Di aula besar pabrik, Adre bertemu dengan Keluarga Yos - bangsawan misterius dengan agenda tersembunyi...",
+        status: "chapter",
         content: `
           <p>Misa membawa Adre melewati koridor-koridor pabrik yang tak berujung. Setiap pintu yang mereka lewati menampilkan ruangan berbeda - ada yang penuh boneka, ada yang dipenuhi mesin tua, ada yang hanya kegelapan mutlak.</p>
           <p>"Kau harus hati-hati," peringat Misa. "Tidak semua yang hidup di sini bersahabat."</p>
@@ -880,6 +994,8 @@
       },
       {
         title: "CHAPTER 3 - Agama Kertas",
+        preview: "Dua kekuatan besar menguasai GLG Industries - MalAstreoin dan SilAstrein. Di antara keduanya, Adre harus memilih jalannya...",
+        status: "chapter",
         content: `
           <p>Dalam perjalanan mereka, Misa menjelaskan dua kekuatan besar yang menguasai GLG Industries.</p>
           <p>"Ada MalAstreoin - agama buatan Malian, nenek moyang spiritual yang memberikan kemampuan untuk menembus inti bumi tanpa terluka. EX-109, Dalang Utama, adalah pengikut setia MalAstrein."</p>
@@ -891,6 +1007,8 @@
       },
       {
         title: "CHAPTER 4 - Pasukan Malam",
+        preview: "Di kegelapan pabrik, pasukan-pasukan misterius mulai bergerak. Jacks Group, Nightmare FU - semua memiliki perannya...",
+        status: "chapter",
         content: `
           <p>Malam itu, Adre belajar tentang Jacks Group - pasukan masif berjumlah 66.711 karakter yang membentuk tulang punggung pabrik. Para Baby dan Doll, Miya si koki mungil, Kks dan Loid si kembar butler.</p>
           <p>"Mereka adalah pekerja," jelas Misa. "Tapi juga mata-mata. Di sini, semua orang mengawasi semua orang."</p>
@@ -903,6 +1021,8 @@
       },
       {
         title: "CHAPTER 5 - Nenek Moyang",
+        preview: "Di kedalaman pabrik, Adre bertemu Para Grandma - silsilah kuno yang menyimpan rahasia keluarganya sendiri...",
+        status: "chapter",
         content: `
           <p>Di kedalaman pabrik, Adre bertemu dengan Para Grandma - silsilah kuno yang tingginya mencapai ratusan centimeter, jauh melampaui karakter lain.</p>
           <p>Grandma SIN, pemegang silsilah tertinggi faksi SIN, menatapnya dengan mata yang menyimpan sejarah ribuan tahun.</p>
@@ -917,6 +1037,8 @@
       },
       {
         title: "CHAPTER 6 - Community FUYU",
+        preview: "Harapan baru muncul ketika Adre bertemu Community FUYU - enam manusia yang juga terjebak dalam loop...",
+        status: "chapter",
         content: `
           <p>Di saat Adre merasa semua harapan hilang, ia bertemu dengan Community FUYU - enam karakter dengan tinggi rata-rata 199-203 cm, manusia-manusia yang terjebak seperti dirinya.</p>
           <p>Braiyen, Ketua Grup, mengulurkan tangannya. "Kami sudah menunggumu, Adre. 203.000 karakter aktif, dan kau adalah satu-satunya yang bisa memimpin mereka keluar."</p>
@@ -927,7 +1049,9 @@
         `
       },
       {
-        title: "CHAPTER 7 - Perang Dimulai",
+        title: "CHAPTER 7 - Inti Bumi",
+        preview: "Perang antara kertas dan manusia dimulai. Di inti bumi, Adre harus menghadapi EX-109 dan kebenaran yang mengubah segalanya...",
+        status: "finale",
         content: `
           <p>Berita tentang kedatangan Adre menyebar cepat. EX-109, Dalang Utama setinggi 562 cm, mulai bergerak. SIN, Pencipta SilAstrein setinggi 450 cm, membangunkan pasukannya.</p>
           <p>"Perang antara kertas dan manusia akan dimulai," umum Brilioan dengan senyum liciknya. "Dan hanya satu pihak yang akan selamat."</p>
@@ -935,27 +1059,12 @@
           <p>"Kami tidak bertarung untuk menghancurkan," kata Adre pada mereka. "Kami bertaruh untuk membebaskan."</p>
           <p>Child Yos berdiri di sampingnya, payung Sister Yos di tangannya. "Dan aku akan menunjukkan jalan. Keluargaku mungkin jahat... tapi aku bukan mereka."</p>
           <p>Dari kejauhan, THE GOD - EX-0199 - menonton dengan mata yang tidak bisa diukur. Entitas tertinggi dalam hierarki GLG Industries akhirnya tertarik.</p>
-        `
-      },
-      {
-        title: "CHAPTER 8 - Inti Bumi",
-        content: `
-          <p>Adre dan pasukannya turun ke kedalaman pabrik, melewati lapisan-lapisan kertas yang semakin tua, semakin rapuh. Mereka menuju inti bumi - satu-satunya tempat di mana loop bisa dihancurkan.</p>
-          <p>"Pengikut SilAstrein tidak bisa kemari," ingat Misa. "Material mereka akan meleleh."</p>
-          <p>"Tapi pengikut MalAstreoin bisa," kata Adre. "Dan EX-109 adalah salah satunya."</p>
-          <p>Di ambang inti bumi, EX-109 menunggu mereka. Raksasa setinggi 562 cm itu berdiri di atas platform kertas yang mendidih.</p>
-          <p>"Manusia," suaranya bergema. "Kau pikir kau bisa menghentikan sesuatu yang sudah berjalan selama seribu tahun?"</p>
-          <p>Adre mengeluarkan peta dari neneknya. "Nenekku berhasil. Dan aku akan melakukannya juga."</p>
-          <p>EX-109 tertawa. "Nenekmu tidak berhasil keluar. Dia berhasil masuk lebih dalam. Dan dia menjadi bagian dari loop selamanya."</p>
-          <p>Di saat itu, Adre menyadari kebenarannya. Jalan keluar bukan dengan melarikan diri. Jalan keluar adalah dengan menghancurkan siklus itu sendiri.</p>
-          <p>Dan di tangannya, selembar kertas dari neneknya mulai terbakar.</p>
-          <p>Untuk pertama kalinya dalam seribu tahun, api menyala di GLG Industries.</p>
           <p class="text-center mt-8" style="color: var(--accent-gold); font-weight: bold;">BERSAMBUNG...</p>
         `
       }
     ];
 
-    // Character Database (Adrean REMOVED)
+    // Character Database
     const characters = [
       { name: "EX-109", chapter: "all", group: "Long FU", religion: "MalAstreoin", role: "Dalang Utama", desc: "Long Hand - Dalang utama di balik seluruh konspirasi GLG Industries. Tingginya 562 cm. Manipulator ulung yang mengendalikan alur cerita dari balik layar.", height: "562 cm", special: "DALANG UTAMA, Long Hand", heightNote: "Raksasa tertinggi" },
       { name: "SIN", chapter: "all", group: "Long FU", religion: "SilAstrein", role: "Pembantu Utama", desc: "Pencipta agama SilAstrein. Pembantu utama dalam hierarki GLG Industries. Tingginya 450 cm. Sangat berbahaya dan manipulatif.", height: "450 cm", special: "PEMBANTU UTAMA, Pencipta SilAstrein", heightNote: "Primordial" },
@@ -1030,6 +1139,7 @@
 
     // Current story chapter
     let currentChapter = 0;
+    let isViewingChapter = false;
 
     // DOM Elements
     const modal = document.getElementById('modal');
@@ -1042,14 +1152,16 @@
     const searchResultsCount = document.getElementById('searchResultsCount');
     const storyContent = document.getElementById('storyContent');
     const chapterIndicator = document.getElementById('chapterIndicator');
+    const storyCardContainer = document.getElementById('storyCardContainer');
+    const storyContentContainer = document.getElementById('storyContentContainer');
+    const storyNavActions = document.getElementById('storyNavActions');
+    const chapterCardsGrid = document.getElementById('chapterCardsGrid');
 
     // Page Navigation
     function showStoryPage() {
       document.getElementById('databasePage').classList.remove('active');
       document.getElementById('storyPage').classList.add('active');
-      currentChapter = 0;
-      renderStoryChapter();
-      renderChapterIndicator();
+      showChapterCards();
       window.scrollTo(0, 0);
     }
 
@@ -1059,17 +1171,75 @@
       window.scrollTo(0, 0);
     }
 
+    function showChapterCards() {
+      isViewingChapter = false;
+      storyCardContainer.classList.add('active');
+      storyContentContainer.classList.remove('active');
+      storyNavActions.style.display = 'none';
+      window.scrollTo(0, 0);
+    }
+
+    function openChapter(index) {
+      currentChapter = index;
+      isViewingChapter = true;
+      storyCardContainer.classList.remove('active');
+      storyContentContainer.classList.add('active');
+      storyNavActions.style.display = 'block';
+      renderStoryChapter();
+      renderChapterIndicator();
+      window.scrollTo(0, 0);
+    }
+
+    // Render Chapter Cards
+    function renderChapterCards() {
+      chapterCardsGrid.innerHTML = storyChapters.map((chapter, index) => {
+        let statusClass = 'status-chapter';
+        let statusText = `CHAPTER ${index}`;
+        
+        if (chapter.status === 'prologue') {
+          statusClass = 'status-prologue';
+          statusText = 'PROLOG';
+        } else if (chapter.status === 'finale') {
+          statusClass = 'status-finale';
+          statusText = 'FINALE';
+        }
+        
+        return `
+          <div class="story-chapter-card" onclick="openChapter(${index})" tabindex="0" role="button" aria-label="Baca ${chapter.title}">
+            <span class="chapter-number">${index === 0 ? 'P' : index}</span>
+            <span class="chapter-status ${statusClass}">${statusText}</span>
+            <h3 class="font-display text-lg md:text-xl font-bold mb-3" style="color: var(--accent-gold);">${chapter.title}</h3>
+            <p class="text-sm text-[var(--fg-secondary)] leading-relaxed">${chapter.preview}</p>
+            <div class="mt-4 flex items-center gap-2 text-xs" style="color: var(--accent-gold);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+              <span>Klik untuk membaca</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Add keyboard support
+      chapterCardsGrid.querySelectorAll('.story-chapter-card').forEach((card, index) => {
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openChapter(index);
+          }
+        });
+      });
+    }
+
     function renderStoryChapter() {
       const chapter = storyChapters[currentChapter];
       storyContent.innerHTML = `
-        <div class="story-chapter active">
-          <div class="max-w-4xl mx-auto">
-            <h2 class="font-display text-2xl md:text-4xl text-center mb-8" style="color: var(--accent-gold);">
-              ${chapter.title}
-            </h2>
-            <div class="story-text">
-              ${chapter.content}
-            </div>
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-display text-2xl md:text-4xl text-center mb-8" style="color: var(--accent-gold);">
+            ${chapter.title}
+          </h2>
+          <div class="story-text">
+            ${chapter.content}
           </div>
         </div>
       `;
@@ -1119,7 +1289,7 @@
       }
     }
 
-    // Create Height Scale with IMPROVED SPACING
+    // Create Height Scale
     function createHeightScale() {
       const maxHeight = 600;
       const rulerHeight = 680;
@@ -1171,8 +1341,8 @@
       `;
       heightRuler.appendChild(godEntity);
       
-      // Add all measurable characters WITH SPACING
-      const spacing = 25; // Increased spacing
+      // Add all measurable characters
+      const spacing = 25;
       measurableChars.forEach((char, index) => {
         const entityEl = document.createElement('div');
         entityEl.className = 'height-entity';
@@ -1432,6 +1602,7 @@
     function init() {
       createParticles();
       createHeightScale();
+      renderChapterCards();
       
       characters.forEach((char, index) => {
         charactersGrid.appendChild(renderCharacterCard(char, index));
