@@ -1,583 +1,787 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLG INDUSTRIES - CLASSIFIED DATABASE v2.0</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-primary: #e0e0d0;
-            --text-secondary: #a0a090;
-            --accent-red: #ff4757;
-            --accent-gold: #ffa502;
-            --accent-blue: #70a1ff;
-            --border-color: #333;
-            --defector-color: #ff6b81;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLG Industries - Character Database</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0908;
+      --bg-secondary: #1a1612;
+      --bg-card: #15120f;
+      --fg-primary: #e8e0d5;
+      --fg-secondary: #9a8f82;
+      --accent-gold: #c9a227;
+      --accent-crimson: #8b1a1a;
+      --accent-purple: #4a2c5a;
+      --border: #2a2420;
+      --paper: #d4c4a8;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2f2f2f 100%);
-            border-bottom: 2px solid var(--accent-red);
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
+    body {
+      font-family: 'Crimson Pro', serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        header h1 {
-            margin: 0;
-            color: var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
-        }
+    .font-display {
+      font-family: 'Cinzel', serif;
+    }
 
-        header p {
-            margin: 5px 0 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
+    /* Paper texture background */
+    .paper-texture {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(ellipse at 20% 30%, rgba(201, 162, 39, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(139, 26, 26, 0.04) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.15;
+    }
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 15px;
-            background-color: #181818;
-            border-bottom: 1px solid #333;
-        }
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 2px;
+      height: 8px;
+      background: var(--paper);
+      opacity: 0.1;
+      pointer-events: none;
+      animation: float-particle 15s infinite linear;
+    }
 
-        .nav-btn {
-            background: transparent;
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 8px 15px;
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.15;
+      }
+      90% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
 
-        .nav-btn:hover, .nav-btn.active {
-            background: var(--accent-gold);
-            color: #121212;
-            font-weight: bold;
-        }
+    /* Character cards */
+    .char-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        /* Main Container */
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
+    .char-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
 
-        /* Search Bar Styling */
-        #charSearch {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 25px;
-            border-radius: 5px;
-            border: 1px solid var(--accent-gold);
-            background: #2a2a2a;
-            color: white;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: box-shadow 0.3s;
-        }
+    .char-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 20px,
+          rgba(255,255,255,0.01) 20px,
+          rgba(255,255,255,0.01) 21px
+        );
+      pointer-events: none;
+    }
 
-        #charSearch:focus {
-            box-shadow: 0 0 10px rgba(255, 165, 2, 0.3);
-        }
+    .char-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--accent-gold);
+      box-shadow: 
+        0 20px 40px rgba(0,0,0,0.5),
+        0 0 60px rgba(201, 162, 39, 0.1);
+    }
 
-        /* Cards */
-        .section-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-left: 4px solid var(--accent-blue);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
+    .char-card:hover::before {
+      transform: scaleX(1);
+    }
 
-        .section-card h2 {
-            margin-top: 0;
-            color: var(--accent-blue);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            font-size: 1.3rem;
-        }
+    /* Group badges */
+    .badge {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 2px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
 
-        /* Vital Stats Grid */
-        .vital-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
+    .badge-long-fu { background: linear-gradient(135deg, #c9a227, #8b6914); color: #0a0908; }
+    .badge-fuyunnis { background: linear-gradient(135deg, #8b1a1a, #5c1111); color: #e8e0d5; }
+    .badge-sma-du { background: linear-gradient(135deg, #4a2c5a, #2d1a38); color: #e8e0d5; }
+    .badge-nightmare { background: linear-gradient(135deg, #1a1a2e, #0f0f1a); color: #c9a227; border: 1px solid #c9a227; }
+    .badge-smileng { background: linear-gradient(135deg, #2d4a3e, #1a2d26); color: #7cb69a; }
+    .badge-jacks { background: linear-gradient(135deg, #3d3d3d, #1a1a1a); color: #888; }
 
-        .vital-item {
-            background: #252525;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            border: 1px solid #333;
-        }
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 9, 8, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+    }
 
-        .vital-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            display: block;
-            margin-bottom: 5px;
-        }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
-        .vital-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent-gold);
-            font-family: 'Courier New', Courier, monospace;
-        }
+    .modal-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      width: 90%;
+      max-width: 600px;
+      max-height: 85vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-gold);
+      z-index: 1001;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        /* Character List & Tags */
-        .char-list span {
-            display: inline-block;
-            background: #333;
-            padding: 5px 10px;
-            margin: 3px;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            border: 1px solid #444;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
+    .modal-overlay.active .modal-content {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
 
-        .char-list span:hover {
-            transform: translateY(-2px);
-            background: #444;
-        }
+    /* Decorative corners */
+    .corner-decor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--accent-gold);
+    }
+    .corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+    .corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
 
-        /* Tag Khusus */
-        .tag-defector {
-            font-size: 0.6rem;
-            background: var(--defector-color);
-            color: #000;
-            padding: 2px 5px;
-            border-radius: 3px;
-            margin-left: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
+    /* Stats counter animation */
+    .stat-number {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
 
-        /* Profile Box */
-        .profile-box {
-            background: #252525;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--accent-red);
-        }
+    .stat-card:hover .stat-number {
+      transform: scale(1.1);
+    }
 
-        .profile-title {
-            color: var(--accent-gold);
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
+    /* Chapter tabs */
+    .chapter-tab {
+      position: relative;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
 
-        /* Modal (Pop-up Lore) */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 200;
-            justify-content: center;
-            align-items: center;
-        }
+    .chapter-tab::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
 
-        .modal-content {
-            background: #1e1e1e;
-            border: 2px solid var(--accent-gold);
-            padding: 25px;
-            border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-            box-shadow: 0 0 20px rgba(255, 165, 2, 0.2);
-            animation: popIn 0.3s ease-out;
-        }
+    .chapter-tab:hover,
+    .chapter-tab.active {
+      color: var(--fg-primary);
+      border-color: var(--accent-gold);
+    }
 
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+    .chapter-tab.active::before {
+      transform: scaleX(1);
+    }
 
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            font-weight: bold;
-        }
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
 
-        .close-btn:hover { color: var(--accent-red); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        
-        th, td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #333;
-        }
+    /* Group cards */
+    .group-card {
+      position: relative;
+      background: var(--bg-card);
+      border-left: 4px solid;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
 
-        th { color: var(--accent-gold); }
+    .group-card:hover {
+      transform: translateX(10px);
+    }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #555;
-            font-size: 0.8rem;
-            border-top: 1px solid #333;
-            margin-top: 20px;
-        }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-gold);
+      border-radius: 4px;
+    }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.2rem; }
-            .vital-value { font-size: 1.1rem; }
-        }
-    </style>
+    /* Focus states */
+    .char-card:focus-visible,
+    .chapter-tab:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .chapter-tab {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="paper-texture"></div>
+  
+  <!-- Floating particles -->
+  <div id="particles"></div>
 
-<header>
-    <h1>GLG INDUSTRIES</h1>
-    <p>RESTRICTED DATABASE // SYSTEM v2.0</p>
-</header>
-
-<nav id="navbar">
-    <button class="nav-btn active" onclick="showSection('home')">HOME</button>
-    <button class="nav-btn" onclick="showSection('individuals')">INDIVIDUALS</button>
-    <button class="nav-btn" onclick="showSection('profiles')">PROFILES</button>
-    <button class="nav-btn" onclick="showSection('groups')">GROUPS</button>
-</nav>
-
-<div class="container">
-    
-    <!-- SEARCH BAR -->
-    <input type="text" id="charSearch" onkeyup="searchChar()" placeholder="Cari entitas (Misa, SIN, Brilioan...)">
-
-    <!-- HOME SECTION -->
-    <div id="home" class="section-content">
-        <div class="section-card">
-            <h2>DATA VITAL SISTEM</h2>
-            <div class="vital-grid">
-                <div class="vital-item">
-                    <span class="vital-label">TOTAL ENTITAS</span>
-                    <span id="counter" class="vital-value">0</span>
-                </div>
-                <div class="vital-item">
-                    <span class="vital-label">DALANG UTAMA</span>
-                    <span class="vital-value">EX-109</span>
-                </div>
-                <div class="vital-item">
-                    <span class="vital-label">PEMBANTU UTAMA</span>
-                    <span class="vital-value">SIN</span>
-                </div>
-                <div class="vital-item">
-                    <span class="vital-label">KASTA TERTINGGI</span>
-                    <span class="vital-value">THE GOD</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-card">
-            <h2>SISTEM KEAGAMAAN</h2>
-            <p><strong style="color:var(--accent-blue)">MalAstreoin:</strong> Agama Malian</p>
-            <p><strong style="color:var(--accent-red)">SilAstrein:</strong> Agama SIN</p>
-        </div>
+  <!-- Hero Section -->
+  <header class="relative z-10 py-16 px-4 border-b border-[var(--border)]">
+    <div class="max-w-6xl mx-auto text-center">
+      <h1 class="font-display text-4xl md:text-6xl font-black tracking-wider mb-2 reveal" style="color: var(--accent-gold);">
+        GLG INDUSTRIES
+      </h1>
+      <p class="font-display text-xl md:text-2xl tracking-[0.3em] text-[var(--fg-secondary)] mb-8 reveal" style="transition-delay: 0.1s;">
+        CHARACTER DATABASE
+      </p>
+      <p class="text-sm text-[var(--fg-secondary)] italic reveal" style="transition-delay: 0.2s;">
+        "Setiap karakter memiliki cerita, setiap kertas menyimpan rahasia"
+      </p>
     </div>
+  </header>
 
-    <!-- INDIVIDUALS SECTION -->
-    <div id="individuals" class="section-content" style="display:none;">
-        
-        <div class="section-card">
-            <h2>CH 1: Awal Mula & Defectors</h2>
-            <div class="char-list">
-                <!-- Misa, Briam, Lian, Ludwi ditandai Defector -->
-                <span onclick="showLore('Misa', 'The Tiny Schoolgirl', 'Experimen 023. Tinggi se-lutut Adre. Defector yang membelot ke Jacks Group untuk tobat.', 'SilAstrein (Ex)')">MISA <span class="tag-defector">Defector</span></span>
-                <span onclick="showLore('Adre', 'The Human', 'Satu-satunya manusia murni terjebak loop. Patokan ukuran.', 'None')">Adre</span>
-                <span onclick="showLore('Miya', 'The Tiny Chef', 'Koki istana setinggi lutut.', 'None')">Miya</span>
-                <span onclick="showLore('Kks', 'Butler', 'Pelayan kembar dari kertas.', 'None')">Kks</span>
-                <span onclick="showLore('Loid', 'Maid', 'Pelayan kembar dari kertas.', 'None')">Loid</span>
-                <span>Pos</span><span>Musho</span>
-                <!-- Trio Defector -->
-                <span onclick="showLore('Briam', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Briam <span class="tag-defector">Defector</span></span>
-                <span onclick="showLore('Lian', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Lian <span class="tag-defector">Defector</span></span>
-                <span onclick="showLore('Ludwi', 'Elit Paper', 'Trio elit berwajah topeng. Membelot ke Jacks Group.', 'None')">Ludwi <span class="tag-defector">Defector</span></span>
-            </div>
+  <!-- Stats Section -->
+  <section class="relative z-10 py-12 px-4 bg-[var(--bg-secondary)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal">
+          <div class="font-display text-3xl md:text-4xl font-bold" style="color: var(--accent-gold);">
+            <span class="stat-number" data-target="68618">0</span>
+          </div>
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">TOTAL KARAKTER</div>
         </div>
-
-        <div class="section-card">
-            <h2>CH 2: Keluarga Yos & Antagonis</h2>
-            <div class="char-list">
-                <span style="border-color:#ffa502;" onclick="showLore('Mommy Yos', 'The Noble', 'Elegan, manipulatif. Setinggi dada Adre.', 'MalAstreoin')">Mommy Yos</span>
-                <span style="border-color:#ffa502;">Daddy Yos</span>
-                <span style="border-color:#ffa502;">Child Yos</span>
-                <span style="border-color:#ffa502;">Yos's Sister</span>
-                <span>Kit Kitchien!</span><span>Bedrooo</span><span>Waste</span><span>Lily</span>
-                <span>Frezze</span><span>Chi</span><span>Pipz</span><span>Protey</span>
-                <span>EX-009</span><span>EX-621</span><span>EX-001</span><span>EX-000</span>
-            </div>
+        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.1s;">
+          <div class="font-display text-3xl md:text-4xl font-bold text-[var(--fg-primary)]">
+            <span class="stat-number" data-target="43">0</span>
+          </div>
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">KARAKTER INDIVIDU</div>
         </div>
-
-        <div class="section-card">
-            <h2>CH 3: The Babies & Sisters</h2>
-            <div class="char-list">
-                <span>Baby</span><span>Baby Doll</span><span>Doll Kras</span>
-                <span>Mis (Sister)</span><span>Miza (Sister)</span>
-                <span>Saly</span><span>Nightmare</span><span>Braids</span>
-                <span style="color:#ff4757; font-weight:bold;" onclick="showLore('THE GOD', 'EX-0199', 'Kasta tertinggi dalam hierarki GLG Industries.', 'Unknown')">THE GOD</span>
-                <span>Purpel</span><span>Sian</span><span>Mian</span><span>Martin</span>
-            </div>
+        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.2s;">
+          <div class="font-display text-3xl md:text-4xl font-bold text-[var(--fg-primary)]">
+            <span class="stat-number" data-target="6">0</span>
+          </div>
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">GRUP ELIT</div>
         </div>
-
-        <div class="section-card">
-            <h2>CH 4: Pasukan SIN</h2>
-            <div class="char-list">
-                <span>Sintin</span><span>Sindack</span><span>Sinsin</span><span>988Sin</span><span>8</span><span>16</span>
-                <span>Proppls</span><span>Doggy</span><span>Puppy Miled</span><span>Msaaa</span>
-                <span>Kisst</span><span>Hugg</span><span>Adrean</span><span>Juni</span><span>July</span><span>Oct</span>
-            </div>
+        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.3s;">
+          <div class="font-display text-3xl md:text-4xl font-bold text-[var(--fg-primary)]">
+            <span class="stat-number" data-target="5">0</span>
+          </div>
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">CHAPTERS</div>
         </div>
-
-        <div class="section-card">
-            <h2>CH 5: The Ancestors</h2>
-            <div class="char-list">
-                <span onclick="showLore('Brilioan', 'Wakil SIN', 'Orang paling cerdas, antagonis genius. Fanatik SilAstrein.', 'SilAstrein (Fanatik)')">Brilioan</span>
-                <span style="border-color:#70a1ff;">Grandma SIN</span>
-                <span style="border-color:#70a1ff;">Grandma Msaa</span>
-                <span style="border-color:#70a1ff;">Grandma Misa</span>
-                <span style="border-color:#70a1ff;">Granma 109</span>
-                <span style="border-color:#70a1ff;">Grandma Adr</span>
-            </div>
-        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- PROFILES SECTION -->
-    <div id="profiles" class="section-content" style="display:none;">
-        <div class="section-card">
-            <h2>PROFIL KUNCI</h2>
-            
-            <div class="profile-box">
-                <div class="profile-title">ADRE <span style="font-size:0.7rem; background:#555; padding:2px 5px; border-radius:3px;">THE HUMAN</span></div>
-                <p>Satunya manusia murni terjebak loop. Pakaian era 1897. Patokan ukuran karakter.</p>
-            </div>
-
-            <div class="profile-box">
-                <div class="profile-title">MISA <span style="font-size:0.7rem; background:var(--defector-color); color:#000; padding:2px 5px; border-radius:3px;">DEFECTOR</span></div>
-                <p>Tinggi se-lutut Adre. Umur 25 tahun dalam tubuh mungil. Kini bergabung dengan Jacks Group.</p>
-            </div>
-
-            <div class="profile-box">
-                <div class="profile-title">BRILIOAN <span style="font-size:0.7rem; background:var(--accent-red); padding:2px 5px; border-radius:3px;">WAKIL SIN</span></div>
-                <p>The Evil Genius. Orang paling cerdas di database. Fanatik agama SilAstrein.</p>
-            </div>
+  <!-- Key Figures -->
+  <section class="relative z-10 py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+        TOKOH KUNCI
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-crimson)] text-center reveal">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">DALANG UTAMA</div>
+          <div class="font-display text-lg font-bold">EX-109</div>
+          <div class="text-sm text-[var(--fg-secondary)] italic">Long Hand</div>
         </div>
-    </div>
-
-    <!-- GROUPS SECTION -->
-    <div id="groups" class="section-content" style="display:none;">
-        <div class="section-card">
-            <h2>HIERARKI KEKUASAAN (REVISI)</h2>
-            <table>
-                <tr>
-                    <th>Nama Grup</th>
-                    <th>Jumlah</th>
-                    <th>Status/Deskripsi</th>
-                </tr>
-                <tr>
-                    <td>Jacks Group</td>
-                    <td>66.711</td>
-                    <td>Infrastruktur pabrik. Tempat berteduh para <strong>Defectors</strong> (Misa, Briam, dkk).</td>
-                </tr>
-                <tr>
-                    <td>Nightmare FU</td>
-                    <td>921</td>
-                    <td>Kelompok terkutuk, antagonis berbahaya.</td>
-                </tr>
-                <tr>
-                    <td>SMA DU</td>
-                    <td>872</td>
-                    <td>Bangsawan & Jenius (Keluarga Yos, Brilioan).</td>
-                </tr>
-                <tr>
-                    <td>Smileng FU</td>
-                    <td>92</td>
-                    <td><strong style="color:var(--defector-color)">Pembunuh Tersenyum</strong>. Circle utama namun berbahaya.</td>
-                </tr>
-                <tr>
-                    <td>Long FU</td>
-                    <td>13</td>
-                    <td>Kasta Dewa (Para Grandma & The God).</td>
-                </tr>
-                <tr>
-                    <td>Fuyunnis Brianlin</td>
-                    <td>6</td>
-                    <td>Elit tempur, jago bela diri.</td>
-                </tr>
-            </table>
+        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-purple)] text-center reveal" style="transition-delay: 0.1s;">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">PEMBANTU UTAMA</div>
+          <div class="font-display text-lg font-bold">SIN</div>
+          <div class="text-sm text-[var(--fg-secondary)] italic">Pengikut SilAstrein</div>
         </div>
-    </div>
-
-</div>
-
-<!-- MODAL POP-UP -->
-<div id="loreModal" class="modal-overlay" onclick="closeModal(event)">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h3 id="modal-name" style="margin-top:0; color:var(--accent-gold);">Nama</h3>
-        <p id="modal-title" style="font-style:italic; color:#ccc; margin-bottom:10px;">Title</p>
-        <hr style="border-color:#333;">
-        <p id="modal-desc" style="margin-top:15px;">Deskripsi...</p>
-        <div style="margin-top:15px; font-size:0.8rem;">
-            <strong>Keyakinan:</strong> <span id="modal-religion" style="color:var(--accent-blue);">-</span>
+        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-gold)] text-center reveal" style="transition-delay: 0.2s;">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KARAKTER KUNCI</div>
+          <div class="font-display text-lg font-bold">MISA</div>
+          <div class="text-sm text-[var(--fg-secondary)] italic">Experimen 023</div>
         </div>
+        <div class="p-6 bg-[var(--bg-card)] border border-[var(--paper)] text-center reveal" style="transition-delay: 0.3s;">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KASTA TERTINGGI</div>
+          <div class="font-display text-lg font-bold">THE GOD</div>
+          <div class="text-sm text-[var(--fg-secondary)] italic">EX-0199</div>
+        </div>
+      </div>
     </div>
-</div>
+  </section>
 
-<footer>
-    GLG INDUSTRIES DATABASE SYSTEM v2.0<br>
-    Initialized. System Ready.
-</footer>
+  <!-- Chapter Tabs -->
+  <section class="relative z-10 py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <button class="chapter-tab font-display active" data-chapter="all">SEMUA</button>
+        <button class="chapter-tab font-display" data-chapter="ch1">CH 1</button>
+        <button class="chapter-tab font-display" data-chapter="ch2">CH 2</button>
+        <button class="chapter-tab font-display" data-chapter="ch3">CH 3</button>
+        <button class="chapter-tab font-display" data-chapter="ch4">CH 4</button>
+        <button class="chapter-tab font-display" data-chapter="ch5">CH 5</button>
+      </div>
 
-<script>
-    // 1. FITUR COUNTER ANIMASI
-    window.onload = function() {
-        animateCount("counter", 0, 68618, 1500);
-    };
+      <!-- Characters Grid -->
+      <div id="characters-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <!-- Characters will be rendered here -->
+      </div>
+    </div>
+  </section>
 
-    function animateCount(id, start, end, duration) {
-        let obj = document.getElementById(id);
-        let range = end - start;
-        let minTimer = 50;
-        let stepTime = Math.abs(Math.floor(duration / range));
-        stepTime = Math.max(stepTime, minTimer);
-        let startTime = new Date().getTime();
-        let endTime = startTime + duration;
-        let timer;
+  <!-- Groups Section -->
+  <section class="relative z-10 py-12 px-4 bg-[var(--bg-secondary)]">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+        GRUP ELIT & PASUKAN
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="group-card reveal" style="border-left-color: var(--accent-gold);">
+          <h3 class="font-display text-lg font-bold mb-2">LONG FU</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">13 Karakter Elit - Kasta Dewa</p>
+          <div class="text-xs text-[var(--fg-secondary)]">Para Grandma, THE GOD, dan sisa anggota elit lainnya. Pemegang kendali tertinggi dan silsilah kuno.</div>
+        </div>
+        <div class="group-card reveal" style="border-left-color: var(--accent-crimson); transition-delay: 0.1s;">
+          <h3 class="font-display text-lg font-bold mb-2">FUYUNNIS BRIANLIN</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">6 Karakter - Eks Orang Terpandang</p>
+          <div class="text-xs text-[var(--fg-secondary)]">Kekuatannya di atas Long FU secara skill tempur. Kelompok paling prestisius.</div>
+        </div>
+        <div class="group-card reveal" style="border-left-color: var(--accent-purple); transition-delay: 0.2s;">
+          <h3 class="font-display text-lg font-bold mb-2">SMA DU</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">872 Karakter - Bangsawan & Jenius</p>
+          <div class="text-xs text-[var(--fg-secondary)]">Keluarga YOS & BRILIOAN. Area elit, penuh politik dan otak encer.</div>
+        </div>
+        <div class="group-card reveal" style="border-left-color: #1a1a2e; transition-delay: 0.3s;">
+          <h3 class="font-display text-lg font-bold mb-2" style="color: var(--accent-gold);">NIGHTMARE FU</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">921 Karakter - Terkutuk/Antagonis</p>
+          <div class="text-xs text-[var(--fg-secondary)]">Miza, Mis, Braids, Martin, 8 & 16, Proppls, Msaaa, Hugg, Pipz & Protey, Waste.</div>
+        </div>
+        <div class="group-card reveal" style="border-left-color: #2d4a3e; transition-delay: 0.4s;">
+          <h3 class="font-display text-lg font-bold mb-2" style="color: #7cb69a;">SMILENG FU</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">92 Karakter - Circle Utama</p>
+          <div class="text-xs text-[var(--fg-secondary)]">MISA, Briam, Lian, Ludwi. Grup yang lebih personal di sekitar Adre/Misa.</div>
+        </div>
+        <div class="group-card reveal" style="border-left-color: #3d3d3d; transition-delay: 0.5s;">
+          <h3 class="font-display text-lg font-bold mb-2">JACKS GROUP</h3>
+          <p class="text-sm text-[var(--fg-secondary)] mb-3">66.711 Karakter - Pasukan Masif</p>
+          <div class="text-xs text-[var(--fg-secondary)]">Anak buah SIN, Para Baby & Doll, Miya, Kks & Loid, dan lainnya. Infrastruktur pabrik.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        function run() {
-            let now = new Date().getTime();
-            let remaining = Math.max((endTime - now) / duration, 0);
-            let value = Math.round(end - (remaining * range));
-            obj.innerHTML = value.toLocaleString('id-ID');
-            if (value === end) {
-                clearInterval(timer);
-            }
+  <!-- Religion Section -->
+  <section class="relative z-10 py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+        SISTEM KEYAKINAN
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal">
+          <h3 class="font-display text-xl font-bold mb-2">MalAstreoin</h3>
+          <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Malian</p>
+          <div class="text-xs text-[var(--fg-secondary)] leading-relaxed">
+            Keyakinan yang dianut oleh Adre dan keturunannya. Simbol dari kemanusiaan yang tersisa di dunia kertas.
+          </div>
+        </div>
+        <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.1s;">
+          <h3 class="font-display text-xl font-bold mb-2">SilAstrein</h3>
+          <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama SIN</p>
+          <div class="text-xs text-[var(--fg-secondary)] leading-relaxed">
+            Keyakinan yang dianut oleh pengikut SIN dan Brilioan. Doktrin para antagonis utama.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="relative z-10 py-8 px-4 border-t border-[var(--border)]">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="text-xs text-[var(--fg-secondary)] tracking-widest">
+        GLG INDUSTRIES CHARACTER DATABASE - CHAPTER 1-5
+      </p>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-content p-8">
+      <div class="corner-decor corner-tl"></div>
+      <div class="corner-decor corner-tr"></div>
+      <div class="corner-decor corner-bl"></div>
+      <div class="corner-decor corner-br"></div>
+      
+      <button class="absolute top-4 right-4 text-[var(--fg-secondary)] hover:text-[var(--fg-primary)] transition-colors" id="closeModal" aria-label="Close modal">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
+      <div id="modal-content">
+        <!-- Dynamic content -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Character Database
+    const characters = [
+      // CH 1
+      { name: "Adre", chapter: 1, group: "none", religion: "MalAstreoin", role: "The Human / Fix", desc: "Satu-satunya manusia murni yang terjebak di loop ini. Pakaian era 1897 (vest, kemeja putih lusuh, celana bahan tebal). Dia jadi patokan 'ukuran' buat karakter lain.", height: "Normal", special: "Protagonis Utama" },
+      { name: "Misa", chapter: 1, group: "Smileng FU", religion: "MalAstreoin", role: "The Tiny Schoolgirl", desc: "Tingginya cuma se-lutut Adre (mungil banget). Baju sekolah ala Jepang (Sailor fuku) klasik, rambut hitam panjang diurai. Umur 25 tahun tapi terjebak di tubuh mungil.", height: "Se-lutut Adre", special: "Experimen 023, Karakter Kunci" },
+      { name: "Miya", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "The Tiny Chef", desc: "Sama kayak Misa (setinggi lutut Adre). Pakai baju koki lengkap dengan topi tinggi (chef hat). Temanya Papercraft, celemek atau topinya ada tekstur lipatan kertas.", height: "Se-lutut Adre", special: null },
+      { name: "Kks", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan (Butler) dari kertas.", height: "Se-lutut Adre", special: "Kembar dengan Loid" },
+      { name: "Loid", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan (Butler) dari kertas.", height: "Se-lutut Adre", special: "Kembar dengan Kks" },
+      { name: "Pos", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Postman", desc: "Karakter pembawa pesan (Postman) yang tasnya penuh sama surat-surat.", height: "Se-paha Adre", special: null },
+      { name: "Musho", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Mumi Kertas", desc: "Karakter yang badannya penuh perban kertas, kayak mumi mungil.", height: "Se-lutut Adre", special: null },
+      { name: "Briam", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "Se-pinggang Adre", special: "Trio dengan Lian & Ludwi" },
+      { name: "Lian", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "Se-pinggang Adre", special: "Trio dengan Briam & Ludwi" },
+      { name: "Ludwi", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "Se-pinggang Adre", special: "Trio dengan Briam & Lian" },
+      
+      // CH 2
+      { name: "Kit Kitchien", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Chef Partner", desc: "Rekan Miya di dapur istana. Dapur yang semuanya dari kertas mahal, mengkilap tapi tajam!", height: "Se-pinggang Adre", special: "KKH" },
+      { name: "Bedrooo", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Pembicara Lambat", desc: "Karakter paling unik. Udah ngomongnya lama (O-nya ada tiga!), pake baju tidur bintang-bintang. Tipe karakter yang bikin pemain gemes.", height: "Se-dada Adre", special: null },
+      { name: "Waste", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Kertas gulung panjang yang bisa ngiket. Horor banget, kayak mumi tapi versinya unroll.", height: "Bervariasi", special: "Antagonis Utama" },
+      { name: "Lily", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Si Cantik Berbunga", desc: "Si cantik berbunga. Kontras banget sama kengerian sekitarnya.", height: "Se-paha Adre", special: null },
+      { name: "Protey", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Antagonis paling licik karena bisa berubah jadi apa aja dari potongan kertas. Adre nggak bakal pernah ngerasa aman.", height: "Bervariasi", special: "Duo dengan Pipz" },
+      { name: "Mommy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Elegan, topi lebar ala bangsawan Eropa, mata belo yang manipulatif. 'Kebaikan' di wajahnya itu jebakan paling ngeri.", height: "Se-dada Adre", special: "Keluarga Yos" },
+      { name: "Daddy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Lebih tinggi dari Mommy, tatapan sinis, auranya otoriter. Tipe yang nggak butuh tangan kotor buat nyingkirkan Adre.", height: "Se-leher Adre", special: "Keluarga Yos" },
+      { name: "Child Yos", chapter: 2, group: "SMA DU", religion: "MalAstreoin", role: "Hero Ally", desc: "Si bungsu yang friendly. Di tengah keluarga yang kejam, ada satu anak kecil yang justru jadi pemandu atau temannya Adre.", height: "Se-lutut Adre", special: "Keluarga Yos, Ally" },
+      { name: "Sister Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Mini-me dari Mommy. Payung istananya bukan sekadar hiasan, bisa jadi senjata atau alat buat 'menghilang'.", height: "Se-paha Adre", special: "Keluarga Yos" },
+      { name: "Frezze", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Plastik. Perbedaan material nunjukin kalau mereka emang udah 'mati' atau diubah paksa.", height: "Se-paha Adre", special: "Duo dengan Chi" },
+      { name: "Chi", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Kertas. Perbedaan material nunjukin kalau mereka emang udah 'mati' atau diubah paksa.", height: "Se-paha Adre", special: "Duo dengan Frezze" },
+      { name: "Pipz", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Antagonis paling licin karena bisa berubah jadi apa aja dari potongan kertas.", height: "Bervariasi", special: "Duo dengan Protey" },
+      { name: "EX-009", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "Bervariasi", special: "Eksperimen" },
+      { name: "EX-621", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "Bervariasi", special: "Eksperimen" },
+      { name: "EX-001", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "Bervariasi", special: "Eksperimen" },
+      { name: "EX-000", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX awal.", height: "Bervariasi", special: "Eksperimen" },
+      
+      // CH 3
+      { name: "Baby", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Plastik", desc: "Boneka plastik yang nggak bisa gerak, cuma matanya yang selalu ngikutin Adre. Statis tapi ngeri!", height: "Se-lutut Adre", special: "The Babies" },
+      { name: "Baby Doll", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Kain", desc: "Boneka dari kain, yang ini bisa gerak bebas.", height: "Se-lutut Adre", special: "The Babies" },
+      { name: "Doll Kras", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Porselen", desc: "Boneka porselen patah-patah. Kalau rusak butuh waktu lama buat nyambung lagi. Mekanisme Weeping Angel.", height: "Se-paha Adre", special: "The Babies, Weeping Angel" },
+      { name: "Mis", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Kakak Tengah Misa", desc: "Kakak tengah Misa. Baju dan tingginya sama kayak Misa.", height: "Se-lutut Adre", special: "Triple M" },
+      { name: "EX-987", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "Bervariasi", special: "Eksperimen" },
+      { name: "Saly", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Mainan Garam", desc: "Mainan bertema 'Garam' dari plastik (plesetan 'Asin').", height: "Se-lutut Adre", special: "The Toys" },
+      { name: "Nightmare", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "GRUP", desc: "Ini adalah GRUP, bukan individu. Kelompok terkutuk dan antagonis.", height: "N/A", special: "Grup Antagonis" },
+      { name: "THE GOD", chapter: 3, group: "Long FU", religion: "SilAstrein", role: "Kasta Tertinggi", desc: "EX-0199. Entitas tertinggi dalam hierarki GLG Industries. Kasta paling atas dari semua karakter.", height: "Tidak Terukur", special: "EX-0199, Supreme Being" },
+      { name: "Braids", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "Boneka Terkutuk", desc: "Kayak Lily Lovebraids tapi versi boneka terkutuk Jepang. Rambut hitam panjang, tatapan kosong, misterius.", height: "Se-paha Adre", special: "The Toys" },
+      { name: "Purpel", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup - warna ungu.", height: "Se-lutut Adre", special: "Trio Krayon" },
+      { name: "Sian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup - warna sian.", height: "Se-lutut Adre", special: "Trio Krayon" },
+      { name: "Mian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup.", height: "Se-lutut Adre", special: "Trio Krayon" },
+      { name: "Miza", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Kakak Tertua Misa", desc: "Kakak paling tua dari Misa.", height: "Se-lutut Adre", special: "Triple M" },
+      { name: "Martin", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Teman Sekolah Misa", desc: "Satu angkatan sekolah sama Misa.", height: "Se-lutut Adre", special: null },
+      
+      // CH 4
+      { name: "Sintin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "Se-pinggang Adre", special: "Pengikut SIN" },
+      { name: "Sindack", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "Se-pinggang Adre", special: "Pengikut SIN" },
+      { name: "Sinsin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "Se-pinggang Adre", special: "Pengikut SIN" },
+      { name: "988Sin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN dengan nomor identifikasi.", height: "Se-pinggang Adre", special: "Pengikut SIN" },
+      { name: "8", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial, berpasangan dengan 16.", height: "Kecil", special: "Duo Stiker" },
+      { name: "16", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial, berpasangan dengan 8.", height: "Kecil", special: "Duo Stiker" },
+      { name: "Proppls", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Karakter antagonis berbahaya.", height: "Bervariasi", special: null },
+      { name: "Doggy", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Hewan Peliharaan", desc: "Karakter anjing dari kertas.", height: "Se-lutut Adre", special: null },
+      { name: "Puppy Miled", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Hewan Peliharaan", desc: "Anjing kecil dari kertas.", height: "Se-betis Adre", special: null },
+      { name: "Msaaa", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Pembunuh", desc: "Karakter pembunuh berbahaya.", height: "Se-paha Adre", special: "Pembunuh" },
+      { name: "Kisst", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "Se-pinggang Adre", special: null },
+      { name: "Hugg", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Karakter antagonis misterius.", height: "Se-dada Adre", special: null },
+      { name: "Adrean", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Variasi Adre", desc: "Variasi dari karakter Adre.", height: "Normal", special: null },
+      { name: "Juni", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "Se-pinggang Adre", special: null },
+      { name: "July", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "Se-pinggang Adre", special: null },
+      { name: "Oct", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "Se-pinggang Adre", special: null },
+      
+      // CH 5
+      { name: "Brilioan", chapter: 5, group: "SMA DU", religion: "SilAstrein", role: "Wakil SIN", desc: "Orang paling cerdas di seluruh database karakter. Antagonis yang nggak butuh otot, tapi bisa bikin jebakan yang bikin Adre muter-muter. Pengikut fanatik SilAstrein.", height: "Se-leher Adre", special: "Evil Genius" },
+      { name: "Grandma SIN", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Pemegang silsilah tertinggi faksi SIN. Bentukannya beda jauh dari keturunannya, lebih 'primordial' atau kuno.", height: "Tinggi", special: "Silsilah Tertinggi SIN" },
+      { name: "Grandma Msaa", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Akar dari silsilah Msaa.", height: "Tinggi", special: "Silsilah" },
+      { name: "Grandma Misa", chapter: 5, group: "Long FU", religion: "MalAstreoin", role: "Nenek Moyang", desc: "Akal dari perseteruan keluarga Misa.", height: "Tinggi", special: "Silsilah" },
+      { name: "Grandma 109", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Versi awal dari EX-109 (Long Hand).", height: "Tinggi", special: "Silsilah EX-109" },
+      { name: "Grandma Adr", chapter: 5, group: "Long FU", religion: "MalAstreoin", role: "Nenek Moyang", desc: "Nenek moyang Adre. Kunci kenapa Adre terpilih masuk loop.", height: "Tinggi", special: "Silsilah Adre" }
+    ];
+
+    // DOM Elements
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
+    const closeModal = document.getElementById('closeModal');
+    const charactersGrid = document.getElementById('characters-grid');
+    const chapterTabs = document.querySelectorAll('.chapter-tab');
+
+    // Initialize particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+        container.appendChild(particle);
+      }
+    }
+
+    // Get badge class based on group
+    function getBadgeClass(group) {
+      const classes = {
+        'Long FU': 'badge-long-fu',
+        'Fuyunnis Brianlin': 'badge-fuyunnis',
+        'SMA DU': 'badge-sma-du',
+        'Nightmare FU': 'badge-nightmare',
+        'Smileng FU': 'badge-smileng',
+        'Jacks Group': 'badge-jacks'
+      };
+      return classes[group] || 'badge-jacks';
+    }
+
+    // Render character card
+    function renderCharacterCard(char, index) {
+      const card = document.createElement('div');
+      card.className = 'char-card p-4 reveal';
+      card.style.transitionDelay = `${(index % 10) * 0.05}s`;
+      card.setAttribute('data-chapter', char.chapter);
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `Lihat detail ${char.name}`);
+      
+      card.innerHTML = `
+        <div class="flex justify-between items-start mb-3">
+          <span class="text-xs text-[var(--fg-secondary)]">CH ${char.chapter}</span>
+          ${char.group !== 'none' ? `<span class="badge ${getBadgeClass(char.group)}">${char.group}</span>` : ''}
+        </div>
+        <h3 class="font-display text-lg font-bold mb-2">${char.name}</h3>
+        <p class="text-xs text-[var(--fg-secondary)] italic">${char.role}</p>
+      `;
+      
+      card.addEventListener('click', () => openModal(char));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(char);
         }
-        timer = setInterval(run, stepTime);
-        run();
+      });
+      
+      return card;
     }
 
-    // 2. FITUR NAVIGASI TAB
-    function showSection(sectionId) {
-        var sections = document.getElementsByClassName("section-content");
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].style.display = "none";
+    // Open modal with character details
+    function openModal(char) {
+      modalContent.innerHTML = `
+        <div class="text-center mb-6">
+          <span class="text-xs tracking-widest text-[var(--fg-secondary)]">CHAPTER ${char.chapter}</span>
+          <h2 class="font-display text-2xl md:text-3xl font-bold mt-2" style="color: var(--accent-gold);">${char.name}</h2>
+          <p class="text-sm text-[var(--fg-secondary)] italic mt-1">${char.role}</p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] text-center">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">GRUP</div>
+            <div class="font-display text-sm font-bold">${char.group === 'none' ? 'Independen' : char.group}</div>
+          </div>
+          <div class="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] text-center">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">AGAMA</div>
+            <div class="font-display text-sm font-bold ${char.religion === 'SilAstrein' ? 'text-red-400' : ''}">${char.religion}</div>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <div class="text-xs text-[var(--fg-secondary)] mb-2 tracking-widest">DESKRIPSI</div>
+          <p class="text-sm text-[var(--fg-primary)] leading-relaxed">${char.desc}</p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">TINGGI</div>
+            <div class="text-sm">${char.height}</div>
+          </div>
+          ${char.special ? `
+          <div>
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">SPESIAL</div>
+            <div class="text-sm" style="color: var(--accent-gold);">${char.special}</div>
+          </div>
+          ` : ''}
+        </div>
+        
+        ${char.religion === 'SilAstrein' ? `
+        <div class="p-4 border border-[var(--accent-crimson)] bg-[rgba(139,26,26,0.1)]">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">PERINGATAN</div>
+          <p class="text-xs text-[var(--fg-secondary)]">Penganut SilAstrein - Agama SIN. Berpotensi antagonis atau memiliki hubungan dengan faksi SIN.</p>
+        </div>
+        ` : `
+        <div class="p-4 border border-[var(--border)]">
+          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">CATATAN</div>
+          <p class="text-xs text-[var(--fg-secondary)]">Penganut MalAstreoin - Agama Malian. Kemungkinan sekutu atau karakter netral.</p>
+        </div>
+        `}
+      `;
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModalHandler() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Filter characters by chapter
+    function filterCharacters(chapter) {
+      const cards = charactersGrid.querySelectorAll('.char-card');
+      cards.forEach(card => {
+        if (chapter === 'all' || card.dataset.chapter === chapter) {
+          card.style.display = '';
+          setTimeout(() => card.classList.add('visible'), 50);
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('visible');
         }
-        document.getElementById(sectionId).style.display = "block";
+      });
+    }
+
+    // Animate stats
+    function animateStats() {
+      const stats = document.querySelectorAll('.stat-number');
+      stats.forEach(stat => {
+        const target = parseInt(stat.dataset.target);
+        const duration = 2000;
+        const start = performance.now();
         
-        var buttons = document.getElementsByClassName("nav-btn");
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].classList.remove("active");
+        function update(currentTime) {
+          const elapsed = currentTime - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          stat.textContent = current.toLocaleString();
+          
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
         }
-        event.currentTarget.classList.add("active");
         
-        // Reset search saat pindah tab
-        document.getElementById('charSearch').value = '';
-        searchChar();
+        requestAnimationFrame(update);
+      });
     }
 
-    // 3. FITUR SEARCH BAR
-    function searchChar() {
-        var input = document.getElementById('charSearch');
-        var filter = input.value.toLowerCase();
-        
-        // Cari di semua section content (biar bisa search walau tab disembunyikan)
-        var sections = document.getElementsByClassName("section-content");
-        
-        for (var s = 0; s < sections.length; s++) {
-            var cards = sections[s].getElementsByClassName("section-card");
-            for (var i = 0; i < cards.length; i++) {
-                var card = cards[i];
-                var spans = card.getElementsByClassName("char-list")[0];
-                
-                if (spans) {
-                    var items = spans.getElementsByTagName("span");
-                    var cardHasMatch = false;
-                    
-                    for (var j = 0; j < items.length; j++) {
-                        var txtValue = items[j].textContent || items[j].innerText;
-                        if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                            items[j].style.display = "";
-                            cardHasMatch = true;
-                        } else {
-                            items[j].style.display = "none";
-                        }
-                    }
-                    
-                    // Sembunyikan kartu jika isinya tidak ada yang cocok
-                    if (filter.length > 0) {
-                        card.style.display = cardHasMatch ? "" : "none";
-                    } else {
-                        card.style.display = ""; // Tampilkan semua jika search kosong
-                    }
-                }
-            }
-        }
+    // Scroll reveal
+    function initScrollReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
-    // 4. FITUR MODAL POP-UP
-    function showLore(name, title, desc, religion) {
-        document.getElementById('modal-name').innerText = name;
-        document.getElementById('modal-title').innerText = title;
-        document.getElementById('modal-desc').innerText = desc;
-        document.getElementById('modal-religion').innerText = religion;
-        document.getElementById('loreModal').style.display = 'flex';
+    // Initialize
+    function init() {
+      createParticles();
+      
+      // Render all characters
+      characters.forEach((char, index) => {
+        charactersGrid.appendChild(renderCharacterCard(char, index));
+      });
+      
+      // Event listeners
+      closeModal.addEventListener('click', closeModalHandler);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModalHandler();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModalHandler();
+      });
+      
+      // Chapter tabs
+      chapterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          chapterTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          filterCharacters(tab.dataset.chapter);
+        });
+      });
+      
+      // Init scroll reveal
+      initScrollReveal();
+      
+      // Animate stats after a delay
+      setTimeout(animateStats, 500);
     }
 
-    function closeModal(e) {
-        document.getElementById('loreModal').style.display = 'none';
-    }
-
-</script>
-
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
