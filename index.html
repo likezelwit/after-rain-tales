@@ -21,11 +21,7 @@
       --paper: #d4c4a8;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Crimson Pro', serif;
@@ -35,9 +31,11 @@
       overflow-x: hidden;
     }
 
-    .font-display {
-      font-family: 'Cinzel', serif;
-    }
+    .font-display { font-family: 'Cinzel', serif; }
+
+    /* Page transitions */
+    .page { display: none; }
+    .page.active { display: block; }
 
     /* Paper texture background */
     .paper-texture {
@@ -117,6 +115,41 @@
     .badge-smileng { background: linear-gradient(135deg, #2d4a3e, #1a2d26); color: #7cb69a; }
     .badge-jacks { background: linear-gradient(135deg, #3d3d3d, #1a1a1a); color: #888; }
 
+    /* Story button */
+    .story-btn {
+      position: relative;
+      padding: 16px 32px;
+      background: transparent;
+      border: 2px solid var(--accent-gold);
+      color: var(--accent-gold);
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+
+    .story-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%;
+      height: 100%;
+      background: var(--accent-gold);
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+
+    .story-btn:hover {
+      color: var(--bg-primary);
+    }
+
+    .story-btn:hover::before {
+      left: 0;
+    }
+
     /* Search bar */
     .search-container {
       position: relative;
@@ -141,9 +174,7 @@
       box-shadow: 0 0 20px rgba(201, 162, 39, 0.2);
     }
 
-    .search-input::placeholder {
-      color: var(--fg-secondary);
-    }
+    .search-input::placeholder { color: var(--fg-secondary); }
 
     .search-icon {
       position: absolute;
@@ -267,24 +298,25 @@
     }
     .group-card:hover { transform: translateX(10px); }
 
-    /* Height scale section */
+    /* Height scale section - IMPROVED SPACING */
     .height-scale-container {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 24px;
+      padding: 30px;
       overflow-x: auto;
     }
 
     .height-ruler {
       position: relative;
-      height: 650px;
+      height: 700px;
       width: 100%;
-      min-width: 1400px;
+      min-width: 1800px;
+      padding-left: 60px;
     }
 
     .ruler-line {
       position: absolute;
-      left: 0;
+      left: 60px;
       right: 0;
       height: 1px;
       background: var(--border);
@@ -292,10 +324,11 @@
 
     .ruler-label {
       position: absolute;
-      left: 8px;
-      font-size: 0.65rem;
+      left: 10px;
+      font-size: 0.7rem;
       color: var(--fg-secondary);
       transform: translateY(-50%);
+      width: 45px;
     }
 
     .height-entity {
@@ -305,37 +338,34 @@
       align-items: center;
       transition: all 0.3s ease;
       cursor: pointer;
+      min-width: 35px;
     }
-    .height-entity:hover { transform: scale(1.15); z-index: 10; }
+    .height-entity:hover { transform: scale(1.2); z-index: 10; }
 
     .entity-bar {
-      width: 24px;
+      width: 20px;
       border-radius: 3px 3px 0 0;
       transition: all 0.3s ease;
     }
     .entity-bar:hover { filter: brightness(1.3); }
 
     .entity-label {
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       font-weight: bold;
-      margin-top: 3px;
+      margin-top: 4px;
       text-align: center;
       white-space: nowrap;
       writing-mode: vertical-rl;
       text-orientation: mixed;
       transform: rotate(180deg);
-      height: 60px;
+      height: 50px;
+      letter-spacing: 0.5px;
     }
 
     .entity-height {
-      font-size: 0.5rem;
+      font-size: 0.45rem;
       color: var(--fg-secondary);
-    }
-
-    .group-range {
-      position: absolute;
-      opacity: 0.12;
-      border-radius: 4px;
+      margin-top: 2px;
     }
 
     /* Historical stats */
@@ -360,7 +390,7 @@
     ::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 4px; }
 
     /* Focus states */
-    .char-card:focus-visible, .chapter-tab:focus-visible, .search-input:focus-visible {
+    .char-card:focus-visible, .chapter-tab:focus-visible, .search-input:focus-visible, .story-btn:focus-visible {
       outline: 2px solid var(--accent-gold);
       outline-offset: 2px;
     }
@@ -390,6 +420,87 @@
       50% { background-position: 100% 50%; }
     }
 
+    /* Story Page Styles */
+    .story-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10, 9, 8, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .story-chapter {
+      min-height: 100vh;
+      padding: 100px 24px 60px;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .story-chapter.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chapter-nav-btn {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      font-family: 'Cinzel', serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chapter-nav-btn:hover, .chapter-nav-btn.active {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+    }
+
+    .story-text {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.9;
+      font-size: 1.1rem;
+    }
+
+    .story-text p {
+      margin-bottom: 1.5rem;
+      text-indent: 2rem;
+    }
+
+    .chapter-indicator {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .chapter-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .chapter-dot.active, .chapter-dot:hover {
+      background: var(--accent-gold);
+      transform: scale(1.3);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -399,7 +510,9 @@
 
     @media (max-width: 640px) {
       .chapter-tab { padding: 10px 16px; font-size: 0.85rem; }
-      .entity-label { font-size: 0.5rem; height: 50px; }
+      .entity-label { font-size: 0.45rem; height: 40px; }
+      .height-ruler { min-width: 1600px; }
+      .story-nav { flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
@@ -407,286 +520,310 @@
   <div class="paper-texture"></div>
   <div id="particles"></div>
 
-  <!-- Hero Section -->
-  <header class="relative z-10 py-16 px-4 border-b border-[var(--border)]">
-    <div class="max-w-6xl mx-auto text-center">
-      <h1 class="font-display text-4xl md:text-6xl font-black tracking-wider mb-2 reveal" style="color: var(--accent-gold);">
-        GLG INDUSTRIES
-      </h1>
-      <p class="font-display text-xl md:text-2xl tracking-[0.3em] text-[var(--fg-secondary)] mb-8 reveal" style="transition-delay: 0.1s;">
-        CHARACTER DATABASE
-      </p>
-      <p class="text-sm text-[var(--fg-secondary)] italic reveal" style="transition-delay: 0.2s;">
-        "Setiap karakter memiliki cerita, setiap kertas menyimpan rahasia"
-      </p>
-    </div>
-  </header>
-
-  <!-- Historical Stats Section -->
-  <section class="relative z-10 py-8 px-4 bg-[var(--bg-secondary)]">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="font-display text-xl md:text-2xl text-center mb-6 reveal" style="color: var(--accent-gold);">
-        STATISTIK HISTORIS DATABASE
-      </h2>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-        <div class="historical-stat reveal">
-          <div class="font-display text-lg md:text-xl font-bold" style="color: var(--accent-gold);">1.625.002</div>
-          <div class="text-xs text-[var(--fg-secondary)] mt-1">Total Eksperimen Terdaftar</div>
-        </div>
-        <div class="historical-stat warning reveal" style="transition-delay: 0.1s;">
-          <div class="font-display text-lg md:text-xl font-bold">892.000</div>
-          <div class="text-xs text-[var(--fg-secondary)] mt-1">Entitas Saat Ini</div>
-        </div>
-        <div class="historical-stat danger reveal" style="transition-delay: 0.2s;">
-          <div class="font-display text-lg md:text-xl font-bold text-red-400">±733.002</div>
-          <div class="text-xs text-[var(--fg-secondary)] mt-1">Hilang/Kabur</div>
-        </div>
-        <div class="historical-stat reveal" style="transition-delay: 0.3s;">
-          <div class="font-display text-lg md:text-xl font-bold">203.000</div>
-          <div class="text-xs text-[var(--fg-secondary)] mt-1">Aktif & Mati (Dalam)</div>
-        </div>
-        <div class="historical-stat danger reveal" style="transition-delay: 0.4s;">
-          <div class="font-display text-lg md:text-xl font-bold text-red-400">689.000</div>
-          <div class="text-xs text-[var(--fg-secondary)] mt-1">Eksperimen Gagal</div>
-        </div>
+  <!-- ========== DATABASE PAGE ========== -->
+  <div id="databasePage" class="page active">
+    <!-- Hero Section -->
+    <header class="relative z-10 py-16 px-4 border-b border-[var(--border)]">
+      <div class="max-w-6xl mx-auto text-center">
+        <h1 class="font-display text-4xl md:text-6xl font-black tracking-wider mb-2 reveal" style="color: var(--accent-gold);">
+          GLG INDUSTRIES
+        </h1>
+        <p class="font-display text-xl md:text-2xl tracking-[0.3em] text-[var(--fg-secondary)] mb-8 reveal" style="transition-delay: 0.1s;">
+          CHARACTER DATABASE
+        </p>
+        <p class="text-sm text-[var(--fg-secondary)] italic mb-8 reveal" style="transition-delay: 0.2s;">
+          "Setiap karakter memiliki cerita, setiap kertas menyimpan rahasia"
+        </p>
+        
+        <!-- Story Button -->
+        <button class="story-btn reveal" onclick="showStoryPage()" style="transition-delay: 0.3s;">
+          CERITA GAME PAPERCRAFT CO
+        </button>
       </div>
-      
-      <!-- Current Active Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal">
-          <div class="font-display text-2xl md:text-3xl font-bold" style="color: var(--accent-gold);">
-            <span class="stat-number" data-target="203000">0</span>
-          </div>
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">KARAKTER AKTIF</div>
-        </div>
-        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.1s;">
-          <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
-            <span class="stat-number" data-target="51">0</span>
-          </div>
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">KARAKTER INDIVIDU</div>
-        </div>
-        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.2s;">
-          <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
-            <span class="stat-number" data-target="7">0</span>
-          </div>
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">GRUP ELIT</div>
-        </div>
-        <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.3s;">
-          <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
-            <span class="stat-number" data-target="6">0</span>
-          </div>
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">CHAPTERS</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- Key Figures -->
-  <section class="relative z-10 py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
-        TOKOH KUNCI
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-crimson)] text-center reveal">
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">DALANG UTAMA</div>
-          <div class="font-display text-lg font-bold">EX-109</div>
-          <div class="text-sm text-[var(--fg-secondary)] italic">Long Hand</div>
-          <div class="text-xs mt-2" style="color: var(--accent-gold);">562 cm</div>
-        </div>
-        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-purple)] text-center reveal" style="transition-delay: 0.1s;">
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">PEMBANTU UTAMA</div>
-          <div class="font-display text-lg font-bold">SIN</div>
-          <div class="text-sm text-[var(--fg-secondary)] italic">Pencipta SilAstrein</div>
-          <div class="text-xs mt-2" style="color: var(--accent-gold);">450 cm</div>
-        </div>
-        <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-gold)] text-center reveal" style="transition-delay: 0.2s;">
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KARAKTER KUNCI</div>
-          <div class="font-display text-lg font-bold">MISA</div>
-          <div class="text-sm text-[var(--fg-secondary)] italic">Experimen 023</div>
-          <div class="text-xs mt-2" style="color: var(--accent-gold);">50 cm</div>
-        </div>
-        <div class="p-6 bg-[var(--bg-card)] border border-[var(--paper)] text-center reveal" style="transition-delay: 0.3s;">
-          <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KASTA TERTINGGI</div>
-          <div class="font-display text-lg font-bold">THE GOD</div>
-          <div class="text-sm text-[var(--fg-secondary)] italic">EX-0199</div>
-          <div class="text-xs mt-2" style="color: var(--accent-gold);">TIDAK TERUKUR</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Height Scale Reference -->
-  <section class="relative z-10 py-8 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="font-display text-xl md:text-2xl text-center mb-2 reveal" style="color: var(--accent-gold);">
-        SKALA TINGGI BADAN - REFERENSI VISUAL LENGKAP
-      </h2>
-      <p class="text-xs text-center text-[var(--fg-secondary)] mb-6 reveal">
-        Semua entitas dengan tinggi terukur - untuk visualisasi game
-      </p>
-      
-      <div class="height-scale-container reveal">
-        <div class="height-ruler" id="heightRuler"></div>
-      </div>
-      
-      <!-- Group Height Ranges -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">LONG FU</div>
-          <div class="font-display text-sm font-bold" style="color: var(--accent-gold);">100-563 cm</div>
-        </div>
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.1s;">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">COMMUNITY FUYU</div>
-          <div class="font-display text-sm font-bold" style="color: #7cb69a;">199-203 cm</div>
-        </div>
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.2s;">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">SMA DU</div>
-          <div class="font-display text-sm font-bold" style="color: var(--accent-purple);">189-201 cm</div>
-        </div>
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.3s;">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">NIGHTMARE FU</div>
-          <div class="font-display text-sm font-bold" style="color: var(--accent-gold);">89-150 cm</div>
-        </div>
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.4s;">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">JACKS GROUP</div>
-          <div class="font-display text-sm font-bold" style="color: #888;">50-100 cm</div>
-        </div>
-        <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.5s;">
-          <div class="text-xs text-[var(--fg-secondary)] mb-1">SMILENG FU</div>
-          <div class="font-display text-sm font-bold" style="color: #7cb69a;">48-57 cm</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Search & Chapter Tabs -->
-  <section class="relative z-10 py-8 px-4">
-    <div class="max-w-6xl mx-auto">
-      <!-- Search Bar -->
-      <div class="search-container mb-6 reveal">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Cari karakter berdasarkan nama, grup, atau agama...">
-        <div id="searchResultsCount" class="search-results-count"></div>
-      </div>
-
-      <!-- Chapter Tabs -->
-      <div class="flex flex-wrap justify-center gap-2 mb-8">
-        <button class="chapter-tab font-display active" data-chapter="all">SEMUA</button>
-        <button class="chapter-tab font-display" data-chapter="ch1">CH 1</button>
-        <button class="chapter-tab font-display" data-chapter="ch2">CH 2</button>
-        <button class="chapter-tab font-display" data-chapter="ch3">CH 3</button>
-        <button class="chapter-tab font-display" data-chapter="ch4">CH 4</button>
-        <button class="chapter-tab font-display" data-chapter="ch5">CH 5</button>
-        <button class="chapter-tab font-display" data-chapter="ch6">FUYU</button>
-      </div>
-
-      <!-- Characters Grid -->
-      <div id="characters-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-    </div>
-  </section>
-
-  <!-- Groups Section -->
-  <section class="relative z-10 py-12 px-4 bg-[var(--bg-secondary)]">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
-        GRUP ELIT & PASUKAN
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="group-card reveal" style="border-left-color: var(--accent-gold);">
-          <h3 class="font-display text-lg font-bold mb-1">LONG FU</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">13 Karakter Elit - Kasta Dewa | Tinggi: 100-563 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Para Grandma, THE GOD, EX-109, SIN, dan sisa anggota elit lainnya.</div>
-        </div>
-        <div class="group-card reveal" style="border-left-color: var(--accent-crimson); transition-delay: 0.1s;">
-          <h3 class="font-display text-lg font-bold mb-1">FUYUNNIS BRIANLIN</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">6 Karakter - Eks Orang Terpandang</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Kekuatannya di atas Long FU secara skill tempur. Kelompok paling prestisius.</div>
-        </div>
-        <div class="group-card reveal" style="border-left-color: var(--accent-teal); transition-delay: 0.15s;">
-          <h3 class="font-display text-lg font-bold mb-1" style="color: #7cb69a;">COMMUNITY FUYU</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">6 Karakter - Kelompok Baru | Tinggi: 199-203 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Braiyen (Ketua), Luqiu, Antena, Briqlis, Natalia, Gord. Semua beragama Kristen.</div>
-        </div>
-        <div class="group-card reveal" style="border-left-color: var(--accent-purple); transition-delay: 0.2s;">
-          <h3 class="font-display text-lg font-bold mb-1">SMA DU</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">872 Karakter - Bangsawan & Jenius | Tinggi: 189-201 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Keluarga YOS & BRILIOAN (Wakil SIN, Makhluk Paling Cerdas). Area elit.</div>
-        </div>
-        <div class="group-card reveal" style="border-left-color: #1a1a2e; transition-delay: 0.3s;">
-          <h3 class="font-display text-lg font-bold mb-1" style="color: var(--accent-gold);">NIGHTMARE FU</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">921 Karakter - Terkutuk/Antagonis | Tinggi: 89-150 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Miza, Mis, Braids, Martin, 8 & 16, Proppls, Msaaa, Hugg, Pipz & Protey, Waste.</div>
-        </div>
-        <div class="group-card reveal" style="border-left-color: #2d4a3e; transition-delay: 0.4s;">
-          <h3 class="font-display text-lg font-bold mb-1" style="color: #7cb69a;">SMILENG FU</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">92 Karakter - Circle Utama | Tinggi: 48-57 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">MISA, Briam, Lian, Ludwi. Grup personal di sekitar Adre/Misa.</div>
-        </div>
-        <div class="group-card reveal col-span-1 md:col-span-2" style="border-left-color: #3d3d3d; transition-delay: 0.5s;">
-          <h3 class="font-display text-lg font-bold mb-1">JACKS GROUP</h3>
-          <p class="text-xs text-[var(--fg-secondary)] mb-2">66.711 Karakter - Pasukan Masif | Tinggi: 50-100 cm</p>
-          <div class="text-xs text-[var(--fg-secondary)]">Anak buah SIN, Para Baby & Doll, Miya, Kks & Loid, dan lainnya.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Religion Section -->
-  <section class="relative z-10 py-12 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
-        SISTEM KEYAKINAN
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal">
-          <h3 class="font-display text-xl font-bold mb-2">MalAstreoin</h3>
-          <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Buatan Malian</p>
-          <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
-            Keyakinan yang diciptakan oleh Malian. Dianut oleh EX-109, Adre, dan keturunannya.
+    <!-- Historical Stats Section -->
+    <section class="relative z-10 py-8 px-4 bg-[var(--bg-secondary)]">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-xl md:text-2xl text-center mb-6 reveal" style="color: var(--accent-gold);">
+          STATISTIK HISTORIS DATABASE
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+          <div class="historical-stat reveal">
+            <div class="font-display text-lg md:text-xl font-bold" style="color: var(--accent-gold);">1.625.002</div>
+            <div class="text-xs text-[var(--fg-secondary)] mt-1">Total Eksperimen Terdaftar</div>
           </div>
-          <div class="p-3 border border-[var(--accent-gold)] bg-[rgba(201,162,39,0.1)] mt-4">
-            <div class="text-xs text-[var(--accent-gold)] font-bold mb-1">KEISTIMEWAAN</div>
-            <p class="text-xs text-[var(--fg-secondary)]">Pengikut dapat masuk ke inti bumi paling dalam tanpa meleleh.</p>
+          <div class="historical-stat warning reveal" style="transition-delay: 0.1s;">
+            <div class="font-display text-lg md:text-xl font-bold">892.000</div>
+            <div class="text-xs text-[var(--fg-secondary)] mt-1">Entitas Saat Ini</div>
+          </div>
+          <div class="historical-stat danger reveal" style="transition-delay: 0.2s;">
+            <div class="font-display text-lg md:text-xl font-bold text-red-400">733.002</div>
+            <div class="text-xs text-[var(--fg-secondary)] mt-1">Hilang/Kabur</div>
+          </div>
+          <div class="historical-stat reveal" style="transition-delay: 0.3s;">
+            <div class="font-display text-lg md:text-xl font-bold">203.000</div>
+            <div class="text-xs text-[var(--fg-secondary)] mt-1">Aktif & Mati (Dalam)</div>
+          </div>
+          <div class="historical-stat danger reveal" style="transition-delay: 0.4s;">
+            <div class="font-display text-lg md:text-xl font-bold text-red-400">689.000</div>
+            <div class="text-xs text-[var(--fg-secondary)] mt-1">Eksperimen Gagal</div>
           </div>
         </div>
-        <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.1s;">
-          <h3 class="font-display text-xl font-bold mb-2">SilAstrein</h3>
-          <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Buatan SIN</p>
-          <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
-            Keyakinan yang diciptakan oleh SIN. Dianut oleh pengikut SIN dan Brilioan.
+        
+        <!-- Current Active Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal">
+            <div class="font-display text-2xl md:text-3xl font-bold" style="color: var(--accent-gold);">
+              <span class="stat-number" data-target="203000">0</span>
+            </div>
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">KARAKTER AKTIF</div>
           </div>
-          <div class="p-3 border border-[var(--accent-crimson)] bg-[rgba(139,26,26,0.1)] mt-4">
-            <div class="text-xs text-[var(--accent-crimson)] font-bold mb-1">KELEMAHAN</div>
-            <p class="text-xs text-[var(--fg-secondary)]">TIDAK bisa masuk inti bumi - material kertas/plastik akan meleleh.</p>
+          <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.1s;">
+            <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
+              <span class="stat-number" data-target="50">0</span>
+            </div>
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">KARAKTER INDIVIDU</div>
           </div>
-        </div>
-        <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.2s;">
-          <h3 class="font-display text-xl font-bold mb-2">Kristen</h3>
-          <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Manusia</p>
-          <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
-            Agama tradisional yang dianut oleh manusia murni seperti Adre dan Community FUYU.
+          <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.2s;">
+            <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
+              <span class="stat-number" data-target="7">0</span>
+            </div>
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">GRUP ELIT</div>
           </div>
-          <div class="p-3 border border-[var(--border)] mt-4">
-            <div class="text-xs text-[var(--fg-primary)] font-bold mb-1">CATATAN</div>
-            <p class="text-xs text-[var(--fg-secondary)]">Kebebasan spiritual tanpa ikatan sistem dunia kertas.</p>
+          <div class="stat-card text-center p-6 bg-[var(--bg-card)] border border-[var(--border)] reveal" style="transition-delay: 0.3s;">
+            <div class="font-display text-2xl md:text-3xl font-bold text-[var(--fg-primary)]">
+              <span class="stat-number" data-target="6">0</span>
+            </div>
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mt-2">CHAPTERS</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <footer class="relative z-10 py-8 px-4 border-t border-[var(--border)]">
-    <div class="max-w-6xl mx-auto text-center">
-      <p class="text-xs text-[var(--fg-secondary)] tracking-widest">
-        GLG INDUSTRIES CHARACTER DATABASE - CHAPTER 1-6
-      </p>
-    </div>
-  </footer>
+    <!-- Key Figures -->
+    <section class="relative z-10 py-12 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+          TOKOH KUNCI
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-crimson)] text-center reveal">
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">DALANG UTAMA</div>
+            <div class="font-display text-lg font-bold">EX-109</div>
+            <div class="text-sm text-[var(--fg-secondary)] italic">Long Hand</div>
+            <div class="text-xs mt-2" style="color: var(--accent-gold);">562 cm</div>
+          </div>
+          <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-purple)] text-center reveal" style="transition-delay: 0.1s;">
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">PEMBANTU UTAMA</div>
+            <div class="font-display text-lg font-bold">SIN</div>
+            <div class="text-sm text-[var(--fg-secondary)] italic">Pencipta SilAstrein</div>
+            <div class="text-xs mt-2" style="color: var(--accent-gold);">450 cm</div>
+          </div>
+          <div class="p-6 bg-[var(--bg-card)] border border-[var(--accent-gold)] text-center reveal" style="transition-delay: 0.2s;">
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KARAKTER KUNCI</div>
+            <div class="font-display text-lg font-bold">MISA</div>
+            <div class="text-sm text-[var(--fg-secondary)] italic">Experimen 023</div>
+            <div class="text-xs mt-2" style="color: var(--accent-gold);">50 cm</div>
+          </div>
+          <div class="p-6 bg-[var(--bg-card)] border border-[var(--paper)] text-center reveal" style="transition-delay: 0.3s;">
+            <div class="text-xs tracking-widest text-[var(--fg-secondary)] mb-2">KASTA TERTINGGI</div>
+            <div class="font-display text-lg font-bold">THE GOD</div>
+            <div class="text-sm text-[var(--fg-secondary)] italic">EX-0199</div>
+            <div class="text-xs mt-2" style="color: var(--accent-gold);">TIDAK TERUKUR</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Height Scale Reference -->
+    <section class="relative z-10 py-8 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-xl md:text-2xl text-center mb-2 reveal" style="color: var(--accent-gold);">
+          SKALA TINGGI BADAN - REFERENSI VISUAL LENGKAP
+        </h2>
+        <p class="text-xs text-center text-[var(--fg-secondary)] mb-6 reveal">
+          Semua entitas dengan tinggi terukur - untuk visualisasi game
+        </p>
+        
+        <div class="height-scale-container reveal">
+          <div class="height-ruler" id="heightRuler"></div>
+        </div>
+        
+        <!-- Group Height Ranges -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-6">
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">LONG FU</div>
+            <div class="font-display text-sm font-bold" style="color: var(--accent-gold);">100-563 cm</div>
+          </div>
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.1s;">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">COMMUNITY FUYU</div>
+            <div class="font-display text-sm font-bold" style="color: #7cb69a;">199-203 cm</div>
+          </div>
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.2s;">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">SMA DU</div>
+            <div class="font-display text-sm font-bold" style="color: var(--accent-purple);">189-201 cm</div>
+          </div>
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.3s;">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">NIGHTMARE FU</div>
+            <div class="font-display text-sm font-bold" style="color: var(--accent-gold);">89-150 cm</div>
+          </div>
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.4s;">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">JACKS GROUP</div>
+            <div class="font-display text-sm font-bold" style="color: #888;">50-100 cm</div>
+          </div>
+          <div class="p-3 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.5s;">
+            <div class="text-xs text-[var(--fg-secondary)] mb-1">SMILENG FU</div>
+            <div class="font-display text-sm font-bold" style="color: #7cb69a;">48-57 cm</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Chapter Tabs -->
+    <section class="relative z-10 py-8 px-4">
+      <div class="max-w-6xl mx-auto">
+        <!-- Search Bar -->
+        <div class="search-container mb-6 reveal">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Cari karakter berdasarkan nama, grup, atau agama...">
+          <div id="searchResultsCount" class="search-results-count"></div>
+        </div>
+
+        <!-- Chapter Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 mb-8">
+          <button class="chapter-tab font-display active" data-chapter="all">SEMUA</button>
+          <button class="chapter-tab font-display" data-chapter="ch1">CH 1</button>
+          <button class="chapter-tab font-display" data-chapter="ch2">CH 2</button>
+          <button class="chapter-tab font-display" data-chapter="ch3">CH 3</button>
+          <button class="chapter-tab font-display" data-chapter="ch4">CH 4</button>
+          <button class="chapter-tab font-display" data-chapter="ch5">CH 5</button>
+          <button class="chapter-tab font-display" data-chapter="ch6">FUYU</button>
+        </div>
+
+        <!-- Characters Grid -->
+        <div id="characters-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- Groups Section -->
+    <section class="relative z-10 py-12 px-4 bg-[var(--bg-secondary)]">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+          GRUP ELIT & PASUKAN
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="group-card reveal" style="border-left-color: var(--accent-gold);">
+            <h3 class="font-display text-lg font-bold mb-1">LONG FU</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">13 Karakter Elit - Kasta Dewa | Tinggi: 100-563 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Para Grandma, THE GOD, EX-109, SIN, dan sisa anggota elit lainnya.</div>
+          </div>
+          <div class="group-card reveal" style="border-left-color: var(--accent-crimson); transition-delay: 0.1s;">
+            <h3 class="font-display text-lg font-bold mb-1">FUYUNNIS BRIANLIN</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">6 Karakter - Eks Orang Terpandang</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Kekuatannya di atas Long FU secara skill tempur. Kelompok paling prestisius.</div>
+          </div>
+          <div class="group-card reveal" style="border-left-color: var(--accent-teal); transition-delay: 0.15s;">
+            <h3 class="font-display text-lg font-bold mb-1" style="color: #7cb69a;">COMMUNITY FUYU</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">6 Karakter - Kelompok Baru | Tinggi: 199-203 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Braiyen (Ketua), Luqiu, Antena, Briqlis, Natalia, Gord. Semua beragama Kristen.</div>
+          </div>
+          <div class="group-card reveal" style="border-left-color: var(--accent-purple); transition-delay: 0.2s;">
+            <h3 class="font-display text-lg font-bold mb-1">SMA DU</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">872 Karakter - Bangsawan & Jenius | Tinggi: 189-201 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Keluarga YOS & BRILIOAN (Wakil SIN, Makhluk Paling Cerdas).</div>
+          </div>
+          <div class="group-card reveal" style="border-left-color: #1a1a2e; transition-delay: 0.3s;">
+            <h3 class="font-display text-lg font-bold mb-1" style="color: var(--accent-gold);">NIGHTMARE FU</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">921 Karakter - Terkutuk/Antagonis | Tinggi: 89-150 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Miza, Mis, Braids, Martin, 8 & 16, Proppls, Msaaa, Hugg, Pipz & Protey, Waste.</div>
+          </div>
+          <div class="group-card reveal" style="border-left-color: #2d4a3e; transition-delay: 0.4s;">
+            <h3 class="font-display text-lg font-bold mb-1" style="color: #7cb69a;">SMILENG FU</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">92 Karakter - Circle Utama | Tinggi: 48-57 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">MISA, Briam, Lian, Ludwi. Grup personal di sekitar Adre/Misa.</div>
+          </div>
+          <div class="group-card reveal col-span-1 md:col-span-2" style="border-left-color: #3d3d3d; transition-delay: 0.5s;">
+            <h3 class="font-display text-lg font-bold mb-1">JACKS GROUP</h3>
+            <p class="text-xs text-[var(--fg-secondary)] mb-2">66.711 Karakter - Pasukan Masif | Tinggi: 50-100 cm</p>
+            <div class="text-xs text-[var(--fg-secondary)]">Anak buah SIN, Para Baby & Doll, Miya, Kks & Loid, dan lainnya.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Religion Section -->
+    <section class="relative z-10 py-12 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="font-display text-2xl md:text-3xl text-center mb-8 reveal" style="color: var(--accent-gold);">
+          SISTEM KEYAKINAN
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal">
+            <h3 class="font-display text-xl font-bold mb-2">MalAstreoin</h3>
+            <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Buatan Malian</p>
+            <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
+              Keyakinan yang diciptakan oleh Malian. Dianut oleh EX-109, Adre, dan keturunannya.
+            </div>
+            <div class="p-3 border border-[var(--accent-gold)] bg-[rgba(201,162,39,0.1)] mt-4">
+              <div class="text-xs text-[var(--accent-gold)] font-bold mb-1">KEISTIMEWAAN</div>
+              <p class="text-xs text-[var(--fg-secondary)]">Pengikut dapat masuk ke inti bumi tanpa meleleh.</p>
+            </div>
+          </div>
+          <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.1s;">
+            <h3 class="font-display text-xl font-bold mb-2">SilAstrein</h3>
+            <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Buatan SIN</p>
+            <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
+              Keyakinan yang diciptakan oleh SIN. Dianut oleh pengikut SIN dan Brilioan.
+            </div>
+            <div class="p-3 border border-[var(--accent-crimson)] bg-[rgba(139,26,26,0.1)] mt-4">
+              <div class="text-xs text-[var(--accent-crimson)] font-bold mb-1">KELEMAHAN</div>
+              <p class="text-xs text-[var(--fg-secondary)]">TIDAK bisa masuk inti bumi - material akan meleleh.</p>
+            </div>
+          </div>
+          <div class="p-8 bg-[var(--bg-card)] border border-[var(--border)] text-center reveal" style="transition-delay: 0.2s;">
+            <h3 class="font-display text-xl font-bold mb-2">Kristen</h3>
+            <p class="text-sm text-[var(--fg-secondary)] italic mb-4">Agama Manusia</p>
+            <div class="text-xs text-[var(--fg-secondary)] leading-relaxed mb-4">
+              Agama tradisional yang dianut oleh manusia murni seperti Adre dan Community FUYU.
+            </div>
+            <div class="p-3 border border-[var(--border)] mt-4">
+              <div class="text-xs text-[var(--fg-primary)] font-bold mb-1">CATATAN</div>
+              <p class="text-xs text-[var(--fg-secondary)]">Kebebasan spiritual tanpa ikatan sistem dunia kertas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-8 px-4 border-t border-[var(--border)]">
+      <div class="max-w-6xl mx-auto text-center">
+        <p class="text-xs text-[var(--fg-secondary)] tracking-widest">
+          GLG INDUSTRIES CHARACTER DATABASE - CHAPTER 1-6
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========== STORY PAGE ========== -->
+  <div id="storyPage" class="page">
+    <nav class="story-nav">
+      <button onclick="showDatabasePage()" class="chapter-nav-btn">KEMBALI KE DATABASE</button>
+      <div class="font-display text-lg" style="color: var(--accent-gold);">PAPERCRAFT CO - CERITA</div>
+      <div class="flex gap-2">
+        <button class="chapter-nav-btn" onclick="prevChapter()">SEBELUMNYA</button>
+        <button class="chapter-nav-btn" onclick="nextChapter()">SELANJUTNYA</button>
+      </div>
+    </nav>
+
+    <div id="storyContent"></div>
+
+    <div class="chapter-indicator" id="chapterIndicator"></div>
+  </div>
 
   <!-- Modal -->
   <div class="modal-overlay" id="modal">
@@ -707,112 +844,192 @@
   </div>
 
   <script>
-    // Character Database
+    // Story Chapters Data
+    const storyChapters = [
+      {
+        title: "PROLOG - Pabrik Kertas yang Terlupakan",
+        content: `
+          <p>Tahun 1897, di sebuah lembah terpencil antara pegunungan yang diselimuti kabut, berdiri sebuah pabrik tua yang telah lama ditinggalkan. Namanya GLG Industries - dulunya adalah pabrik kertas terbesar di benua itu.</p>
+          <p>Adre, seorang insinyur muda berpakaian sederhana era Victoria, berdiri di depan gerbang besi berkarat pabrik itu. Surat wasis yang ditemukannya di loteng neneknya menunjuk ke tempat ini - sebuah warisan yang tak pernah ia duga ada.</p>
+          <p>"GLG Industries..." bisiknya membaca nama yang terukir di batu di atas gerbang. Angin malam membawa aroma kertas tua dan sesuatu yang tak bisa ia jelaskan - seperti bau mesiu dan lavender bercampur menjadi satu.</p>
+          <p>Saat ia melangkah masuk, gerbang itu menutup sendiri di belakangnya. Suara logam menggesek logam itu adalah hal terakhir yang ia dengar sebelum dunia yang ia kenal berubah selamanya.</p>
+        `
+      },
+      {
+        title: "CHAPTER 1 - Dunia Kertas",
+        content: `
+          <p>Adre terbangun di ruangan yang sama sekali berbeda. Lantai, dinding, langit-langit - semuanya terbuat dari kertas. Bukan kertas biasa, tapi kertas yang hidup, bernapas, bergerak.</p>
+          <p>"Selamat datang di loop, Manusia."</p>
+          <p>Suara itu datang dari bawah. Adre menunduk dan melihat sosok mungil - seorang gadis berbaju seragam sekolah Jepang klasik, rambut hitam panjang, dan mata yang terlalu dewasa untuk ukuran tubuhnya yang hanya se-lutut Adre.</p>
+          <p>"Namaku Misa," kata gadis itu. "Dan kau adalah satu-satunya manusia murni yang terjebak di sini dalam seratus tahun terakhir."</p>
+          <p>"Seratus tahun?" Adre memegang kepalanya. "Tapi ini baru 1897!"</p>
+          <p>Misa tersenyum sedih. "Waktu berbeda di sini. Di luar, mungkin masih 1897. Tapi di dalam GLG Industries... waktu adalah kertas yang bisa dilipat, disobek, dan dirangkai ulang."</p>
+        `
+      },
+      {
+        title: "CHAPTER 2 - Keluarga Yos",
+        content: `
+          <p>Misa membawa Adre melewati koridor-koridor pabrik yang tak berujung. Setiap pintu yang mereka lewati menampilkan ruangan berbeda - ada yang penuh boneka, ada yang dipenuhi mesin tua, ada yang hanya kegelapan mutlak.</p>
+          <p>"Kau harus hati-hati," peringat Misa. "Tidak semua yang hidup di sini bersahabat."</p>
+          <p>Di sebuah aula besar, mereka bertemu keluarga Yos - bangsawan dari era yang tidak bisa Adre kenali. Mommy Yos dengan topi lebar dan senyum manipulatif. Daddy Yos dengan tatapan otoriter. Sister Yos dan payung misteriusnya.</p>
+          <p>Dan ada Child Yos - anak bungsu yang justru tersenyum tulus pada Adre.</p>
+          <p>"Manusia!" Child Yos berlari mendekati. "Aku dengar tentangmu dari Grandma! Kau adalah kuncinya!"</p>
+          <p>"Kunci apa?" tanya Adre.</p>
+          <p>Child Yos menatapnya dengan mata polos yang menyimpan rahasia ribuan tahun. "Kunci untuk keluar dari loop ini. Atau... untuk menghancurkannya selamanya."</p>
+        `
+      },
+      {
+        title: "CHAPTER 3 - Agama Kertas",
+        content: `
+          <p>Dalam perjalanan mereka, Misa menjelaskan dua kekuatan besar yang menguasai GLG Industries.</p>
+          <p>"Ada MalAstreoin - agama buatan Malian, nenek moyang spiritual yang memberikan kemampuan untuk menembus inti bumi tanpa terluka. EX-109, Dalang Utama, adalah pengikut setia MalAstrein."</p>
+          <p>"Lalu ada SilAstrein - agama buatan SIN, Pencipta yang kejam. Pengikutnya terbuat dari kertas dan plastik yang akan meleleh jika mencoba masuk ke inti bumi."</p>
+          <p>Adre berhenti berjalan. "Lalu aku? Manusia seperti aku?"</p>
+          <p>Misa menatapnya lama. "Kau bebas memilih. Tapi pilihannya bukan antara agama. Pilihanmu adalah... sisi mana yang kau ambil dalam perang yang akan datang."</p>
+          <p>Di kejauhan, suara mesin mulai bergemuruh. Something ancient was waking up.</p>
+        `
+      },
+      {
+        title: "CHAPTER 4 - Pasukan Malam",
+        content: `
+          <p>Malam itu, Adre belajar tentang Jacks Group - pasukan masif berjumlah 66.711 karakter yang membentuk tulang punggung pabrik. Para Baby dan Doll, Miya si koki mungil, Kks dan Loid si kembar butler.</p>
+          <p>"Mereka adalah pekerja," jelas Misa. "Tapi juga mata-mata. Di sini, semua orang mengawasi semua orang."</p>
+          <p>Dari bayangan muncul sosok-sosok dari Nightmare FU - kelompok terkutuk dengan tinggi 89-150 cm, wajah mereka datar seperti topeng kertas.</p>
+          <p>"Proppls," bisik Misa. "Karakter antagonis berbahaya. Jangan pernah berpaling darinya."</p>
+          <p>Adre menatap sosok-sosok itu dengan campuran takut dan penasaran. "Kenapa mereka ada di sini?"</p>
+          <p>"Karena," jawab suara baru dari belakang, "setiap kertas yang disobek harus dibuang di suatu tempat."</p>
+          <p>Brilioan, Wakil SIN, makhluk paling cerdas di seluruh database, berdiri di sana dengan senyum yang tidak mencapai matanya.</p>
+        `
+      },
+      {
+        title: "CHAPTER 5 - Nenek Moyang",
+        content: `
+          <p>Di kedalaman pabrik, Adre bertemu dengan Para Grandma - silsilah kuno yang tingginya mencapai ratusan centimeter, jauh melampaui karakter lain.</p>
+          <p>Grandma SIN, pemegang silsilah tertinggi faksi SIN, menatapnya dengan mata yang menyimpan sejarah ribuan tahun.</p>
+          <p>Grandma 109, versi awal dari EX-109, berdiri setinggi 500 cm, tubuhnya tersusun dari lapisan-lapisan kertas kuno.</p>
+          <p>Dan ada Grandma Adr - nenek moyangnya sendiri.</p>
+          <p>"Kau mirip kakekmu," kata Grandma Adr dengan suara yang seperti gemerisik kertas. "Dia juga mencoba keluar dari loop ini."</p>
+          <p>"Apa yang terjadi padanya?"</p>
+          <p>Grandma Adr tersenyum. "Dia berhasil. Tapi dengan harga yang sangat mahal."</p>
+          <p>"Harga apa?"</p>
+          <p>"Kenangan. Identitas. Dan... aku."</p>
+        `
+      },
+      {
+        title: "CHAPTER 6 - Community FUYU",
+        content: `
+          <p>Di saat Adre merasa semua harapan hilang, ia bertemu dengan Community FUYU - enam karakter dengan tinggi rata-rata 199-203 cm, manusia-manusia yang terjebak seperti dirinya.</p>
+          <p>Braiyen, Ketua Grup, mengulurkan tangannya. "Kami sudah menunggumu, Adre. 203.000 karakter aktif, dan kau adalah satu-satunya yang bisa memimpin mereka keluar."</p>
+          <p>"Kenapa aku?"</p>
+          <p>"Karena kau manusia murni," jawab Luqiu. "Tidak terikat dengan sistem kertas. Bebas dari kutukan MalAstreoin maupun SilAstrein."</p>
+          <p>Natalia menambahkan, "Dan karena nenekmu meninggalkan sesuatu untukmu. Peta jalan keluar."</p>
+          <p>Adre menerima selembar kertas tua dari tangan Gord. Di atasnya, tergambar denah kompleks pabrik GLG Industries - dan sebuah rute yang berakhir di inti bumi.</p>
+        `
+      },
+      {
+        title: "CHAPTER 7 - Perang Dimulai",
+        content: `
+          <p>Berita tentang kedatangan Adre menyebar cepat. EX-109, Dalang Utama setinggi 562 cm, mulai bergerak. SIN, Pencipta SilAstrein setinggi 450 cm, membangunkan pasukannya.</p>
+          <p>"Perang antara kertas dan manusia akan dimulai," umum Brilioan dengan senyum liciknya. "Dan hanya satu pihak yang akan selamat."</p>
+          <p>Di aula utama pabrik, Adre berdiri di depan pasukan yang terdiri dari Community FUYU, Smileng FU yang dipimpin Misa, dan ratusan karakter yang memilih berpihak pada kebebasan.</p>
+          <p>"Kami tidak bertarung untuk menghancurkan," kata Adre pada mereka. "Kami bertaruh untuk membebaskan."</p>
+          <p>Child Yos berdiri di sampingnya, payung Sister Yos di tangannya. "Dan aku akan menunjukkan jalan. Keluargaku mungkin jahat... tapi aku bukan mereka."</p>
+          <p>Dari kejauhan, THE GOD - EX-0199 - menonton dengan mata yang tidak bisa diukur. Entitas tertinggi dalam hierarki GLG Industries akhirnya tertarik.</p>
+        `
+      },
+      {
+        title: "CHAPTER 8 - Inti Bumi",
+        content: `
+          <p>Adre dan pasukannya turun ke kedalaman pabrik, melewati lapisan-lapisan kertas yang semakin tua, semakin rapuh. Mereka menuju inti bumi - satu-satunya tempat di mana loop bisa dihancurkan.</p>
+          <p>"Pengikut SilAstrein tidak bisa kemari," ingat Misa. "Material mereka akan meleleh."</p>
+          <p>"Tapi pengikut MalAstreoin bisa," kata Adre. "Dan EX-109 adalah salah satunya."</p>
+          <p>Di ambang inti bumi, EX-109 menunggu mereka. Raksasa setinggi 562 cm itu berdiri di atas platform kertas yang mendidih.</p>
+          <p>"Manusia," suaranya bergema. "Kau pikir kau bisa menghentikan sesuatu yang sudah berjalan selama seribu tahun?"</p>
+          <p>Adre mengeluarkan peta dari neneknya. "Nenekku berhasil. Dan aku akan melakukannya juga."</p>
+          <p>EX-109 tertawa. "Nenekmu tidak berhasil keluar. Dia berhasil masuk lebih dalam. Dan dia menjadi bagian dari loop selamanya."</p>
+          <p>Di saat itu, Adre menyadari kebenarannya. Jalan keluar bukan dengan melarikan diri. Jalan keluar adalah dengan menghancurkan siklus itu sendiri.</p>
+          <p>Dan di tangannya, selembar kertas dari neneknya mulai terbakar.</p>
+          <p>Untuk pertama kalinya dalam seribu tahun, api menyala di GLG Industries.</p>
+          <p class="text-center mt-8" style="color: var(--accent-gold); font-weight: bold;">BERSAMBUNG...</p>
+        `
+      }
+    ];
+
+    // Character Database (Adrean REMOVED)
     const characters = [
-      // SPECIAL - DALANG UTAMA
-      { 
-        name: "EX-109", 
-        chapter: "all", 
-        group: "Long FU", 
-        religion: "MalAstreoin", 
-        role: "Dalang Utama", 
-        desc: "Long Hand - Dalang utama di balik seluruh konspirasi GLG Industries. Tingginya 562 cm membuatnya menonjol di antara karakter lain. Manipulator ulung yang mengendalikan alur cerita dari balik layar. Penganut MalAstreoin yang setia.", 
-        height: "562 cm", 
-        special: "DALANG UTAMA, Long Hand",
-        heightNote: "Raksasa tertinggi kedua"
-      },
-      { 
-        name: "SIN", 
-        chapter: "all", 
-        group: "Long FU", 
-        religion: "SilAstrein", 
-        role: "Pembantu Utama", 
-        desc: "Pencipta agama SilAstrein. Pembantu utama dalam hierarki GLG Industries. Tingginya 450 cm menjadikannya salah satu entitas tertinggi. Sangat berbahaya dan manipulatif.", 
-        height: "450 cm", 
-        special: "PEMBANTU UTAMA, Pencipta SilAstrein",
-        heightNote: "Primordial"
-      },
-      
-      // CH 1
-      { name: "Adre", chapter: 1, group: "Umat Manusia", religion: "Kristen", role: "The Human / Fix", desc: "Satu-satunya manusia murni yang terjebak di loop ini. Pakaian era 1897 (vest, kemeja putih lusuh, celana bahan tebal). Dia jadi patokan 'ukuran' buat karakter lain.", height: "170 cm", special: "Protagonis Utama, Patokan Skala", heightNote: "Standar Dewasa" },
-      { name: "Misa", chapter: 1, group: "Smileng FU", religion: "MalAstreoin", role: "The Tiny Schoolgirl", desc: "Tingginya cuma se-lutut Adre (mungil banget). Baju sekolah ala Jepang (Sailor fuku) klasik, rambut hitam panjang diurai. Umur 25 tahun tapi terjebak di tubuh mungil.", height: "50 cm", special: "Experimen 023, Karakter Kunci", heightNote: "Setinggi lutut Adre" },
-      { name: "Miya", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "The Tiny Chef", desc: "Sama kayak Misa (setinggi lutut Adre). Pakai baju koki lengkap dengan topi tinggi (chef hat). Temanya Papercraft.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
-      { name: "Kks", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan (Butler) dari kertas.", height: "50 cm", special: "Kembar dengan Loid", heightNote: "Setinggi lutut Adre" },
-      { name: "Loid", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan (Butler) dari kertas.", height: "50 cm", special: "Kembar dengan Kks", heightNote: "Setinggi lutut Adre" },
-      { name: "Pos", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Postman", desc: "Karakter pembawa pesan (Postman) yang tasnya penuh sama surat-surat.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
-      { name: "Musho", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Mumi Kertas", desc: "Karakter yang badannya penuh perban kertas, kayak mumi mungil.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
-      { name: "Briam", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "55 cm", special: "Trio dengan Lian & Ludwi", heightNote: "Mini elit" },
-      { name: "Lian", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "55 cm", special: "Trio dengan Briam & Ludwi", heightNote: "Mini elit" },
-      { name: "Ludwi", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang pakai jas formal tapi wajahnya datar kayak topeng kertas (No-Face).", height: "55 cm", special: "Trio dengan Briam & Lian", heightNote: "Mini elit" },
-      
-      // CH 2
-      { name: "Kit Kitchien", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Chef Partner", desc: "Rekan Miya di dapur istana. Dapur yang semuanya dari kertas mahal, mengkilap tapi tajam!", height: "85 cm", special: "KKH", heightNote: "Se-paha Adre" },
-      { name: "Bedrooo", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Pembicara Lambat", desc: "Karakter paling unik. Udah ngomongnya lama (O-nya ada tiga!), pake baju tidur bintang-bintang.", height: "100 cm", special: null, heightNote: "Se-pinggang Adre" },
-      { name: "Waste", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Kertas gulung panjang yang bisa ngiket. Horor banget, kayak mumi tapi versinya unroll.", height: "Bervariasi", special: "Antagonis Utama", heightNote: "Dapat mengubah panjang" },
-      { name: "Lily", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Si Cantik Berbunga", desc: "Si cantik berbunga. Kontras banget sama kengerian sekitarnya.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
-      { name: "Protey", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Antagonis paling licik karena bisa berubah jadi apa aja dari potongan kertas.", height: "Bervariasi", special: "Duo dengan Pipz", heightNote: "Dapat berubah bentuk" },
-      { name: "Mommy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Elegan, topi lebar ala bangsawan Eropa, mata belo yang manipulatif. 'Kebaikan' di wajahnya itu jebakan.", height: "195 cm", special: "Keluarga Yos", heightNote: "Bangsawan tinggi" },
-      { name: "Daddy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Lebih tinggi dari Mommy, tatapan sinis, auranya otoriter.", height: "201 cm", special: "Keluarga Yos", heightNote: "Bangsawan tertinggi" },
-      { name: "Child Yos", chapter: 2, group: "SMA DU", religion: "MalAstreoin", role: "Hero Ally", desc: "Si bungsu yang friendly. Justru jadi pemandu atau temannya Adre.", height: "90 cm", special: "Keluarga Yos, Ally", heightNote: "Anak bangsawan" },
-      { name: "Sister Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Mini-me dari Mommy. Payung istananya bisa jadi senjata.", height: "189 cm", special: "Keluarga Yos", heightNote: "Bangsawan" },
-      { name: "Frezze", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Plastik. Perbedaan material nunjukin kalau mereka emang udah 'mati' atau diubah paksa.", height: "85 cm", special: "Duo dengan Chi", heightNote: "Se-paha Adre" },
-      { name: "Chi", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Kertas. Perbedaan material nunjukin kalau mereka emang udah 'mati' atau diubah paksa.", height: "85 cm", special: "Duo dengan Frezze", heightNote: "Se-paha Adre" },
-      { name: "Pipz", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Antagonis paling licin karena bisa berubah jadi apa aja dari potongan kertas.", height: "Bervariasi", special: "Duo dengan Protey", heightNote: "Dapat berubah bentuk" },
-      { name: "EX-009", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
-      { name: "EX-621", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
-      { name: "EX-001", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
-      { name: "EX-000", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX awal.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
-      
-      // CH 3
-      { name: "Baby", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Plastik", desc: "Boneka plastik yang nggak bisa gerak, cuma matanya yang selalu ngikutin Adre. Statis tapi ngeri!", height: "50 cm", special: "The Babies", heightNote: "Setinggi lutut Adre" },
-      { name: "Baby Doll", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Kain", desc: "Boneka dari kain, yang ini bisa gerak bebas.", height: "50 cm", special: "The Babies", heightNote: "Setinggi lutut Adre" },
-      { name: "Doll Kras", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Porselen", desc: "Boneka porselen patah-patah. Mekanisme Weeping Angel.", height: "85 cm", special: "The Babies, Weeping Angel", heightNote: "Se-paha Adre" },
-      { name: "Mis", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Kakak Tengah Misa", desc: "Kakak tengah Misa. Baju dan tingginya sama kayak Misa.", height: "50 cm", special: "Triple M", heightNote: "Setinggi lutut Adre" },
-      { name: "EX-987", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Salah satu dari seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
-      { name: "Saly", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Mainan Garam", desc: "Mainan bertema 'Garam' dari plastik (plesetan 'Asin').", height: "50 cm", special: "The Toys", heightNote: "Setinggi lutut Adre" },
-      { name: "Nightmare", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "GRUP", desc: "Ini adalah GRUP, bukan individu. Kelompok terkutuk dan antagonis.", height: "N/A", special: "Grup Antagonis", heightNote: null },
-      { name: "THE GOD", chapter: 3, group: "Long FU", religion: "SilAstrein", role: "Kasta Tertinggi", desc: "EX-0199. Entitas tertinggi dalam hierarki GLG Industries. Tingginya tidak dapat diukur dengan standar manusia.", height: "XXX", special: "EX-0199, Supreme Being", heightNote: "Tidak Terukur" },
-      { name: "Braids", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "Boneka Terkutuk", desc: "Versi boneka terkutuk Jepang. Rambut hitam panjang, tatapan kosong, misterius.", height: "120 cm", special: "The Toys", heightNote: "Setinggi dada Adre" },
-      { name: "Purpel", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup - warna ungu.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
-      { name: "Sian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup - warna sian.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
-      { name: "Mian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon hidup.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
+      { name: "EX-109", chapter: "all", group: "Long FU", religion: "MalAstreoin", role: "Dalang Utama", desc: "Long Hand - Dalang utama di balik seluruh konspirasi GLG Industries. Tingginya 562 cm. Manipulator ulung yang mengendalikan alur cerita dari balik layar.", height: "562 cm", special: "DALANG UTAMA, Long Hand", heightNote: "Raksasa tertinggi" },
+      { name: "SIN", chapter: "all", group: "Long FU", religion: "SilAstrein", role: "Pembantu Utama", desc: "Pencipta agama SilAstrein. Pembantu utama dalam hierarki GLG Industries. Tingginya 450 cm. Sangat berbahaya dan manipulatif.", height: "450 cm", special: "PEMBANTU UTAMA, Pencipta SilAstrein", heightNote: "Primordial" },
+      { name: "Adre", chapter: 1, group: "Umat Manusia", religion: "Kristen", role: "The Human / Fix", desc: "Satu-satunya manusia murni yang terjebak di loop ini. Pakaian era 1897. Patokan 'ukuran' buat karakter lain.", height: "170 cm", special: "Protagonis Utama, Patokan Skala", heightNote: "Standar Dewasa" },
+      { name: "Misa", chapter: 1, group: "Smileng FU", religion: "MalAstreoin", role: "The Tiny Schoolgirl", desc: "Tingginya cuma se-lutut Adre. Baju sekolah ala Jepang klasik. Umur 25 tahun tapi terjebak di tubuh mungil.", height: "50 cm", special: "Experimen 023, Karakter Kunci", heightNote: "Setinggi lutut Adre" },
+      { name: "Miya", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "The Tiny Chef", desc: "Sama kayak Misa. Pakai baju koki lengkap dengan topi tinggi.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
+      { name: "Kks", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan dari kertas.", height: "50 cm", special: "Kembar dengan Loid", heightNote: "Setinggi lutut Adre" },
+      { name: "Loid", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Duo Butler", desc: "Duo kembar setinggi lutut yang pakai baju pelayan dari kertas.", height: "50 cm", special: "Kembar dengan Kks", heightNote: "Setinggi lutut Adre" },
+      { name: "Pos", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Postman", desc: "Karakter pembawa pesan yang tasnya penuh sama surat-surat.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
+      { name: "Musho", chapter: 1, group: "Jacks Group", religion: "MalAstreoin", role: "Mumi Kertas", desc: "Karakter yang badannya penuh perban kertas.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
+      { name: "Briam", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang wajahnya datar kayak topeng kertas.", height: "55 cm", special: "Trio dengan Lian & Ludwi", heightNote: "Mini elit" },
+      { name: "Lian", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang wajahnya datar kayak topeng kertas.", height: "55 cm", special: "Trio dengan Briam & Ludwi", heightNote: "Mini elit" },
+      { name: "Ludwi", chapter: 1, group: "Smileng FU", religion: "SilAstrein", role: "Trio Elit", desc: "Trio elit yang wajahnya datar kayak topeng kertas.", height: "55 cm", special: "Trio dengan Briam & Lian", heightNote: "Mini elit" },
+      { name: "Kit Kitchien", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Chef Partner", desc: "Rekan Miya di dapur istana.", height: "85 cm", special: "KKH", heightNote: "Se-paha Adre" },
+      { name: "Bedrooo", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Pembicara Lambat", desc: "Karakter unik yang ngomongnya lama.", height: "100 cm", special: null, heightNote: "Se-pinggang Adre" },
+      { name: "Waste", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Kertas gulung panjang yang bisa ngiket.", height: "Bervariasi", special: "Antagonis Utama", heightNote: "Dapat mengubah panjang" },
+      { name: "Lily", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Si Cantik Berbunga", desc: "Si cantik berbunga.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
+      { name: "Protey", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Antagonis paling licik.", height: "Bervariasi", special: "Duo dengan Pipz", heightNote: "Dapat berubah bentuk" },
+      { name: "Mommy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Elegan, manipulatif.", height: "195 cm", special: "Keluarga Yos", heightNote: "Bangsawan tinggi" },
+      { name: "Daddy Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Otoriter.", height: "201 cm", special: "Keluarga Yos", heightNote: "Bangsawan tertinggi" },
+      { name: "Child Yos", chapter: 2, group: "SMA DU", religion: "MalAstreoin", role: "Hero Ally", desc: "Si bungsu yang friendly.", height: "90 cm", special: "Keluarga Yos, Ally", heightNote: "Anak bangsawan" },
+      { name: "Sister Yos", chapter: 2, group: "SMA DU", religion: "SilAstrein", role: "Noble Villain", desc: "Mini-me dari Mommy.", height: "189 cm", special: "Keluarga Yos", heightNote: "Bangsawan" },
+      { name: "Frezze", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Plastik.", height: "85 cm", special: "Duo dengan Chi", heightNote: "Se-paha Adre" },
+      { name: "Chi", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Tragic Duo", desc: "Material Kertas.", height: "85 cm", special: "Duo dengan Frezze", heightNote: "Se-paha Adre" },
+      { name: "Pipz", chapter: 2, group: "Nightmare FU", religion: "SilAstrein", role: "Shape-shifter", desc: "Bisa berubah jadi apa aja.", height: "Bervariasi", special: "Duo dengan Protey", heightNote: "Dapat berubah bentuk" },
+      { name: "EX-009", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
+      { name: "EX-621", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
+      { name: "EX-001", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
+      { name: "EX-000", chapter: 2, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Seri eksperimen EX awal.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
+      { name: "Baby", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Plastik", desc: "Boneka plastik yang matanya selalu ngikutin Adre.", height: "50 cm", special: "The Babies", heightNote: "Setinggi lutut Adre" },
+      { name: "Baby Doll", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Kain", desc: "Boneka dari kain.", height: "50 cm", special: "The Babies", heightNote: "Setinggi lutut Adre" },
+      { name: "Doll Kras", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Boneka Porselen", desc: "Mekanisme Weeping Angel.", height: "85 cm", special: "The Babies, Weeping Angel", heightNote: "Se-paha Adre" },
+      { name: "Mis", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Kakak Tengah Misa", desc: "Kakak tengah Misa.", height: "50 cm", special: "Triple M", heightNote: "Setinggi lutut Adre" },
+      { name: "EX-987", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Eksperimen", desc: "Seri eksperimen EX.", height: "75 cm", special: "Eksperimen", heightNote: "Eksperimen standar" },
+      { name: "Saly", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Mainan Garam", desc: "Mainan bertema 'Garam'.", height: "50 cm", special: "The Toys", heightNote: "Setinggi lutut Adre" },
+      { name: "Nightmare", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "GRUP", desc: "Kelompok terkutuk.", height: "N/A", special: "Grup Antagonis", heightNote: null },
+      { name: "THE GOD", chapter: 3, group: "Long FU", religion: "SilAstrein", role: "Kasta Tertinggi", desc: "EX-0199. Entitas tertinggi. Tingginya tidak dapat diukur.", height: "XXX", special: "EX-0199, Supreme Being", heightNote: "Tidak Terukur" },
+      { name: "Braids", chapter: 3, group: "Nightmare FU", religion: "SilAstrein", role: "Boneka Terkutuk", desc: "Versi boneka terkutuk Jepang.", height: "120 cm", special: "The Toys", heightNote: "Setinggi dada Adre" },
+      { name: "Purpel", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon - ungu.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
+      { name: "Sian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon - sian.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
+      { name: "Mian", chapter: 3, group: "Jacks Group", religion: "MalAstreoin", role: "Trio Krayon", desc: "Trio Krayon.", height: "50 cm", special: "Trio Krayon", heightNote: "Setinggi lutut Adre" },
       { name: "Miza", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Kakak Tertua Misa", desc: "Kakak paling tua dari Misa.", height: "50 cm", special: "Triple M", heightNote: "Setinggi lutut Adre" },
       { name: "Martin", chapter: 3, group: "Nightmare FU", religion: "MalAstreoin", role: "Teman Sekolah Misa", desc: "Satu angkatan sekolah sama Misa.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
-      
-      // CH 4
-      { name: "Sintin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
-      { name: "Sindack", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
-      { name: "Sinsin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
-      { name: "988Sin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Salah satu anak buah SIN dengan nomor identifikasi.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
-      { name: "8", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial, berpasangan dengan 16.", height: "Kecil", special: "Duo Stiker", heightNote: "Ukuran stiker" },
-      { name: "16", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial, berpasangan dengan 8.", height: "Kecil", special: "Duo Stiker", heightNote: "Ukuran stiker" },
+      { name: "Sintin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
+      { name: "Sindack", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
+      { name: "Sinsin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Anak buah SIN.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
+      { name: "988Sin", chapter: 4, group: "Jacks Group", religion: "SilAstrein", role: "Anak Buah SIN", desc: "Anak buah SIN dengan nomor identifikasi.", height: "100 cm", special: "Pengikut SIN", heightNote: "Se-pinggang Adre" },
+      { name: "8", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial.", height: "Kecil", special: "Duo Stiker", heightNote: "Ukuran stiker" },
+      { name: "16", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Stiker Sial", desc: "Stiker sial.", height: "Kecil", special: "Duo Stiker", heightNote: "Ukuran stiker" },
       { name: "Proppls", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Karakter antagonis berbahaya.", height: "150 cm", special: null, heightNote: "Se-dada Adre" },
       { name: "Doggy", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Hewan Peliharaan", desc: "Karakter anjing dari kertas.", height: "50 cm", special: null, heightNote: "Setinggi lutut Adre" },
       { name: "Puppy Miled", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Hewan Peliharaan", desc: "Anjing kecil dari kertas.", height: "40 cm", special: null, heightNote: "Se-betis Adre" },
       { name: "Msaaa", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Pembunuh", desc: "Karakter pembunuh berbahaya.", height: "120 cm", special: "Pembunuh", heightNote: "Se-dada Adre" },
       { name: "Kisst", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
       { name: "Hugg", chapter: 4, group: "Nightmare FU", religion: "SilAstrein", role: "Antagonis", desc: "Karakter antagonis misterius.", height: "140 cm", special: null, heightNote: "Se-dada Adre" },
-      { name: "Adrean", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Variasi Adre", desc: "Variasi dari karakter Adre.", height: "170 cm", special: null, heightNote: "Sama dengan Adre" },
       { name: "Juni", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
       { name: "July", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
       { name: "Oct", chapter: 4, group: "Jacks Group", religion: "MalAstreoin", role: "Karakter Pendukung", desc: "Karakter pendukung.", height: "85 cm", special: null, heightNote: "Se-paha Adre" },
-      
-      // CH 5
-      { name: "Brilioan", chapter: 5, group: "SMA DU", religion: "SilAstrein", role: "Wakil SIN", desc: "WAKIL SIN dan makhluk paling cerdas di seluruh database. Antagonis yang bisa bikin jebakan rumit.", height: "195 cm", special: "Evil Genius, WAKIL SIN", heightNote: "Bangsawan jenius" },
-      { name: "Grandma SIN", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Pemegang silsilah tertinggi faksi SIN. Bentukannya lebih 'primordial'.", height: "350 cm", special: "Silsilah Tertinggi SIN", heightNote: "Primordial" },
+      { name: "Brilioan", chapter: 5, group: "SMA DU", religion: "SilAstrein", role: "Wakil SIN", desc: "WAKIL SIN dan makhluk paling cerdas. Evil Genius.", height: "195 cm", special: "Evil Genius, WAKIL SIN", heightNote: "Bangsawan jenius" },
+      { name: "Grandma SIN", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Pemegang silsilah tertinggi faksi SIN.", height: "350 cm", special: "Silsilah Tertinggi SIN", heightNote: "Primordial" },
       { name: "Grandma Msaa", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Akar dari silsilah Msaa.", height: "280 cm", special: "Silsilah", heightNote: "Kuno" },
       { name: "Grandma Misa", chapter: 5, group: "Long FU", religion: "MalAstreoin", role: "Nenek Moyang", desc: "Akal dari perseteruan keluarga Misa.", height: "250 cm", special: "Silsilah", heightNote: "Kuno" },
-      { name: "Grandma 109", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Versi awal dari EX-109 (Long Hand).", height: "500 cm", special: "Silsilah EX-109", heightNote: "Primordial" },
+      { name: "Grandma 109", chapter: 5, group: "Long FU", religion: "SilAstrein", role: "Nenek Moyang", desc: "Versi awal dari EX-109.", height: "500 cm", special: "Silsilah EX-109", heightNote: "Primordial" },
       { name: "Grandma Adr", chapter: 5, group: "Long FU", religion: "MalAstreoin", role: "Nenek Moyang", desc: "Nenek moyang Adre. Kunci kenapa Adre terpilih masuk loop.", height: "170 cm", special: "Silsilah Adre", heightNote: "Manusia asli" },
-      
-      // CH 6 - Community FUYU
-      { name: "Braiyen", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Ketua Grup FUYU", desc: "Pemimpin Community FUYU. Karakter dengan otoritas tinggi dan pengaruh besar.", height: "203 cm", special: "KETUA GRUP FUYU", heightNote: "Tertinggi di grup" },
-      { name: "Luqiu", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU. Beragama Kristen.", height: "200 cm", special: null, heightNote: "Rata-rata grup" },
-      { name: "Antena", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU. Beragama Kristen.", height: "199 cm", special: null, heightNote: "Rata-rata grup" },
-      { name: "Briqlis", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU. Beragama Kristen.", height: "201 cm", special: null, heightNote: "Rata-rata grup" },
-      { name: "Natalia", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU. Beragama Kristen.", height: "199 cm", special: null, heightNote: "Rata-rata grup" },
-      { name: "Gord", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU. Beragama Kristen.", height: "202 cm", special: null, heightNote: "Rata-rata grup" }
+      { name: "Braiyen", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Ketua Grup FUYU", desc: "Pemimpin Community FUYU.", height: "203 cm", special: "KETUA GRUP FUYU", heightNote: "Tertinggi di grup" },
+      { name: "Luqiu", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU.", height: "200 cm", special: null, heightNote: "Rata-rata grup" },
+      { name: "Antena", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU.", height: "199 cm", special: null, heightNote: "Rata-rata grup" },
+      { name: "Briqlis", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU.", height: "201 cm", special: null, heightNote: "Rata-rata grup" },
+      { name: "Natalia", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU.", height: "199 cm", special: null, heightNote: "Rata-rata grup" },
+      { name: "Gord", chapter: 6, group: "Community FUYU", religion: "Kristen", role: "Anggota FUYU", desc: "Anggota Community FUYU.", height: "202 cm", special: null, heightNote: "Rata-rata grup" }
     ];
+
+    // Current story chapter
+    let currentChapter = 0;
 
     // DOM Elements
     const modal = document.getElementById('modal');
@@ -823,6 +1040,71 @@
     const heightRuler = document.getElementById('heightRuler');
     const searchInput = document.getElementById('searchInput');
     const searchResultsCount = document.getElementById('searchResultsCount');
+    const storyContent = document.getElementById('storyContent');
+    const chapterIndicator = document.getElementById('chapterIndicator');
+
+    // Page Navigation
+    function showStoryPage() {
+      document.getElementById('databasePage').classList.remove('active');
+      document.getElementById('storyPage').classList.add('active');
+      currentChapter = 0;
+      renderStoryChapter();
+      renderChapterIndicator();
+      window.scrollTo(0, 0);
+    }
+
+    function showDatabasePage() {
+      document.getElementById('storyPage').classList.remove('active');
+      document.getElementById('databasePage').classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function renderStoryChapter() {
+      const chapter = storyChapters[currentChapter];
+      storyContent.innerHTML = `
+        <div class="story-chapter active">
+          <div class="max-w-4xl mx-auto">
+            <h2 class="font-display text-2xl md:text-4xl text-center mb-8" style="color: var(--accent-gold);">
+              ${chapter.title}
+            </h2>
+            <div class="story-text">
+              ${chapter.content}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderChapterIndicator() {
+      chapterIndicator.innerHTML = storyChapters.map((_, index) => `
+        <div class="chapter-dot ${index === currentChapter ? 'active' : ''}" onclick="goToChapter(${index})" title="Chapter ${index + 1}"></div>
+      `).join('');
+    }
+
+    function goToChapter(index) {
+      currentChapter = index;
+      renderStoryChapter();
+      renderChapterIndicator();
+      window.scrollTo(0, 0);
+    }
+
+    function prevChapter() {
+      if (currentChapter > 0) {
+        currentChapter--;
+        renderStoryChapter();
+        renderChapterIndicator();
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function nextChapter() {
+      if (currentChapter < storyChapters.length - 1) {
+        currentChapter++;
+        renderStoryChapter();
+        renderChapterIndicator();
+        window.scrollTo(0, 0);
+      }
+    }
 
     // Initialize particles
     function createParticles() {
@@ -837,10 +1119,10 @@
       }
     }
 
-    // Create Height Scale with ALL entities
+    // Create Height Scale with IMPROVED SPACING
     function createHeightScale() {
       const maxHeight = 600;
-      const rulerHeight = 630;
+      const rulerHeight = 680;
       
       // Create ruler lines (every 50cm)
       for (let h = 0; h <= 600; h += 50) {
@@ -857,10 +1139,10 @@
         heightRuler.appendChild(label);
       }
       
-      // Filter characters with numeric heights and sort
+      // Filter and sort characters
       const measurableChars = characters.filter(c => {
         const h = c.height;
-        return h && h !== 'N/A' && h !== 'Bervariasi' && h !== 'Kecil' && h !== 'XXX' && !h.includes('Bervariasi');
+        return h && h !== 'N/A' && h !== 'Bervariasi' && h !== 'Kecil' && h !== 'XXX';
       }).map(c => ({
         ...c,
         heightNum: parseInt(c.height.replace(' cm', '').replace('cm', ''))
@@ -877,28 +1159,27 @@
         'Umat Manusia': 'linear-gradient(180deg, #4a5568, #2d3748)'
       };
       
-      // Add THE GOD at the top
+      // Add THE GOD
       const godEntity = document.createElement('div');
       godEntity.className = 'height-entity';
-      godEntity.style.left = '70px';
-      godEntity.style.bottom = `${rulerHeight - 80}px`;
+      godEntity.style.left = '80px';
+      godEntity.style.bottom = `${rulerHeight - 100}px`;
       godEntity.innerHTML = `
-        <div class="entity-bar" style="height: 80px; background: linear-gradient(180deg, #f5d76e, #c9a227); border: 2px dashed #c9a227;"></div>
+        <div class="entity-bar" style="height: 100px; background: linear-gradient(180deg, #f5d76e, #c9a227); border: 2px dashed #c9a227;"></div>
         <div class="entity-label" style="color: var(--accent-gold);">THE GOD</div>
         <div class="entity-height">XXX</div>
       `;
       heightRuler.appendChild(godEntity);
       
-      // Add all measurable characters
+      // Add all measurable characters WITH SPACING
+      const spacing = 25; // Increased spacing
       measurableChars.forEach((char, index) => {
         const entityEl = document.createElement('div');
         entityEl.className = 'height-entity';
-        
-        // Position each entity with spacing
-        const xPos = 110 + (index * 22);
+        const xPos = 130 + (index * spacing);
         entityEl.style.left = `${xPos}px`;
         
-        const barHeight = Math.max(char.heightNum / 600 * rulerHeight, 8);
+        const barHeight = Math.max(char.heightNum / 600 * rulerHeight, 10);
         const bottom = char.heightNum / 600 * rulerHeight;
         entityEl.style.bottom = `${bottom - barHeight}px`;
         
@@ -915,7 +1196,7 @@
       });
     }
 
-    // Get badge class based on group
+    // Get badge class
     function getBadgeClass(group) {
       const classes = {
         'Long FU': 'badge-long-fu',
@@ -949,15 +1230,10 @@
       const isGod = char.name === "THE GOD";
       
       let badgeHtml = '';
-      if (isDalang) {
-        badgeHtml = '<span class="supreme-badge">DALANG UTAMA</span>';
-      } else if (isPembantu) {
-        badgeHtml = '<span class="supreme-badge">PEMBANTU UTAMA</span>';
-      } else if (isLeader) {
-        badgeHtml = '<span class="leader-badge">KETUA</span>';
-      } else if (isGod) {
-        badgeHtml = '<span class="supreme-badge">SUPREME</span>';
-      }
+      if (isDalang) badgeHtml = '<span class="supreme-badge">DALANG UTAMA</span>';
+      else if (isPembantu) badgeHtml = '<span class="supreme-badge">PEMBANTU UTAMA</span>';
+      else if (isLeader) badgeHtml = '<span class="leader-badge">KETUA</span>';
+      else if (isGod) badgeHtml = '<span class="supreme-badge">SUPREME</span>';
       
       card.innerHTML = `
         <div class="flex justify-between items-start mb-3">
@@ -991,19 +1267,15 @@
       if (char.religion === 'MalAstreoin') {
         religionNote = '<p class="text-xs mt-2" style="color: var(--accent-gold);">Dapat masuk ke inti bumi tanpa meleleh.</p>';
       } else if (char.religion === 'SilAstrein') {
-        religionNote = '<p class="text-xs mt-2 text-red-400">TIDAK dapat masuk ke inti bumi (material kertas/plastik akan meleleh).</p>';
+        religionNote = '<p class="text-xs mt-2 text-red-400">TIDAK dapat masuk ke inti bumi (material akan meleleh).</p>';
       } else if (char.religion === 'Kristen') {
-        religionNote = '<p class="text-xs mt-2 text-blue-400">Kebebasan spiritual tanpa ikatan sistem dunia kertas.</p>';
+        religionNote = '<p class="text-xs mt-2 text-blue-400">Kebebasan spiritual tanpa ikatan sistem kertas.</p>';
       }
       
       let badgeHtml = '';
-      if (isDalang) {
-        badgeHtml = '<span class="supreme-badge ml-2">DALANG UTAMA</span>';
-      } else if (isPembantu) {
-        badgeHtml = '<span class="supreme-badge ml-2">PEMBANTU UTAMA</span>';
-      } else if (isLeader) {
-        badgeHtml = '<span class="leader-badge ml-2">KETUA GRUP</span>';
-      }
+      if (isDalang) badgeHtml = '<span class="supreme-badge ml-2">DALANG UTAMA</span>';
+      else if (isPembantu) badgeHtml = '<span class="supreme-badge ml-2">PEMBANTU UTAMA</span>';
+      else if (isLeader) badgeHtml = '<span class="leader-badge ml-2">KETUA GRUP</span>';
       
       modalContent.innerHTML = `
         <div class="text-center mb-6">
@@ -1047,7 +1319,7 @@
         ${char.religion === 'SilAstrein' ? `
         <div class="p-4 border border-[var(--accent-crimson)] bg-[rgba(139,26,26,0.1)]">
           <div class="text-xs tracking-widest text-[var(--accent-crimson)] mb-2 font-bold">PERINGATAN</div>
-          <p class="text-xs text-[var(--fg-secondary)]">Penganut SilAstrein - Agama Buatan SIN. Material kertas/plastik akan meleleh di inti bumi.</p>
+          <p class="text-xs text-[var(--fg-secondary)]">Penganut SilAstrein - Agama Buatan SIN. Material akan meleleh di inti bumi.</p>
         </div>
         ` : char.religion === 'MalAstreoin' ? `
         <div class="p-4 border border-[var(--accent-gold)] bg-[rgba(201,162,39,0.1)]">
@@ -1057,7 +1329,7 @@
         ` : char.religion === 'Kristen' ? `
         <div class="p-4 border border-blue-500 bg-[rgba(59,130,246,0.1)]">
           <div class="text-xs tracking-widest text-blue-400 mb-2 font-bold">CATATAN</div>
-          <p class="text-xs text-[var(--fg-secondary)]">Penganut Kristen. Kebebasan spiritual penuh tanpa ikatan sistem dunia kertas.</p>
+          <p class="text-xs text-[var(--fg-secondary)]">Penganut Kristen. Kebebasan spiritual penuh.</p>
         </div>
         ` : ''}
       `;
@@ -1072,7 +1344,7 @@
       document.body.style.overflow = '';
     }
 
-    // Filter characters by chapter
+    // Filter characters
     function filterCharacters(chapter) {
       const cards = charactersGrid.querySelectorAll('.char-card');
       let visibleCount = 0;
@@ -1161,12 +1433,10 @@
       createParticles();
       createHeightScale();
       
-      // Render all characters
       characters.forEach((char, index) => {
         charactersGrid.appendChild(renderCharacterCard(char, index));
       });
       
-      // Modal events
       closeModal.addEventListener('click', closeModalHandler);
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModalHandler();
@@ -1175,7 +1445,6 @@
         if (e.key === 'Escape') closeModalHandler();
       });
       
-      // Chapter tabs
       chapterTabs.forEach(tab => {
         tab.addEventListener('click', () => {
           chapterTabs.forEach(t => t.classList.remove('active'));
@@ -1185,7 +1454,6 @@
         });
       });
       
-      // Search input
       let searchTimeout;
       searchInput.addEventListener('input', (e) => {
         clearTimeout(searchTimeout);
@@ -1197,7 +1465,6 @@
       initScrollReveal();
       setTimeout(animateStats, 500);
       
-      // Initial count
       searchResultsCount.textContent = `Menampilkan ${characters.length} karakter`;
     }
 
