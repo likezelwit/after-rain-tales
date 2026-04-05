@@ -1,78 +1,822 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- ICON TAB (favicon) -->  <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">  <title>AfterRain Tales</title>  <style>
-    body {
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
+  <title>AfterRain Tales 🌧️</title>
+  
+  <style>
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #e6f0ff, #fceeff);
-      color: #444;
-      text-align: center;
+      padding: 0;
+      box-sizing: border-box;
     }
 
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e6f0ff 0%, #fceeff 50%, #f0e6ff 100%);
+      color: #444;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ===== HEADER ===== */
     header {
-      padding: 40px 20px;
+      text-align: center;
+      padding: 60px 20px 40px;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(10px);
     }
 
     .logo {
       width: 120px;
-      border-radius: 20px;
-      margin-bottom: 10px;
+      border-radius: 25px;
+      margin-bottom: 15px;
+      box-shadow: 0 8px 25px rgba(107,124,255,0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.08) rotate(3deg);
     }
 
     h1 {
       font-size: 2.8em;
       color: #6b7cff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
     }
 
-    p {
+    .tagline {
       font-size: 1.2em;
+      color: #888;
+      font-style: italic;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      padding-bottom: 80px;
     }
 
     .box {
-      background: rgba(255,255,255,0.7);
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 20px;
-      width: 80%;
-      max-width: 500px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.8);
+      margin: 30px auto;
+      padding: 35px 30px;
+      border-radius: 25px;
+      width: 90%;
+      max-width: 550px;
+      box-shadow: 0 10px 30px rgba(107,124,255,0.15);
+      transition: transform 0.3s ease;
     }
 
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(107,124,255,0.25);
+    }
+
+    .box h2 {
+      color: #6b7cff;
+      font-size: 1.8em;
+      margin-bottom: 18px;
+      border-bottom: 3px solid #b8c4ff;
+      display: inline-block;
+      padding-bottom: 8px;
+    }
+
+    .box p {
+      font-size: 1.1em;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    /* ===== GAME SECTION ===== */
+    .game-section {
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe8ff 100%);
+      border: 3px solid #ffb6d9;
+      max-width: 650px;
+    }
+
+    .game-section h2 {
+      color: #e91e63;
+      border-bottom-color: #ffcdd2;
+    }
+
+    .icecream-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(233,30,99,0.15);
+    }
+
+    .icecream-table th {
+      background: linear-gradient(135deg, #e91e63 0%, #f48fb1 100%);
+      color: white;
+      padding: 16px 12px;
+      font-size: 1.05em;
+    }
+
+    .icecream-table th:first-child { border-radius: 15px 0 0 0; }
+    .icecream-table th:last-child { border-radius: 0 15px 0 0; }
+    
+    .icecream-table td {
+      padding: 14px 12px;
+      border-bottom: 2px solid #fce4ec;
+      font-size: 1.05em;
+    }
+
+    .icecream-table tr:last-child td { border-bottom: none; }
+    .icecream-table tr:hover { background: #fff0fb; }
+    .icecream-table td:first-child { font-weight: bold; color: #ad1457; }
+
+    /* ===== FOOTER ===== */
     footer {
-      margin-top: 40px;
-      padding: 25px;
+      text-align: center;
+      padding: 40px 25px 30px;
+      margin-top: 50px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    footer p { margin: 8px 0; font-size: 0.95em; }
+    .footer-logo { width: 85px; margin: 12px auto; border-radius: 15px; }
+
+    /* ============================================ */
+    /* ===== HOTBAR (TOMBOL MULAI TETAP) ===== */
+    /* ============================================ */
+    .hotbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      z-index: 999;
+      box-shadow: 0 -5px 30px rgba(0,0,0,0.2);
+    }
+
+    .hotbar-btn {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hotbar-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+      background: #f0f0ff;
+    }
+
+    .hotbar-btn .notif {
+      background: #e91e63;
+      color: white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75em;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* ============================================ */
+    /* ===== CHAT WINDOW (POPUP) ===== */
+    /* ============================================ */
+    .chat-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .chat-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .chat-window {
+      width: 400px;
+      height: 600px;
+      max-height: 80vh;
+      margin: auto;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .chat-overlay.active .chat-window {
+      transform: scale(1);
+    }
+
+    /* Chat Header */
+    .chat-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-name {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .chat-header-status {
+      font-size: 0.85em;
+      opacity: 0.9;
+    }
+
+    .chat-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .chat-close:hover {
+      background: rgba(255,255,255,0.4);
+    }
+
+    /* Chat Messages */
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #e5ddd5 url('https://i.ibb.co.com/VYmCtHq/bg-chat.png') repeat;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 0.95em;
+      line-height: 1.4;
+      position: relative;
+      word-wrap: break-word;
+      animation: msgSlide 0.3s ease;
+    }
+
+    @keyframes msgSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.bot {
+      align-self: flex-start;
+      background: #fff;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: #dcf8c6;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .message-time {
+      font-size: 0.7em;
+      color: #888;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    /* Quick Reply Buttons */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .quick-reply-btn {
+      background: white;
+      border: 1.5px solid #667eea;
+      color: #667eea;
+      padding: 8px 16px;
+      border-radius: 18px;
+      cursor: pointer;
       font-size: 0.9em;
-      opacity: 0.8;
+      transition: all 0.2s;
     }
 
-    .footer-logo {
-      width: 80px;
-      margin-top: 10px;
+    .quick-reply-btn:hover {
+      background: #667eea;
+      color: white;
     }
-  </style></head><body>  <header>
-    <!-- LOGO UTAMA -->
-    <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" class="logo"><h1>AfterRain Tales 🌧️</h1>
-<p>Stories born after the rain.</p>
 
-  </header>  <div class="box">
-    <h2>About</h2>
-    <p>
-      AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan, 
-      tentang perubahan, harapan, dan perjalanan menemukan diri sendiri. 
-      Setiap cerita di sini ditulis dengan hati, terinspirasi dari momen kecil dalam kehidupan.
-    </p>
-  </div>  <div class="box">
-    <h2>Our Stories</h2>
-    <p>
-      Kumpulan cerita tentang kehidupan, emosi, dan pengalaman yang relatable 
-      untuk siapa saja yang sedang belajar memahami dirinya sendiri.
-    </p>
-  </div>  <footer>
+    /* Chat Input */
+    .chat-input-area {
+      padding: 15px 20px;
+      background: #f0f0f0;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 25px;
+      background: white;
+      font-size: 1em;
+      outline: none;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.08);
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+      transition: all 0.3s;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: none;
+      padding: 10px 15px;
+      align-self: flex-start;
+    }
+
+    .typing-indicator.active {
+      display: flex;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #999;
+      border-radius: 50%;
+      margin: 0 3px;
+      animation: typingBounce 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-8px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2em; }
+      .box { width: 95%; padding: 25px 20px; }
+      .chat-window { 
+        width: 95%; 
+        height: 85vh; 
+        max-height: 90vh;
+        border-radius: 20px 20px 0 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo" class="logo">
+    <h1>AfterRain Tales 🌧️</h1>
+    <p class="tagline">Stories born after the rain.</p>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container">
+
+    <!-- About -->
+    <div class="box">
+      <h2>📖 About</h2>
+      <p>
+        AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan, 
+        tentang perubahan, harapan, dan perjalanan menemukan diri sendiri.
+      </p>
+    </div>
+
+    <!-- Our Stories -->
+    <div class="box">
+      <h2>📚 Our Stories</h2>
+      <p>Kumpulan cerita tentang kehidupan, emosi, dan pengalaman yang relatable.</p>
+    </div>
+
+    <!-- Permainan Es Krim -->
+    <div class="box game-section">
+      <h2>🎮 Permainan</h2>
+      
+      <p class="game-title">🍦 Toko Es Krim Zelwit</p>
+
+      <table class="icecream-table">
+        <thead>
+          <tr>
+            <th>🍦 Es Krim</th>
+            <th>⚡ Mulai</th>
+            <th>📝 Deskripsi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="emoji-col">🍫</span> Coklat</td>
+            <td>/mulai</td>
+            <td>Coklat Belgia premium!</td>
+          </tr>
+          <tr>
+            <td><span class="emoji-col">🍓</span> Stroberi</td>
+            <td>/mulai</td>
+            <td>Stroberi segar pilihan!</td>
+          </tr>
+          <tr>
+            <td><span class="emoji-col">🍦</span> Vanila</td>
+            <td>/mulai</td>
+            <td>Vanila Madagascar klasik!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
     <p>© 2026 AfterRain Tales — Created by Aiko ✨</p>
-    <p>Website ini dibuat sebagai tempat berbagi cerita dan perasaan.</p><p><strong>Didukung oleh:</strong></p>
-<img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" class="footer-logo">
-<p>VowViw Entertainment</p>
+    <p><strong>Didukung oleh:</strong></p>
+    <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
+    <p>VowViw Entertainment</p>
+  </footer>
 
-  </footer></body>
+
+  <!-- ========================================== -->
+  <!-- ===== HOTBAR (TOMBOL MULAI) ===== -->
+  <!-- ========================================== -->
+  <div class="hotbar" id="hotbar">
+    <button class="hotbar-btn" onclick="openChat()">
+      💬 Mulai Chat
+      <span class="notif">1</span>
+    </button>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- ===== CHAT WINDOW OVERLAY ===== -->
+  <!-- ========================================== -->
+  <div class="chat-overlay" id="chatOverlay">
+
+    <div class="chat-window">
+      
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="chat-avatar">🤖</div>
+        <div class="chat-header-info">
+          <div class="chat-header-name">Aiko Bot</div>
+          <div class="chat-header-status">● Online</div>
+        </div>
+        <button class="chat-close" onclick="closeChat()">✕</button>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="chat-messages" id="chatMessages">
+        
+        <!-- Messages will appear here -->
+
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" 
+               placeholder="Ketik pesan..." 
+               onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- ===== JAVASCRIPT - BOT LOGIC ===== -->
+  <!-- ========================================== -->
+  <script>
+    // ===== STATE =====
+    let chatOpen = false;
+
+    // ===== BOT RESPONSES (AIKO) =====
+    const botResponses = {
+      greeting: {
+        text: "Halo! 👋 Saya **Aiko**, asisten virtual AfterRain Tales!\n\nMau pesan apa? Silakan ketik di bawah atau klik tombol:",
+        buttons: ["📖 Ceritakan dongeng", "🎮 Main es krim", "❓ Bantuan"]
+      },
+      dongeng: {
+        text: "📖 *Pada zaman dahulu kala, ada sebuah kerajaan kecil di tengah hutan...*\n\n*(cerita dimulai...)*\n\nMau lanjut baca ceritanya?",
+        buttons: ["✅ Lanjutkan", "🔄 Cerita lain", "🏠 Menu utama"]
+      },
+      es_krim: {
+        text: "🍦 *TOKO ES KRIM ZELWIT* 🌧️\n\nSilakan pilih rasa favorit kamu:\n\n1️⃣ 🍫 Coklat - Rp15.000\n2️⃣ 🍓 Stroberi - Rp15.000\n3️⃣ 🍦 Vanila - Rp12.000",
+        buttons: ["🍫 Coklat", "🍓 Stroberi", "🍦 Vanila", "💰 Harga semua"]
+      },
+      coklat: {
+        text: "🍫 *ES KRIM COKLAT PREMIUM*\n\n💰 Harga: **Rp15.000**\n⭐ Rating: ⭐⭐⭐⭐⭐ (4.9/5)\n🎯 Rasa: Rich & creamy\n\n✨ Dibuat dari coklat Belgia premium pilihan!",
+        buttons: ["🛒 Pesan sekarang!", "🔄 Pilih lain", "🏠 Menu"]
+      },
+      stroberi: {
+        text: "🍓 *ES KRIM STROBERI FRESH*\n\n💰 Harga: **Rp15.000**\n⭐ Rating: ⭐⭐⭐⭐ (4.8/5)\n🎯 Rasa: Fresh & sweet\n\n🍓 Stroberi segar langsung dari kebun!",
+        buttons: ["🛒 Pesan!", "🔄 Pilih lain", "🏠 Menu"]
+      },
+      vanila: {
+        text: "🍦 *ES KRIM VANILA KLASIK*\n\n💰 Harga: **Rp12.000**\n⭐ Rating: ⭐⭐⭐⭐⭐ (5.0/5)\n🎯 Rasa: Classic smooth\n\n✨ Vanila Madagascar asli, favorit semua kalangan!",
+        buttons: ["🛒 Pesan!", "🔄 Pilih lain", "🏠 Menu"]
+      },
+      harga: {
+        text: "💰 *DAFTAR HARGA ES KRIM ZELWIT* 🌧️\n\n| Rasa | Harga | Rating |\n|------|-------|--------|\n| 🍫 Coklat | Rp15.000 | ⭐⭐⭐⭐⭐ |\n| 🍓 Stroberi | Rp15.000 | ⭐⭐⭐⭐ |\n| 🍦 Vanila | Rp12.000 | ⭐⭐⭐⭐⭐ |\n\nMau pesan yang mana?",
+        buttons: ["🍫 Coklat", "🍓 Stroberi", "🍦 Vanila"]
+      },
+      help: {
+        text: "❓ *BANTUAN - BOT AIKO*\n\nBerikut command yang tersedia:\n\n• `cerita` / `dongeng` → Dongeng random\n• `es krim` / `menu` → Menu es krim\n• `harga` → Daftar harga\n• `halo` / `hai` → Sapaan\n• `terima kasih` → Penutup\n\nSilakan pilih atau ketik sendiri!",
+        buttons: ["📖 Cerita", "🍦 Es Krim", "👋 Halo"]
+      },
+      halo: {
+        text: "👋 Hai juga! Senang bertemu kamu! 😊\n\nSaya **Aiko**, bot pintar AfterRain Tales.\n\nAda yang bisa saya bantu?\n\n📖 Mau diceritakan dongeng?\n🍦 Atau lihat menu es krim kami?",
+        buttons: ["📖 Dongeng", "🍦 Es Krim", "❓ Bantuan"]
+      },
+      terimakasih: {
+        text: "🙏 *Terima kasih!* \n\nTerima kasih sudah chat dengan Aiko! 😊\n\nSemoga harimu menyenangkan! 🌈\n\n~ AfterRain Tales ~",
+        buttons: ["👋 Lagi", "🏠 Menu utama"]
+      },
+      default: {
+        text: "🤔 Hmm, aku belum mengerti itu...\n\nCoba ketik:\n• **halo** / **hai** → sapaan\n• **es krim** → menu es krim\n• **help** / **bantuan** → bantuan\n• **cerita** → dongeng random\n\nAtau ketik apa saja, nanti aku coba pahami! 😊",
+        buttons: ["❓ Bantuan", "👋 Halo", "🍦 Menu"]
+      }
+    };
+
+    // ===== OPEN CHAT =====
+    function openChat() {
+      document.getElementById('chatOverlay').classList.add('active');
+      chatOpen = true;
+      
+      // Send greeting after short delay
+      setTimeout(() => {
+        addBotMessage(botResponses.greeting);
+      }, 500);
+
+      // Remove notification badge
+      const notif = document.querySelector('.hotbar-btn .notif');
+      if (notif) notif.style.display = 'none';
+    }
+
+    // ===== CLOSE CHAT =====
+    function closeChat() {
+      document.getElementById('chatOverlay').classList.remove('active');
+      chatOpen = false;
+    }
+
+    // ===== SEND MESSAGE =====
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      
+      if (!text) return;
+      
+      // Add user message
+      addUserMessage(text);
+      input.value = '';
+      
+      // Show typing indicator
+      showTyping();
+      
+      // Process and respond
+      setTimeout(() => {
+        hideTyping();
+        const response = processMessage(text);
+        addBotMessage(response);
+      }, 800 + Math.random() * 700);
+    }
+
+    // ===== HANDLE KEY PRESS (Enter) =====
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    // ===== PROCESS MESSAGE (AIKO BRAIN) =====
+    function processMessage(text) {
+      const lower = text.toLowerCase().trim();
+      
+      // Check keywords
+      if (lower.includes('halo') || lower.includes('hai') || lower.includes('hi') || lower.includes('hello')) {
+        return botResponses.halo;
+      }
+      else if (lower.includes('es krim') || lower.includes('eskrim') || lower.includes('menu') || lower.includes('/mulai') || lower.includes('mulai')) {
+        return botResponses.es_krim;
+      }
+      else if (lower.includes('coklat') || lower.includes('chocolate') || lower === '1' || lower === '1.')) {
+        return botResponses.coklat;
+      }
+      else if (lower.includes('stroberi') || lower.includes('strawberry') || lower === '2' || lower === '2.')) {
+        return botResponses.stroberi;
+      }
+      else if (lower.includes('vanila') || lower === '3' || lower === '3.')) {
+        return botResponses.vanila;
+      }
+      else if (lower.includes('harga') || lower.includes('price') || lower.includes('biaya')) {
+        return botResponses.harga;
+      }
+      else if (lower.includes('cerita') || lower.includes('dongeng') || lower.includes('story') || lower.includes('tell')) {
+        return botResponses.dongeng;
+      }
+      else if (lower.includes('help') || lower.includes('bantuan') || lower.includes('?')) {
+        return botResponses.help;
+      }
+      else if (lower.includes('terima kasih') || lower.includes('thanks') || lower.includes('makasih') || lower.includes('bye')) {
+        return botResponses.terimakasih;
+      }
+      else {
+        return botResponses.default;
+      }
+    }
+
+    // ===== ADD USER MESSAGE =====
+    function addUserMessage(text) {
+      const messagesDiv = document.getElementById('chatMessages');
+      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message user';
+      msgDiv.innerHTML = `
+        ${escapeHtml(text)}
+        <div class="message-time">${time}</div>
+      `;
+      
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // ===== ADD BOT MESSAGE =====
+    function addBotMessage(response) {
+      const messagesDiv = document.getElementById('chatMessages');
+      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message bot';
+      
+      let html = response.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\n/g, '<br>');
+      msgDiv.innerHTML = `
+        ${html}
+        <div class="message-time">${time}</div>
+      `;
+      
+      // Add buttons if exists
+      if (response.buttons && response.buttons.length > 0) {
+        let btnHtml = '<div class="quick-replies">';
+        response.buttons.forEach(btn => {
+          btnHtml += `<button class="quick-reply-btn" onclick="handleQuickReply('${escapeHtml(btn)}')">${escapeHtml(btn)}</button>`;
+        });
+        btnHtml += '</div>';
+        msgDiv.innerHTML += btnHtml;
+      }
+      
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // ===== HANDLE QUICK REPLY BUTTON CLICK =====
+    function handleQuickReply(text) {
+      addUserMessage(text);
+      
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        const response = processMessage(text);
+        addBotMessage(response);
+      }, 600 + Math.random() * 500);
+    }
+
+    // ===== TYPING INDICATOR =====
+    function showTyping() {
+      document.getElementById('typingIndicator').classList.add('active');
+    }
+
+    function hideTyping() {
+      document.getElementById('typingIndicator').classList.remove('active');
+    }
+
+    // ===== ESCAPE HTML =====
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ===== CLOSE ON OUTSIDE CLICK =====
+    document.getElementById('chatOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeChat();
+      }
+    });
+
+    // ===== CLOSE WITH ESCAPE KEY =====
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && chatOpen) {
+        closeChat();
+      }
+    });
+
+  </script>
+
+</body>
 </html>
