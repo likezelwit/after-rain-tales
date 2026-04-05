@@ -169,7 +169,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(to bottom, #f0f4ff, #fef5ff);
+      background: linear-gradient(to bottom, #e8ecf7, #fef5ff);
       z-index: 9999;
       flex-direction: column;
       animation: slideUp 0.4s ease;
@@ -250,102 +250,122 @@
       opacity: 0.95;
     }
 
-    /* Chat Messages Area */
+    /* Chat Messages Area - LIKE REAL CHAT APP */
     .chat-fs-messages {
       flex: 1;
       overflow-y: auto;
       padding: 25px 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="2" fill="%23ddd" opacity="0.3"/></svg>') repeat;
-      background-size: 30px 30px;
+      gap: 12px;
+      background: #e5ddd5 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23d4cfc5" opacity="0.4"/></svg>') repeat;
+      background-size: 25px 25px;
     }
 
-    .msg-bubble {
-      max-width: 80%;
-      padding: 14px 18px;
-      border-radius: 20px;
-      font-size: 1em;
-      line-height: 1.5;
-      animation: msgPop 0.3s ease forwards;
-      position: relative;
-      word-wrap: break-word;
-    }
-
-    @keyframes msgPop {
-      from {
-        opacity: 0;
-        transform: scale(0.9) translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
+    /* Message Bubble - BOT (Left Side) */
     .msg-bubble.bot {
+      max-width: 82%;
       align-self: flex-start;
       background: white;
       color: #333;
-      border-bottom-left-radius: 5px;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-      border-left: 4px solid #667eea;
+      padding: 10px 16px;
+      border-radius: 12px 18px 18px 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      animation: slideInLeft 0.35s ease forwards;
+      position: relative;
+      word-wrap: break-word;
+      line-height: 1.45;
+      font-size: 0.98em;
     }
 
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    /* Message Bubble - USER (Right Side) */
     .msg-bubble.user {
+      max-width: 75%;
       align-self: flex-end;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border-bottom-right-radius: 5px;
-      box-shadow: 0 3px 15px rgba(102, 126, 234, 0.3);
+      background: linear-gradient(135deg, #dcf8c6, #c5e1a5);
+      color: #1a1a1a;
+      padding: 10px 16px;
+      border-radius: 18px 12px 4px 18px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      animation: slideInRight 0.35s ease forwards;
+      position: relative;
+      word-wrap: break-word;
+      line-height: 1.45;
+      font-size: 0.98em;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
     }
 
     .msg-time {
-      font-size: 0.72em;
-      opacity: 0.7;
-      margin-top: 6px;
+      font-size: 0.68em;
+      color: #888;
+      margin-top: 5px;
       text-align: right;
+      display: block;
     }
 
     /* Quick Reply Buttons Container */
     .quick-replies {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
+      gap: 7px;
+      margin-top: 10px;
       justify-content: flex-start;
     }
 
     .quick-btn {
       background: white;
-      border: 2px solid #667eea;
+      border: 1.5px solid #667eea;
       color: #667eea;
-      padding: 10px 18px;
-      border-radius: 20px;
+      padding: 8px 16px;
+      border-radius: 18px;
       cursor: pointer;
-      font-size: 0.92em;
+      font-size: 0.88em;
       font-weight: 600;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       font-family: inherit;
+      outline: none;
     }
 
     .quick-btn:hover {
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+    }
+
+    .quick-btn:active {
+      transform: scale(0.96);
     }
 
     /* Input Area - Mulai Pesan Button Style */
     .chat-fs-input {
-      padding: 18px 20px;
-      background: white;
-      border-top: 2px solid #e8e8e8;
+      padding: 16px 20px;
+      background: #f0f0f0;
       display: flex;
       gap: 12px;
       align-items: center;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid #ddd;
     }
 
     .mulai-pesan-btn {
@@ -353,40 +373,40 @@
       background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
       color: white;
       border: none;
-      padding: 16px 30px;
-      border-radius: 28px;
-      font-size: 1.15em;
+      padding: 15px 28px;
+      border-radius: 26px;
+      font-size: 1.08em;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 24px rgba(233, 30, 99, 0.3);
+      box-shadow: 0 5px 22px rgba(233, 30, 99, 0.32);
       animation: pulseBtn 2s infinite;
     }
 
     @keyframes pulseBtn {
-      0%, 100% {
-        box-shadow: 0 6px 24px rgba(233, 30, 99, 0.3);
-      }
-      50% {
-        box-shadow: 0 6px 32px rgba(233, 30, 99, 0.5);
-      }
+      0%, 100% { box-shadow: 0 5px 22px rgba(233, 30, 99, 0.32); }
+      50% { box-shadow: 0 5px 30px rgba(233, 30, 99, 0.48); }
     }
 
     .mulai-pesan-btn:hover {
       transform: scale(1.03);
-      box-shadow: 0 8px 30px rgba(233, 30, 99, 0.45);
+      box-shadow: 0 7px 28px rgba(233, 30, 99, 0.42);
+    }
+
+    .mulai-pesan-btn:active {
+      transform: scale(0.98);
     }
 
     /* Typing Indicator */
     .typing-indicator {
       display: none;
       align-self: flex-start;
-      padding: 14px 20px;
       background: white;
-      border-radius: 20px;
-      border-bottom-left-radius: 5px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-      gap: 6px;
+      padding: 12px 18px;
+      border-radius: 12px 18px 18px 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      gap: 5px;
+      animation: slideInLeft 0.3s ease;
     }
 
     .typing-indicator.active {
@@ -394,77 +414,106 @@
     }
 
     .typing-dot {
-      width: 9px;
-      height: 9px;
-      background: #667eea;
+      width: 8px;
+      height: 8px;
+      background: #999;
       border-radius: 50%;
       animation: typingBounce 1.2s infinite;
     }
 
-    .typing-dot:nth-child(2) {
-      animation-delay: 0.15s;
-    }
-
-    .typing-dot:nth-child(3) {
-      animation-delay: 0.3s;
-    }
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
 
     @keyframes typingBounce {
-      0%, 60%, 100% {
-        transform: translateY(0);
-      }
-      30% {
-        transform: translateY(-8px);
-      }
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-8px); opacity: 1; }
     }
 
     /* Success Animation */
     .success-msg {
-      background: linear-gradient(135deg, #4caf50, #81c784) !important;
-      border-left-color: #4caf50 !important;
+      background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
+      border-left: 4px solid #28a745 !important;
+    }
+
+    /* Input Field Style */
+    .chat-input-wrapper {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .chat-input-field {
+      flex: 1;
+      padding: 13px 20px;
+      border: 2px solid #667eea;
+      border-radius: 24px;
+      font-size: 0.97em;
+      outline: none;
+      font-family: inherit;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    .chat-input-field:focus {
+      border-color: #764ba2;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    }
+
+    .send-data-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      font-size: 1.15em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(102, 126, 234, 0.32);
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .send-data-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 5px 18px rgba(102, 126, 234, 0.42);
+    }
+
+    .send-data-btn:active {
+      transform: scale(0.94);
     }
 
     /* Responsive */
     @media (max-width: 600px) {
-      h1 {
-        font-size: 2.2em;
-      }
-
-      .box {
-        width: 95%;
-        padding: 22px 18px;
-      }
-
-      .card-eskrim {
-        max-width: 95%;
-      }
-
-      .msg-bubble {
-        max-width: 88%;
-      }
-
-      .quick-btn {
-        padding: 8px 14px;
-        font-size: 0.88em;
-      }
+      h1 { font-size: 2.2em; }
+      .box { width: 95%; padding: 22px 18px; }
+      .card-eskrim { max-width: 95%; }
+      .msg-bubble.bot { max-width: 88%; }
+      .msg-bubble.user { max-width: 82%; }
+      .quick-btn { padding: 7px 13px; font-size: 0.84em; }
+      .chat-fs-header { padding: 16px 18px; }
     }
 
     /* Scrollbar Styling */
-    .chat-fs-messages::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .chat-fs-messages::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
+    .chat-fs-messages::-webkit-scrollbar { width: 5px; }
+    .chat-fs-messages::-webkit-scrollbar-track { background: transparent; }
     .chat-fs-messages::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: rgba(102, 126, 234, 0.3);
       border-radius: 10px;
+    }
+
+    /* Shake animation for validation */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-10px); }
+      80% { transform: translateX(10px); }
     }
   </style>
 </head>
-
 <body>
 
   <!-- ===== HEADER UTAMA ===== -->
@@ -498,7 +547,7 @@
     <div class="box card-eskrim" onclick="openChatEskrim()">
       <span class="card-icon">🍦</span>
       <h2>Pesan Es Krim</h2>
-      <p>Pesan es krim favorit kamu langsung dari sini! Bot Aiko siap melayani pesananmu dengan senang hati~</p>
+      <p>Pesan es krim favorit kamu langsung dari sini! Bot Aiko siap melayani pesananmu~</p>
       <button class="card-btn" onclick="event.stopPropagation(); openChatEskrim();">🍦 Pesan Sekarang</button>
     </div>
 
@@ -544,25 +593,28 @@
 
     <!-- Input Area / Tombol Mulai -->
     <div class="chat-fs-input" id="chatInputArea">
-      <button class="mulai-pesan-btn" id="btnMulaiPesan" onclick="startOrder()">🚀 Mulai Pesan</button>
+      <button class="mulai-pesan-btn" id="btnMulaiPesan" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>
     </div>
 
   </div>
 
 
   <!-- ========================================== -->
-  <!-- ===== JAVASCRIPT ===== -->
+  <!-- ===== JAVASCRIPT (FIXED & IMPROVED) ===== -->
   <!-- ========================================== -->
 
   <script>
     // State Management
     let orderState = {
-      step: 0, // 0: awal, 1: pilih rasa, 2: pilih tempat, 3: isi data, 4: konfirmasi, 5: selesai
+      step: 0,
       rasa: '',
       tempat: '',
       nama: '',
       alamat: ''
     };
+
+    // Current pending actions for quick buttons
+    let currentQuickActions = [];
 
     // ===== OPEN/CLOSE CHAT =====
     function openChatEskrim() {
@@ -570,13 +622,8 @@
       document.body.style.overflow = 'hidden';
       
       // Reset state
-      orderState = {
-        step: 0,
-        rasa: '',
-        tempat: '',
-        nama: '',
-        alamat: ''
-      };
+      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
+      currentQuickActions = [];
       
       // Clear messages
       document.getElementById('chatMessagesArea').innerHTML = '';
@@ -587,7 +634,7 @@
       // Auto greeting setelah delay
       setTimeout(() => {
         addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nSelamat datang di Toko Es Krim Zelwit!\nAku Aiko, bot yang siap melayani pesanan es krim favoritmu~");
-      }, 600);
+      }, 500);
     }
 
     function closeChat() {
@@ -595,122 +642,159 @@
       document.body.style.overflow = 'auto';
     }
 
-    // ===== SHOW/HIDE MULAI BUTTON =====
+    // ===== SHOW/HIDE INPUT AREA =====
     function showMulaiButton() {
       const inputArea = document.getElementById('chatInputArea');
-      inputArea.innerHTML = `<button class="mulai-pesan-btn" onclick="startOrder()">🚀 Mulai Pesan</button>`;
+      inputArea.innerHTML = `<button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>`;
     }
 
     function hideInputArea() {
-      const inputArea = document.getElementById('chatInputArea');
-      inputArea.innerHTML = '';
+      document.getElementById('chatInputArea').innerHTML = '';
     }
 
-    // ===== START ORDER FLOW =====
-    function startOrder() {
+    // ===== HANDLE MULAI PESAN (USER CLICK) =====
+    function handleMulaiPesan() {
+      // Show user message from RIGHT side
+      addUserMessage("🚀 Mulai Pesan");
+      
+      // Hide button
       hideInputArea();
+      
+      // Show typing then bot responds
       showTyping();
       
       setTimeout(() => {
         hideTyping();
         addBotMessage("Halo! Pesan rasa apa? 😊", [
-          { text: "🍫 Coklat", action: () => selectRasa("Coklat") },
-          { text: "🍓 Stroberi", action: () => selectRasa("Stroberi") },
-          { text: "🍦 Vanila", action: () => selectRasa("Vanila") },
-          { text: "🥭 Mangga", action: () => selectRasa("Mangga") },
-          { text: "🫐 Blueberry", action: () => selectRasa("Blueberry") }
-        ]);
+          { label: "🍫 Coklat", value: "Coklat" },
+          { label: "🍓 Stroberi", value: "Stroberi" },
+          { label: "🍦 Vanila", value: "Vanila" },
+          { label: "🥭 Mangga", value: "Mangga" },
+          { label: "🫐 Blueberry", value: "Blueberry" }
+        ], 'rasa');
         orderState.step = 1;
-      }, 800);
+      }, 900);
     }
 
-    // ===== STEP 1: PILIH RASA =====
-    function selectRasa(rasa) {
-      orderState.rasa = rasa;
-      addUserMessage(`🍦 ${rasa}`);
+    // ===== QUICK BUTTON CLICK HANDLER (FIXED!) =====
+    window.handleQuickClick = function(btnValue, btnLabel, type) {
+      // Show user message with clicked button text (from RIGHT side)
+      addUserMessage(btnLabel);
+      
+      // Show typing indicator
       showTyping();
       
+      // Process based on type
       setTimeout(() => {
         hideTyping();
-        addBotMessage(`Oke! Eskrim rasa *${rasa}* Ya! ✅\n\nTempatnya mau yang apa? 🤔`, [
-          { text: "🌽 Corn", action: () => selectTempat("Corn") },
-          { text: "🥤 Cup", action: () => selectTempat("Cup") },
-          { text: "🥣 Basin", action: () => selectTempat("Basin") }
-        ]);
-        orderState.step = 2;
-      }, 700 + Math.random() * 500);
+        
+        switch(type) {
+          case 'rasa':
+            handleSelectRasa(btnValue, btnLabel);
+            break;
+          case 'tempat':
+            handleSelectTempat(btnValue, btnLabel);
+            break;
+          case 'data_nama':
+            handleAskNama();
+            break;
+          case 'data_alamat':
+            handleAskAlamat();
+            break;
+          case 'confirm_yes':
+            handleConfirmYes();
+            break;
+          case 'confirm_no':
+            handleConfirmNo();
+            break;
+          case 'confirm_edit':
+            handleConfirmEdit();
+            break;
+          case 'edit_rasa':
+            handleEditRasa();
+            break;
+          case 'edit_tempat':
+            handleEditTempat();
+            break;
+          case 'edit_nama':
+            handleEditNama();
+            break;
+          case 'edit_alamat':
+            handleEditAlamat();
+            break;
+          case 'pesan_lagi':
+            handlePesanLagi();
+            break;
+          case 'kembali':
+            closeChat();
+            break;
+        }
+      }, 700 + Math.random() * 400);
+    };
+
+    // ===== STEP 1: PILIH RASA =====
+    function handleSelectRasa(rasa, label) {
+      orderState.rasa = rasa;
+      
+      addBotMessage(`Oke! Eskrim rasa *${rasa}* Ya! ✅\n\nTempatnya mau yang apa? 🤔`, [
+        { label: "🌽 Corn", value: "Corn" },
+        { label: "🥤 Cup", value: "Cup" },
+        { label: "🥣 Basin", value: "Basin" }
+      ], 'tempat');
+      orderState.step = 2;
     }
 
     // ===== STEP 2: PILIH TEMPAT =====
-    function selectTempat(tempat) {
+    function handleSelectTempat(tempat, label) {
       orderState.tempat = tempat;
-      addUserMessage(`📦 ${tempat}`);
-      showTyping();
       
-      setTimeout(() => {
-        hideTyping();
-        addBotMessage("Isi data diri dulu ya! 📝\n\nSupaya pesananmu sampai dengan aman~", [
-          { text: "👤 Isi Nama", action: () => askNama() },
-          { text: "🏠 Isi Alamat", action: () => askAlamat() }
-        ]);
-        orderState.step = 3;
-      }, 700 + Math.random() * 500);
+      addBotMessage("Isi data diri dulu ya! 📝\n\nSupaya pesananmu sampai dengan aman~", [
+        { label: "👤 Isi Nama", value: "nama" },
+        { label: "🏠 Isi Alamat", value: "alamat" }
+      ], 'data');
+      orderState.step = 3;
     }
 
     // ===== STEP 3: ISI DATA DIRI =====
-    function askNama() {
-      addUserMessage("👤 Isi Nama");
-      showTyping();
-      
-      setTimeout(() => {
-        hideTyping();
-        addBotMessage("Silakan ketik nama lengkap kamu ya! ✨");
-        
-        // Show input for nama
-        showInputField("nama", "Ketik namamu di sini...");
-      }, 600);
+    function handleAskNama() {
+      addBotMessage("Silakan ketik nama lengkap kamu ya! ✨");
+      showInputField("nama", "Ketik namamu di sini...");
     }
 
-    function askAlamat() {
-      addUserMessage("🏠 Isi Alamat");
-      showTyping();
-      
-      setTimeout(() => {
-        hideTyping();
-        addBotMessage("Silakan ketik alamat lengkap pengirimannya ya! 📍");
-        
-        // Show input for alamat
-        showInputField("alamat", "Ketik alamatmu di sini...");
-      }, 600);
+    function handleAskAlamat() {
+      addBotMessage("Silakan ketik alamat lengkap pengirimannya ya! 📍");
+      showInputField("alamat", "Ketik alamatmu di sini...");
     }
 
     function showInputField(fieldType, placeholder) {
       const inputArea = document.getElementById('chatInputArea');
       inputArea.innerHTML = `
-        <input type="text" 
-               class="chat-input-field" 
-               id="dataInput" 
-               placeholder="${placeholder}" 
-               onkeypress="handleDataInput(event, '${fieldType}')"
-               style="flex: 1; padding: 14px 20px; border: 2px solid #667eea; border-radius: 25px; font-size: 1em; outline: none; font-family: inherit;">
-        <button class="send-data-btn" onclick="submitData('${fieldType}')" 
-                style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 1.2em; cursor: pointer; box-shadow: 0 4px 12px rgba(102,126,234,0.3); transition: all 0.3s;">➤</button>
+        <div class="chat-input-wrapper">
+          <input type="text" 
+                 class="chat-input-field" 
+                 id="dataInput" 
+                 placeholder="${placeholder}" 
+                 onkeypress="handleDataKeyPress(event, '${fieldType}')">
+          <button class="send-data-btn" onclick="submitData('${fieldType}')">➤</button>
+        </div>
       `;
       
-      // Focus input
       setTimeout(() => {
-        document.getElementById('dataInput').focus();
+        const inputEl = document.getElementById('dataInput');
+        if (inputEl) inputEl.focus();
       }, 100);
     }
 
-    function handleDataInput(event, fieldType) {
+    window.handleDataKeyPress = function(event, fieldType) {
       if (event.key === 'Enter') {
         submitData(fieldType);
       }
-    }
+    };
 
     function submitData(fieldType) {
       const input = document.getElementById('dataInput');
+      if (!input) return;
+      
       const value = input.value.trim();
       
       if (!value) {
@@ -723,6 +807,7 @@
         return;
       }
       
+      // Show user typed message
       addUserMessage(value);
       
       if (fieldType === 'nama') {
@@ -734,13 +819,14 @@
           
           if (!orderState.alamat) {
             addBotMessage(`Terima kasih, *${value}*! 👋\n\nSekarang isi alamat pengiriman ya~`, [
-              { text: "🏠 Isi Alamat", action: () => askAlamat() }
-            ]);
+              { label: "🏠 Isi Alamat", value: "alamat" }
+            ], 'data_alamat');
             showInputField("alamat", "Ketik alamatmu di sini...");
           } else {
-            checkDataComplete();
+            checkAndShowConfirmation();
           }
-        }, 600);
+        }, 650);
+        
       } else if (fieldType === 'alamat') {
         orderState.alamat = value;
         
@@ -750,23 +836,23 @@
           
           if (!orderState.nama) {
             addBotMessage(`Alamat diterima! 📍\n\nSekarang isi nama lengkapmu ya~`, [
-              { text: "👤 Isi Nama", action: () => askNama() }
-            ]);
+              { label: "👤 Isi Nama", value: "nama" }
+            ], 'data_nama');
             showInputField("nama", "Ketik namamu di sini...");
           } else {
-            checkDataComplete();
+            checkAndShowConfirmation();
           }
-        }, 600);
+        }, 650);
       }
     }
 
-    function checkDataComplete() {
+    function checkAndShowConfirmation() {
       if (orderState.nama && orderState.alamat && orderState.rasa && orderState.tempat) {
         showTyping();
         setTimeout(() => {
           hideTyping();
           showConfirmation();
-        }, 800);
+        }, 750);
       }
     }
 
@@ -782,72 +868,78 @@
       summary += `Konfirmasi dulu ya! Apakah data sudah benar? ✅`;
       
       addBotMessage(summary, [
-        { text: "✅ Iya, Benar!", action: () => confirmOrder(true) },
-        { text: "❌ Tidak, Edit", action: () => confirmOrder(false) },
-        { text: "✏️ Edit Data", action: () => editOrder() }
-      ]);
+        { label: "✅ Iya, Benar!", value: "yes" },
+        { label: "❌ Tidak, Batal", value: "no" },
+        { label: "✏️ Edit Data", value: "edit" }
+      ], 'confirm');
     }
 
-    function confirmOrder(confirmed) {
-      if (confirmed) {
-        addUserMessage("✅ Iya, Benar!");
-        processOrder();
-      } else {
-        addUserMessage("❌ Tidak");
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          addBotMessage("Baik, pesanan dibatalkan. 😔\n\nKalau mau pesan lagi, klik tombol *Mulai Pesan* di bawah ya!");
-          showMulaiButton();
-          orderState.step = 0;
-        }, 800);
-      }
+    function handleConfirmYes() {
+      processOrder();
     }
 
-    function editOrder() {
-      addUserMessage("✏️ Edit Data");
-      showTyping();
-      
-      setTimeout(() => {
-        hideTyping();
-        addBotMessage("Mau edit bagian mana? 🔧", [
-          { text: "🍦 Ganti Rasa", action: () => {
-            orderState.rasa = '';
-            startOrder();
-          }},
-          { text: "📦 Ganti Tempat", action: () => {
-            orderState.tempat = '';
-            selectRasa(orderState.rasa);
-          }},
-          { text: "👤 Ganti Nama", action: () => {
-            orderState.nama = '';
-            askNama();
-          }},
-          { text: "🏠 Ganti Alamat", action: () => {
-            orderState.alamat = '';
-            askAlamat();
-          }}
-        ]);
-      }, 600);
+    function handleConfirmNo() {
+      addBotMessage("Baik, pesanan dibatalkan. 😔\n\nKalau mau pesan lagi, klik tombol *Mulai Pesan* di bawah ya!");
+      showMulaiButton();
+      orderState.step = 0;
+    }
+
+    function handleConfirmEdit() {
+      addBotMessage("Mau edit bagian mana? 🔧", [
+        { label: "🍦 Ganti Rasa", value: "rasa" },
+        { label: "📦 Ganti Tempat", value: "tempat" },
+        { label: "👤 Ganti Nama", value: "nama" },
+        { label: "🏠 Ganti Alamat", value: "alamat" }
+      ], 'edit');
+    }
+
+    function handleEditRasa() {
+      orderState.rasa = '';
+      addBotMessage("Pilih rasa baru:", [
+        { label: "🍫 Coklat", value: "Coklat" },
+        { label: "🍓 Stroberi", value: "Stroberi" },
+        { label: "🍦 Vanila", value: "Vanila" },
+        { label: "🥭 Mangga", value: "Mangga" },
+        { label: "🫐 Blueberry", value: "Blueberry" }
+      ], 'rasa');
+    }
+
+    function handleEditTempat() {
+      orderState.tempat = '';
+      addBotMessage(`Pilih tempat baru untuk rasa *${orderState.rasa}*:`, [
+        { label: "🌽 Corn", value: "Corn" },
+        { label: "🥤 Cup", value: "Cup" },
+        { label: "🥣 Basin", value: "Basin" }
+      ], 'tempat');
+    }
+
+    function handleEditNama() {
+      orderState.nama = '';
+      addBotMessage("Ketik nama baru:");
+      showInputField("nama", "Ketik nama barumu...");
+    }
+
+    function handleEditAlamat() {
+      orderState.alamat = '';
+      addBotMessage("Ketik alamat baru:");
+      showInputField("alamat", "Ketik alamat barumu...");
     }
 
     // ===== STEP 5: PROSES SELESAI =====
     function processOrder() {
       orderState.step = 5;
       hideInputArea();
-      showTyping();
       
+      showTyping();
       setTimeout(() => {
         hideTyping();
-        addBotMessage("Sedang memproses pesananmu... ⏳", [], true);
+        addBotMessage("Sedang memproses pesananmu... ⏳");
         
         setTimeout(() => {
-          // Remove processing message and add success
+          // Remove processing msg
           const area = document.getElementById('chatMessagesArea');
           const msgs = area.querySelectorAll('.msg-bubble.bot');
-          if (msgs.length > 0) {
-            msgs[msgs.length - 1].remove();
-          }
+          if (msgs.length > 0) msgs[msgs.length - 1].remove();
           
           let successMsg = `*🎉 PESANAN BERHASIL!* 🎊\n\n`;
           successMsg += `Terima kasih, ${orderState.nama}! 😊\n\n`;
@@ -861,22 +953,24 @@
           successMsg += `_AfterRain Tales x Zelwit Ice Cream_`;
           
           addBotMessage(successMsg, [
-            { text: "🔄 Pesan Lagi", action: () => {
-              orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
-              document.getElementById('chatMessagesArea').innerHTML = '';
-              showMulaiButton();
-              setTimeout(() => {
-                addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nMau pesan lagi? Silakan klik tombol Mulai Pesan!");
-              }, 400);
-            }},
-            { text: "🏠 Kembali ke Home", action: () => closeChat() }
-          ], true); // true = success style
+            { label: "🔄 Pesan Lagi", value: "lagi" },
+            { label: "🏠 Kembali ke Home", value: "home" }
+          ], 'finish', true);
           
           showMulaiButton();
           
-        }, 2000);
+        }, 2200);
         
-      }, 500);
+      }, 550);
+    }
+
+    function handlePesanLagi() {
+      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
+      document.getElementById('chatMessagesArea').innerHTML = '';
+      showMulaiButton();
+      setTimeout(() => {
+        addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nMau pesan lagi? Silakan klik tombol Mulai Pesan!");
+      }, 400);
     }
 
     function getPrice(rasa) {
@@ -890,8 +984,8 @@
       return prices[rasa] || '15.000';
     }
 
-    // ===== MESSAGE FUNCTIONS =====
-    function addBotMessage(text, buttons = [], isSuccess = false) {
+    // ===== MESSAGE FUNCTIONS (IMPROVED) =====
+    function addBotMessage(text, buttons = [], actionType = '', isSuccess = false) {
       const area = document.getElementById('chatMessagesArea');
       const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       
@@ -902,23 +996,23 @@
       let formattedText = text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
       formattedText = formattedText.replace(/\n/g, '<br>');
       
-      div.innerHTML = `${formattedText}<div class="msg-time">${time}</div>`;
+      div.innerHTML = `${formattedText}<span class="msg-time">${time}</span>`;
       
-      // Add buttons if any
-      if (buttons.length > 0) {
+      // Add buttons if any - FIXED: Direct onclick handler!
+      if (buttons && buttons.length > 0) {
         let btnHtml = '<div class="quick-replies">';
-        buttons.forEach((btn, idx) => {
-          btnHtml += `<button class="quick-btn" onclick="executeQuickAction(${idx})">${btn.text}</button>`;
+        buttons.forEach((btn) => {
+          const safeLabel = btn.label.replace(/'/g, "\\'");
+          const safeValue = btn.value.replace(/'/g, "\\'");
+          const safeType = actionType.replace(/'/g, "\\'");
+          btnHtml += `<button class="quick-btn" onclick="handleQuickClick('${safeValue}', '${safeLabel}', '${safeType}')">${btn.label}</button>`;
         });
         btnHtml += '</div>';
         div.innerHTML += btnHtml;
-        
-        // Store actions
-        div.dataset.actions = JSON.stringify(buttons.map(b => b.action));
       }
       
       area.appendChild(div);
-      area.scrollTop = area.scrollHeight;
+      scrollToBottom();
     }
 
     function addUserMessage(text) {
@@ -927,24 +1021,11 @@
       
       const div = document.createElement('div');
       div.className = 'msg-bubble user';
-      div.innerHTML = `${escapeHtml(text)}<div class="msg-time">${time}</div>`;
+      div.innerHTML = `${escapeHtml(text)}<span class="msg-time">${time}</span>`;
       
       area.appendChild(div);
-      area.scrollTop = area.scrollHeight;
+      scrollToBottom();
     }
-
-    // Execute quick action from stored data
-    window.executeQuickAction = function(idx) {
-      const msgs = document.querySelectorAll('.msg-bubble.bot');
-      const lastBotMsg = msgs[msgs.length - 1];
-      
-      if (lastBotMsg && lastBotMsg.dataset.actions) {
-        const actions = JSON.parse(lastBotMsg.dataset.actions);
-        if (actions[idx]) {
-          actions[idx]();
-        }
-      }
-    };
 
     // Typing indicator
     function showTyping() {
@@ -958,7 +1039,9 @@
 
     function scrollToBottom() {
       const area = document.getElementById('chatMessagesArea');
-      area.scrollTop = area.scrollHeight;
+      setTimeout(() => {
+        area.scrollTop = area.scrollHeight;
+      }, 50);
     }
 
     // Escape HTML
@@ -967,17 +1050,6 @@
       div.textContent = text;
       return div.innerHTML;
     }
-
-    // Add shake animation dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-8px); }
-        75% { transform: translateX(8px); }
-      }
-    `;
-    document.head.appendChild(style);
 
     // ESC to close
     document.addEventListener('keydown', (e) => {
