@@ -147,16 +147,8 @@
       background: rgba(255, 255, 255, 0.6);
     }
 
-    footer p {
-      margin: 8px 0;
-      font-size: 0.95em;
-    }
-
-    .footer-logo {
-      width: 80px;
-      margin: 10px auto;
-      border-radius: 15px;
-    }
+    footer p { margin: 8px 0; font-size: 0.95em; }
+    .footer-logo { width: 80px; margin: 10px auto; border-radius: 15px; }
 
     /* ============================================ */
     /* ===== HALAMAN CHAT FULL SCREEN ===== */
@@ -165,29 +157,18 @@
     .chat-fullscreen {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(to bottom, #e8ecf7, #fef5ff);
       z-index: 9999;
       flex-direction: column;
       animation: slideUp 0.4s ease;
     }
 
-    .chat-fullscreen.active {
-      display: flex;
-    }
+    .chat-fullscreen.active { display: flex; }
 
     @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Chat Header */
@@ -205,8 +186,7 @@
       background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       font-size: 1.3em;
       cursor: pointer;
@@ -229,8 +209,7 @@
     }
 
     .chat-avatar-circle {
-      width: 50px;
-      height: 50px;
+      width: 50px; height: 50px;
       background: white;
       border-radius: 50%;
       display: flex;
@@ -240,17 +219,10 @@
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
     }
 
-    .chat-bot-text h3 {
-      font-size: 1.15em;
-      margin-bottom: 2px;
-    }
+    .chat-bot-text h3 { font-size: 1.15em; margin-bottom: 2px; }
+    .chat-bot-text p { font-size: 0.85em; opacity: 0.95; }
 
-    .chat-bot-text p {
-      font-size: 0.85em;
-      opacity: 0.95;
-    }
-
-    /* Chat Messages Area - LIKE REAL CHAT APP */
+    /* Chat Messages Area */
     .chat-fs-messages {
       flex: 1;
       overflow-y: auto;
@@ -279,14 +251,8 @@
     }
 
     @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-30px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
+      from { opacity: 0; transform: translateX(-30px) scale(0.9); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
     }
 
     /* Message Bubble - USER (Right Side) */
@@ -306,14 +272,8 @@
     }
 
     @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(30px) scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
+      from { opacity: 0; transform: translateX(30px) scale(0.9); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
     }
 
     .msg-time {
@@ -354,11 +314,9 @@
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
     }
 
-    .quick-btn:active {
-      transform: scale(0.96);
-    }
+    .quick-btn:active { transform: scale(0.96); }
 
-    /* Input Area - Mulai Pesan Button Style */
+    /* Input Area */
     .chat-fs-input {
       padding: 16px 20px;
       background: #f0f0f0;
@@ -393,9 +351,7 @@
       box-shadow: 0 7px 28px rgba(233, 30, 99, 0.42);
     }
 
-    .mulai-pesan-btn:active {
-      transform: scale(0.98);
-    }
+    .mulai-pesan-btn:active { transform: scale(0.98); }
 
     /* Typing Indicator */
     .typing-indicator {
@@ -409,13 +365,10 @@
       animation: slideInLeft 0.3s ease;
     }
 
-    .typing-indicator.active {
-      display: flex;
-    }
+    .typing-indicator.active { display: flex; }
 
     .typing-dot {
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       background: #999;
       border-radius: 50%;
       animation: typingBounce 1.2s infinite;
@@ -429,7 +382,7 @@
       30% { transform: translateY(-8px); opacity: 1; }
     }
 
-    /* Success Animation */
+    /* Success Message */
     .success-msg {
       background: linear-gradient(135deg, #d4edda, #c3e6cb) !important;
       border-left: 4px solid #28a745 !important;
@@ -464,8 +417,7 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
       border: none;
-      width: 46px;
-      height: 46px;
+      width: 46px; height: 46px;
       border-radius: 50%;
       font-size: 1.15em;
       cursor: pointer;
@@ -474,6 +426,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: bold;
     }
 
     .send-data-btn:hover {
@@ -481,9 +434,7 @@
       box-shadow: 0 5px 18px rgba(102, 126, 234, 0.42);
     }
 
-    .send-data-btn:active {
-      transform: scale(0.94);
-    }
+    .send-data-btn:active { transform: scale(0.94); }
 
     /* Responsive */
     @media (max-width: 600px) {
@@ -496,7 +447,7 @@
       .chat-fs-header { padding: 16px 18px; }
     }
 
-    /* Scrollbar Styling */
+    /* Scrollbar */
     .chat-fs-messages::-webkit-scrollbar { width: 5px; }
     .chat-fs-messages::-webkit-scrollbar-track { background: transparent; }
     .chat-fs-messages::-webkit-scrollbar-thumb {
@@ -504,7 +455,7 @@
       border-radius: 10px;
     }
 
-    /* Shake animation for validation */
+    /* Shake Animation */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20% { transform: translateX(-10px); }
@@ -523,18 +474,13 @@
     <p class="tagline">Stories born after the rain.</p>
   </header>
 
-
-  <!-- ===== MAIN CONTENT (HALAMAN UTAMA) ===== -->
+  <!-- ===== MAIN CONTENT ===== -->
   <div class="container" id="mainContent">
 
     <!-- About -->
     <div class="box">
       <h2>📖 About</h2>
-      <p>
-        AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan,
-        tentang perubahan, harapan, dan perjalanan menemukan diri sendiri.
-        Setiap cerita di sini ditulis dengan hati.
-      </p>
+      <p>AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan, tentang perubahan, harapan, dan perjalanan menemukan diri sendiri. Setiap cerita di sini ditulis dengan hati.</p>
     </div>
 
     <!-- Our Stories -->
@@ -543,7 +489,7 @@
       <p>Kumpulan cerita tentang kehidupan, emosi, dan pengalaman yang relatable.</p>
     </div>
 
-    <!-- 👆 CARD: PESAN ES KRIM (KLIK → CHAT FULL SCREEN!) -->
+    <!-- Card Pesan Es Krim -->
     <div class="box card-eskrim" onclick="openChatEskrim()">
       <span class="card-icon">🍦</span>
       <h2>Pesan Es Krim</h2>
@@ -553,15 +499,13 @@
 
   </div>
 
-
-  <!-- ===== FOOTER UTAMA ===== -->
+  <!-- ===== FOOTER ===== -->
   <footer id="mainFooter">
     <p>© 2026 AfterRain Tales — Created by Aiko ✨</p>
     <p><strong>Didukung oleh:</strong></p>
     <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
     <p>VowViw Entertainment</p>
   </footer>
-
 
   <!-- ========================================== -->
   <!-- ===== CHAT FULL SCREEN ===== -->
@@ -593,14 +537,13 @@
 
     <!-- Input Area / Tombol Mulai -->
     <div class="chat-fs-input" id="chatInputArea">
-      <button class="mulai-pesan-btn" id="btnMulaiPesan" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>
+      <button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>
     </div>
 
   </div>
 
-
   <!-- ========================================== -->
-  <!-- ===== JAVASCRIPT (FIXED & IMPROVED) ===== -->
+  <!-- ===== JAVASCRIPT ===== -->
   <!-- ========================================== -->
 
   <script>
@@ -610,11 +553,9 @@
       rasa: '',
       tempat: '',
       nama: '',
-      alamat: ''
+      alamat: '',
+      payment: ''
     };
-
-    // Current pending actions for quick buttons
-    let currentQuickActions = [];
 
     // ===== OPEN/CLOSE CHAT =====
     function openChatEskrim() {
@@ -622,8 +563,7 @@
       document.body.style.overflow = 'hidden';
       
       // Reset state
-      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
-      currentQuickActions = [];
+      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '', payment: '' };
       
       // Clear messages
       document.getElementById('chatMessagesArea').innerHTML = '';
@@ -652,15 +592,10 @@
       document.getElementById('chatInputArea').innerHTML = '';
     }
 
-    // ===== HANDLE MULAI PESAN (USER CLICK) =====
+    // ===== HANDLE MULAI PESAN =====
     function handleMulaiPesan() {
-      // Show user message from RIGHT side
       addUserMessage("🚀 Mulai Pesan");
-      
-      // Hide button
       hideInputArea();
-      
-      // Show typing then bot responds
       showTyping();
       
       setTimeout(() => {
@@ -676,24 +611,20 @@
       }, 900);
     }
 
-    // ===== QUICK BUTTON CLICK HANDLER (FIXED!) =====
+    // ===== QUICK BUTTON CLICK HANDLER =====
     window.handleQuickClick = function(btnValue, btnLabel, type) {
-      // Show user message with clicked button text (from RIGHT side)
       addUserMessage(btnLabel);
-      
-      // Show typing indicator
       showTyping();
       
-      // Process based on type
       setTimeout(() => {
         hideTyping();
         
         switch(type) {
           case 'rasa':
-            handleSelectRasa(btnValue, btnLabel);
+            handleSelectRasa(btnValue);
             break;
           case 'tempat':
-            handleSelectTempat(btnValue, btnLabel);
+            handleSelectTempat(btnValue);
             break;
           case 'data_nama':
             handleAskNama();
@@ -701,14 +632,17 @@
           case 'data_alamat':
             handleAskAlamat();
             break;
+          case 'data_payment':
+            handleAskPayment();
+            break;
           case 'confirm_yes':
-            handleConfirmYes();
+            processOrder();
             break;
           case 'confirm_no':
-            handleConfirmNo();
+            handleCancelOrder();
             break;
           case 'confirm_edit':
-            handleConfirmEdit();
+            handleEditOrder();
             break;
           case 'edit_rasa':
             handleEditRasa();
@@ -722,6 +656,9 @@
           case 'edit_alamat':
             handleEditAlamat();
             break;
+          case 'edit_payment':
+            handleEditPayment();
+            break;
           case 'pesan_lagi':
             handlePesanLagi();
             break;
@@ -733,9 +670,8 @@
     };
 
     // ===== STEP 1: PILIH RASA =====
-    function handleSelectRasa(rasa, label) {
+    function handleSelectRasa(rasa) {
       orderState.rasa = rasa;
-      
       addBotMessage(`Oke! Eskrim rasa *${rasa}* Ya! ✅\n\nTempatnya mau yang apa? 🤔`, [
         { label: "🌽 Corn", value: "Corn" },
         { label: "🥤 Cup", value: "Cup" },
@@ -745,27 +681,53 @@
     }
 
     // ===== STEP 2: PILIH TEMPAT =====
-    function handleSelectTempat(tempat, label) {
+    function handleSelectTempat(tempat) {
       orderState.tempat = tempat;
-      
-      addBotMessage("Isi data diri dulu ya! 📝\n\nSupaya pesananmu sampai dengan aman~", [
+      addBotMessage("Bagus! Sekarang isi data dirimu ya! 📝\n\nPilih data yang ingin diisi:", [
         { label: "👤 Isi Nama", value: "nama" },
-        { label: "🏠 Isi Alamat", value: "alamat" }
+        { label: "🏠 Isi Alamat", value: "alamat" },
+        { label: "💳 Pilih Payment", value: "payment" }
       ], 'data');
       orderState.step = 3;
     }
 
-    // ===== STEP 3: ISI DATA DIRI =====
+    // ===== STEP 3: ISI DATA DIRI (FIXED!) =====
+    
+    // --- ISI NAMA ---
     function handleAskNama() {
-      addBotMessage("Silakan ketik nama lengkap kamu ya! ✨");
-      showInputField("nama", "Ketik namamu di sini...");
+      addBotMessage("Oke, silahkan isi namamu di bawah ini ✨");
+      showInputField("nama", "Ketik namamu...");
     }
 
+    // --- ISI ALAMAT ---
     function handleAskAlamat() {
-      addBotMessage("Silakan ketik alamat lengkap pengirimannya ya! 📍");
-      showInputField("alamat", "Ketik alamatmu di sini...");
+      addBotMessage("Oke, silahkan isi alamatmu di bawah ini 📍");
+      showInputField("alamat", "Ketik alamatmu...");
     }
 
+    // --- PILIH PAYMENT ---
+    function handleAskPayment() {
+      addBotMessage("Oke, pilih metode pembayaran 💳", [
+        { label: "💵 COD (Bayar di Tempat)", value: "COD" },
+        { label: "📱 E-Wallet (GoPay/OVO/Dana)", value: "E-Wallet" },
+        { label: "🏦 Transfer Bank", value: "Transfer" }
+      ], 'payment_select');
+    }
+
+    window.handlePaymentSelect = function(method, label) {
+      addUserMessage(label);
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        orderState.payment = method;
+        
+        // Cek data lengkap atau belum
+        checkDataComplete();
+      }, 600);
+    };
+
+    // Show Input Field dengan tombol OKE
     function showInputField(fieldType, placeholder) {
       const inputArea = document.getElementById('chatInputArea');
       inputArea.innerHTML = `
@@ -775,7 +737,7 @@
                  id="dataInput" 
                  placeholder="${placeholder}" 
                  onkeypress="handleDataKeyPress(event, '${fieldType}')">
-          <button class="send-data-btn" onclick="submitData('${fieldType}')">➤</button>
+          <button class="send-data-btn" onclick="submitData('${fieldType}')">OKE ✓</button>
         </div>
       `;
       
@@ -791,6 +753,7 @@
       }
     };
 
+    // Submit Data saat klik OKE
     function submitData(fieldType) {
       const input = document.getElementById('dataInput');
       if (!input) return;
@@ -807,7 +770,7 @@
         return;
       }
       
-      // Show user typed message
+      // Tampilkan nilai yang diisi di sisi KANAN (user message)
       addUserMessage(value);
       
       if (fieldType === 'nama') {
@@ -817,15 +780,51 @@
         setTimeout(() => {
           hideTyping();
           
-          if (!orderState.alamat) {
-            addBotMessage(`Terima kasih, *${value}*! 👋\n\nSekarang isi alamat pengiriman ya~`, [
+          // Bot konfirmasi dan tanya data selanjutnya
+          let remainingButtons = [];
+          let botMsg = `Baik, *${value}*! ✅\n\nSilahkan isi data dirimu lagi~`;
+          
+          // Cek apa saja yang belum diisi
+          if (!orderState.alamat && !orderState.payment) {
+            remainingButtons.push(
+              { label: "🏠 Isi Alamat", value: "alamat" },
+              { label: "💳 Pilih Payment", value: "payment" }
+            );
+          } else if (!orderState.alamat) {
+            remainingButtons.push(
               { label: "🏠 Isi Alamat", value: "alamat" }
-            ], 'data_alamat');
-            showInputField("alamat", "Ketik alamatmu di sini...");
+            );
+            // Kalau payment sudah ada, cek apakah perlu konfirmasi
+            if (orderState.payment) {
+              botMsg += `\n\nTinggal alamat lagi lho!`;
+            }
+          } else if (!orderState.payment) {
+            remainingButtons.push(
+              { label: "💳 Pilih Payment", value: "payment" }
+            );
+            if (orderState.alamat) {
+              botMsg += `\n\nTinggal payment lagi lho!`;
+            }
+          }
+          
+          addBotMessage(botMsg, remainingButtons, 'data_continue');
+          
+          // Jika semua data sudah lengkap, tampilkan input untuk data terakhir yang kosong
+          if (remainingButtons.length === 1) {
+            if (!orderState.alamat) {
+              showInputField("alamat", "Ketik alamatmu...");
+            } else if (!orderState.payment) {
+              // Payment pake tombol, bukan input
+            }
+          } else if (remainingButtons.length > 1) {
+            // Biarkan user pilih dulu
+            hideInputArea();
           } else {
+            // Semua lengkap!
             checkAndShowConfirmation();
           }
-        }, 650);
+          
+        }, 700);
         
       } else if (fieldType === 'alamat') {
         orderState.alamat = value;
@@ -834,26 +833,79 @@
         setTimeout(() => {
           hideTyping();
           
-          if (!orderState.nama) {
-            addBotMessage(`Alamat diterima! 📍\n\nSekarang isi nama lengkapmu ya~`, [
+          let remainingButtons = [];
+          let botMsg = `Baik, alamat diterima! 📍✅\n\nSilahkan isi data dirimu lagi~`;
+          
+          if (!orderState.nama && !orderState.payment) {
+            remainingButtons.push(
+              { label: "👤 Isi Nama", value: "nama" },
+              { label: "💳 Pilih Payment", value: "payment" }
+            );
+          } else if (!orderState.nama) {
+            remainingButtons.push(
               { label: "👤 Isi Nama", value: "nama" }
-            ], 'data_nama');
-            showInputField("nama", "Ketik namamu di sini...");
+            );
+            if (orderState.payment) {
+              botMsg += `\n\nTinggal nama lagi lho!`;
+            }
+          } else if (!orderState.payment) {
+            remainingButtons.push(
+              { label: "💳 Pilih Payment", value: "payment" }
+            );
+            if (orderState.nama) {
+              botMsg += `\n\nTinggal payment lagi lho!`;
+            }
+          }
+          
+          addBotMessage(botMsg, remainingButtons, 'data_continue');
+          
+          if (remainingButtons.length === 1) {
+            if (!orderState.nama) {
+              showInputField("nama", "Ketik namamu...");
+            } else if (!orderState.payment) {
+              // Payment pake tombol
+            }
+          } else if (remainingButtons.length > 1) {
+            hideInputArea();
           } else {
             checkAndShowConfirmation();
           }
-        }, 650);
+          
+        }, 700);
       }
     }
 
-    function checkAndShowConfirmation() {
-      if (orderState.nama && orderState.alamat && orderState.rasa && orderState.tempat) {
+    // Handle continue data (setelah klik tombol dari pesan "silakan isi data lagi")
+    window.handleContinueData = function(btnValue, btnLabel) {
+      addUserMessage(btnLabel);
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        
+        if (btnValue === 'nama') {
+          handleAskNama();
+        } else if (btnValue === 'alamat') {
+          handleAskAlamat();
+        } else if (btnValue === 'payment') {
+          handleAskPayment();
+        }
+      }, 600);
+    };
+
+    // Cek data complete
+    function checkDataComplete() {
+      if (orderState.nama && orderState.alamat && orderState.payment && orderState.rasa && orderState.tempat) {
         showTyping();
         setTimeout(() => {
           hideTyping();
           showConfirmation();
         }, 750);
       }
+    }
+
+    function checkAndShowConfirmation() {
+      checkDataComplete();
     }
 
     // ===== STEP 4: KONFIRMASI =====
@@ -864,7 +916,8 @@
       summary += `🍦 Rasa: ${orderState.rasa}\n`;
       summary += `📦 Tempat: ${orderState.tempat}\n`;
       summary += `👤 Nama: ${orderState.nama}\n`;
-      summary += `🏠 Alamat: ${orderState.alamat}\n\n`;
+      summary += `🏠 Alamat: ${orderState.alamat}\n`;
+      summary += `💳 Payment: ${orderState.payment}\n\n`;
       summary += `Konfirmasi dulu ya! Apakah data sudah benar? ✅`;
       
       addBotMessage(summary, [
@@ -874,22 +927,19 @@
       ], 'confirm');
     }
 
-    function handleConfirmYes() {
-      processOrder();
-    }
-
-    function handleConfirmNo() {
+    function handleCancelOrder() {
       addBotMessage("Baik, pesanan dibatalkan. 😔\n\nKalau mau pesan lagi, klik tombol *Mulai Pesan* di bawah ya!");
       showMulaiButton();
       orderState.step = 0;
     }
 
-    function handleConfirmEdit() {
+    function handleEditOrder() {
       addBotMessage("Mau edit bagian mana? 🔧", [
         { label: "🍦 Ganti Rasa", value: "rasa" },
         { label: "📦 Ganti Tempat", value: "tempat" },
         { label: "👤 Ganti Nama", value: "nama" },
-        { label: "🏠 Ganti Alamat", value: "alamat" }
+        { label: "🏠 Ganti Alamat", value: "alamat" },
+        { label: "💳 Ganti Payment", value: "payment" }
       ], 'edit');
     }
 
@@ -925,8 +975,18 @@
       showInputField("alamat", "Ketik alamat barumu...");
     }
 
+    function handleEditPayment() {
+      orderState.payment = '';
+      addBotMessage("Pilih payment baru:", [
+        { label: "💵 COD", value: "COD" },
+        { label: "📱 E-Wallet", value: "E-Wallet" },
+        { label: "🏦 Transfer Bank", value: "Transfer" }
+      ], 'payment_select');
+    }
+
     // ===== STEP 5: PROSES SELESAI =====
     function processOrder() {
+      addUserMessage("✅ Iya, Benar!");
       orderState.step = 5;
       hideInputArea();
       
@@ -946,6 +1006,7 @@
           successMsg += `📦 *Detail Pesanan:*\n`;
           successMsg += `• Eskrim Rasa: ${orderState.rasa}\n`;
           successMsg += `• Kemasan: ${orderState.tempat}\n`;
+          successMsg += `• Pembayaran: ${orderState.payment}\n`;
           successMsg += `• Pengirim ke: ${orderState.alamat}\n\n`;
           successMsg += `⏱ Estimasi sampai: 15-30 menit\n`;
           successMsg += `💰 Total: Rp${getPrice(orderState.rasa)}\n\n`;
@@ -965,7 +1026,7 @@
     }
 
     function handlePesanLagi() {
-      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
+      orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '', payment: '' };
       document.getElementById('chatMessagesArea').innerHTML = '';
       showMulaiButton();
       setTimeout(() => {
@@ -984,7 +1045,7 @@
       return prices[rasa] || '15.000';
     }
 
-    // ===== MESSAGE FUNCTIONS (IMPROVED) =====
+    // ===== MESSAGE FUNCTIONS =====
     function addBotMessage(text, buttons = [], actionType = '', isSuccess = false) {
       const area = document.getElementById('chatMessagesArea');
       const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
@@ -992,20 +1053,26 @@
       const div = document.createElement('div');
       div.className = `msg-bubble bot ${isSuccess ? 'success-msg' : ''}`;
       
-      // Format text (bold with *)
       let formattedText = text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
       formattedText = formattedText.replace(/\n/g, '<br>');
       
       div.innerHTML = `${formattedText}<span class="msg-time">${time}</span>`;
       
-      // Add buttons if any - FIXED: Direct onclick handler!
       if (buttons && buttons.length > 0) {
         let btnHtml = '<div class="quick-replies">';
         buttons.forEach((btn) => {
           const safeLabel = btn.label.replace(/'/g, "\\'");
           const safeValue = btn.value.replace(/'/g, "\\'");
           const safeType = actionType.replace(/'/g, "\\'");
-          btnHtml += `<button class="quick-btn" onclick="handleQuickClick('${safeValue}', '${safeLabel}', '${safeType}')">${btn.label}</button>`;
+          
+          // Special handler untuk payment_select dan data_continue
+          if (actionType === 'payment_select') {
+            btnHtml += `<button class="quick-btn" onclick="handlePaymentSelect('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
+          } else if (actionType === 'data_continue') {
+            btnHtml += `<button class="quick-btn" onclick="handleContinueData('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
+          } else {
+            btnHtml += `<button class="quick-btn" onclick="handleQuickClick('${safeValue}', '${safeLabel}', '${safeType}')">${btn.label}</button>`;
+          }
         });
         btnHtml += '</div>';
         div.innerHTML += btnHtml;
