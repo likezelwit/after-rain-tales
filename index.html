@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
   <title>AfterRain Tales 🌧️</title>
-  
   <style>
     * {
       margin: 0;
@@ -19,34 +17,40 @@
       background: linear-gradient(135deg, #e6f0ff 0%, #fceeff 50%, #f0e6ff 100%);
       color: #444;
       min-height: 100vh;
-      position: relative;
+      overflow-x: hidden;
     }
 
-    /* ===== HEADER ===== */
+    /* ===== HEADER UTAMA ===== */
     header {
       text-align: center;
-      padding: 60px 20px 40px;
-      background: rgba(255,255,255,0.5);
+      padding: 50px 20px 35px;
+      background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(10px);
     }
 
     .logo {
       width: 120px;
-      border-radius: 25px;
-      margin-bottom: 15px;
-      box-shadow: 0 8px 25px rgba(107,124,255,0.3);
-      transition: transform 0.3s ease;
+      border-radius: 22px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 25px rgba(107, 124, 255, 0.25);
+      transition: transform 0.3s;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .logo:hover {
-      transform: scale(1.08) rotate(3deg);
+      transform: scale(1.07) rotate(3deg);
     }
 
     h1 {
       font-size: 2.8em;
       color: #6b7cff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+      margin-bottom: 8px;
     }
 
     .tagline {
@@ -63,365 +67,326 @@
       padding-bottom: 80px;
     }
 
+    /* ===== BOX / CARD ===== */
     .box {
-      background: rgba(255,255,255,0.8);
-      margin: 30px auto;
-      padding: 35px 30px;
-      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.8);
+      margin: 25px auto;
+      padding: 30px 28px;
+      border-radius: 22px;
       width: 90%;
-      max-width: 550px;
-      box-shadow: 0 10px 30px rgba(107,124,255,0.15);
-      transition: transform 0.3s ease;
+      max-width: 520px;
+      box-shadow: 0 8px 25px rgba(107, 124, 255, 0.15);
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
     .box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(107,124,255,0.25);
+      box-shadow: 0 15px 40px rgba(107, 124, 255, 0.25);
     }
 
     .box h2 {
       color: #6b7cff;
-      font-size: 1.8em;
-      margin-bottom: 18px;
+      font-size: 1.75em;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
       border-bottom: 3px solid #b8c4ff;
       display: inline-block;
-      padding-bottom: 8px;
     }
 
     .box p {
-      font-size: 1.1em;
-      line-height: 1.7;
+      font-size: 1.05em;
+      line-height: 1.65;
       color: #555;
     }
 
-    /* ===== GAME SECTION ===== */
-    .game-section {
+    /* ===== CARD KHUSUS ES KRIM ===== */
+    .card-eskrim {
       background: linear-gradient(135deg, #fff5f5 0%, #ffe8ff 100%);
       border: 3px solid #ffb6d9;
-      max-width: 650px;
+      max-width: 600px;
     }
 
-    .game-section h2 {
+    .card-eskrim h2 {
       color: #e91e63;
       border-bottom-color: #ffcdd2;
     }
 
-    .icecream-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(233,30,99,0.15);
+    .card-icon {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      display: block;
     }
 
-    .icecream-table th {
-      background: linear-gradient(135deg, #e91e63 0%, #f48fb1 100%);
+    .card-btn {
+      display: inline-block;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
       color: white;
-      padding: 16px 12px;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
       font-size: 1.05em;
+      box-shadow: 0 5px 20px rgba(233, 30, 99, 0.25);
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
     }
 
-    .icecream-table th:first-child { border-radius: 15px 0 0 0; }
-    .icecream-table th:last-child { border-radius: 0 15px 0 0; }
-    
-    .icecream-table td {
-      padding: 14px 12px;
-      border-bottom: 2px solid #fce4ec;
-      font-size: 1.05em;
+    .card-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(233, 30, 99, 0.35);
     }
-
-    .icecream-table tr:last-child td { border-bottom: none; }
-    .icecream-table tr:hover { background: #fff0fb; }
-    .icecream-table td:first-child { font-weight: bold; color: #ad1457; }
 
     /* ===== FOOTER ===== */
     footer {
       text-align: center;
-      padding: 40px 25px 30px;
+      padding: 35px 20px 30px;
       margin-top: 50px;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255, 255, 255, 0.6);
     }
 
-    footer p { margin: 8px 0; font-size: 0.95em; }
-    .footer-logo { width: 85px; margin: 12px auto; border-radius: 15px; }
-
-    /* ============================================ */
-    /* ===== HOTBAR (TOMBOL MULAI TETAP) ===== */
-    /* ============================================ */
-    .hotbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      z-index: 999;
-      box-shadow: 0 -5px 30px rgba(0,0,0,0.2);
+    footer p {
+      margin: 8px 0;
+      font-size: 0.95em;
     }
 
-    .hotbar-btn {
-      background: white;
-      color: #667eea;
-      border: none;
-      padding: 12px 35px;
-      border-radius: 50px;
-      font-size: 1.1em;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .hotbar-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.3);
-      background: #f0f0ff;
-    }
-
-    .hotbar-btn .notif {
-      background: #e91e63;
-      color: white;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75em;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
+    .footer-logo {
+      width: 80px;
+      margin: 10px auto;
+      border-radius: 15px;
     }
 
     /* ============================================ */
-    /* ===== CHAT WINDOW (POPUP) ===== */
+    /* ===== HALAMAN CHAT FULL SCREEN ===== */
     /* ============================================ */
-    .chat-overlay {
+
+    .chat-fullscreen {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .chat-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .chat-window {
-      width: 400px;
-      height: 600px;
-      max-height: 80vh;
-      margin: auto;
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
+      background: linear-gradient(to bottom, #f0f4ff, #fef5ff);
+      z-index: 9999;
       flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      transform: scale(0.9);
-      transition: transform 0.3s ease;
+      animation: slideUp 0.4s ease;
     }
 
-    .chat-overlay.active .chat-window {
-      transform: scale(1);
+    .chat-fullscreen.active {
+      display: flex;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Chat Header */
-    .chat-header {
+    .chat-fs-header {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 18px 20px;
+      padding: 20px 25px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
     }
 
-    .chat-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5em;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    }
-
-    .chat-header-info {
-      flex: 1;
-    }
-
-    .chat-header-name {
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    .chat-header-status {
-      font-size: 0.85em;
-      opacity: 0.9;
-    }
-
-    .chat-close {
-      background: rgba(255,255,255,0.2);
+    .chat-back-btn {
+      background: rgba(255, 255, 255, 0.2);
       border: none;
       color: white;
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      cursor: pointer;
       font-size: 1.3em;
+      cursor: pointer;
+      transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.3s;
     }
 
-    .chat-close:hover {
-      background: rgba(255,255,255,0.4);
+    .chat-back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
 
-    /* Chat Messages */
-    .chat-messages {
+    .chat-bot-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       flex: 1;
-      padding: 20px;
+    }
+
+    .chat-avatar-circle {
+      width: 50px;
+      height: 50px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6em;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .chat-bot-text h3 {
+      font-size: 1.15em;
+      margin-bottom: 2px;
+    }
+
+    .chat-bot-text p {
+      font-size: 0.85em;
+      opacity: 0.95;
+    }
+
+    /* Chat Messages Area */
+    .chat-fs-messages {
+      flex: 1;
       overflow-y: auto;
-      background: #e5ddd5 url('https://i.ibb.co.com/VYmCtHq/bg-chat.png') repeat;
+      padding: 25px 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="2" fill="%23ddd" opacity="0.3"/></svg>') repeat;
+      background-size: 30px 30px;
     }
 
-    .message {
-      max-width: 85%;
-      padding: 12px 16px;
-      border-radius: 18px;
-      font-size: 0.95em;
-      line-height: 1.4;
+    .msg-bubble {
+      max-width: 80%;
+      padding: 14px 18px;
+      border-radius: 20px;
+      font-size: 1em;
+      line-height: 1.5;
+      animation: msgPop 0.3s ease forwards;
       position: relative;
       word-wrap: break-word;
-      animation: msgSlide 0.3s ease;
     }
 
-    @keyframes msgSlide {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes msgPop {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
-    .message.bot {
+    .msg-bubble.bot {
       align-self: flex-start;
-      background: #fff;
-      border-bottom-left-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: white;
+      color: #333;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid #667eea;
     }
 
-    .message.user {
+    .msg-bubble.user {
       align-self: flex-end;
-      background: #dcf8c6;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-bottom-right-radius: 5px;
+      box-shadow: 0 3px 15px rgba(102, 126, 234, 0.3);
     }
 
-    .message-time {
-      font-size: 0.7em;
-      color: #888;
-      margin-top: 5px;
+    .msg-time {
+      font-size: 0.72em;
+      opacity: 0.7;
+      margin-top: 6px;
       text-align: right;
     }
 
-    /* Quick Reply Buttons */
+    /* Quick Reply Buttons Container */
     .quick-replies {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 12px;
+      justify-content: flex-start;
     }
 
-    .quick-reply-btn {
+    .quick-btn {
       background: white;
-      border: 1.5px solid #667eea;
+      border: 2px solid #667eea;
       color: #667eea;
-      padding: 8px 16px;
-      border-radius: 18px;
+      padding: 10px 18px;
+      border-radius: 20px;
       cursor: pointer;
-      font-size: 0.9em;
-      transition: all 0.2s;
+      font-size: 0.92em;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      font-family: inherit;
     }
 
-    .quick-reply-btn:hover {
-      background: #667eea;
+    .quick-btn:hover {
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
 
-    /* Chat Input */
-    .chat-input-area {
-      padding: 15px 20px;
-      background: #f0f0f0;
-      border-top: 1px solid #ddd;
-      display: flex;
-      gap: 10px;
-    }
-
-    .chat-input {
-      flex: 1;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 25px;
+    /* Input Area - Mulai Pesan Button Style */
+    .chat-fs-input {
+      padding: 18px 20px;
       background: white;
-      font-size: 1em;
-      outline: none;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.08);
+      border-top: 2px solid #e8e8e8;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
     }
 
-    .send-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .mulai-pesan-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
       color: white;
       border: none;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+      padding: 16px 30px;
+      border-radius: 28px;
+      font-size: 1.15em;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 1.3em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 24px rgba(233, 30, 99, 0.3);
+      animation: pulseBtn 2s infinite;
     }
 
-    .send-btn:hover {
-      transform: scale(1.08);
-      box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+    @keyframes pulseBtn {
+      0%, 100% {
+        box-shadow: 0 6px 24px rgba(233, 30, 99, 0.3);
+      }
+      50% {
+        box-shadow: 0 6px 32px rgba(233, 30, 99, 0.5);
+      }
     }
 
-    .send-btn:active {
-      transform: scale(0.95);
+    .mulai-pesan-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 30px rgba(233, 30, 99, 0.45);
     }
 
     /* Typing Indicator */
     .typing-indicator {
       display: none;
-      padding: 10px 15px;
       align-self: flex-start;
+      padding: 14px 20px;
+      background: white;
+      border-radius: 20px;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+      gap: 6px;
     }
 
     .typing-indicator.active {
@@ -429,54 +394,97 @@
     }
 
     .typing-dot {
-      width: 8px;
-      height: 8px;
-      background: #999;
+      width: 9px;
+      height: 9px;
+      background: #667eea;
       border-radius: 50%;
-      margin: 0 3px;
-      animation: typingBounce 1.4s infinite ease-in-out;
+      animation: typingBounce 1.2s infinite;
     }
 
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.3s;
+    }
 
     @keyframes typingBounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-8px); }
+      0%, 60%, 100% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* Success Animation */
+    .success-msg {
+      background: linear-gradient(135deg, #4caf50, #81c784) !important;
+      border-left-color: #4caf50 !important;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
-      h1 { font-size: 2.2em; }
-      .box { width: 95%; padding: 25px 20px; }
-      .chat-window { 
-        width: 95%; 
-        height: 85vh; 
-        max-height: 90vh;
-        border-radius: 20px 20px 0 0;
+      h1 {
+        font-size: 2.2em;
       }
+
+      .box {
+        width: 95%;
+        padding: 22px 18px;
+      }
+
+      .card-eskrim {
+        max-width: 95%;
+      }
+
+      .msg-bubble {
+        max-width: 88%;
+      }
+
+      .quick-btn {
+        padding: 8px 14px;
+        font-size: 0.88em;
+      }
+    }
+
+    /* Scrollbar Styling */
+    .chat-fs-messages::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .chat-fs-messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-fs-messages::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 10px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header>
+  <!-- ===== HEADER UTAMA ===== -->
+  <header id="mainHeader">
     <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo" class="logo">
     <h1>AfterRain Tales 🌧️</h1>
     <p class="tagline">Stories born after the rain.</p>
   </header>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <div class="container">
+
+  <!-- ===== MAIN CONTENT (HALAMAN UTAMA) ===== -->
+  <div class="container" id="mainContent">
 
     <!-- About -->
     <div class="box">
       <h2>📖 About</h2>
       <p>
-        AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan, 
+        AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan,
         tentang perubahan, harapan, dan perjalanan menemukan diri sendiri.
+        Setiap cerita di sini ditulis dengan hati.
       </p>
     </div>
 
@@ -486,44 +494,19 @@
       <p>Kumpulan cerita tentang kehidupan, emosi, dan pengalaman yang relatable.</p>
     </div>
 
-    <!-- Permainan Es Krim -->
-    <div class="box game-section">
-      <h2>🎮 Permainan</h2>
-      
-      <p class="game-title">🍦 Toko Es Krim Zelwit</p>
-
-      <table class="icecream-table">
-        <thead>
-          <tr>
-            <th>🍦 Es Krim</th>
-            <th>⚡ Mulai</th>
-            <th>📝 Deskripsi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="emoji-col">🍫</span> Coklat</td>
-            <td>/mulai</td>
-            <td>Coklat Belgia premium!</td>
-          </tr>
-          <tr>
-            <td><span class="emoji-col">🍓</span> Stroberi</td>
-            <td>/mulai</td>
-            <td>Stroberi segar pilihan!</td>
-          </tr>
-          <tr>
-            <td><span class="emoji-col">🍦</span> Vanila</td>
-            <td>/mulai</td>
-            <td>Vanila Madagascar klasik!</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 👆 CARD: PESAN ES KRIM (KLIK → CHAT FULL SCREEN!) -->
+    <div class="box card-eskrim" onclick="openChatEskrim()">
+      <span class="card-icon">🍦</span>
+      <h2>Pesan Es Krim</h2>
+      <p>Pesan es krim favorit kamu langsung dari sini! Bot Aiko siap melayani pesananmu dengan senang hati~</p>
+      <button class="card-btn" onclick="event.stopPropagation(); openChatEskrim();">🍦 Pesan Sekarang</button>
     </div>
 
   </div>
 
-  <!-- ===== FOOTER ===== -->
-  <footer>
+
+  <!-- ===== FOOTER UTAMA ===== -->
+  <footer id="mainFooter">
     <p>© 2026 AfterRain Tales — Created by Aiko ✨</p>
     <p><strong>Didukung oleh:</strong></p>
     <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
@@ -532,287 +515,476 @@
 
 
   <!-- ========================================== -->
-  <!-- ===== HOTBAR (TOMBOL MULAI) ===== -->
+  <!-- ===== CHAT FULL SCREEN ===== -->
   <!-- ========================================== -->
-  <div class="hotbar" id="hotbar">
-    <button class="hotbar-btn" onclick="openChat()">
-      💬 Mulai Chat
-      <span class="notif">1</span>
-    </button>
-  </div>
 
+  <div class="chat-fullscreen" id="chatFullscreen">
 
-  <!-- ========================================== -->
-  <!-- ===== CHAT WINDOW OVERLAY ===== -->
-  <!-- ========================================== -->
-  <div class="chat-overlay" id="chatOverlay">
-
-    <div class="chat-window">
-      
-      <!-- Header -->
-      <div class="chat-header">
-        <div class="chat-avatar">🤖</div>
-        <div class="chat-header-info">
-          <div class="chat-header-name">Aiko Bot</div>
-          <div class="chat-header-status">● Online</div>
+    <!-- Header Chat -->
+    <div class="chat-fs-header">
+      <button class="chat-back-btn" onclick="closeChat()">←</button>
+      <div class="chat-bot-info">
+        <div class="chat-avatar-circle">🤖</div>
+        <div class="chat-bot-text">
+          <h3>Aiko Bot 🍦</h3>
+          <p>● Online — Siap Melayani!</p>
         </div>
-        <button class="chat-close" onclick="closeChat()">✕</button>
       </div>
+    </div>
 
-      <!-- Messages Area -->
-      <div class="chat-messages" id="chatMessages">
-        
-        <!-- Messages will appear here -->
+    <!-- Messages Area -->
+    <div class="chat-fs-messages" id="chatMessagesArea"></div>
 
-      </div>
+    <!-- Typing Indicator -->
+    <div class="typing-indicator" id="typingIndicator">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
 
-      <!-- Typing Indicator -->
-      <div class="typing-indicator" id="typingIndicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-
-      <!-- Input Area -->
-      <div class="chat-input-area">
-        <input type="text" class="chat-input" id="chatInput" 
-               placeholder="Ketik pesan..." 
-               onkeypress="handleKeyPress(event)">
-        <button class="send-btn" onclick="sendMessage()">➤</button>
-      </div>
-
+    <!-- Input Area / Tombol Mulai -->
+    <div class="chat-fs-input" id="chatInputArea">
+      <button class="mulai-pesan-btn" id="btnMulaiPesan" onclick="startOrder()">🚀 Mulai Pesan</button>
     </div>
 
   </div>
 
 
   <!-- ========================================== -->
-  <!-- ===== JAVASCRIPT - BOT LOGIC ===== -->
+  <!-- ===== JAVASCRIPT ===== -->
   <!-- ========================================== -->
-  <script>
-    // ===== STATE =====
-    let chatOpen = false;
 
-    // ===== BOT RESPONSES (AIKO) =====
-    const botResponses = {
-      greeting: {
-        text: "Halo! 👋 Saya **Aiko**, asisten virtual AfterRain Tales!\n\nMau pesan apa? Silakan ketik di bawah atau klik tombol:",
-        buttons: ["📖 Ceritakan dongeng", "🎮 Main es krim", "❓ Bantuan"]
-      },
-      dongeng: {
-        text: "📖 *Pada zaman dahulu kala, ada sebuah kerajaan kecil di tengah hutan...*\n\n*(cerita dimulai...)*\n\nMau lanjut baca ceritanya?",
-        buttons: ["✅ Lanjutkan", "🔄 Cerita lain", "🏠 Menu utama"]
-      },
-      es_krim: {
-        text: "🍦 *TOKO ES KRIM ZELWIT* 🌧️\n\nSilakan pilih rasa favorit kamu:\n\n1️⃣ 🍫 Coklat - Rp15.000\n2️⃣ 🍓 Stroberi - Rp15.000\n3️⃣ 🍦 Vanila - Rp12.000",
-        buttons: ["🍫 Coklat", "🍓 Stroberi", "🍦 Vanila", "💰 Harga semua"]
-      },
-      coklat: {
-        text: "🍫 *ES KRIM COKLAT PREMIUM*\n\n💰 Harga: **Rp15.000**\n⭐ Rating: ⭐⭐⭐⭐⭐ (4.9/5)\n🎯 Rasa: Rich & creamy\n\n✨ Dibuat dari coklat Belgia premium pilihan!",
-        buttons: ["🛒 Pesan sekarang!", "🔄 Pilih lain", "🏠 Menu"]
-      },
-      stroberi: {
-        text: "🍓 *ES KRIM STROBERI FRESH*\n\n💰 Harga: **Rp15.000**\n⭐ Rating: ⭐⭐⭐⭐ (4.8/5)\n🎯 Rasa: Fresh & sweet\n\n🍓 Stroberi segar langsung dari kebun!",
-        buttons: ["🛒 Pesan!", "🔄 Pilih lain", "🏠 Menu"]
-      },
-      vanila: {
-        text: "🍦 *ES KRIM VANILA KLASIK*\n\n💰 Harga: **Rp12.000**\n⭐ Rating: ⭐⭐⭐⭐⭐ (5.0/5)\n🎯 Rasa: Classic smooth\n\n✨ Vanila Madagascar asli, favorit semua kalangan!",
-        buttons: ["🛒 Pesan!", "🔄 Pilih lain", "🏠 Menu"]
-      },
-      harga: {
-        text: "💰 *DAFTAR HARGA ES KRIM ZELWIT* 🌧️\n\n| Rasa | Harga | Rating |\n|------|-------|--------|\n| 🍫 Coklat | Rp15.000 | ⭐⭐⭐⭐⭐ |\n| 🍓 Stroberi | Rp15.000 | ⭐⭐⭐⭐ |\n| 🍦 Vanila | Rp12.000 | ⭐⭐⭐⭐⭐ |\n\nMau pesan yang mana?",
-        buttons: ["🍫 Coklat", "🍓 Stroberi", "🍦 Vanila"]
-      },
-      help: {
-        text: "❓ *BANTUAN - BOT AIKO*\n\nBerikut command yang tersedia:\n\n• `cerita` / `dongeng` → Dongeng random\n• `es krim` / `menu` → Menu es krim\n• `harga` → Daftar harga\n• `halo` / `hai` → Sapaan\n• `terima kasih` → Penutup\n\nSilakan pilih atau ketik sendiri!",
-        buttons: ["📖 Cerita", "🍦 Es Krim", "👋 Halo"]
-      },
-      halo: {
-        text: "👋 Hai juga! Senang bertemu kamu! 😊\n\nSaya **Aiko**, bot pintar AfterRain Tales.\n\nAda yang bisa saya bantu?\n\n📖 Mau diceritakan dongeng?\n🍦 Atau lihat menu es krim kami?",
-        buttons: ["📖 Dongeng", "🍦 Es Krim", "❓ Bantuan"]
-      },
-      terimakasih: {
-        text: "🙏 *Terima kasih!* \n\nTerima kasih sudah chat dengan Aiko! 😊\n\nSemoga harimu menyenangkan! 🌈\n\n~ AfterRain Tales ~",
-        buttons: ["👋 Lagi", "🏠 Menu utama"]
-      },
-      default: {
-        text: "🤔 Hmm, aku belum mengerti itu...\n\nCoba ketik:\n• **halo** / **hai** → sapaan\n• **es krim** → menu es krim\n• **help** / **bantuan** → bantuan\n• **cerita** → dongeng random\n\nAtau ketik apa saja, nanti aku coba pahami! 😊",
-        buttons: ["❓ Bantuan", "👋 Halo", "🍦 Menu"]
+  <script>
+    // State Management
+    let orderState = {
+      step: 0, // 0: awal, 1: pilih rasa, 2: pilih tempat, 3: isi data, 4: konfirmasi, 5: selesai
+      rasa: '',
+      tempat: '',
+      nama: '',
+      alamat: ''
+    };
+
+    // ===== OPEN/CLOSE CHAT =====
+    function openChatEskrim() {
+      document.getElementById('chatFullscreen').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Reset state
+      orderState = {
+        step: 0,
+        rasa: '',
+        tempat: '',
+        nama: '',
+        alamat: ''
+      };
+      
+      // Clear messages
+      document.getElementById('chatMessagesArea').innerHTML = '';
+      
+      // Show button mulai
+      showMulaiButton();
+      
+      // Auto greeting setelah delay
+      setTimeout(() => {
+        addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nSelamat datang di Toko Es Krim Zelwit!\nAku Aiko, bot yang siap melayani pesanan es krim favoritmu~");
+      }, 600);
+    }
+
+    function closeChat() {
+      document.getElementById('chatFullscreen').classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // ===== SHOW/HIDE MULAI BUTTON =====
+    function showMulaiButton() {
+      const inputArea = document.getElementById('chatInputArea');
+      inputArea.innerHTML = `<button class="mulai-pesan-btn" onclick="startOrder()">🚀 Mulai Pesan</button>`;
+    }
+
+    function hideInputArea() {
+      const inputArea = document.getElementById('chatInputArea');
+      inputArea.innerHTML = '';
+    }
+
+    // ===== START ORDER FLOW =====
+    function startOrder() {
+      hideInputArea();
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Halo! Pesan rasa apa? 😊", [
+          { text: "🍫 Coklat", action: () => selectRasa("Coklat") },
+          { text: "🍓 Stroberi", action: () => selectRasa("Stroberi") },
+          { text: "🍦 Vanila", action: () => selectRasa("Vanila") },
+          { text: "🥭 Mangga", action: () => selectRasa("Mangga") },
+          { text: "🫐 Blueberry", action: () => selectRasa("Blueberry") }
+        ]);
+        orderState.step = 1;
+      }, 800);
+    }
+
+    // ===== STEP 1: PILIH RASA =====
+    function selectRasa(rasa) {
+      orderState.rasa = rasa;
+      addUserMessage(`🍦 ${rasa}`);
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage(`Oke! Eskrim rasa *${rasa}* Ya! ✅\n\nTempatnya mau yang apa? 🤔`, [
+          { text: "🌽 Corn", action: () => selectTempat("Corn") },
+          { text: "🥤 Cup", action: () => selectTempat("Cup") },
+          { text: "🥣 Basin", action: () => selectTempat("Basin") }
+        ]);
+        orderState.step = 2;
+      }, 700 + Math.random() * 500);
+    }
+
+    // ===== STEP 2: PILIH TEMPAT =====
+    function selectTempat(tempat) {
+      orderState.tempat = tempat;
+      addUserMessage(`📦 ${tempat}`);
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Isi data diri dulu ya! 📝\n\nSupaya pesananmu sampai dengan aman~", [
+          { text: "👤 Isi Nama", action: () => askNama() },
+          { text: "🏠 Isi Alamat", action: () => askAlamat() }
+        ]);
+        orderState.step = 3;
+      }, 700 + Math.random() * 500);
+    }
+
+    // ===== STEP 3: ISI DATA DIRI =====
+    function askNama() {
+      addUserMessage("👤 Isi Nama");
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Silakan ketik nama lengkap kamu ya! ✨");
+        
+        // Show input for nama
+        showInputField("nama", "Ketik namamu di sini...");
+      }, 600);
+    }
+
+    function askAlamat() {
+      addUserMessage("🏠 Isi Alamat");
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Silakan ketik alamat lengkap pengirimannya ya! 📍");
+        
+        // Show input for alamat
+        showInputField("alamat", "Ketik alamatmu di sini...");
+      }, 600);
+    }
+
+    function showInputField(fieldType, placeholder) {
+      const inputArea = document.getElementById('chatInputArea');
+      inputArea.innerHTML = `
+        <input type="text" 
+               class="chat-input-field" 
+               id="dataInput" 
+               placeholder="${placeholder}" 
+               onkeypress="handleDataInput(event, '${fieldType}')"
+               style="flex: 1; padding: 14px 20px; border: 2px solid #667eea; border-radius: 25px; font-size: 1em; outline: none; font-family: inherit;">
+        <button class="send-data-btn" onclick="submitData('${fieldType}')" 
+                style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 1.2em; cursor: pointer; box-shadow: 0 4px 12px rgba(102,126,234,0.3); transition: all 0.3s;">➤</button>
+      `;
+      
+      // Focus input
+      setTimeout(() => {
+        document.getElementById('dataInput').focus();
+      }, 100);
+    }
+
+    function handleDataInput(event, fieldType) {
+      if (event.key === 'Enter') {
+        submitData(fieldType);
+      }
+    }
+
+    function submitData(fieldType) {
+      const input = document.getElementById('dataInput');
+      const value = input.value.trim();
+      
+      if (!value) {
+        input.style.borderColor = '#e91e63';
+        input.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          input.style.borderColor = '#667eea';
+          input.style.animation = '';
+        }, 500);
+        return;
+      }
+      
+      addUserMessage(value);
+      
+      if (fieldType === 'nama') {
+        orderState.nama = value;
+        
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          
+          if (!orderState.alamat) {
+            addBotMessage(`Terima kasih, *${value}*! 👋\n\nSekarang isi alamat pengiriman ya~`, [
+              { text: "🏠 Isi Alamat", action: () => askAlamat() }
+            ]);
+            showInputField("alamat", "Ketik alamatmu di sini...");
+          } else {
+            checkDataComplete();
+          }
+        }, 600);
+      } else if (fieldType === 'alamat') {
+        orderState.alamat = value;
+        
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          
+          if (!orderState.nama) {
+            addBotMessage(`Alamat diterima! 📍\n\nSekarang isi nama lengkapmu ya~`, [
+              { text: "👤 Isi Nama", action: () => askNama() }
+            ]);
+            showInputField("nama", "Ketik namamu di sini...");
+          } else {
+            checkDataComplete();
+          }
+        }, 600);
+      }
+    }
+
+    function checkDataComplete() {
+      if (orderState.nama && orderState.alamat && orderState.rasa && orderState.tempat) {
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          showConfirmation();
+        }, 800);
+      }
+    }
+
+    // ===== STEP 4: KONFIRMASI =====
+    function showConfirmation() {
+      orderState.step = 4;
+      
+      let summary = `*📋 RINGKASAN PESANAN*\n\n`;
+      summary += `🍦 Rasa: ${orderState.rasa}\n`;
+      summary += `📦 Tempat: ${orderState.tempat}\n`;
+      summary += `👤 Nama: ${orderState.nama}\n`;
+      summary += `🏠 Alamat: ${orderState.alamat}\n\n`;
+      summary += `Konfirmasi dulu ya! Apakah data sudah benar? ✅`;
+      
+      addBotMessage(summary, [
+        { text: "✅ Iya, Benar!", action: () => confirmOrder(true) },
+        { text: "❌ Tidak, Edit", action: () => confirmOrder(false) },
+        { text: "✏️ Edit Data", action: () => editOrder() }
+      ]);
+    }
+
+    function confirmOrder(confirmed) {
+      if (confirmed) {
+        addUserMessage("✅ Iya, Benar!");
+        processOrder();
+      } else {
+        addUserMessage("❌ Tidak");
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          addBotMessage("Baik, pesanan dibatalkan. 😔\n\nKalau mau pesan lagi, klik tombol *Mulai Pesan* di bawah ya!");
+          showMulaiButton();
+          orderState.step = 0;
+        }, 800);
+      }
+    }
+
+    function editOrder() {
+      addUserMessage("✏️ Edit Data");
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Mau edit bagian mana? 🔧", [
+          { text: "🍦 Ganti Rasa", action: () => {
+            orderState.rasa = '';
+            startOrder();
+          }},
+          { text: "📦 Ganti Tempat", action: () => {
+            orderState.tempat = '';
+            selectRasa(orderState.rasa);
+          }},
+          { text: "👤 Ganti Nama", action: () => {
+            orderState.nama = '';
+            askNama();
+          }},
+          { text: "🏠 Ganti Alamat", action: () => {
+            orderState.alamat = '';
+            askAlamat();
+          }}
+        ]);
+      }, 600);
+    }
+
+    // ===== STEP 5: PROSES SELESAI =====
+    function processOrder() {
+      orderState.step = 5;
+      hideInputArea();
+      showTyping();
+      
+      setTimeout(() => {
+        hideTyping();
+        addBotMessage("Sedang memproses pesananmu... ⏳", [], true);
+        
+        setTimeout(() => {
+          // Remove processing message and add success
+          const area = document.getElementById('chatMessagesArea');
+          const msgs = area.querySelectorAll('.msg-bubble.bot');
+          if (msgs.length > 0) {
+            msgs[msgs.length - 1].remove();
+          }
+          
+          let successMsg = `*🎉 PESANAN BERHASIL!* 🎊\n\n`;
+          successMsg += `Terima kasih, ${orderState.nama}! 😊\n\n`;
+          successMsg += `📦 *Detail Pesanan:*\n`;
+          successMsg += `• Eskrim Rasa: ${orderState.rasa}\n`;
+          successMsg += `• Kemasan: ${orderState.tempat}\n`;
+          successMsg += `• Pengirim ke: ${orderState.alamat}\n\n`;
+          successMsg += `⏱ Estimasi sampai: 15-30 menit\n`;
+          successMsg += `💰 Total: Rp${getPrice(orderState.rasa)}\n\n`;
+          successMsg += `Silakan tunggu di tempat ya! Kami segera mengirimkan pesanan es krim lezatmu~ 🍦💜\n\n`;
+          successMsg += `_AfterRain Tales x Zelwit Ice Cream_`;
+          
+          addBotMessage(successMsg, [
+            { text: "🔄 Pesan Lagi", action: () => {
+              orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '' };
+              document.getElementById('chatMessagesArea').innerHTML = '';
+              showMulaiButton();
+              setTimeout(() => {
+                addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nMau pesan lagi? Silakan klik tombol Mulai Pesan!");
+              }, 400);
+            }},
+            { text: "🏠 Kembali ke Home", action: () => closeChat() }
+          ], true); // true = success style
+          
+          showMulaiButton();
+          
+        }, 2000);
+        
+      }, 500);
+    }
+
+    function getPrice(rasa) {
+      const prices = {
+        'Coklat': '18.000',
+        'Stroberi': '18.000',
+        'Vanila': '15.000',
+        'Mangga': '20.000',
+        'Blueberry': '22.000'
+      };
+      return prices[rasa] || '15.000';
+    }
+
+    // ===== MESSAGE FUNCTIONS =====
+    function addBotMessage(text, buttons = [], isSuccess = false) {
+      const area = document.getElementById('chatMessagesArea');
+      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      
+      const div = document.createElement('div');
+      div.className = `msg-bubble bot ${isSuccess ? 'success-msg' : ''}`;
+      
+      // Format text (bold with *)
+      let formattedText = text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+      formattedText = formattedText.replace(/\n/g, '<br>');
+      
+      div.innerHTML = `${formattedText}<div class="msg-time">${time}</div>`;
+      
+      // Add buttons if any
+      if (buttons.length > 0) {
+        let btnHtml = '<div class="quick-replies">';
+        buttons.forEach((btn, idx) => {
+          btnHtml += `<button class="quick-btn" onclick="executeQuickAction(${idx})">${btn.text}</button>`;
+        });
+        btnHtml += '</div>';
+        div.innerHTML += btnHtml;
+        
+        // Store actions
+        div.dataset.actions = JSON.stringify(buttons.map(b => b.action));
+      }
+      
+      area.appendChild(div);
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function addUserMessage(text) {
+      const area = document.getElementById('chatMessagesArea');
+      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      
+      const div = document.createElement('div');
+      div.className = 'msg-bubble user';
+      div.innerHTML = `${escapeHtml(text)}<div class="msg-time">${time}</div>`;
+      
+      area.appendChild(div);
+      area.scrollTop = area.scrollHeight;
+    }
+
+    // Execute quick action from stored data
+    window.executeQuickAction = function(idx) {
+      const msgs = document.querySelectorAll('.msg-bubble.bot');
+      const lastBotMsg = msgs[msgs.length - 1];
+      
+      if (lastBotMsg && lastBotMsg.dataset.actions) {
+        const actions = JSON.parse(lastBotMsg.dataset.actions);
+        if (actions[idx]) {
+          actions[idx]();
+        }
       }
     };
 
-    // ===== OPEN CHAT =====
-    function openChat() {
-      document.getElementById('chatOverlay').classList.add('active');
-      chatOpen = true;
-      
-      // Send greeting after short delay
-      setTimeout(() => {
-        addBotMessage(botResponses.greeting);
-      }, 500);
-
-      // Remove notification badge
-      const notif = document.querySelector('.hotbar-btn .notif');
-      if (notif) notif.style.display = 'none';
-    }
-
-    // ===== CLOSE CHAT =====
-    function closeChat() {
-      document.getElementById('chatOverlay').classList.remove('active');
-      chatOpen = false;
-    }
-
-    // ===== SEND MESSAGE =====
-    function sendMessage() {
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
-      
-      if (!text) return;
-      
-      // Add user message
-      addUserMessage(text);
-      input.value = '';
-      
-      // Show typing indicator
-      showTyping();
-      
-      // Process and respond
-      setTimeout(() => {
-        hideTyping();
-        const response = processMessage(text);
-        addBotMessage(response);
-      }, 800 + Math.random() * 700);
-    }
-
-    // ===== HANDLE KEY PRESS (Enter) =====
-    function handleKeyPress(event) {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
-    }
-
-    // ===== PROCESS MESSAGE (AIKO BRAIN) =====
-    function processMessage(text) {
-      const lower = text.toLowerCase().trim();
-      
-      // Check keywords
-      if (lower.includes('halo') || lower.includes('hai') || lower.includes('hi') || lower.includes('hello')) {
-        return botResponses.halo;
-      }
-      else if (lower.includes('es krim') || lower.includes('eskrim') || lower.includes('menu') || lower.includes('/mulai') || lower.includes('mulai')) {
-        return botResponses.es_krim;
-      }
-      else if (lower.includes('coklat') || lower.includes('chocolate') || lower === '1' || lower === '1.')) {
-        return botResponses.coklat;
-      }
-      else if (lower.includes('stroberi') || lower.includes('strawberry') || lower === '2' || lower === '2.')) {
-        return botResponses.stroberi;
-      }
-      else if (lower.includes('vanila') || lower === '3' || lower === '3.')) {
-        return botResponses.vanila;
-      }
-      else if (lower.includes('harga') || lower.includes('price') || lower.includes('biaya')) {
-        return botResponses.harga;
-      }
-      else if (lower.includes('cerita') || lower.includes('dongeng') || lower.includes('story') || lower.includes('tell')) {
-        return botResponses.dongeng;
-      }
-      else if (lower.includes('help') || lower.includes('bantuan') || lower.includes('?')) {
-        return botResponses.help;
-      }
-      else if (lower.includes('terima kasih') || lower.includes('thanks') || lower.includes('makasih') || lower.includes('bye')) {
-        return botResponses.terimakasih;
-      }
-      else {
-        return botResponses.default;
-      }
-    }
-
-    // ===== ADD USER MESSAGE =====
-    function addUserMessage(text) {
-      const messagesDiv = document.getElementById('chatMessages');
-      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'message user';
-      msgDiv.innerHTML = `
-        ${escapeHtml(text)}
-        <div class="message-time">${time}</div>
-      `;
-      
-      messagesDiv.appendChild(msgDiv);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    // ===== ADD BOT MESSAGE =====
-    function addBotMessage(response) {
-      const messagesDiv = document.getElementById('chatMessages');
-      const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      
-      const msgDiv = document.createElement('div');
-      msgDiv.className = 'message bot';
-      
-      let html = response.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-      html = html.replace(/\n/g, '<br>');
-      msgDiv.innerHTML = `
-        ${html}
-        <div class="message-time">${time}</div>
-      `;
-      
-      // Add buttons if exists
-      if (response.buttons && response.buttons.length > 0) {
-        let btnHtml = '<div class="quick-replies">';
-        response.buttons.forEach(btn => {
-          btnHtml += `<button class="quick-reply-btn" onclick="handleQuickReply('${escapeHtml(btn)}')">${escapeHtml(btn)}</button>`;
-        });
-        btnHtml += '</div>';
-        msgDiv.innerHTML += btnHtml;
-      }
-      
-      messagesDiv.appendChild(msgDiv);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    // ===== HANDLE QUICK REPLY BUTTON CLICK =====
-    function handleQuickReply(text) {
-      addUserMessage(text);
-      
-      showTyping();
-      
-      setTimeout(() => {
-        hideTyping();
-        const response = processMessage(text);
-        addBotMessage(response);
-      }, 600 + Math.random() * 500);
-    }
-
-    // ===== TYPING INDICATOR =====
+    // Typing indicator
     function showTyping() {
       document.getElementById('typingIndicator').classList.add('active');
+      scrollToBottom();
     }
 
     function hideTyping() {
       document.getElementById('typingIndicator').classList.remove('active');
     }
 
-    // ===== ESCAPE HTML =====
+    function scrollToBottom() {
+      const area = document.getElementById('chatMessagesArea');
+      area.scrollTop = area.scrollHeight;
+    }
+
+    // Escape HTML
     function escapeHtml(text) {
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     }
 
-    // ===== CLOSE ON OUTSIDE CLICK =====
-    document.getElementById('chatOverlay').addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeChat();
+    // Add shake animation dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
       }
-    });
+    `;
+    document.head.appendChild(style);
 
-    // ===== CLOSE WITH ESCAPE KEY =====
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && chatOpen) {
-        closeChat();
+    // ESC to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('chatFullscreen').classList.contains('active')) {
+          closeChat();
+        }
       }
     });
 
