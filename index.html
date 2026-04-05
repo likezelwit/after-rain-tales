@@ -543,7 +543,7 @@
   </div>
 
   <!-- ========================================== -->
-  <!-- ===== JAVASCRIPT ===== -->
+  <!-- ===== JAVASCRIPT (FIXED!) ===== -->
   <!-- ========================================== -->
 
   <script>
@@ -566,30 +566,39 @@
       orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '', payment: '' };
       
       // Clear messages
-      document.getElementById('chatMessagesArea').innerHTML = '';
+      const msgArea = document.getElementById('chatMessagesArea');
+      if (msgArea) msgArea.innerHTML = '';
       
       // Show button mulai
       showMulaiButton();
       
-      // Auto greeting setelah delay
+      // UBAH TEKS SAPAAN
       setTimeout(() => {
-        addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nSelamat datang di Toko Es Krim Zelwit!\nAku Aiko, bot yang siap melayani pesanan es krim favoritmu~");
+        addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nSelamat datang di toko es krim AfterRain Tales 🌧️\n\nAku Aiko, bot yang siap melayani pesanan es krim favoritmu~");
       }, 500);
     }
 
     function closeChat() {
-      document.getElementById('chatFullscreen').classList.remove('active');
+      const chatFs = document.getElementById('chatFullscreen');
+      if (chatFs) {
+        chatFs.classList.remove('active');
+      }
       document.body.style.overflow = 'auto';
     }
 
     // ===== SHOW/HIDE INPUT AREA =====
     function showMulaiButton() {
       const inputArea = document.getElementById('chatInputArea');
-      inputArea.innerHTML = `<button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>`;
+      if (inputArea) {
+        inputArea.innerHTML = `<button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>`;
+      }
     }
 
     function hideInputArea() {
-      document.getElementById('chatInputArea').innerHTML = '';
+      const inputArea = document.getElementById('chatInputArea');
+      if (inputArea) {
+        inputArea.innerHTML = '';
+      }
     }
 
     // ===== HANDLE MULAI PESAN =====
@@ -612,7 +621,7 @@
     }
 
     // ===== QUICK BUTTON CLICK HANDLER =====
-    window.handleQuickClick = function(btnValue, btnLabel, type) {
+    function handleQuickClick(btnValue, btnLabel, type) {
       addUserMessage(btnLabel);
       showTyping();
       
@@ -667,7 +676,7 @@
             break;
         }
       }, 700 + Math.random() * 400);
-    };
+    }
 
     // ===== STEP 1: PILIH RASA =====
     function handleSelectRasa(rasa) {
@@ -691,21 +700,18 @@
       orderState.step = 3;
     }
 
-    // ===== STEP 3: ISI DATA DIRI (FIXED!) =====
+    // ===== STEP 3: ISI DATA DIRI =====
     
-    // --- ISI NAMA ---
     function handleAskNama() {
       addBotMessage("Oke, silahkan isi namamu di bawah ini ✨");
       showInputField("nama", "Ketik namamu...");
     }
 
-    // --- ISI ALAMAT ---
     function handleAskAlamat() {
       addBotMessage("Oke, silahkan isi alamatmu di bawah ini 📍");
       showInputField("alamat", "Ketik alamatmu...");
     }
 
-    // --- PILIH PAYMENT ---
     function handleAskPayment() {
       addBotMessage("Oke, pilih metode pembayaran 💳", [
         { label: "💵 COD (Bayar di Tempat)", value: "COD" },
@@ -714,22 +720,22 @@
       ], 'payment_select');
     }
 
-    window.handlePaymentSelect = function(method, label) {
+    function handlePaymentSelect(method, label) {
       addUserMessage(label);
       showTyping();
       
       setTimeout(() => {
         hideTyping();
         orderState.payment = method;
-        
-        // Cek data lengkap atau belum
-        checkDataComplete();
+        processAfterDataEntry();
       }, 600);
-    };
+    }
 
     // Show Input Field dengan tombol OKE
     function showInputField(fieldType, placeholder) {
       const inputArea = document.getElementById('chatInputArea');
+      if (!inputArea) return;
+      
       inputArea.innerHTML = `
         <div class="chat-input-wrapper">
           <input type="text" 
@@ -747,13 +753,13 @@
       }, 100);
     }
 
-    window.handleDataKeyPress = function(event, fieldType) {
+    function handleDataKeyPress(event, fieldType) {
       if (event.key === 'Enter') {
         submitData(fieldType);
       }
-    };
+    }
 
-    // Submit Data saat klik OKE
+    // FIX: Submit Data - Diperbaiki total!
     function submitData(fieldType) {
       const input = document.getElementById('dataInput');
       if (!input) return;
@@ -770,113 +776,99 @@
         return;
       }
       
-      // Tampilkan nilai yang diisi di sisi KANAN (user message)
+      // Tampilkan nilai yang diisi di sisi KANAN
       addUserMessage(value);
       
+      // Simpan ke state
       if (fieldType === 'nama') {
         orderState.nama = value;
-        
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          
-          // Bot konfirmasi dan tanya data selanjutnya
-          let remainingButtons = [];
-          let botMsg = `Baik, *${value}*! ✅\n\nSilahkan isi data dirimu lagi~`;
-          
-          // Cek apa saja yang belum diisi
-          if (!orderState.alamat && !orderState.payment) {
-            remainingButtons.push(
-              { label: "🏠 Isi Alamat", value: "alamat" },
-              { label: "💳 Pilih Payment", value: "payment" }
-            );
-          } else if (!orderState.alamat) {
-            remainingButtons.push(
-              { label: "🏠 Isi Alamat", value: "alamat" }
-            );
-            // Kalau payment sudah ada, cek apakah perlu konfirmasi
-            if (orderState.payment) {
-              botMsg += `\n\nTinggal alamat lagi lho!`;
-            }
-          } else if (!orderState.payment) {
-            remainingButtons.push(
-              { label: "💳 Pilih Payment", value: "payment" }
-            );
-            if (orderState.alamat) {
-              botMsg += `\n\nTinggal payment lagi lho!`;
-            }
-          }
-          
-          addBotMessage(botMsg, remainingButtons, 'data_continue');
-          
-          // Jika semua data sudah lengkap, tampilkan input untuk data terakhir yang kosong
-          if (remainingButtons.length === 1) {
-            if (!orderState.alamat) {
-              showInputField("alamat", "Ketik alamatmu...");
-            } else if (!orderState.payment) {
-              // Payment pake tombol, bukan input
-            }
-          } else if (remainingButtons.length > 1) {
-            // Biarkan user pilih dulu
-            hideInputArea();
-          } else {
-            // Semua lengkap!
-            checkAndShowConfirmation();
-          }
-          
-        }, 700);
-        
       } else if (fieldType === 'alamat') {
         orderState.alamat = value;
-        
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          
-          let remainingButtons = [];
-          let botMsg = `Baik, alamat diterima! 📍✅\n\nSilahkan isi data dirimu lagi~`;
-          
-          if (!orderState.nama && !orderState.payment) {
-            remainingButtons.push(
-              { label: "👤 Isi Nama", value: "nama" },
-              { label: "💳 Pilih Payment", value: "payment" }
-            );
-          } else if (!orderState.nama) {
-            remainingButtons.push(
-              { label: "👤 Isi Nama", value: "nama" }
-            );
-            if (orderState.payment) {
-              botMsg += `\n\nTinggal nama lagi lho!`;
-            }
-          } else if (!orderState.payment) {
-            remainingButtons.push(
-              { label: "💳 Pilih Payment", value: "payment" }
-            );
-            if (orderState.nama) {
-              botMsg += `\n\nTinggal payment lagi lho!`;
-            }
-          }
-          
-          addBotMessage(botMsg, remainingButtons, 'data_continue');
-          
-          if (remainingButtons.length === 1) {
-            if (!orderState.nama) {
-              showInputField("nama", "Ketik namamu...");
-            } else if (!orderState.payment) {
-              // Payment pake tombol
-            }
-          } else if (remainingButtons.length > 1) {
-            hideInputArea();
-          } else {
-            checkAndShowConfirmation();
-          }
-          
-        }, 700);
       }
+      
+      // Hide input dulu
+      hideInputArea();
+      
+      // Show typing indicator
+      showTyping();
+      
+      // Gunakan satu fungsi terpusat untuk proses setelah data entry
+      setTimeout(() => {
+        hideTyping();
+        processAfterDataEntry();
+      }, 800);
     }
 
-    // Handle continue data (setelah klik tombol dari pesan "silakan isi data lagi")
-    window.handleContinueData = function(btnValue, btnLabel) {
+    // FIX: Fungsi terpusat untuk handle setelah data diisi
+    function processAfterDataEntry() {
+      // Cek apa saja yang sudah diisi dan yang belum
+      const missingNama = !orderState.nama || orderState.nama.trim() === '';
+      const missingAlamat = !orderState.alamat || orderState.alamat.trim() === '';
+      const missingPayment = !orderState.payment || orderState.payment.trim() === '';
+      
+      // Bangun pesan dan tombol dinamis
+      let botMsg = "";
+      let buttons = [];
+      
+      if (missingNama && missingAlamat && missingPayment) {
+        // Semua data kosong (jarang terjadi)
+        botMsg = "Silahkan isi data dirimu ya! 📝";
+        buttons.push(
+          { label: "👤 Isi Nama", value: "nama" },
+          { label: "🏠 Isi Alamat", value: "alamat" },
+          { label: "💳 Pilih Payment", value: "payment" }
+        );
+      } else if (!missingNama && missingAlamat && missingPayment) {
+        // Nama sudah ada, sisanya alamat & payment
+        botMsg = `Baik, *${orderState.nama}*! ✅\n\nSilahkan isi data dirimu lagi~`;
+        buttons.push(
+          { label: "🏠 Isi Alamat", value: "alamat" },
+          { label: "💳 Pilih Payment", value: "payment" }
+        );
+      } else if (missingNama && !missingAlamat && missingPayment) {
+        // Alamat sudah ada, sisanya nama & payment
+        botMsg = `Baik, alamat diterima! 📍✅\n\nSilahkan isi data dirimu lagi~`;
+        buttons.push(
+          { label: "👤 Isi Nama", value: "nama" },
+          { label: "💳 Pilih Payment", value: "payment" }
+        );
+      } else if (missingNama && missingAlamat && !missingPayment) {
+        // Payment sudah ada, sisanya nama & alamat
+        botMsg = `Baik, pembayaran *${orderState.payment}* diterima! 💳✅\n\nSilahkan isi data dirimu lagi~`;
+        buttons.push(
+          { label: "👤 Isi Nama", value: "nama" },
+          { label: "🏠 Isi Alamat", value: "alamat" }
+        );
+      } else if (!missingNama && !missingAlamat && missingPayment) {
+        // Nama & alamat ada, tinggal payment
+        botMsg = `Baik, ${orderState.nama}! Data lengkap! ✅\n\nTinggal pilih payment saja~`;
+        buttons.push(
+          { label: "💳 Pilih Payment", value: "payment" }
+        );
+      } else if (!missingNama && missingAlamat && !missingPayment) {
+        // Nama & payment ada, tinggal alamat
+        botMsg = `Baik, ${orderState.nama}! Data hampir lengkap! ✅\n\nTinggal alamat saja~`;
+        buttons.push(
+          { label: "🏠 Isi Alamat", value: "alamat" }
+        );
+      } else if (missingNama && !missingAlamat && !missingPayment) {
+        // Alamat & payment ada, tinggal nama
+        botMsg = `Bagus! Hampir selesai! ✅\n\nTinggal nama saja~`;
+        buttons.push(
+          { label: "👤 Isi Nama", value: "nama" }
+        );
+      } else {
+        // SEMUA DATA LENGKAP!
+        showConfirmation();
+        return;
+      }
+      
+      // Kirim pesan bot dengan tombol
+      addBotMessage(botMsg, buttons, 'data_continue');
+    }
+
+    // Handle continue data (setelah klik tombol dari pesan)
+    function handleContinueData(btnValue, btnLabel) {
       addUserMessage(btnLabel);
       showTyping();
       
@@ -891,21 +883,6 @@
           handleAskPayment();
         }
       }, 600);
-    };
-
-    // Cek data complete
-    function checkDataComplete() {
-      if (orderState.nama && orderState.alamat && orderState.payment && orderState.rasa && orderState.tempat) {
-        showTyping();
-        setTimeout(() => {
-          hideTyping();
-          showConfirmation();
-        }, 750);
-      }
-    }
-
-    function checkAndShowConfirmation() {
-      checkDataComplete();
     }
 
     // ===== STEP 4: KONFIRMASI =====
@@ -996,10 +973,11 @@
         addBotMessage("Sedang memproses pesananmu... ⏳");
         
         setTimeout(() => {
-          // Remove processing msg
           const area = document.getElementById('chatMessagesArea');
-          const msgs = area.querySelectorAll('.msg-bubble.bot');
-          if (msgs.length > 0) msgs[msgs.length - 1].remove();
+          if (area) {
+            const msgs = area.querySelectorAll('.msg-bubble.bot');
+            if (msgs.length > 0) msgs[msgs.length - 1].remove();
+          }
           
           let successMsg = `*🎉 PESANAN BERHASIL!* 🎊\n\n`;
           successMsg += `Terima kasih, ${orderState.nama}! 😊\n\n`;
@@ -1011,7 +989,7 @@
           successMsg += `⏱ Estimasi sampai: 15-30 menit\n`;
           successMsg += `💰 Total: Rp${getPrice(orderState.rasa)}\n\n`;
           successMsg += `Silakan tunggu di tempat ya! Kami segera mengirimkan pesanan es krim lezatmu~ 🍦💜\n\n`;
-          successMsg += `_AfterRain Tales x Zelwit Ice Cream_`;
+          successMsg += `_AfterRain Tales x Toko Es Krim_`;
           
           addBotMessage(successMsg, [
             { label: "🔄 Pesan Lagi", value: "lagi" },
@@ -1027,7 +1005,8 @@
 
     function handlePesanLagi() {
       orderState = { step: 0, rasa: '', tempat: '', nama: '', alamat: '', payment: '' };
-      document.getElementById('chatMessagesArea').innerHTML = '';
+      const msgArea = document.getElementById('chatMessagesArea');
+      if (msgArea) msgArea.innerHTML = '';
       showMulaiButton();
       setTimeout(() => {
         addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nMau pesan lagi? Silakan klik tombol Mulai Pesan!");
@@ -1048,6 +1027,8 @@
     // ===== MESSAGE FUNCTIONS =====
     function addBotMessage(text, buttons = [], actionType = '', isSuccess = false) {
       const area = document.getElementById('chatMessagesArea');
+      if (!area) return;
+      
       const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       
       const div = document.createElement('div');
@@ -1061,11 +1042,10 @@
       if (buttons && buttons.length > 0) {
         let btnHtml = '<div class="quick-replies">';
         buttons.forEach((btn) => {
-          const safeLabel = btn.label.replace(/'/g, "\\'");
-          const safeValue = btn.value.replace(/'/g, "\\'");
-          const safeType = actionType.replace(/'/g, "\\'");
+          const safeLabel = btn.label.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          const safeValue = btn.value.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          const safeType = actionType.replace(/'/g, "\\'").replace(/"/g, '&quot;');
           
-          // Special handler untuk payment_select dan data_continue
           if (actionType === 'payment_select') {
             btnHtml += `<button class="quick-btn" onclick="handlePaymentSelect('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
           } else if (actionType === 'data_continue') {
@@ -1084,6 +1064,8 @@
 
     function addUserMessage(text) {
       const area = document.getElementById('chatMessagesArea');
+      if (!area) return;
+      
       const time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       
       const div = document.createElement('div');
@@ -1096,23 +1078,32 @@
 
     // Typing indicator
     function showTyping() {
-      document.getElementById('typingIndicator').classList.add('active');
-      scrollToBottom();
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) {
+        indicator.classList.add('active');
+        scrollToBottom();
+      }
     }
 
     function hideTyping() {
-      document.getElementById('typingIndicator').classList.remove('active');
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) {
+        indicator.classList.remove('active');
+      }
     }
 
     function scrollToBottom() {
       const area = document.getElementById('chatMessagesArea');
-      setTimeout(() => {
-        area.scrollTop = area.scrollHeight;
-      }, 50);
+      if (area) {
+        setTimeout(() => {
+          area.scrollTop = area.scrollHeight;
+        }, 50);
+      }
     }
 
     // Escape HTML
     function escapeHtml(text) {
+      if (!text) return '';
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
@@ -1121,7 +1112,8 @@
     // ESC to close
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (document.getElementById('chatFullscreen').classList.contains('active')) {
+        const chatFs = document.getElementById('chatFullscreen');
+        if (chatFs && chatFs.classList.contains('active')) {
           closeChat();
         }
       }
