@@ -42,7 +42,7 @@
 
     /* ===== SPARKLE PARTICLES CONTAINER ===== */
     .sparkle-container{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:22px}
-    .sparkle{position:absolute;width:6px;height:6px;background:radial-gradient(circle,#ffd700 0%,transparent 70%);border-radius:50%;animation:sparkleFloat 1.5s ease-in-out forwards;pointer-events:none}
+    .sparkle{position:absolute;width:8px;height:8px;background:radial-gradient(circle,#ffd700 0%,transparent 70%);border-radius:50%;animation:sparkleFloat 1.5s ease-in-out forwards;pointer-events:none}
     @keyframes sparkleFloat{0%{opacity:1;transform:translateY(0) scale(0)}50%{opacity:1;transform:translateY(-30px) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(0)}}
 
     /* ===== HEADER ===== */
@@ -75,48 +75,252 @@
     .footer-logo{width:80px;margin:10px auto;border-radius:15px}
 
     /* ============================================ */
-    /* ===== ICE CREAM MAKING ANIMATION SCREEN ===== */
+    /* ===== ICE CREAM MAKING ANIMATION SCREEN - FIXED Z-INDEX! ===== */
     /* ============================================ */
-    .making-screen{display:none;position:fixed;inset:0;background:linear-gradient(to bottom,#ffeef8,#fff5f8);z-index:9998;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn 0.5s ease}
+    .making-screen{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:linear-gradient(135deg,#fff0f5 0%,#ffe4ec 50%,#ffd1dc 100%);
+      z-index:99999; /* ⬅️ DIATAS CHAT FULLSCREEN! */
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      animation:makingFadeIn 0.6s cubic-bezier(.34,1.56,.64,1)
+    }
     .making-screen.active{display:flex}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes makingFadeIn{
+      from{opacity:0;transform:scale(0.8) rotateX(10deg)}
+      to{opacity:1;transform:scale(1) rotateX(0)}
+    }
     
-    .making-title{font-size:2em;color:#e91e63;margin-bottom:30px;text-align:center;text-shadow:2px 2px 4px rgba(0,0,0,0.1)}
-    .making-stage{font-size:1.2em;color:#666;margin-bottom:20px;text-align:center}
+    .making-title{
+      font-size:2.2em;
+      color:#e91e63;
+      margin-bottom:10px;
+      text-align:center;
+      text-shadow:2px 2px 4px rgba(0,0,0,0.1);
+      animation:titleBounce 0.8s ease infinite alternate
+    }
+    @keyframes titleBounce{
+      from{transform:translateY(0)}
+      to{transform:translateY(-8px)}
+    }
     
-    .making-canvas{width:300px;height:350px;position:relative;margin:20px auto}
+    .making-stage{
+      font-size:1.3em;
+      color:#c2185b;
+      margin-bottom:30px;
+      text-align:center;
+      font-weight:600;
+      padding:10px 25px;
+      background:rgba(255,255,255,0.7);
+      border-radius:25px;
+      backdrop-filter:blur(5px)
+    }
     
-    /* Container (Corn/Cup/Basin) */
-    .ice-container{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);width:140px;height:160px;display:flex;align-items:flex-end;justify-content:center}
-    .container-corn{width:120px;height:150px;background:linear-gradient(to bottom,#f4d03f 0%,#f5b041 100%);border-radius:10px 10px 50px 50px;position:relative;box-shadow:inset -10px 0 20px rgba(0,0,0,0.1)}
-    .container-corn::before{content:'';position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:130px;height:20px;background:linear-gradient(to bottom,#e74c3c,#c0392b);border-radius:10px 10px 0 0}
-    .container-cup{width:110px;height:140px;background:linear-gradient(to right,#3498db 0%,#2980b9 100%);border-radius:10px 10px 20px 20px;position:relative;box-shadow:inset -8px 0 15px rgba(0,0,0,0.1)}
-    .container-cup::before{content:'';position:absolute;top:10px;right:-15px;width:20px;height:30px;border:4px solid #2980b9;border-left:none;border-radius:0 10px 10px 0}
-    .container-basin{width:180px;height:100px;background:linear-gradient(to bottom,#ecf0f1 0%,#bdc3c7 100%);border-radius:15px;position:relative;box-shadow:inset 0 -10px 20px rgba(0,0,0,0.1),0 5px 15px rgba(0,0,0,0.1)}
+    .making-canvas{
+      width:320px;
+      height:380px;
+      position:relative;
+      margin:20px auto;
+      background:rgba(255,255,255,0.3);
+      border-radius:30px;
+      border:3px dashed rgba(233,30,99,0.3);
+      box-shadow:0 10px 40px rgba(233,30,99,0.15), inset 0 0 60px rgba(255,255,255,0.5)
+    }
     
-    /* Ice Cream Scoop */
-    .ice-scoop{position:absolute;width:100px;height:80px;border-radius:50% 50% 45% 45%;opacity:0;transform:translateY(-200px);transition:all 0.8s cubic-bezier(.68,-.55,.27,1.55);z-index:2}
-    .ice-scoop.drop{opacity:1;transform:translateY(0)}
-    .flavor-chocolate{background:radial-gradient(circle at 30% 30%,#8B4513,#5D2906);box-shadow:inset -10px -10px 20px rgba(0,0,0,0.3),0 5px 15px rgba(0,0,0,0.2)}
-    .flavor-strawberry{background:radial-gradient(circle at 30% 30%,#FF69B4,#C71585);box-shadow:inset -10px -10px 20px rgba(0,0,0,0.2),0 5px 15px rgba(199,21,133,0.3)}
-    .flavor-vanilla{background:radial-gradient(circle at 30% 30%,#FFFDD0,#F5DEB3);box-shadow:inset -10px -10px 20px rgba(0,0,0,0.1),0 5px 15px rgba(0,0,0,0.15)}
-    .flavor-mango{background:radial-gradient(circle at 30% 30%,#FFD700,#FFA500);box-shadow:inset -10px -10px 20px rgba(0,0,0,0.2),0 5px 15px rgba(255,165,0,0.3)}
-    .flavor-blueberry{background:radial-gradient(circle at 30% 30%,#6495ED,#4169E1);box-shadow:inset -10px -10px 20px rgba(0,0,0,0.3),0 5px 15px rgba(65,105,225,0.3)}
+    /* Container (Corn/Cup/Basin) - DIPERBESAR & LEBIH JELAS */
+    .ice-container{
+      position:absolute;
+      bottom:30px;
+      left:50%;
+      transform:translateX(-50%);
+      width:160px;
+      height:180px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center
+    }
+    .container-corn{
+      width:130px;
+      height:170px;
+      background:linear-gradient(to bottom,#f4d03f 0%,#e67e22 100%);
+      border-radius:15px 15px 55px 55px;
+      position:relative;
+      box-shadow:inset -15px 0 30px rgba(0,0,0,0.15), 0 8px 25px rgba(0,0,0,0.2);
+      animation:containerPop 0.5s cubic-bezier(.68,-.55,.27,1.55)
+    }
+    @keyframes containerPop{
+      from{transform:scale(0) translateY(50px);opacity:0}
+      to{transform:scale(1) translateY(0);opacity:1}
+    }
+    .container-corn::before{
+      content:'';
+      position:absolute;
+      top:-18px;
+      left:50%;
+      transform:translateX(-50%);
+      width:140px;
+      height:24px;
+      background:linear-gradient(to bottom,#e74c3c,#c0392b);
+      border-radius:12px 12px 0 0;
+      box-shadow:0 4px 10px rgba(0,0,0,0.2)
+    }
+    .container-cup{
+      width:120px;
+      height:150px;
+      background:linear-gradient(to right,#5dade2 0%,#2980b9 100%);
+      border-radius:15px 15px 25px 25px;
+      position:relative;
+      box-shadow:inset -10px 0 20px rgba(0,0,0,0.15), 0 8px 25px rgba(0,0,0,0.2);
+      animation:containerPop 0.5s cubic-bezier(.68,-.55,.27,1.55)
+    }
+    .container-cup::before{
+      content:'';
+      position:absolute;
+      top:15px;
+      right:-18px;
+      width:24px;
+      height:35px;
+      border:5px solid #2980b9;
+      border-left:none;
+      border-radius:0 12px 12px 0
+    }
+    .container-basin{
+      width:200px;
+      height:110px;
+      background:linear-gradient(to bottom,#ecf0f1 0%,#bdc3c7 100%);
+      border-radius:20px;
+      position:relative;
+      box-shadow:inset 0 -15px 30px rgba(0,0,0,0.15), 0 10px 30px rgba(0,0,0,0.2);
+      animation:containerPop 0.5s cubic-bezier(.68,-.55,.27,1.55)
+    }
     
-    /* Toppings */
-    .topping{position:absolute;opacity:0;transition:all 0.5s ease;z-index:3}
-    .topping.show{opacity:1}
-    .topping-choco{width:8px;height:8px;background:#3E2723;border-radius:2px}
-    .topping-sprinkle{width:4px;height:12px;border-radius:2px}
-    .topping-whip{width:90px;height:40px;background:radial-gradient(ellipse at center,#fff 0%,#f0f0f0 100%);border-radius:50%;top:-20px;left:50%;transform:translateX(-50%)}
-    .topping-oreo{width:20px;height:20px;background:linear-gradient(135deg,#2c1810 50%,#1a0f0a 50%);border-radius:3px;position:relative}
-    .topping-oreo::after{content:'';position:absolute;inset:4px;background:#f5f5dc;border-radius:2px}
+    /* Ice Cream Scoop - LEBIH BESAR & DRAMATIC */
+    .ice-scoop{
+      position:absolute;
+      width:120px;
+      height:95px;
+      border-radius:50% 50% 45% 45%;
+      opacity:0;
+      transform:translateY(-300px) scale(0.5);
+      transition:all 0.9s cubic-bezier(.68,-.55,.27,1.55);
+      z-index:2;
+      left:50%;
+      margin-left:-60px;
+      bottom:50px
+    }
+    .ice-scoop.drop{
+      opacity:1;
+      transform:translateY(0) scale(1);
+      animation:scoopWobble 0.6s ease 0.9s
+    }
+    @keyframes scoopWobble{
+      0%,100%{transform:translateY(0) scale(1) rotate(0deg)}
+      25%{transform:translateY(-10px) scale(1.05) rotate(-3deg)}
+      75%{transform:translateY(-5px) scale(1.02) rotate(3deg)}
+    }
+    .flavor-chocolate{
+      background:radial-gradient(circle at 35% 35%,#a0522d 0%,#5D2906 70%,#3e1a04 100%);
+      box-shadow:inset -15px -15px 30px rgba(0,0,0,0.4), 0 8px 25px rgba(0,0,0,0.3), 0 0 20px rgba(139,69,19,0.3)
+    }
+    .flavor-strawberry{
+      background:radial-gradient(circle at 35% 35%,#FF85A2 0%,#C71585 70%,#8b0a47 100%);
+      box-shadow:inset -15px -15px 30px rgba(0,0,0,0.25), 0 8px 25px rgba(199,21,133,0.4), 0 0 20px rgba(255,105,180,0.3)
+    }
+    .flavor-vanilla{
+      background:radial-gradient(circle at 35% 35%,#FFFACD 0%,F5DEB3 70%,#deb887 100%);
+      box-shadow:inset -15px -15px 30px rgba(0,0,0,0.15), 0 8px 25px rgba(0,0,0,0.2), 0 0 20px rgba(245,222,179,0.4)
+    }
+    .flavor-mango{
+      background:radial-gradient(circle at 35% 35%,#FFE135 0%,#FFA500 70%,#cc8400 100%);
+      box-shadow:inset -15px -15px 30px rgba(0,0,0,0.25), 0 8px 25px rgba(255,165,0,0.4), 0 0 20px rgba(255,193,37,0.4)
+    }
+    .flavor-blueberry{
+      background:radial-gradient(circle at 35% 35%,#7B68EE 0%,#4169E1 70%,#27408B 100%);
+      box-shadow:inset -15px -15px 30px rgba(0,0,0,0.35), 0 8px 25px rgba(65,105,225,0.4), 0 0 20px rgba(123,104,238,0.4)
+    }
+    
+    /* Toppings - LEBIH VISIBLE */
+    .topping{
+      position:absolute;
+      opacity:0;
+      transition:all 0.6s cubic-bezier(.68,-.55,.27,1.55);
+      z-index:3
+    }
+    .topping.show{
+      opacity:1;
+      animation:toppingDrop 0.5s cubic-bezier(.68,-.55,.27,1.55)
+    }
+    @keyframes toppingDrop{
+      from{transform:translateY(-50px) scale(0) rotate(180deg);opacity:0}
+      to{transform:translateY(0) scale(1) rotate(0deg);opacity:1}
+    }
+    .topping-choco{
+      width:10px;
+      height:10px;
+      background:linear-gradient(135deg,#5D4037 0%,#3E2723 100%);
+      border-radius:3px;
+      box-shadow:0 2px 4px rgba(0,0,0,0.3)
+    }
+    .topping-sprinkle{
+      width:5px;
+      height:14px;
+      border-radius:3px;
+      box-shadow:0 2px 4px rgba(0,0,0,0.2)
+    }
+    .topping-whip{
+      width:110px;
+      height:50px;
+      background:radial-gradient(ellipse at center,#ffffff 0%,#f5f5f5 50%,#e8e8e8 100%);
+      border-radius:50%;
+      top:-30px;
+      left:50%;
+      transform:translateX(-50%);
+      box-shadow:0 5px 15px rgba(0,0,0,0.1), inset 0 -5px 15px rgba(0,0,0,0.05)
+    }
+    .topping-oreo{
+      width:26px;
+      height:26px;
+      background:linear-gradient(135deg,#2c1810 50%,#1a0f0a 50%);
+      border-radius:4px;
+      position:relative;
+      box-shadow:0 3px 8px rgba(0,0,0,0.3)
+    }
+    .topping-oreo::after{
+      content:'';
+      position:absolute;
+      inset:5px;
+      background:#f5f5dc;
+      border-radius:3px
+    }
+
+    /* Progress dots during making */
+    .making-progress{
+      display:flex;
+      gap:10px;
+      margin-top:20px
+    }
+    .making-dot{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:#e0e0e0;
+      transition:all 0.3s
+    }
+    .making-dot.active{
+      background:#e91e63;
+      box-shadow:0 0 15px #e91e63;
+      transform:scale(1.3)
+    }
 
     /* ============================================ */
     /* ===== CHAT FULL SCREEN ===== */
     /* ============================================ */
     .chat-fullscreen{display:none;position:fixed;inset:0;background:linear-gradient(to bottom,#e8ecf7,#fef5ff);z-index:9999;flex-direction:column;animation:slideUp .4s ease}
     .chat-fullscreen.active{display:flex}
+    .chat-fullscreen.hidden-by-making{display:flex!important;visibility:hidden;pointer-events:none} /* Hidden during animation */
     @keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 
     /* ===== RAIN IN CHAT ===== */
@@ -182,9 +386,9 @@
 
     /* ===== RATING STARS ===== */
     .rating-container{display:flex;gap:8px;justify-content:center;margin:15px 0;flex-direction:column;align-items:center}
-    .rating-stars{display:flex;gap:5px;font-size:2em;cursor:pointer}
+    .rating-stars{display:flex;gap:8px;font-size:2.2em;cursor:pointer}
     .star{transition:all .2s;filter:grayscale(100%);opacity:0.4}
-    .star:hover,.star.active{filter:grayscale(0%);opacity:1;transform:scale(1.2)}
+    .star:hover,.star.active{filter:grayscale(0%);opacity:1;transform:scale(1.3)}
     .rating-text{font-size:.9em;color:#666;margin-top:8px}
 
     /* ===== WHATSAPP SHARE ===== */
@@ -225,8 +429,10 @@
       .quick-btn{padding:7px 13px;font-size:.84em}
       .chat-fs-header{padding:16px 18px}
       .floating-emoji{font-size:1.3em}
-      .making-canvas{width:250px;height:300px}
+      .making-canvas{width:280px;height:330px}
       .dark-mode-toggle{width:45px;height:45px;font-size:1.3em;top:15px;right:15px}
+      .making-title{font-size:1.6em}
+      .making-stage{font-size:1em}
     }
     .chat-fs-messages::-webkit-scrollbar{width:5px}
     .chat-fs-messages::-webkit-scrollbar-track{background:transparent}
@@ -289,14 +495,20 @@
     <p>VowViw Entertainment</p>
   </footer>
 
-  <!-- ===== ICE CREAM MAKING ANIMATION SCREEN ===== -->
+  <!-- ===== ICE CREAM MAKING ANIMATION SCREEN - Z-INDEX TERTINGGI! ===== -->
   <div class="making-screen" id="makingScreen">
     <h2 class="making-title" id="makingTitle">🍦 Menyiapkan Es Krim...</h2>
-    <p class="making-stage" id="makingStage">Memilih kemasan...</p>
+    <p class="making-stage" id="makingStage">⏳ Memproses...</p>
     <div class="making-canvas" id="makingCanvas">
       <div class="ice-container" id="iceContainer"></div>
       <div class="ice-scoop" id="iceScoop"></div>
       <div id="toppingsContainer"></div>
+    </div>
+    <div class="making-progress" id="makingProgress">
+      <div class="making-dot" id="dot1"></div>
+      <div class="making-dot" id="dot2"></div>
+      <div class="making-dot" id="dot3"></div>
+      <div class="making-dot" id="dot4"></div>
     </div>
   </div>
 
@@ -335,8 +547,10 @@
   </div>
 
   <script>
+    console.log('🍦 AfterRain Tales loaded! Script starting...');
+
     /* ================================================================
-       STATE - DITAMBAHKAN: toppings, size, giftMessage
+       STATE
     ================================================================ */
     let orderState = { 
       step:0, 
@@ -363,7 +577,6 @@
       localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
     }
     
-    // Load dark mode preference
     if(localStorage.getItem('darkMode') === 'true') {
       document.body.classList.add('dark-mode');
       document.querySelector('.dark-mode-toggle').textContent = '☀️';
@@ -376,7 +589,7 @@
     const sparkleContainer = document.getElementById('sparkleContainer');
     
     eskrimCard.addEventListener('mousemove', (e) => {
-      if(Math.random() > 0.85) {
+      if(Math.random() > 0.82) {
         createSparkle(e.clientX - eskrimCard.getBoundingClientRect().left, e.clientY - eskrimCard.getBoundingClientRect().top);
       }
     });
@@ -392,7 +605,7 @@
     }
 
     /* ================================================================
-       SOUND — Web Audio API (tanpa file eksternal)
+       SOUND — Web Audio API
     ================================================================ */
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx;
@@ -413,7 +626,7 @@
         }
         const o = audioCtx.createOscillator(), g = audioCtx.createGain();
         o.connect(g); g.connect(audioCtx.destination);
-        const map = { send:[880,0.06,0.06], receive:[660,0.05,0.08], click:[1100,0.04,0.04], error:[220,0.08,0.15], pop:[600,0.05,0.1] };
+        const map = { send:[880,0.06,0.06], receive:[660,0.05,0.08], click:[1100,0.04,0.04], error:[220,0.08,0.15], pop:[600,0.05,0.1], drop:[400,0.08,0.15] };
         const s = map[type] || map.click;
         o.frequency.value = s[0]; g.gain.value = s[1];
         o.start(); o.stop(audioCtx.currentTime + s[2]);
@@ -423,38 +636,27 @@
     /* ================================================================
        TYPEWRITER EFFECT
     ================================================================ */
-    function typeWriter(element, text, speed = 30, callback) {
-      // Clear previous typewriter
+    function typeWriter(element, text, speed = 28, callback) {
       if(typewriterTimeout) clearTimeout(typewriterTimeout);
-      
       element.innerHTML = '';
       let i = 0;
       const formattedText = text.replace(/\*(.*?)\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-      
-      // Strip HTML for typing, then restore
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = formattedText;
       const plainText = tempDiv.textContent;
       
       function type() {
         if(i < plainText.length) {
-          // Rebuild HTML gradually
-          tempDiv.innerHTML = formattedText;
           element.innerHTML = plainText.substring(0, i+1).replace(/\n/g,'<br>');
-          
-          // Restore bold tags that are fully typed
           const boldMatches = [...text.matchAll(/\*(.*?)\*/g)];
           boldMatches.forEach(match => {
             const startIdx = text.indexOf(match[0]);
             if(i >= startIdx && i >= startIdx + match[0].length - 1) {
-              element.innerHTML = element.innerHTML.replace(
-                match[1], `<strong>${match[1]}</strong>`
-              );
+              element.innerHTML = element.innerHTML.replace(match[1], `<strong>${match[1]}</strong>`);
             }
           });
-          
           i++;
-          typewriterTimeout = setTimeout(type, speed + Math.random()*20);
+          typewriterTimeout = setTimeout(type, speed + Math.random()*15);
         } else {
           element.innerHTML = formattedText;
           if(callback) callback();
@@ -464,7 +666,7 @@
     }
 
     /* ================================================================
-       STICKER — emoji besar di tengah chat
+       STICKER
     ================================================================ */
     function dropSticker(emoji, persistent) {
       const area = document.getElementById('chatMessagesArea');
@@ -488,18 +690,18 @@
       c.width = window.innerWidth; c.height = window.innerHeight;
       const colors = ['#e91e63','#667eea','#764ba2','#f06292','#ffd700','#00e676','#00bcd4','#ff6f00'];
       const pcs = [];
-      for (let i = 0; i < 180; i++) {
+      for (let i = 0; i < 200; i++) {
         pcs.push({
-          x: c.width/2 + (Math.random()-0.5)*100,
+          x: c.width/2 + (Math.random()-0.5)*120,
           y: c.height/2,
-          vx: (Math.random()-0.5)*22,
-          vy: (Math.random()-1)*20 - 4,
+          vx: (Math.random()-0.5)*25,
+          vy: (Math.random()-1)*22 - 4,
           color: colors[Math.floor(Math.random()*colors.length)],
           w: Math.random()*10+4,
           h: Math.random()*6+3,
           rot: Math.random()*360,
-          rv: (Math.random()-0.5)*12,
-          g: 0.35 + Math.random()*0.15
+          rv: (Math.random()-0.5)*15,
+          g: 0.38 + Math.random()*0.15
         });
       }
       function frame() {
@@ -534,7 +736,7 @@
     }
 
     /* ================================================================
-       RAIN EFFECT di chat
+       RAIN EFFECT
     ================================================================ */
     function startRain() {
       stopRain();
@@ -562,7 +764,7 @@
     ================================================================ */
     function updateProgress(step) {
       const fill = document.getElementById('chatProgressFill');
-      if (fill) fill.style.width = (step / 7 * 100) + '%'; // Updated to 7 steps
+      if (fill) fill.style.width = (step / 7 * 100) + '%';
     }
 
     /* ================================================================
@@ -578,7 +780,7 @@
     }
 
     /* ================================================================
-       FLAVOR REACTIONS — reaksi unik tiap rasa
+       FLAVOR REACTIONS
     ================================================================ */
     function getFlavorReaction(rasa) {
       const r = {
@@ -592,7 +794,7 @@
     }
 
     /* ================================================================
-       ICE CREAM FACTS — fakta random saat processing
+       ICE CREAM FACTS
     ================================================================ */
     const iceCreamFacts = [
       'Tahukah kamu? Es krim paling populer di dunia adalah *Vanila*! 🍦',
@@ -609,37 +811,16 @@
     }
 
     /* ================================================================
-       PRICE CALCULATOR - DENGAN TOPPING DAN UKURAN
+       PRICE CALCULATOR
     ================================================================ */
     function getPrice() {
-      const basePrice = {
-        'Coklat': 18000,
-        'Stroberi': 18000,
-        'Vanila': 15000,
-        'Mangga': 20000,
-        'Blueberry': 22000
-      };
-      
-      const sizeMultiplier = {
-        'Small': 1,
-        'Medium': 1.3,
-        'Large': 1.6
-      };
-      
-      const toppingPrices = {
-        'Choco Chips': 3000,
-        'Sprinkles': 2000,
-        'Whipped Cream': 4000,
-        'Oreo Crush': 5000
-      };
+      const basePrice = { 'Coklat': 18000, 'Stroberi': 18000, 'Vanila': 15000, 'Mangga': 20000, 'Blueberry': 22000 };
+      const sizeMultiplier = { 'Small': 1, 'Medium': 1.3, 'Large': 1.6 };
+      const toppingPrices = { 'Choco Chips': 3000, 'Sprinkles': 2000, 'Whipped Cream': 4000, 'Oreo Crush': 5000 };
       
       let price = basePrice[orderState.rasa] || 15000;
       price *= sizeMultiplier[orderState.ukuran] || 1;
-      
-      orderState.toppings.forEach(t => {
-        price += toppingPrices[t] || 0;
-      });
-      
+      orderState.toppings.forEach(t => { price += toppingPrices[t] || 0; });
       return Math.round(price).toLocaleString('id-ID');
     }
 
@@ -647,6 +828,7 @@
        OPEN / CLOSE CHAT
     ================================================================ */
     function openChatEskrim() {
+      console.log('Opening chat...');
       document.getElementById('chatFullscreen').classList.add('active');
       document.body.classList.add('chat-open');
       document.body.style.overflow = 'hidden';
@@ -695,14 +877,11 @@
       setBotMood('📝');
       document.getElementById('botStatus').textContent = '● Sedang melayani...';
       showTyping();
-      setTimeout(() => {
-        hideTyping();
-        showRasaOptions();
-      }, 900);
+      setTimeout(() => { hideTyping(); showRasaOptions(); }, 900);
     }
 
     /* ================================================================
-       TAMPILKAN PILIHAN - UPDATED FLOW
+       SHOW OPTIONS
     ================================================================ */
     function showRasaOptions() {
       addBotMessage("Halo! Pesan rasa apa? 😊", [
@@ -766,7 +945,7 @@
     }
 
     /* ================================================================
-       CENTRAL ROUTER — semua tombol masuk sini
+       CENTRAL ROUTER
     ================================================================ */
     function handleQuickClick(btnValue, btnLabel, type) {
       addUserMessage(btnLabel);
@@ -821,10 +1000,7 @@
             break;
           case 'gift':
             if(btnValue === 'yes_gift') handleAskGiftMessage();
-            else {
-              orderState.giftMessage = '';
-              setTimeout(() => showDataOptions(), 400);
-            }
+            else { orderState.giftMessage = ''; setTimeout(() => showDataOptions(), 400); }
             break;
           case 'data':
             if (btnValue === 'nama') handleAskNama();
@@ -835,10 +1011,7 @@
             orderState.payment = btnValue;
             setBotMood('😊');
             addBotMessage('*' + btnValue + '* dipilih! ✅');
-            setTimeout(() => {
-              if (isDataComplete()) showConfirmation();
-              else processAfterDataEntry();
-            }, 500);
+            setTimeout(() => { if (isDataComplete()) showConfirmation(); else processAfterDataEntry(); }, 500);
             break;
           case 'data_continue':
             if (btnValue === 'nama') handleAskNama();
@@ -846,6 +1019,7 @@
             else if (btnValue === 'payment') showPaymentOptions("Oke, pilih metode pembayaran");
             break;
           case 'confirm':
+            console.log('Confirm clicked:', btnValue);
             if (btnValue === 'yes') processOrderWithAnimation();
             else if (btnValue === 'no') handleCancelOrder();
             else if (btnValue === 'edit') handleEditOrder();
@@ -868,9 +1042,6 @@
       }, 700 + Math.random() * 400);
     }
 
-    /* ================================================================
-       DISABLE CLICKED BUTTON
-    ================================================================ */
     function disableClickedButtons(label) {
       setTimeout(() => {
         document.querySelectorAll('.quick-btn').forEach(b => {
@@ -880,27 +1051,18 @@
     }
 
     /* ================================================================
-       ISI NAMA / ALAMAT / GIFT MESSAGE
+       INPUT FIELDS
     ================================================================ */
     function handleAskNama() {
-      setBotMood('👤');
-      addBotMessage("Oke, silahkan isi namamu di bawah ini ✨");
-      showInputField("nama", "Ketik namamu...");
+      setBotMood('👤'); addBotMessage("Oke, silahkan isi namamu di bawah ini ✨"); showInputField("nama", "Ketik namamu...");
     }
     function handleAskAlamat() {
-      setBotMood('📍');
-      addBotMessage("Oke, silahkan isi alamatmu di bawah ini 📍");
-      showInputField("alamat", "Ketik alamatmu...");
+      setBotMood('📍'); addBotMessage("Oke, silahkan isi alamatmu di bawah ini 📍"); showInputField("alamat", "Ketik alamatmu...");
     }
     function handleAskGiftMessage() {
-      setBotMood('💌');
-      addBotMessage("Tulis pesan spesial buat penerima es krim~ 🎁\n\n*(Contoh: Selamat ulang tahun! Semoga harimu manis seperti es krim ini!* )");
-      showInputField("giftMessage", "Tulis pesan hadiah...");
+      setBotMood('💌'); addBotMessage("Tulis pesan spesial buat penerima es krim~ 🎁\n\n*(Contoh: Selamat ulang tahun! Semoga harimu manis seperti es krim ini!* )"); showInputField("giftMessage", "Tulis pesan hadiah...");
     }
 
-    /* ================================================================
-       INPUT FIELD
-    ================================================================ */
     function showInputField(fieldType, placeholder) {
       const a = document.getElementById('chatInputArea');
       if (!a) return;
@@ -915,8 +1077,7 @@
       const val = inp.value.trim();
       if (!val) {
         playSound('error');
-        inp.style.borderColor = '#e91e63';
-        inp.style.animation = 'shake 0.5s';
+        inp.style.borderColor = '#e91e63'; inp.style.animation = 'shake 0.5s';
         setTimeout(() => { inp.style.borderColor = '#667eea'; inp.style.animation = ''; }, 500);
         return;
       }
@@ -939,36 +1100,17 @@
       }, 800);
     }
 
-    /* ================================================================
-       SETELAH DATA DIISI
-    ================================================================ */
     function processAfterDataEntry() {
       let btns = [], msg = "";
       const n = orderState.nama.trim(), a = orderState.alamat.trim(), p = orderState.payment.trim();
-      if (!n && !a && !p) {
-        msg = "Silahkan isi data dirimu ya! 📝";
-        btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"});
-      } else if (n && !a && !p) {
-        msg = 'Baik, *' + n + '*! ✅\n\nSilahkan isi data dirimu lagi~';
-        btns.push({label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"});
-      } else if (!n && a && !p) {
-        msg = "Baik, alamat diterima! 📍✅\n\nSilahkan isi data dirimu lagi~";
-        btns.push({label:"👤 Isi Nama",value:"nama"},{label:"💳 Pilih Payment",value:"payment"});
-      } else if (!n && !a && p) {
-        msg = 'Baik, pembayaran *' + p + '* diterima! 💳✅\n\nSilahkan isi data dirimu lagi~';
-        btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"});
-      } else if (n && a && !p) {
-        msg = 'Baik, ' + n + '! Data hampir lengkap! ✅\n\nTinggal pilih payment saja~';
-        btns.push({label:"💳 Pilih Payment",value:"payment"});
-      } else if (n && !a && p) {
-        msg = 'Baik, ' + n + '! Data hampir lengkap! ✅\n\nTinggal alamat saja~';
-        btns.push({label:"🏠 Isi Alamat",value:"alamat"});
-      } else if (!n && a && p) {
-        msg = "Bagus! Hampir selesai! ✅\n\nTinggal nama saja~";
-        btns.push({label:"👤 Isi Nama",value:"nama"});
-      } else {
-        showConfirmation(); return;
-      }
+      if (!n && !a && !p) { msg = "Silahkan isi data dirimu ya! 📝"; btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"}); }
+      else if (n && !a && !p) { msg = 'Baik, *' + n + '*! ✅\n\nSilahkan isi data dirimu lagi~'; btns.push({label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"}); }
+      else if (!n && a && !p) { msg = "Baik, alamat diterima! 📍✅\n\nSilahkan isi data dirimu lagi~"; btns.push({label:"👤 Isi Nama",value:"nama"},{label:"💳 Pilih Payment",value:"payment"}); }
+      else if (!n && !a && p) { msg = 'Baik, pembayaran *' + p + '* diterima! 💳✅\n\nSilahkan isi data dirimu lagi~'; btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"}); }
+      else if (n && a && !p) { msg = 'Baik, ' + n + '! Data hampir lengkap! ✅\n\nTinggal pilih payment saja~'; btns.push({label:"💳 Pilih Payment",value:"payment"}); }
+      else if (n && !a && p) { msg = 'Baik, ' + n + '! Data hampir lengkap! ✅\n\nTinggal alamat saja~'; btns.push({label:"🏠 Isi Alamat",value:"alamat"}); }
+      else if (!n && a && p) { msg = "Bagus! Hampir selesai! ✅\n\nTinggal nama saja~"; btns.push({label:"👤 Isi Nama",value:"nama"}); }
+      else { showConfirmation(); return; }
       addBotMessage(msg, btns, 'data_continue');
     }
 
@@ -1020,15 +1162,27 @@
     }
 
     /* ================================================================
-       ICE CREAM MAKING ANIMATION - THE MAIN EVENT!
+       🔥🔥🔥 ICE CREAM MAKING ANIMATION - THE MAIN EVENT! 🔥🔥🔥
     ================================================================ */
     function processOrderWithAnimation() {
+      console.log('🎬 STARTING ANIMATION! Order State:', orderState);
+      
       hideInputArea();
       updateProgress(7);
       
-      // Show making screen
+      // ⭐ HIDE CHAT FIRST - biar animasi kelihatan jelas!
+      const chatFullscreen = document.getElementById('chatFullscreen');
+      chatFullscreen.classList.add('hidden-by-making');
+      
+      // Show making screen with HIGHEST z-index
       const makingScreen = document.getElementById('makingScreen');
       makingScreen.classList.add('active');
+      
+      // Reset progress dots
+      for(let i=1; i<=4; i++) {
+        const dot = document.getElementById('dot'+i);
+        if(dot) dot.classList.remove('active');
+      }
       
       const container = document.getElementById('iceContainer');
       const scoop = document.getElementById('iceScoop');
@@ -1042,9 +1196,13 @@
       scoop.style.cssText = '';
       toppingsContainer.innerHTML = '';
       
-      // Step 1: Show container
+      // ========== STEP 1: SHOW CONTAINER ==========
+      console.log('Step 1: Showing container...');
       title.textContent = '🍦 Menyiapkan Es Krim...';
-      stage.textContent = 'Menyiapkan ' + orderState.tempat.toLowerCase() + '...';
+      stage.textContent = '📦 Menyiapkan ' + orderState.tempat.toLowerCase() + '...';
+      document.getElementById('dot1').classList.add('active');
+      
+      playSound('click');
       
       setTimeout(() => {
         // Create container based on type
@@ -1056,101 +1214,120 @@
           container.innerHTML = '<div class="container-basin"></div>';
         }
         
-        // Step 2: Drop ice cream
+        // ========== STEP 2: DROP ICE CREAM ==========
+        console.log('Step 2: Dropping ice cream...');
         setTimeout(() => {
-          stage.textContent = 'Menuangkan es krim rasa ' + orderState.rasa.toLowerCase() + '...';
+          stage.textContent = '🍨 Menuangkan es krim rasa ' + orderState.rasa.toLowerCase() + '...';
+          document.getElementById('dot2').classList.add('active');
+          
           scoop.className = 'ice-scoop flavor-' + orderState.rasa.toLowerCase();
           
-          // Position based on container
+          // Position based on container type
           if(orderState.tempat === 'Basin') {
-            scoop.style.width = '140px';
-            scoop.style.height = '100px';
-            scoop.style.bottom = '40px';
+            scoop.style.width = '160px';
+            scoop.style.height = '120px';
+            scoop.style.bottom = '50px';
+            scoop.style.marginLeft = '-80px';
+          } else {
+            scoop.style.bottom = '50px';
+            scoop.style.marginLeft = '-60px';
           }
+          
+          playSound('drop');
           
           setTimeout(() => {
             scoop.classList.add('drop');
-            playSound('pop');
             
-            // Step 3: Add toppings
+            // ========== STEP 3: ADD TOPPINGS ==========
+            console.log('Step 3: Adding toppings...');
             setTimeout(() => {
-              stage.textContent = 'Menambahkan topping...';
+              stage.textContent = '🎂 Menambahkan topping...';
+              document.getElementById('dot3').classList.add('active');
               
               let toppingDelay = 0;
-              orderState.toppings.forEach((topping, idx) => {
-                setTimeout(() => {
-                  const tEl = document.createElement('div');
-                  tEl.className = 'topping';
-                  
-                  if(topping === 'Choco Chips') {
-                    tEl.classList.add('topping-choco');
-                    // Add multiple chips
-                    for(let i=0; i<6; i++) {
-                      const chip = document.createElement('div');
-                      chip.className = 'topping topping-choco show';
-                      chip.style.left = (30 + Math.random()*80) + 'px';
-                      chip.style.top = (-5 + Math.random()*20) + 'px';
-                      chip.style.transform = `rotate(${Math.random()*360}deg)`;
-                      toppingsContainer.appendChild(chip);
-                    }
-                  } else if(topping === 'Sprinkles') {
-                    tEl.classList.add('topping-sprinkle');
-                    const colors = ['#e91e63','#9c27b0','#2196f3','#4caf50','#ffeb3b','#ff5722'];
-                    for(let i=0; i<12; i++) {
-                      const spr = document.createElement('div');
-                      spr.className = 'topping topping-sprinkle show';
-                      spr.style.left = (25 + Math.random()*90) + 'px';
-                      spr.style.top = (-10 + Math.random()*25) + 'px';
-                      spr.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
-                      spr.style.transform = `rotate(${Math.random()*360}deg)`;
-                      toppingsContainer.appendChild(spr);
-                    }
-                  } else if(topping === 'Whipped Cream') {
-                    tEl.classList.add('topping-whip', 'show');
-                    toppingsContainer.appendChild(tEl);
-                  } else if(topping === 'Oreo Crush') {
-                    tEl.classList.add('topping-oreo', 'show');
-                    tEl.style.left = '40px';
-                    tEl.style.top = '-5px';
-                    toppingsContainer.appendChild(tEl);
+              if(orderState.toppings.length === 0) {
+                // No toppings, skip to complete faster
+                toppingDelay = 300;
+              } else {
+                orderState.toppings.forEach((topping, idx) => {
+                  setTimeout(() => {
+                    console.log('Adding topping:', topping);
                     
-                    // Add another oreo piece
-                    const oreo2 = document.createElement('div');
-                    oreo2.className = 'topping topping-oreo show';
-                    oreo2.style.left = '70px';
-                    oreo2.style.top = '0px';
-                    toppingsContainer.appendChild(oreo2);
-                  }
-                  
-                  playSound('click');
-                }, toppingDelay);
-                toppingDelay += 400;
-              });
+                    if(topping === 'Choco Chips') {
+                      for(let i=0; i<8; i++) {
+                        const chip = document.createElement('div');
+                        chip.className = 'topping topping-choco show';
+                        chip.style.left = (35 + Math.random()*90) + 'px';
+                        chip.style.top = (-8 + Math.random()*25) + 'px';
+                        chip.style.transform = `rotate(${Math.random()*360}deg)`;
+                        toppingsContainer.appendChild(chip);
+                      }
+                    } else if(topping === 'Sprinkles') {
+                      const colors = ['#e91e63','#9c27b0','#2196f3','#4caf50','#ffeb3b','#ff5722','#e91e63','#00bcd4'];
+                      for(let i=0; i<16; i++) {
+                        const spr = document.createElement('div');
+                        spr.className = 'topping topping-sprinkle show';
+                        spr.style.left = (30 + Math.random()*100) + 'px';
+                        spr.style.top = (-12 + Math.random()*30) + 'px';
+                        spr.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                        spr.style.transform = `rotate(${Math.random()*360}deg)`;
+                        toppingsContainer.appendChild(spr);
+                      }
+                    } else if(topping === 'Whipped Cream') {
+                      const whip = document.createElement('div');
+                      whip.className = 'topping topping-whip show';
+                      toppingsContainer.appendChild(whip);
+                    } else if(topping === 'Oreo Crush') {
+                      const oreo1 = document.createElement('div');
+                      oreo1.className = 'topping topping-oreo show';
+                      oreo1.style.left = '45px';
+                      oreo1.style.top = '-8px';
+                      toppingsContainer.appendChild(oreo1);
+                      
+                      const oreo2 = document.createElement('div');
+                      oreo2.className = 'topping topping-oreo show';
+                      oreo2.style.left = '85px';
+                      oreo2.style.top = '2px';
+                      toppingsContainer.appendChild(oreo2);
+                    }
+                    
+                    playSound('pop');
+                  }, toppingDelay);
+                  toppingDelay += 500;
+                });
+              }
               
-              // Step 4: Complete and go back to chat
+              // ========== STEP 4: COMPLETE! ==========
+              console.log('Step 4: Completing...');
               setTimeout(() => {
-                stage.textContent = 'Es krim siap! 🎉';
-                title.textContent = '✨ Sempurna! ✨';
+                stage.textContent = '✅ Es krim siap! 🎉';
+                title.textContent = '🎉 SEMPURNA! 🎉';
+                document.getElementById('dot4').classList.add('active');
+                playSound('success');
                 
+                // Wait a bit then go back to chat
                 setTimeout(() => {
+                  console.log('Animation complete! Going back to chat...');
                   makingScreen.classList.remove('active');
+                  chatFullscreen.classList.remove('hidden-by-making');
                   processOrderSuccess();
-                }, 1500);
+                }, 1800);
                 
-              }, toppingDelay + 500);
+              }, toppingDelay + 600);
               
-            }, 1000);
+            }, 800);
             
-          }, 300);
-        }, 800);
+          }, 400);
+        }, 1000);
         
-      }, 500);
+      }, 600);
     }
 
     /* ================================================================
        SUCCESS AFTER ANIMATION
     ================================================================ */
     function processOrderSuccess() {
+      console.log('Showing success message...');
       setBotMood('⏳');
       document.getElementById('botStatus').textContent = '● Memproses pesanan...';
       showTyping();
@@ -1158,7 +1335,6 @@
       setTimeout(() => {
         hideTyping();
         
-        // === SUCCESS ===
         launchConfetti();
         playSound('success');
         dropSticker('🎉', true);
@@ -1186,7 +1362,6 @@
         sm += 'Silakan tunggu di tempat ya! Kami segera mengirimkan pesanan es krim lezatmu~ 🍦💜\n\n';
         sm += '_AfterRain Tales x Toko Es Krim_';
 
-        // Create share link
         const waText = encodeURIComponent(
           `🍦 Pesanan Es Krim dari AfterRain Tales!\n\n` +
           `Rasa: ${orderState.rasa}\n` +
@@ -1205,9 +1380,7 @@
           { label:"🏠 Kembali ke Home", value:"home" }
         ], 'finish', true);
 
-        // Save to history
         saveToHistory();
-
         showMulaiButton();
         setTimeout(() => showDeliveryTruck(), 800);
       }, 500);
@@ -1241,39 +1414,32 @@
       orderState.rating = stars;
       const allStars = document.querySelectorAll('.star');
       allStars.forEach((s, i) => {
-        if(i < stars) {
-          s.classList.add('active');
-          s.style.color = '#ffc107';
-        } else {
-          s.classList.remove('active');
-          s.style.color = '';
-        }
+        if(i < stars) { s.classList.add('active'); s.style.color = '#ffc107'; }
+        else { s.classList.remove('active'); s.style.color = ''; }
       });
       
       const ratingText = document.getElementById('ratingText');
       const reactions = {
-        1: { text: '😢 Oh tidak... Maaf ya atas ketidaknyamanannya! Kami akan berusaha lebih baik!', mood: '😢', sticker: '💔' },
-        2: { text: '😕 Terima kasih feedbacknya... Kami akan perbaiki layanan kami!', mood: '😔', sticker: '🙏' },
-        3: { text: '🙂 Terima kasih! Semoga next time bisa lebih baik lagi~', mood: '😊', sticker: '👍' },
-        4: { text: '😄 Wah senangnya! Terima kasih banyak! 💕', mood: '🥰', sticker: '💖' },
-        5: { text: '🤩 YAAAY! Kamu yang terbaik! Terima kasih banyak-banyak! 🎉✨', mood: '🤩', sticker: '🏆' }
+        1: { text: '😢 Oh tidak...', mood: '😢', sticker: '💔' },
+        2: { text: '😕 Maaf ya...', mood: '😔', sticker: '🙏' },
+        3: { text: '🙂 Terima kasih!', mood: '😊', sticker: '👍' },
+        4: { text: '😄 Wah senangnya!', mood: '🥰', sticker: '💖' },
+        5: { text: '🤩 YAAAY! TERBAIK!', mood: '🤩', sticker: '🏆' }
       };
       
       const reaction = reactions[stars];
-      ratingText.textContent = reaction.text.split(' ')[0] + ' ' + reaction.text.split(' ')[1];
+      ratingText.textContent = reaction.text;
       
       setTimeout(() => {
         setBotMood(reaction.mood);
         dropSticker(reaction.sticker, true);
         addBotMessage(reaction.text);
-        
-        // Update history with rating
         updateHistoryRating(stars);
       }, 500);
     }
 
     /* ================================================================
-       ORDER HISTORY - LOCALSTORAGE
+       ORDER HISTORY
     ================================================================ */
     function saveToHistory() {
       const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
@@ -1290,16 +1456,13 @@
         rating: 0
       };
       history.unshift(order);
-      if(history.length > 10) history.pop(); // Keep last 10 orders
+      if(history.length > 10) history.pop();
       localStorage.setItem('orderHistory', JSON.stringify(history));
     }
 
     function updateHistoryRating(rating) {
       const history = JSON.parse(localStorage.getItem('orderHistory') || '[]');
-      if(history.length > 0) {
-        history[0].rating = rating;
-        localStorage.setItem('orderHistory', JSON.stringify(history));
-      }
+      if(history.length > 0) { history[0].rating = rating; localStorage.setItem('orderHistory', JSON.stringify(history)); }
     }
 
     function showOrderHistory() {
@@ -1310,7 +1473,7 @@
       if(history.length === 0) {
         list.innerHTML = '<p style="text-align:center;color:#888;padding:20px">Belum ada riwayat pesanan~ 🍦</p>';
       } else {
-        list.innerHTML = history.map((order, idx) => `
+        list.innerHTML = history.map(order => `
           <div class="history-item">
             <div class="history-date">📅 ${order.date}</div>
             <p><strong>${order.rasa}</strong> (${order.ukuran})</p>
@@ -1319,13 +1482,10 @@
               📦 ${order.tempat} • 💰 Rp${order.total}
               ${order.giftMessage ? '<br>💌 "' + order.giftMessage.substring(0,30) + '..."' : ''}
             </p>
-            <p style="margin-top:8px">
-              ${order.rating > 0 ? '⭐'.repeat(order.rating) + '☆'.repeat(5-order.rating) : 'Belum dinilai'}
-            </p>
+            <p style="margin-top:8px">${order.rating > 0 ? '⭐'.repeat(order.rating) + '☆'.repeat(5-order.rating) : 'Belum dinilai'}</p>
           </div>
         `).join('');
       }
-      
       modal.classList.add('active');
     }
 
@@ -1334,9 +1494,8 @@
     }
 
     /* ================================================================
-       HANDLE FINISH ACTIONS (RATING, WHATSAPP, ETC)
+       HANDLE FINISH ACTIONS
     ================================================================ */
-    // Override handleQuickClick for finish actions
     const originalHandleQuickClick = handleQuickClick;
     handleQuickClick = function(btnValue, btnLabel, type) {
       if(type === 'finish') {
@@ -1378,7 +1537,7 @@
     }
 
     /* ================================================================
-       MESSAGE FUNCTIONS - WITH TYPEWRITER OPTION
+       MESSAGE FUNCTIONS
     ================================================================ */
     function addBotMessage(text, buttons, actionType, isSuccess, useTypewriter = false) {
       const area = document.getElementById('chatMessagesArea');
@@ -1388,7 +1547,6 @@
       const div = document.createElement('div');
       div.className = 'msg-bubble bot' + (isSuccess ? ' success-msg' : '');
       
-      // Build buttons HTML
       let bh = '';
       if (buttons.length > 0) {
         bh = '<div class="quick-replies">';
@@ -1405,10 +1563,9 @@
       const formattedText = text.replace(/\*(.*?)\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
       
       if(useTypewriter && text.length < 200) {
-        div.innerHTML = '<span class="typewriter-target">' + '</span>' + '<span class="msg-time" style="display:none">' + time + '</span>' + bh;
+        div.innerHTML = '<span class="typewriter-target"></span><span class="msg-time" style="display:none">' + time + '</span>' + bh;
         area.appendChild(div);
         scrollToBottom();
-        
         const target = div.querySelector('.typewriter-target');
         typeWriter(target, text, 25, () => {
           div.querySelector('.msg-time').style.display = 'block';
@@ -1436,7 +1593,7 @@
     }
 
     /* ================================================================
-       TYPING & SCROLL
+       UTILITIES
     ================================================================ */
     function showTyping() { const e=document.getElementById('typingIndicator'); if(e){e.classList.add('active');scrollToBottom();} }
     function hideTyping() { const e=document.getElementById('typingIndicator'); if(e) e.classList.remove('active'); }
@@ -1453,14 +1610,18 @@
         const m = document.getElementById('historyModal');
         if (m && m.classList.contains('active')) closeHistory();
         const mk = document.getElementById('makingScreen');
-        if (mk && mk.classList.contains('active')) mk.classList.remove('active');
+        if (mk && mk.classList.contains('active')) {
+          mk.classList.remove('active');
+          document.getElementById('chatFullscreen').classList.remove('hidden-by-making');
+        }
       }
     });
 
-    // Close modals on outside click
     document.getElementById('historyModal').addEventListener('click', (e) => {
       if(e.target.id === 'historyModal') closeHistory();
     });
+
+    console.log('✅ Script fully loaded! Ready to serve ice cream! 🍦');
   </script>
 </body>
 </html>
