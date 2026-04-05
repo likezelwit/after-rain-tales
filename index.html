@@ -867,13 +867,17 @@
       addBotMessage(botMsg, buttons, 'data_continue');
     }
 
-    // Handle continue data (setelah klik tombol dari pesan)
-    function handleContinueData(btnValue, btnLabel) {
+    // Handle continue data (setelah klik tombol dari pesan) - FIX BUG!
+    window.handleContinueData = function(btnValue, btnLabel) {
+      console.log('handleContinueData called:', btnValue, btnLabel); // Debug
+      
       addUserMessage(btnLabel);
       showTyping();
       
       setTimeout(() => {
         hideTyping();
+        
+        console.log('Processing:', btnValue); // Debug
         
         if (btnValue === 'nama') {
           handleAskNama();
@@ -881,9 +885,11 @@
           handleAskAlamat();
         } else if (btnValue === 'payment') {
           handleAskPayment();
+        } else {
+          console.error('Unknown btnValue:', btnValue); // Debug
         }
       }, 600);
-    }
+    };
 
     // ===== STEP 4: KONFIRMASI =====
     function showConfirmation() {
@@ -1049,7 +1055,8 @@
           if (actionType === 'payment_select') {
             btnHtml += `<button class="quick-btn" onclick="handlePaymentSelect('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
           } else if (actionType === 'data_continue') {
-            btnHtml += `<button class="quick-btn" onclick="handleContinueData('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
+            // FIX: Pastikan menggunakan window.handleContinueData
+            btnHtml += `<button class="quick-btn" onclick="window.handleContinueData('${safeValue}', '${safeLabel}')">${btn.label}</button>`;
           } else {
             btnHtml += `<button class="quick-btn" onclick="handleQuickClick('${safeValue}', '${safeLabel}', '${safeType}')">${btn.label}</button>`;
           }
