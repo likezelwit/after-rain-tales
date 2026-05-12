@@ -4,29 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
-  <title>AfterRain Tales 🌧️</title>
+  <title>AfterRain Art 🎨</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg1:#e6f0ff;--bg2:#fceeff;--bg3:#f0e6ff;
       --card:rgba(255,255,255,0.85);--text:#444;--text2:#888;--border:rgba(107,124,255,0.15);
       --accent:#6b7cff;--accent2:#e91e63;--acc3:#764ba2;
-      --shadow:rgba(107,124,255,0.18);--chat-bg:#e5ddd5;
-      --input-bg:white;--input-border:#667eea;
+      --shadow:rgba(107,124,255,0.18);
       --header-bg:rgba(255,255,255,0.5);--footer-bg:rgba(255,255,255,0.6);
     }
     [data-theme="dark"]{
       --bg1:#1a1a2e;--bg2:#16213e;--bg3:#0f3460;
       --card:rgba(30,30,60,0.9);--text:#ddd;--text2:#aaa;--border:rgba(107,124,255,0.3);
       --accent:#8a9eff;--accent2:#f06292;--acc3:#a77fcb;
-      --shadow:rgba(107,124,255,0.35);--chat-bg:#1a1a2e;
-      --input-bg:#1e1e3e;--input-border:#8a9eff;
+      --shadow:rgba(107,124,255,0.35);
       --header-bg:rgba(20,20,45,0.8);--footer-bg:rgba(20,20,45,0.8);
     }
     *{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s}
     body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);background-attachment:fixed;color:var(--text);min-height:100vh;overflow-x:hidden}
 
-    /* RAIN MIST */
+    /* RAIN MIST EFFECT */
     body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(transparent,transparent 60px,rgba(107,124,255,0.018) 60px,rgba(107,124,255,0.018) 61px);background-size:2px 61px;animation:mainDrizzle 1.2s linear infinite;pointer-events:none;z-index:0}
     @keyframes mainDrizzle{0%{background-position:0 0}100%{background-position:0 61px}}
 
@@ -35,7 +33,7 @@
     .sparkle{position:absolute;pointer-events:none;z-index:100;font-size:1.1em;opacity:0;animation:sparkleAnim .8s ease forwards}
     @keyframes sparkleAnim{0%{opacity:1;transform:scale(0) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(30deg)}100%{opacity:0;transform:scale(.5) rotate(60deg) translateY(-30px)}}
 
-    /* FLOATING EMOJIS */
+    /* FLOATING EMOJIS (Art Themed) */
     .floating-emoji{position:fixed;font-size:1.8em;opacity:.12;pointer-events:none;z-index:0;animation:floatAround 18s ease-in-out infinite}
     .floating-emoji:nth-child(2){animation-duration:22s;animation-delay:3s}
     .floating-emoji:nth-child(3){animation-duration:16s;animation-delay:6s}
@@ -43,7 +41,6 @@
     .floating-emoji:nth-child(5){animation-duration:24s;animation-delay:8s}
     .floating-emoji:nth-child(6){animation-duration:19s;animation-delay:4s}
     @keyframes floatAround{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(25px,-35px) rotate(8deg)}50%{transform:translate(-15px,-70px) rotate(-5deg)}75%{transform:translate(30px,-25px) rotate(6deg)}}
-    body.chat-open .floating-emoji{opacity:0;transition:opacity .4s}
 
     /* DARK MODE TOGGLE */
     .dark-toggle{position:fixed;top:18px;right:18px;z-index:500;background:var(--card);border:2px solid var(--border);border-radius:50px;padding:8px 16px;cursor:pointer;font-size:1.1em;box-shadow:0 4px 15px var(--shadow);transition:all .3s}
@@ -57,193 +54,65 @@
     h1{font-family:'Pacifico',cursive;font-size:2.8em;color:var(--accent);text-shadow:2px 2px 4px rgba(0,0,0,0.08);margin-bottom:8px}
     .tagline{font-size:1.2em;color:var(--text2);font-style:italic}
 
-    /* CONTAINER */
-    .container{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:20px 20px 80px}
-    .box{background:var(--card);margin:25px auto;padding:30px 28px;border-radius:22px;width:90%;max-width:520px;box-shadow:0 8px 25px var(--shadow);transition:all .3s ease;cursor:pointer}
-    .box:hover{transform:translateY(-5px);box-shadow:0 15px 40px var(--shadow)}
-    .box h2{color:var(--accent);font-size:1.75em;margin-bottom:16px;padding-bottom:10px;border-bottom:3px solid #b8c4ff;display:inline-block}
-    .box p{font-size:1.05em;line-height:1.65;color:var(--text2)}
-    .card-eskrim{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);border:3px solid #ffb6d9;max-width:600px;position:relative;overflow:hidden}
-    [data-theme="dark"] .card-eskrim{background:linear-gradient(135deg,#2a1030 0%,#1a1030 100%)}
-    .card-eskrim h2{color:var(--accent2);border-bottom-color:#ffcdd2}
-    .card-icon{font-size:2.5em;margin-bottom:10px;display:block}
-    .card-btn{display:inline-block;margin-top:18px;background:linear-gradient(135deg,#e91e63 0%,#f06292 100%);color:white;padding:12px 30px;border-radius:50px;text-decoration:none;font-weight:bold;font-size:1.05em;box-shadow:0 5px 20px rgba(233,30,99,0.25);transition:all .3s;border:none;cursor:pointer;font-family:'Nunito',sans-serif}
-    .card-btn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(233,30,99,0.35)}
+    /* MAIN CONTAINER */
+    .container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 20px 80px}
 
-    /* ORDER HISTORY */
-    .history-box{background:var(--card);margin:25px auto;padding:24px 24px;border-radius:22px;width:90%;max-width:520px;box-shadow:0 8px 25px var(--shadow)}
-    .history-box h2{color:var(--accent);font-size:1.4em;margin-bottom:12px}
-    .history-item{background:var(--bg1);border-radius:12px;padding:12px 14px;margin-bottom:8px;font-size:.9em;border-left:4px solid var(--accent2)}
-    [data-theme="dark"] .history-item{background:rgba(255,255,255,0.05)}
-    .history-empty{color:var(--text2);font-style:italic;font-size:.95em}
+    /* SECTIONS */
+    section{margin-bottom:50px}
+    .section-title{font-family:'Pacifico',cursive;font-size:2em;color:var(--accent2);text-align:center;margin-bottom:30px;position:relative}
+    .section-title::after{content:'';display:block;width:60px;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin:8px auto 0;border-radius:2px}
+
+    /* ABOUT BOX */
+    .box{background:var(--card);margin:25px auto;padding:30px 28px;border-radius:22px;width:90%;max-width:700px;box-shadow:0 8px 25px var(--shadow);transition:all .3s ease}
+    .box p{font-size:1.05em;line-height:1.7;color:var(--text)}
+
+    /* PRICING CARDS GRID */
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:25px;padding:0 10px}
+    .price-card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 8px 25px var(--shadow);transition:transform .3s ease;position:relative;display:flex;flex-direction:column}
+    .price-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px var(--shadow)}
+    .price-img{width:100%;height:200px;object-fit:cover;border-bottom:3px solid var(--border)}
+    .price-content{padding:20px;flex:1;display:flex;flex-direction:column}
+    .price-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    .price-title{font-size:1.4em;font-weight:800;color:var(--accent)}
+    .price-tag{background:linear-gradient(135deg,var(--accent2),var(--acc3));color:white;padding:5px 12px;border-radius:12px;font-weight:bold;font-size:0.9em}
+    .price-desc{font-size:0.95em;color:var(--text2);margin-bottom:15px;flex-grow:1}
+    .price-cta{display:block;width:100%;text-align:center;background:var(--bg1);color:var(--accent);padding:10px 0;border-radius:12px;text-decoration:none;font-weight:bold;border:2px solid var(--border);transition:all .2s;cursor:pointer}
+    .price-cta:hover{background:var(--accent);color:white;border-color:var(--accent)}
+
+    /* PORTFOLIO GALLERY */
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px}
+    .gallery-item{position:relative;border-radius:15px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.1);transition:transform .3s}
+    .gallery-item:hover{transform:scale(1.03)}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:filter .3s}
+    .gallery-item:hover img{filter:brightness(0.8)}
+    .gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;color:white;font-weight:bold;font-size:1.1em}
+    .gallery-item:hover .gallery-overlay{opacity:1}
+
+    /* HOW TO ORDER */
+    .steps-container{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+    .step-card{background:var(--card);width:220px;padding:20px;border-radius:20px;text-align:center;box-shadow:0 5px 15px var(--shadow);position:relative}
+    .step-num{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:40px;height:40px;background:var(--accent2);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2em;border:3px solid var(--card)}
+    .step-icon{font-size:3em;margin:10px 0;display:block}
+    .step-text{font-weight:700;color:var(--accent);margin-bottom:5px}
+    .step-desc{font-size:0.85em;color:var(--text2)}
 
     /* FOOTER */
     footer{position:relative;z-index:1;text-align:center;padding:35px 20px 30px;margin-top:50px;background:var(--footer-bg)}
     footer p{margin:8px 0;font-size:.95em}
     .footer-logo{width:80px;margin:10px auto;border-radius:15px}
 
-    /* ============================================
-       ASSEMBLY ANIMATION SCREEN
-    ============================================ */
-    .assembly-screen{display:none;position:fixed;inset:0;z-index:99990;background:linear-gradient(135deg,#fff9f0,#fff0f8);flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
-    .assembly-screen.active{display:flex}
-    [data-theme="dark"] .assembly-screen{background:linear-gradient(135deg,#1a0a20,#0a1a20)}
-    .assembly-title{font-family:'Pacifico',cursive;font-size:2em;color:var(--accent2);margin-bottom:10px;animation:fadeInDown .5s ease}
-    .assembly-subtitle{color:var(--text2);font-size:1em;margin-bottom:30px;animation:fadeInDown .6s ease}
-    @keyframes fadeInDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-
-    /* THE STAGE */
-    .assembly-stage{position:relative;width:280px;height:380px}
-
-    /* CUP/CORN/BASIN */
-    .asm-container{position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:7em;animation:containerAppear .6s cubic-bezier(.68,-.55,.27,1.55) forwards;opacity:0}
-    @keyframes containerAppear{0%{opacity:0;transform:translateX(-50%) scale(0) rotate(-20deg)}80%{transform:translateX(-50%) scale(1.15) rotate(5deg)}100%{opacity:1;transform:translateX(-50%) scale(1) rotate(0)}}
-
-    /* ICE CREAM SCOOP FALLS */
-    .asm-scoop{position:absolute;left:50%;transform:translateX(-50%);font-size:5em;top:-100px;animation:scoopFall .8s cubic-bezier(.55,.06,.68,.19) forwards;opacity:1}
-    @keyframes scoopFall{0%{top:-120px;opacity:1}70%{top:65px}80%{top:55px}90%{top:68px}100%{top:60px;opacity:1}}
-
-    /* TOPPINGS */
-    .asm-topping{position:absolute;font-size:2.5em;opacity:0;animation:toppingDrop .5s ease forwards}
-    @keyframes toppingDrop{0%{opacity:0;transform:translateY(-60px) rotate(-30deg) scale(0)}70%{opacity:1;transform:translateY(5px) rotate(5deg) scale(1.2)}100%{opacity:1;transform:translateY(0) rotate(0) scale(1)}}
-
-    /* SPARKLE BURST */
-    .asm-sparkle{position:absolute;font-size:1.5em;opacity:0;animation:asmSparkle .6s ease forwards}
-    @keyframes asmSparkle{0%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1.4)}100%{opacity:0;transform:scale(.5) translateY(-40px)}}
-
-    /* DONE ANIMATION */
-    .asm-done{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:5em;opacity:0;animation:donePop .6s cubic-bezier(.68,-.55,.27,1.55) forwards}
-    @keyframes donePop{0%{opacity:0;transform:translate(-50%,-50%) scale(0)}70%{transform:translate(-50%,-50%) scale(1.3)}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-
-    /* PROGRESS TEXT */
-    .asm-progress-text{font-size:1.1em;color:var(--text);margin-top:25px;font-weight:700;min-height:32px;text-align:center;animation:fadeIn .4s ease}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .asm-bar{width:240px;height:8px;background:rgba(107,124,255,0.15);border-radius:10px;margin-top:12px;overflow:hidden}
-    .asm-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:10px;transition:width .5s ease}
-
-    /* ============================================
-       CHAT FULLSCREEN
-    ============================================ */
-    .chat-fullscreen{display:none;position:fixed;inset:0;background:linear-gradient(to bottom,#e8ecf7,#fef5ff);z-index:9999;flex-direction:column;animation:slideUp .4s ease}
-    [data-theme="dark"] .chat-fullscreen{background:linear-gradient(to bottom,#0d1117,#1a0d2e)}
-    .chat-fullscreen.active{display:flex}
-    @keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
-
-    /* RAIN IN CHAT */
-    .rain-container{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
-    .rain-drop{position:absolute;top:-20px;width:2px;height:18px;background:linear-gradient(to bottom,transparent,rgba(107,124,255,0.35));border-radius:0 0 2px 2px;animation:rainFall linear forwards}
-    @keyframes rainFall{0%{transform:translateY(0);opacity:1}100%{transform:translateY(calc(100vh + 40px));opacity:0}}
-
-    /* PROGRESS BAR */
-    .chat-progress-bar{height:4px;background:rgba(255,255,255,0.3);position:relative;z-index:10;flex-shrink:0}
-    .chat-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#667eea,#e91e63,#f06292,#667eea);background-size:300% 100%;animation:progressShimmer 2s linear infinite;transition:width .6s cubic-bezier(.4,0,.2,1);border-radius:0 2px 2px 0}
-    @keyframes progressShimmer{0%{background-position:0% 0}100%{background-position:300% 0}}
-
-    /* CHAT HEADER */
-    .chat-fs-header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:20px 25px;display:flex;align-items:center;gap:15px;box-shadow:0 4px 20px rgba(102,126,234,0.3);position:relative;z-index:10;flex-shrink:0}
-    .chat-back-btn{background:rgba(255,255,255,0.2);border:none;color:white;width:40px;height:40px;border-radius:50%;font-size:1.3em;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif}
-    .chat-back-btn:hover{background:rgba(255,255,255,0.3);transform:scale(1.1)}
-    .chat-bot-info{display:flex;align-items:center;gap:12px;flex:1}
-    .chat-avatar-circle{width:50px;height:50px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6em;box-shadow:0 3px 12px rgba(0,0,0,0.15);transition:transform .3s}
-    .chat-avatar-circle.pop{animation:avatarPop .4s ease}
-    @keyframes avatarPop{0%{transform:scale(1)}50%{transform:scale(1.25) rotate(10deg)}100%{transform:scale(1)}}
-    .chat-bot-text h3{font-size:1.15em;margin-bottom:2px}
-    .chat-bot-text p{font-size:.85em;opacity:.95}
-
-    /* CHAT MESSAGES */
-    .chat-fs-messages{flex:1;overflow-y:auto;padding:25px 20px;display:flex;flex-direction:column;gap:12px;background:var(--chat-bg) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23d4cfc5" opacity="0.4"/></svg>') repeat;background-size:25px 25px;position:relative;z-index:2}
-    [data-theme="dark"] .chat-fs-messages{background:var(--chat-bg) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23334" opacity="0.4"/></svg>') repeat;background-size:25px 25px}
-
-    .msg-bubble.bot{max-width:82%;align-self:flex-start;background:white;color:#333;padding:10px 16px;border-radius:12px 18px 18px 4px;box-shadow:0 1px 3px rgba(0,0,0,0.1);animation:slideInLeft .35s ease forwards;position:relative;word-wrap:break-word;line-height:1.5;font-size:.98em;font-family:'Nunito',sans-serif}
-    [data-theme="dark"] .msg-bubble.bot{background:#2a2a4a;color:#ddd}
-    @keyframes slideInLeft{from{opacity:0;transform:translateX(-30px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
-    .msg-bubble.user{max-width:75%;align-self:flex-end;background:linear-gradient(135deg,#dcf8c6,#c5e1a5);color:#1a1a1a;padding:10px 16px;border-radius:18px 12px 4px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.08);animation:slideInRight .35s ease forwards;position:relative;word-wrap:break-word;line-height:1.5;font-size:.98em;font-family:'Nunito',sans-serif}
-    [data-theme="dark"] .msg-bubble.user{background:linear-gradient(135deg,#1a4a1a,#2a5a2a);color:#ddd}
-    @keyframes slideInRight{from{opacity:0;transform:translateX(30px) scale(.9)}to{opacity:1;transform:translateX(0) scale(1)}}
-    .msg-time{font-size:.68em;color:#888;margin-top:5px;text-align:right;display:block}
-
-    /* TYPEWRITER */
-    .typewriter-cursor{display:inline-block;width:2px;height:1em;background:var(--accent2);margin-left:2px;animation:cursorBlink .6s infinite;vertical-align:middle}
-    @keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
-
-    /* STICKER */
-    .sticker-msg{align-self:center;font-size:3.5em;animation:stickerPop .8s cubic-bezier(.68,-.55,.27,1.55) forwards;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));line-height:1}
-    @keyframes stickerPop{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.2) rotate(5deg);opacity:1}80%{transform:scale(.95) rotate(-2deg)}100%{transform:scale(1) rotate(0);opacity:0}}
-    .sticker-msg.persistent{animation:stickerStay .6s cubic-bezier(.68,-.55,.27,1.55) forwards}
-    @keyframes stickerStay{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.15) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
-
-    /* QUICK REPLIES */
-    .quick-replies{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;justify-content:flex-start}
-    .quick-btn{background:white;border:1.5px solid #667eea;color:#667eea;padding:8px 16px;border-radius:18px;cursor:pointer;font-size:.88em;font-weight:700;transition:all .2s ease;font-family:'Nunito',sans-serif;outline:none}
-    [data-theme="dark"] .quick-btn{background:#2a2a4a;border-color:#8a9eff;color:#8a9eff}
-    .quick-btn:hover{background:linear-gradient(135deg,#667eea,#764ba2);color:white;transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.35)}
-    .quick-btn:active{transform:scale(.96)}
-    .quick-btn.used{opacity:.4;pointer-events:none;transform:scale(.95)}
-
-    /* INPUT AREA */
-    .chat-fs-input{padding:16px 20px;background:#f0f0f0;display:flex;gap:12px;align-items:center;border-top:1px solid #ddd;position:relative;z-index:10;flex-shrink:0}
-    [data-theme="dark"] .chat-fs-input{background:#1a1a3a;border-top-color:#333}
-    .mulai-pesan-btn{flex:1;background:linear-gradient(135deg,#e91e63 0%,#f06292 100%);color:white;border:none;padding:15px 28px;border-radius:26px;font-size:1.08em;font-weight:800;cursor:pointer;transition:all .3s ease;box-shadow:0 5px 22px rgba(233,30,99,0.32);animation:pulseBtn 2s infinite;font-family:'Nunito',sans-serif}
-    @keyframes pulseBtn{0%,100%{box-shadow:0 5px 22px rgba(233,30,99,0.32)}50%{box-shadow:0 5px 30px rgba(233,30,99,0.48)}}
-    .mulai-pesan-btn:hover{transform:scale(1.03)}
-    .mulai-pesan-btn:active{transform:scale(.98)}
-
-    /* TYPING INDICATOR */
-    .typing-indicator{display:none;align-self:flex-start;background:white;padding:12px 18px;border-radius:12px 18px 18px 4px;box-shadow:0 1px 3px rgba(0,0,0,0.08);gap:5px;animation:slideInLeft .3s ease;z-index:2}
-    [data-theme="dark"] .typing-indicator{background:#2a2a4a}
-    .typing-indicator.active{display:flex}
-    .typing-dot{width:8px;height:8px;background:#999;border-radius:50%;animation:typingBounce 1.2s infinite}
-    .typing-dot:nth-child(2){animation-delay:.15s}
-    .typing-dot:nth-child(3){animation-delay:.3s}
-    @keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-8px);opacity:1}}
-
-    /* SUCCESS */
-    .success-msg{background:linear-gradient(135deg,#d4edda,#c3e6cb)!important;border-left:4px solid #28a745!important}
-    [data-theme="dark"] .success-msg{background:linear-gradient(135deg,#1a4a25,#0d3018)!important}
-    .success-receipt{background:rgba(255,255,255,0.6);border:2px dashed rgba(40,167,69,0.4);border-radius:12px;padding:14px 16px;margin-top:10px;font-size:.95em}
-    [data-theme="dark"] .success-receipt{background:rgba(0,0,0,0.2)}
-
-    /* INPUT FIELD */
-    .chat-input-wrapper{flex:1;display:flex;gap:10px;align-items:center}
-    .chat-input-field{flex:1;padding:13px 20px;border:2px solid var(--input-border);border-radius:24px;font-size:.97em;outline:none;font-family:'Nunito',sans-serif;background:var(--input-bg);color:var(--text);transition:all .3s}
-    .chat-input-field:focus{border-color:#764ba2;box-shadow:0 0 0 3px rgba(102,126,234,0.15)}
-    .send-data-btn{background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;width:46px;height:46px;border-radius:50%;font-size:.85em;cursor:pointer;box-shadow:0 4px 14px rgba(102,126,234,0.32);transition:all .25s;display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Nunito',sans-serif}
-    .send-data-btn:hover{transform:scale(1.08)}
-    .send-data-btn:active{transform:scale(.94)}
-
-    /* DELIVERY TRUCK */
-    .delivery-truck{position:fixed;bottom:90px;left:-60px;font-size:2.2em;z-index:99998;animation:truckDrive 3.5s cubic-bezier(.25,.46,.45,.94) forwards;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.2))}
-    @keyframes truckDrive{0%{left:-60px;transform:scale(.8)}15%{transform:scale(1.1)}25%{transform:scale(1)}100%{left:calc(100% + 60px);transform:scale(.8)}}
-
-    /* STAR RATING */
-    .star-rating{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}
-    .star-btn{font-size:1.8em;cursor:pointer;transition:transform .2s;border:none;background:none;padding:0;line-height:1}
-    .star-btn:hover{transform:scale(1.3)}
-    .star-btn.lit{filter:drop-shadow(0 0 6px gold)}
-
-    /* WHATSAPP SHARE */
-    .wa-share-btn{background:linear-gradient(135deg,#25d366,#128c7e);color:white;border:none;padding:10px 22px;border-radius:50px;font-size:.95em;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(37,211,102,0.3);transition:all .3s;display:inline-flex;align-items:center;gap:8px}
-    .wa-share-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,0.4)}
-
-    /* GIFT MESSAGE */
-    .gift-toggle{background:none;border:1.5px dashed var(--accent2);color:var(--accent2);padding:8px 16px;border-radius:14px;cursor:pointer;font-size:.88em;font-weight:700;font-family:'Nunito',sans-serif;transition:all .2s;margin-top:4px}
-    .gift-toggle:hover{background:var(--accent2);color:white}
-
-    /* SIZE BADGE */
-    .size-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:.7em;padding:2px 8px;border-radius:10px;margin-left:4px;font-weight:700;vertical-align:middle}
+    /* FLOATING WHATSAPP */
+    .wa-float{position:fixed;bottom:30px;right:30px;background:#25d366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2em;box-shadow:0 4px 15px rgba(37,211,102,0.4);z-index:999;transition:transform .3s;text-decoration:none}
+    .wa-float:hover{transform:scale(1.1) rotate(10deg)}
 
     /* RESPONSIVE */
     @media(max-width:600px){
-      h1{font-size:2.2em}.box{width:95%;padding:22px 18px}.card-eskrim{max-width:95%}
-      .msg-bubble.bot{max-width:88%}.msg-bubble.user{max-width:82%}
-      .quick-btn{padding:7px 13px;font-size:.84em}.chat-fs-header{padding:16px 18px}
-      .floating-emoji{font-size:1.3em}.assembly-stage{width:220px;height:300px}
-      .asm-container{font-size:5.5em}.asm-scoop{font-size:4em}
+      h1{font-size:2.2em}
+      .box{width:95%;padding:20px}
+      .section-title{font-size:1.6em}
+      .price-card{width:100%}
+      .floating-emoji{font-size:1.3em}
     }
-    .chat-fs-messages::-webkit-scrollbar{width:5px}
-    .chat-fs-messages::-webkit-scrollbar-track{background:transparent}
-    .chat-fs-messages::-webkit-scrollbar-thumb{background:rgba(102,126,234,0.3);border-radius:10px}
-    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-10px)}80%{transform:translateX(10px)}}
   </style>
 </head>
 <body>
@@ -251,771 +120,211 @@
   <!-- DARK MODE TOGGLE -->
   <button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
 
-  <!-- FLOATING EMOJIS -->
-  <span class="floating-emoji" style="top:8%;left:4%">🌧️</span>
-  <span class="floating-emoji" style="top:25%;right:6%">🍦</span>
-  <span class="floating-emoji" style="top:55%;left:2%">💧</span>
+  <!-- FLOATING EMOJIS (Art Theme) -->
+  <span class="floating-emoji" style="top:8%;left:4%">🎨</span>
+  <span class="floating-emoji" style="top:25%;right:6%">✏️</span>
+  <span class="floating-emoji" style="top:55%;left:2%">🖌️</span>
   <span class="floating-emoji" style="top:75%;right:4%">🌈</span>
   <span class="floating-emoji" style="top:40%;left:92%">✨</span>
-  <span class="floating-emoji" style="top:65%;left:88%">🍓</span>
-
-  <!-- CONFETTI -->
-  <canvas id="confettiCanvas" style="display:none;position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99999"></canvas>
-
-  <!-- ASSEMBLY SCREEN -->
-  <div class="assembly-screen" id="assemblyScreen">
-    <div class="assembly-title">🍦 Membuat Es Krimmu...</div>
-    <div class="assembly-subtitle" id="asmSubtitle">Tunggu sebentar ya!</div>
-    <div class="assembly-stage" id="assemblyStage"></div>
-    <div class="asm-progress-text" id="asmProgressText">Menyiapkan bahan...</div>
-    <div class="asm-bar"><div class="asm-bar-fill" id="asmBarFill"></div></div>
-  </div>
+  <span class="floating-emoji" style="top:65%;left:88%">💜</span>
 
   <!-- HEADER -->
   <header>
     <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo" class="logo">
-    <h1>AfterRain Tales 🌧️</h1>
-    <p class="tagline">Stories born after the rain.</p>
+    <h1>AfterRain Art 🎨</h1>
+    <p class="tagline">Jasa Ilustrasi Anime Style Penuh Warna</p>
   </header>
 
   <!-- MAIN -->
   <div class="container">
-    <div class="box">
-      <h2>📖 About</h2>
-      <p>AfterRain Tales adalah website yang dibuat untuk menampung cerita-cerita penuh perasaan, tentang perubahan, harapan, dan perjalanan menemukan diri sendiri. Setiap cerita di sini ditulis dengan hati.</p>
-    </div>
-    <div class="box">
-      <h2>📚 Our Stories</h2>
-      <p>Kumpulan cerita tentang kehidupan, emosi, dan pengalaman yang relatable.</p>
-    </div>
-    <div class="box card-eskrim sparkle-wrap" id="eskrimCard" onclick="openChatEskrim()">
-      <span class="card-icon">🍦</span>
-      <h2>Pesan Es Krim</h2>
-      <p>Pesan es krim favorit kamu langsung dari sini! Bot Aiko siap melayani pesananmu~</p>
-      <button class="card-btn" onclick="event.stopPropagation();openChatEskrim()">🍦 Pesan Sekarang</button>
-    </div>
-    <!-- ORDER HISTORY -->
-    <div class="history-box" id="historyBox" style="display:none">
-      <h2>📜 Pesanan Terakhir</h2>
-      <div id="historyList"></div>
-    </div>
+    
+    <!-- ABOUT SECTION -->
+    <section>
+      <div class="section-title">Tentang Kami</div>
+      <div class="box">
+        <p>
+          Halo! Selamat datang di <strong>AfterRain Art</strong>. 🌧️✨<br><br>
+          Kami adalah layanan ilustrasi freelance yang mengkhususkan diri dalam gaya anime 2D. 
+          Baik itu karakter Oroniginal (OC), potret diri dalam anime (Avatars), atau ilustrasi untuk light novel, 
+          kami siap mewujudkan imajinasimu menjadi visual yang indah dan berwarna!
+        </p>
+      </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section>
+      <div class="section-title">Daftar Harga</div>
+      <div class="pricing-grid">
+        
+        <!-- Card 1: Headshot -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animehead/400/300" alt="Headshot" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Headshot</span>
+              <span class="price-tag">Rp 50k</span>
+            </div>
+            <p class="price-desc">Ilustrasi kepala sampai bahu. Fokus pada ekspresi wajah dan rambut yang detail. Cocok untuk icon profil.</p>
+            <!-- Link WhatsApp dengan Format Order Otomatis -->
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Headshot%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Half Body -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animehalf/400/300" alt="Half Body" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Half Body</span>
+              <span class="price-tag">Rp 100k</span>
+            </div>
+            <p class="price-desc">Ilustrasi dari kepala sampai pinggang. Termasuk desain pakaian sederhana dan pose yang dinamis.</p>
+            <!-- Link WhatsApp dengan Format Order Otomatis -->
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Half%20Body%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Full Body -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animefull/400/300" alt="Full Body" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Full Body</span>
+              <span class="price-tag">Rp 200k</span>
+            </div>
+            <p class="price-desc">Karakter utuh dari ujung rambut sampai kaki. Detail tinggi pada kostum dan pose aksi.</p>
+            <!-- Link WhatsApp dengan Format Order Otomatis -->
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Full%20Body%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Chibi Style -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animechibi/400/300" alt="Chibi Style" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Chibi Style</span>
+              <span class="price-tag">Rp 75k</span>
+            </div>
+            <p class="price-desc">Versi karakter yang imut dan kecil (Q-Version). Sangat lucu dan cocok untuk stiker atau hiasan.</p>
+            <!-- Link WhatsApp dengan Format Order Otomatis -->
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Chibi%20Style%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION -->
+    <section>
+      <div class="section-title">Galeri Karya</div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art1/300/300" alt="Karya 1">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art2/300/300" alt="Karya 2">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art3/300/300" alt="Karya 3">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art4/300/300" alt="Karya 4">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art5/300/300" alt="Karya 5">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://picsum.photos/seed/art6/300/300" alt="Karya 6">
+          <div class="gallery-overlay">See Details</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW TO ORDER SECTION (UPDATED) -->
+    <section>
+      <div class="section-title">Cara Pesan</div>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <span class="step-icon">🤝</span>
+          <div class="step-text">Diskusi & DP</div>
+          <div class="step-desc">Hubungi kami & diskusi detail. Jika deal, wajib DP 50% dari harga final.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <span class="step-icon">✏️</span>
+          <div class="step-text">Sketsa Awal</div>
+          <div class="step-desc">Setelah DP masuk, sketsa langsung dibuat & dikirim untuk dilihat.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <span class="step-icon">💸</span>
+          <div class="step-text">Pelunasan</div>
+          <div class="step-desc">Jika sketsa oke, silakan lakukan pembayaran penuh (Full Payment).</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <span class="step-icon">✨</span>
+          <div class="step-text">Finishing</div>
+          <div class="step-desc">Pengerjaan 2-5 jam (tergantung kesulitan). File HD dikirim!</div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <!-- FOOTER -->
   <footer>
-    <p>© 2026 AfterRain Tales — Created by Aiko ✨</p>
+    <p>© 2026 AfterRain Art — Created by Aiko ✨</p>
     <p><strong>Didukung oleh:</strong></p>
     <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
     <p>VowViw Entertainment</p>
   </footer>
 
-  <!-- CHAT FULL SCREEN -->
-  <div class="chat-fullscreen" id="chatFullscreen">
-    <div class="chat-fs-header">
-      <button class="chat-back-btn" onclick="closeChat()">←</button>
-      <div class="chat-bot-info">
-        <div class="chat-avatar-circle" id="botAvatar">🤖</div>
-        <div class="chat-bot-text">
-          <h3>Aiko Bot 🍦</h3>
-          <p id="botStatus">● Online — Siap Melayani!</p>
-        </div>
-      </div>
-    </div>
-    <div class="chat-progress-bar"><div class="chat-progress-fill" id="chatProgressFill"></div></div>
-    <div class="rain-container" id="rainContainer"></div>
-    <div class="chat-fs-messages" id="chatMessagesArea"></div>
-    <div class="typing-indicator" id="typingIndicator">
-      <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
-    </div>
-    <div class="chat-fs-input" id="chatInputArea">
-      <button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>
-    </div>
-  </div>
+  <!-- FLOATING WA BUTTON (UPDATED NUMBER) -->
+  <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20tertarik%20untuk%20komisi..." class="wa-float" target="_blank" title="Chat WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+    </svg>
+  </a>
 
   <script>
-  /* ================================================================
-     STATE
-  ================================================================ */
-  let orderState = { step:0,rasa:'',tempat:'',ukuran:'',toppings:[],giftMsg:'',nama:'',alamat:'',payment:'' };
-  let rainInterval = null;
-  let orderHistory = JSON.parse(localStorage.getItem('eskrimHistory')||'[]');
-
-  /* ================================================================
-     DARK MODE
-  ================================================================ */
-  function toggleDark(){
-    const html = document.documentElement;
-    const isDark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
-  }
-
-  /* ================================================================
-     SPARKLE ON HOVER
-  ================================================================ */
-  const eskrimCard = document.getElementById('eskrimCard');
-  const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🍦'];
-  eskrimCard.addEventListener('mousemove', e => {
-    if (Math.random() > 0.85) {
-      const sp = document.createElement('div');
-      sp.className = 'sparkle';
-      sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
-      const rect = eskrimCard.getBoundingClientRect();
-      sp.style.left = (e.clientX - rect.left) + 'px';
-      sp.style.top = (e.clientY - rect.top) + 'px';
-      eskrimCard.appendChild(sp);
-      setTimeout(() => sp.remove(), 900);
+    /* ================================================================
+       DARK MODE LOGIC
+    ================================================================ */
+    function toggleDark(){
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
     }
-  });
 
-  /* ================================================================
-     ORDER HISTORY
-  ================================================================ */
-  function saveOrder(order) {
-    orderHistory.unshift(order);
-    if (orderHistory.length > 5) orderHistory = orderHistory.slice(0,5);
-    localStorage.setItem('eskrimHistory', JSON.stringify(orderHistory));
-    renderHistory();
-  }
-  function renderHistory() {
-    const box = document.getElementById('historyBox');
-    const list = document.getElementById('historyList');
-    if (!box||!list) return;
-    if (orderHistory.length === 0) { box.style.display='none'; return; }
-    box.style.display = 'block';
-    list.innerHTML = orderHistory.map((o,i) => `
-      <div class="history-item">
-        <strong>${o.rasa} ${o.ukuran}</strong> — ${o.tempat}<br>
-        <span style="font-size:.85em;color:var(--text2)">
-          Topping: ${o.toppings.join(', ')||'Tidak ada'} | 
-          ${o.nama} | Rp${o.total} | ${o.payment}<br>
-          <em>${o.date}</em>
-        </span>
-      </div>
-    `).join('');
-  }
-  renderHistory();
+    /* ================================================================
+       SPARKLE HOVER EFFECT FOR CARDS
+    ================================================================ */
+    const cards = document.querySelectorAll('.sparkle-wrap');
+    const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
 
-  /* ================================================================
-     SOUND
-  ================================================================ */
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  let audioCtx;
-  function playSound(type) {
-    try {
-      if (!audioCtx) audioCtx = new AudioCtx();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      if (type === 'success') {
-        [523,659,784,1047].forEach((f,i) => {
-          const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-          o.connect(g);g.connect(audioCtx.destination);
-          o.frequency.value=f;g.gain.value=0.07;
-          o.start(audioCtx.currentTime+i*0.14);
-          o.stop(audioCtx.currentTime+i*0.14+0.14);
-        });
-        return;
-      }
-      const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-      o.connect(g);g.connect(audioCtx.destination);
-      const map={send:[880,0.06,0.06],receive:[660,0.05,0.08],click:[1100,0.04,0.04],error:[220,0.08,0.15]};
-      const s=map[type]||map.click;
-      o.frequency.value=s[0];g.gain.value=s[1];
-      o.start();o.stop(audioCtx.currentTime+s[2]);
-    } catch(e){}
-  }
-
-  /* ================================================================
-     STICKER
-  ================================================================ */
-  function dropSticker(emoji, persistent) {
-    const area = document.getElementById('chatMessagesArea');
-    if (!area) return;
-    const d = document.createElement('div');
-    d.className = 'sticker-msg'+(persistent?' persistent':'');
-    d.textContent = emoji;
-    area.appendChild(d);
-    scrollToBottom();
-    if (!persistent) setTimeout(()=>d.remove(),1200);
-  }
-
-  /* ================================================================
-     CONFETTI
-  ================================================================ */
-  function launchConfetti() {
-    const c = document.getElementById('confettiCanvas');
-    if (!c) return;
-    c.style.display='block';
-    const ctx=c.getContext('2d');
-    c.width=window.innerWidth;c.height=window.innerHeight;
-    const colors=['#e91e63','#667eea','#764ba2','#f06292','#ffd700','#00e676','#00bcd4','#ff6f00'];
-    const pcs=[];
-    for(let i=0;i<180;i++){
-      pcs.push({x:c.width/2+(Math.random()-.5)*100,y:c.height/2,vx:(Math.random()-.5)*22,vy:(Math.random()-1)*20-4,color:colors[Math.floor(Math.random()*colors.length)],w:Math.random()*10+4,h:Math.random()*6+3,rot:Math.random()*360,rv:(Math.random()-.5)*12,g:.35+Math.random()*.15});
-    }
-    function frame(){
-      ctx.clearRect(0,0,c.width,c.height);
-      let alive=false;
-      pcs.forEach(p=>{p.x+=p.vx;p.vy+=p.g;p.y+=p.vy;p.rot+=p.rv;p.vx*=.99;if(p.y<c.height+60)alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.fillStyle=p.color;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});
-      if(alive)requestAnimationFrame(frame);else c.style.display='none';
-    }
-    frame();
-  }
-
-  /* ================================================================
-     DELIVERY TRUCK
-  ================================================================ */
-  function showDeliveryTruck() {
-    const t=document.createElement('div');t.className='delivery-truck';
-    t.textContent='🚗🍦';document.body.appendChild(t);
-    setTimeout(()=>t.remove(),4000);
-  }
-
-  /* ================================================================
-     RAIN
-  ================================================================ */
-  function startRain(){
-    stopRain();
-    const box=document.getElementById('rainContainer');if(!box)return;
-    rainInterval=setInterval(()=>{
-      if(box.childElementCount>40)return;
-      const d=document.createElement('div');d.className='rain-drop';
-      d.style.left=Math.random()*100+'%';d.style.animationDuration=(0.6+Math.random()*.5)+'s';
-      d.style.opacity=0.15+Math.random()*.25;box.appendChild(d);
-      setTimeout(()=>d.remove(),1500);
-    },70);
-  }
-  function stopRain(){if(rainInterval){clearInterval(rainInterval);rainInterval=null;}const box=document.getElementById('rainContainer');if(box)box.innerHTML='';}
-
-  /* ================================================================
-     PROGRESS & MOOD
-  ================================================================ */
-  function updateProgress(step){const f=document.getElementById('chatProgressFill');if(f)f.style.width=(step/7*100)+'%';}
-  function setBotMood(emoji){const el=document.getElementById('botAvatar');if(!el)return;el.textContent=emoji;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
-
-  /* ================================================================
-     FLAVOR REACTIONS
-  ================================================================ */
-  function getFlavorReaction(rasa){
-    const r={'Coklat':{sticker:'🍫',msg:'Wah pilihan klasik! Coklat itu *never wrong*~ 🤎',mood:'😋'},'Stroberi':{sticker:'🍓',msg:'Manis dan segar! Pilihan yang cantik banget~ 💕',mood:'🥰'},'Vanila':{sticker:'🍦',msg:'Simple tapi *elegant*! Vanila lovers detected~ ✨',mood:'😌'},'Mangga':{sticker:'🥭',msg:'*Tropical vibes!* Mangga itu juara sih~ 🌴',mood:'🤩'},'Blueberry':{sticker:'🫐',msg:'*Premium choice!* Blueberry lover ya? 💎',mood:'😎'}};
-    return r[rasa]||{sticker:'🍦',msg:'Pilihan bagus!',mood:'😊'};
-  }
-
-  /* ================================================================
-     ICE CREAM FACTS
-  ================================================================ */
-  const iceCreamFacts=['Tahukah kamu? Es krim paling populer di dunia adalah *Vanila*! 🍦','Fun fact: Rata-rata orang makan es krim *28.5 porsi* per tahun! 🤯','Es krim pertama kali dibuat di *China* sekitar 200 SM! 🏮','Mangga adalah buah paling populer di dunia, lho! 🥭','Blueberry termasuk *superfood* yang kaya antioksidan! 🫐'];
-  function getIceCreamFact(){return iceCreamFacts[Math.floor(Math.random()*iceCreamFacts.length)];}
-
-  /* ================================================================
-     PRICING
-  ================================================================ */
-  const basePrices={'Coklat':18000,'Stroberi':18000,'Vanila':15000,'Mangga':20000,'Blueberry':22000};
-  const sizeMult={'Small':0.8,'Medium':1,'Large':1.3};
-  const toppingPrices={'Choco Chips':2000,'Sprinkles':1500,'Whipped Cream':3000,'Oreo Crush':2500};
-  const sizeEmoji={'Small':'🔵','Medium':'🟡','Large':'🔴'};
-  const containerEmoji={'Corn':'🌽','Cup':'🥤','Basin':'🥣'};
-  const rasaEmoji={'Coklat':'🍫','Stroberi':'🍓','Vanila':'🍦','Mangga':'🥭','Blueberry':'🫐'};
-
-  function calcTotal(){
-    const base = (basePrices[orderState.rasa]||15000)*((sizeMult[orderState.ukuran])||1);
-    const top = orderState.toppings.reduce((a,t)=>a+(toppingPrices[t]||0),0);
-    return Math.round(base+top);
-  }
-  function formatRp(n){return 'Rp'+n.toLocaleString('id-ID');}
-
-  /* ================================================================
-     TYPEWRITER EFFECT
-  ================================================================ */
-  function typewriterMsg(container, html, onDone) {
-    // Strip HTML for typing (type plain text, then reveal full HTML)
-    container.innerHTML = '<span class="typewriter-cursor"></span>';
-    const full = html;
-    // Just reveal char by char on text nodes only — for simplicity animate opacity
-    container.style.opacity = '0';
-    container.innerHTML = full;
-    container.style.transition = 'opacity .15s';
-    container.style.opacity = '1';
-    if (onDone) onDone();
-  }
-
-  /* ================================================================
-     OPEN / CLOSE CHAT
-  ================================================================ */
-  function openChatEskrim(){
-    document.getElementById('chatFullscreen').classList.add('active');
-    document.body.classList.add('chat-open');
-    document.body.style.overflow='hidden';
-    orderState={step:0,rasa:'',tempat:'',ukuran:'',toppings:[],giftMsg:'',nama:'',alamat:'',payment:''};
-    const m=document.getElementById('chatMessagesArea');if(m)m.innerHTML='';
-    showMulaiButton();updateProgress(0);setBotMood('🤖');
-    document.getElementById('botStatus').textContent='● Online — Siap Melayani!';
-    startRain();
-    setTimeout(()=>{addBotMessage("Halo, EsKrim Disini! 🍦✨\n\nSelamat datang di toko es krim AfterRain Tales 🌧️\n\nAku Aiko, bot yang siap melayani pesanan es krim favoritmu~");},500);
-  }
-  function closeChat(){
-    document.getElementById('chatFullscreen').classList.remove('active');
-    document.body.classList.remove('chat-open');
-    document.body.style.overflow='auto';
-    stopRain();
-  }
-
-  /* ================================================================
-     INPUT AREA HELPERS
-  ================================================================ */
-  function showMulaiButton(){const a=document.getElementById('chatInputArea');if(a)a.innerHTML='<button class="mulai-pesan-btn" onclick="handleMulaiPesan()">🚀 Mulai Pesan</button>';}
-  function hideInputArea(){const a=document.getElementById('chatInputArea');if(a)a.innerHTML='';}
-  function isDataComplete(){return orderState.nama.trim()!==''&&orderState.alamat.trim()!==''&&orderState.payment.trim()!=='';}
-
-  /* ================================================================
-     MULAI PESAN
-  ================================================================ */
-  function handleMulaiPesan(){
-    addUserMessage("🚀 Mulai Pesan");hideInputArea();
-    updateProgress(1);setBotMood('📝');
-    document.getElementById('botStatus').textContent='● Sedang melayani...';
-    showTyping();setTimeout(()=>{hideTyping();showRasaOptions();},900);
-  }
-
-  /* ================================================================
-     SHOW OPTIONS
-  ================================================================ */
-  function showRasaOptions(){addBotMessage("Halo! Pesan rasa apa? 😊",[{label:"🍫 Coklat",value:"Coklat"},{label:"🍓 Stroberi",value:"Stroberi"},{label:"🍦 Vanila",value:"Vanila"},{label:"🥭 Mangga",value:"Mangga"},{label:"🫐 Blueberry",value:"Blueberry"}],'rasa');}
-
-  function showUkuranOptions(){
-    addBotMessage('Mau ukuran berapa? 📏\n\n🔵 Small — Rp'+formatRp(Math.round((basePrices[orderState.rasa]||15000)*0.8))+'\n🟡 Medium — Rp'+formatRp(basePrices[orderState.rasa]||15000)+'\n🔴 Large — Rp'+formatRp(Math.round((basePrices[orderState.rasa]||15000)*1.3)),
-      [{label:"🔵 Small",value:"Small"},{label:"🟡 Medium",value:"Medium"},{label:"🔴 Large",value:"Large"}],'ukuran');
-  }
-  function showTempatOptions(){
-    addBotMessage('Oke! Eskrim rasa *'+orderState.rasa+'* ukuran *'+orderState.ukuran+'*! ✅\n\nTempatnya mau yang apa? 🤔',
-      [{label:"🌽 Corn",value:"Corn"},{label:"🥤 Cup",value:"Cup"},{label:"🥣 Basin",value:"Basin"}],'tempat');
-  }
-  function showToppingOptions(){
-    addBotMessage('Mau tambah topping? 🍫\n(Bisa pilih lebih dari satu!)\n\n• Choco Chips +Rp2.000\n• Sprinkles +Rp1.500\n• Whipped Cream +Rp3.000\n• Oreo Crush +Rp2.500',
-      [{label:"🍫 Choco Chips",value:"Choco Chips"},{label:"🌈 Sprinkles",value:"Sprinkles"},{label:"🍦 Whipped Cream",value:"Whipped Cream"},{label:"🍪 Oreo Crush",value:"Oreo Crush"},{label:"✅ Selesai Pilih Topping",value:"done"}],'topping');
-  }
-  function showDataOptions(){
-    if(isDataComplete()){showConfirmation();return;}
-    let btns=[];
-    if(!orderState.nama.trim())btns.push({label:"👤 Isi Nama",value:"nama"});
-    if(!orderState.alamat.trim())btns.push({label:"🏠 Isi Alamat",value:"alamat"});
-    if(!orderState.payment.trim())btns.push({label:"💳 Pilih Payment",value:"payment"});
-    addBotMessage("Bagus! Sekarang isi data dirimu ya! 📝\n\nPilih data yang ingin diisi:",btns,'data');
-    updateProgress(5);
-  }
-  function showPaymentOptions(prefix){
-    addBotMessage((prefix||"Oke, pilih metode pembayaran")+' 💳',[{label:"💵 COD",value:"COD"},{label:"📱 E-Wallet",value:"E-Wallet"},{label:"🏦 Transfer Bank",value:"Transfer"}],'payment_select');
-  }
-
-  /* ================================================================
-     GIFT MESSAGE
-  ================================================================ */
-  function showGiftOption(){
-    addBotMessage("Mau kasih gift message spesial? 🎁\n(Akan ditampilkan di receipt)",
-      [{label:"🎁 Iya, Tulis Pesan!",value:"yes"},{label:"⏭️ Skip",value:"skip"}],'gift');
-  }
-
-  /* ================================================================
-     CENTRAL ROUTER
-  ================================================================ */
-  function handleQuickClick(btnValue,btnLabel,type){
-    addUserMessage(btnLabel);playSound('click');disableClickedButtons(btnLabel);showTyping();
-    setTimeout(()=>{
-      hideTyping();
-      switch(type){
-        case 'rasa':{
-          orderState.rasa=btnValue;updateProgress(2);
-          const fx=getFlavorReaction(btnValue);setBotMood(fx.mood);
-          dropSticker(fx.sticker,true);addBotMessage(fx.msg);
-          setTimeout(()=>showUkuranOptions(),600);break;
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        if (Math.random() > 0.85) {
+          const sp = document.createElement('div');
+          sp.className = 'sparkle';
+          sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+          const rect = card.getBoundingClientRect();
+          sp.style.left = (e.clientX - rect.left) + 'px';
+          sp.style.top = (e.clientY - rect.top) + 'px';
+          card.appendChild(sp);
+          setTimeout(() => sp.remove(), 900);
         }
-        case 'ukuran':
-          orderState.ukuran=btnValue;updateProgress(3);
-          setBotMood('📦');addBotMessage('Oke! Ukuran *'+btnValue+'* '+sizeEmoji[btnValue]+' dipilih! ✨');
-          setTimeout(()=>showTempatOptions(),500);break;
-        case 'tempat':
-          orderState.tempat=btnValue;updateProgress(4);
-          setBotMood('🍦');addBotMessage('Keren! '+containerEmoji[btnValue]+' '+btnValue+' siap menampung es krimmu!');
-          setTimeout(()=>showToppingOptions(),500);break;
-        case 'topping':
-          if(btnValue==='done'){
-            setBotMood('😊');
-            const topMsg = orderState.toppings.length>0?'Topping: *'+orderState.toppings.join(', ')+'* ditambahkan! 🎉':'Oke, tanpa topping ya!';
-            addBotMessage(topMsg);setTimeout(()=>showGiftOption(),500);
-          } else {
-            if(!orderState.toppings.includes(btnValue)){orderState.toppings.push(btnValue);}
-            setBotMood('😋');addBotMessage('*'+btnValue+'* ✅ ditambahkan!');
-            setTimeout(()=>showToppingOptions(),400);
-          }
-          break;
-        case 'gift':
-          if(btnValue==='yes'){setBotMood('💌');addBotMessage("Tulis pesan gifting-mu di bawah ya! 💌");showInputField('gift','Tulis pesan untuk penerima...');}
-          else{addBotMessage("Oke, tanpa gift message! 👍");setTimeout(()=>showDataOptions(),400);}
-          break;
-        case 'data':
-          if(btnValue==='nama')handleAskNama();
-          else if(btnValue==='alamat')handleAskAlamat();
-          else if(btnValue==='payment')showPaymentOptions("Oke, pilih metode pembayaran");
-          break;
-        case 'payment_select':
-          orderState.payment=btnValue;setBotMood('😊');addBotMessage('*'+btnValue+'* dipilih! ✅');
-          setTimeout(()=>{if(isDataComplete())showConfirmation();else processAfterDataEntry();},500);break;
-        case 'data_continue':
-          if(btnValue==='nama')handleAskNama();
-          else if(btnValue==='alamat')handleAskAlamat();
-          else if(btnValue==='payment')showPaymentOptions("Oke, pilih metode pembayaran");
-          break;
-        case 'confirm':
-          if(btnValue==='yes')startAssemblyAnimation();
-          else if(btnValue==='no')handleCancelOrder();
-          else if(btnValue==='edit')handleEditOrder();
-          break;
-        case 'edit':
-          if(btnValue==='rasa'){orderState.rasa='';orderState.ukuran='';orderState.tempat='';orderState.toppings=[];setBotMood('🤔');showRasaOptions();}
-          else if(btnValue==='ukuran'){orderState.ukuran='';showUkuranOptions();}
-          else if(btnValue==='tempat'){orderState.tempat='';showTempatOptions();}
-          else if(btnValue==='topping'){orderState.toppings=[];showToppingOptions();}
-          else if(btnValue==='nama'){orderState.nama='';handleAskNama();}
-          else if(btnValue==='alamat'){orderState.alamat='';handleAskAlamat();}
-          else if(btnValue==='payment'){orderState.payment='';showPaymentOptions("Pilih payment baru:");}
-          break;
-        case 'finish':
-          if(btnValue==='lagi')handlePesanLagi();
-          else if(btnValue==='home')closeChat();
-          break;
-        case 'rating':
-          handleRating(parseInt(btnValue));break;
-      }
-    },700+Math.random()*400);
-  }
-
-  /* ================================================================
-     DISABLE CLICKED BUTTONS
-  ================================================================ */
-  function disableClickedButtons(label){
-    setTimeout(()=>{
-      document.querySelectorAll('.quick-btn').forEach(b=>{if(b.textContent.trim()===label)b.classList.add('used');});
-    },50);
-  }
-
-  /* ================================================================
-     ISI NAMA / ALAMAT / GIFT
-  ================================================================ */
-  function handleAskNama(){setBotMood('👤');addBotMessage("Oke, silahkan isi namamu ✨");showInputField("nama","Ketik namamu...");}
-  function handleAskAlamat(){setBotMood('📍');addBotMessage("Oke, silahkan isi alamatmu 📍");showInputField("alamat","Ketik alamatmu...");}
-
-  function showInputField(fieldType,placeholder){
-    const a=document.getElementById('chatInputArea');if(!a)return;
-    a.innerHTML='<div class="chat-input-wrapper"><input type="text" class="chat-input-field" id="dataInput" placeholder="'+placeholder+'" onkeypress="handleDataKeyPress(event,\''+fieldType+'\')"><button class="send-data-btn" onclick="submitData(\''+fieldType+'\')">OKE ✓</button></div>';
-    setTimeout(()=>{const e=document.getElementById('dataInput');if(e)e.focus();},100);
-  }
-  function handleDataKeyPress(e,ft){if(e.key==='Enter')submitData(ft);}
-  function submitData(fieldType){
-    const inp=document.getElementById('dataInput');if(!inp)return;
-    const val=inp.value.trim();
-    if(!val){
-      playSound('error');inp.style.borderColor='#e91e63';inp.style.animation='shake 0.5s';
-      setTimeout(()=>{inp.style.borderColor='#667eea';inp.style.animation='';},500);return;
-    }
-    addUserMessage(val);
-    if(fieldType==='nama')orderState.nama=val;
-    else if(fieldType==='alamat')orderState.alamat=val;
-    else if(fieldType==='gift')orderState.giftMsg=val;
-    hideInputArea();setBotMood('😊');showTyping();
-    setTimeout(()=>{
-      hideTyping();
-      if(fieldType==='gift'){addBotMessage('Gift message: "*'+val+'*" 💌 tersimpan!');setTimeout(()=>showDataOptions(),500);}
-      else if(isDataComplete())showConfirmation();
-      else processAfterDataEntry();
-    },800);
-  }
-
-  /* ================================================================
-     AFTER DATA ENTRY
-  ================================================================ */
-  function processAfterDataEntry(){
-    let btns=[],msg="";
-    const n=orderState.nama.trim(),a=orderState.alamat.trim(),p=orderState.payment.trim();
-    if(!n&&!a&&!p){msg="Silahkan isi data dirimu ya! 📝";btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"});}
-    else if(n&&!a&&!p){msg='Baik, *'+n+'*! ✅\n\nMasih perlu:';btns.push({label:"🏠 Isi Alamat",value:"alamat"},{label:"💳 Pilih Payment",value:"payment"});}
-    else if(!n&&a&&!p){msg="Alamat diterima! 📍✅\n\nMasih perlu:";btns.push({label:"👤 Isi Nama",value:"nama"},{label:"💳 Pilih Payment",value:"payment"});}
-    else if(!n&&!a&&p){msg='Payment *'+p+'* ✅\n\nMasih perlu:';btns.push({label:"👤 Isi Nama",value:"nama"},{label:"🏠 Isi Alamat",value:"alamat"});}
-    else if(n&&a&&!p){msg='Hampir selesai! ✅\n\nTinggal payment:';btns.push({label:"💳 Pilih Payment",value:"payment"});}
-    else if(n&&!a&&p){msg='Hampir selesai! ✅\n\nTinggal alamat:';btns.push({label:"🏠 Isi Alamat",value:"alamat"});}
-    else if(!n&&a&&p){msg="Hampir selesai! ✅\n\nTinggal nama:";btns.push({label:"👤 Isi Nama",value:"nama"});}
-    else{showConfirmation();return;}
-    addBotMessage(msg,btns,'data_continue');
-  }
-
-  /* ================================================================
-     KONFIRMASI
-  ================================================================ */
-  function showConfirmation(){
-    updateProgress(6);setBotMood('👀');
-    document.getElementById('botStatus').textContent='● Menunggu konfirmasi...';
-    const total=calcTotal();
-    let s='*📋 RINGKASAN PESANAN*\n\n';
-    s+='🍦 Rasa: '+orderState.rasa+'\n';
-    s+='📏 Ukuran: '+orderState.ukuran+'\n';
-    s+='📦 Tempat: '+orderState.tempat+'\n';
-    s+='🍫 Topping: '+(orderState.toppings.length?orderState.toppings.join(', '):'Tidak ada')+'\n';
-    if(orderState.giftMsg)s+='💌 Gift Msg: '+orderState.giftMsg+'\n';
-    s+='👤 Nama: '+orderState.nama+'\n';
-    s+='🏠 Alamat: '+orderState.alamat+'\n';
-    s+='💳 Payment: '+orderState.payment+'\n\n';
-    s+='💰 Total: *'+formatRp(total)+'*\n\n';
-    s+='Konfirmasi dulu ya! Apakah sudah benar? ✅';
-    addBotMessage(s,[{label:"✅ Iya, Benar!",value:"yes"},{label:"❌ Batal",value:"no"},{label:"✏️ Edit Data",value:"edit"}],'confirm');
-  }
-  function handleCancelOrder(){
-    setBotMood('😢');document.getElementById('botStatus').textContent='● Online — Siap Melayani!';
-    addBotMessage("Baik, pesanan dibatalkan. 😔\n\nKalau mau pesan lagi, klik tombol *Mulai Pesan*!");
-    showMulaiButton();updateProgress(0);
-  }
-  function handleEditOrder(){
-    setBotMood('🔧');
-    addBotMessage("Mau edit bagian mana? 🔧",[{label:"🍦 Ganti Rasa",value:"rasa"},{label:"📏 Ganti Ukuran",value:"ukuran"},{label:"📦 Ganti Tempat",value:"tempat"},{label:"🍫 Ganti Topping",value:"topping"},{label:"👤 Ganti Nama",value:"nama"},{label:"🏠 Ganti Alamat",value:"alamat"},{label:"💳 Ganti Payment",value:"payment"}],'edit');
-  }
-
-  /* ================================================================
-     ASSEMBLY ANIMATION
-  ================================================================ */
-  function startAssemblyAnimation(){
-    // Hide chat, show assembly
-    document.getElementById('chatFullscreen').style.opacity='0';
-    document.getElementById('chatFullscreen').style.pointerEvents='none';
-    setTimeout(()=>{
-      document.getElementById('chatFullscreen').style.display='none';
-      showAssembly();
-    },400);
-  }
-
-  function showAssembly(){
-    const screen = document.getElementById('assemblyScreen');
-    const stage = document.getElementById('assemblyStage');
-    const progressText = document.getElementById('asmProgressText');
-    const barFill = document.getElementById('asmBarFill');
-    const subtitle = document.getElementById('asmSubtitle');
-    stage.innerHTML='';
-    screen.classList.add('active');
-
-    const conEmoji = containerEmoji[orderState.tempat]||'🥤';
-    const scoopEmoji = rasaEmoji[orderState.rasa]||'🍦';
-    const toppingMap={'Choco Chips':'🍫','Sprinkles':'🌈','Whipped Cream':'🤍','Oreo Crush':'🍪'};
-
-    subtitle.textContent='Es krim rasa '+orderState.rasa+' ukuran '+orderState.ukuran+'!';
-
-    // Step 1: container appears
-    progressText.textContent='Menyiapkan '+conEmoji+' '+orderState.tempat+'...';
-    barFill.style.width='20%';
-    const con=document.createElement('div');con.className='asm-container';con.textContent=conEmoji;
-    stage.appendChild(con);
-
-    // Step 2: scoop falls
-    setTimeout(()=>{
-      progressText.textContent='Menambahkan eskrim '+scoopEmoji+'...';
-      barFill.style.width='45%';
-      const scoop=document.createElement('div');scoop.className='asm-scoop';scoop.textContent=scoopEmoji;
-      stage.appendChild(scoop);
-    },1000);
-
-    // Step 3: toppings
-    setTimeout(()=>{
-      progressText.textContent='Menaburkan topping... 🍫';
-      barFill.style.width='65%';
-      orderState.toppings.forEach((t,i)=>{
-        const top=document.createElement('div');top.className='asm-topping';
-        top.textContent=toppingMap[t]||'✨';
-        top.style.left=(80+i*45)+'px';top.style.top=(85+i*15)+'px';
-        top.style.animationDelay=(i*0.25)+'s';
-        stage.appendChild(top);
       });
-      if(orderState.toppings.length===0){
-        progressText.textContent='Es krim siap tanpa topping!';
-      }
-    },2200);
-
-    // Step 4: done sparkles
-    setTimeout(()=>{
-      progressText.textContent='Finishing touch ✨';
-      barFill.style.width='85%';
-      const positions=[[30,10],[210,15],[120,5],[60,90],[180,80]];
-      positions.forEach((pos,i)=>{
-        const sp=document.createElement('div');sp.className='asm-sparkle';
-        sp.textContent=['✨','⭐','💫','🌟','❄️'][i%5];
-        sp.style.left=pos[0]+'px';sp.style.top=pos[1]+'px';
-        sp.style.animationDelay=(i*0.12)+'s';
-        stage.appendChild(sp);
-      });
-    },3200);
-
-    // Step 5: Done! — transition back to chat
-    setTimeout(()=>{
-      barFill.style.width='100%';
-      progressText.textContent='Es krim siap! 🎉';
-      stage.innerHTML='';
-      // Big emoji display
-      const doneEl=document.createElement('div');
-      doneEl.style.cssText='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:6em;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.2));';
-      doneEl.textContent=scoopEmoji;
-      stage.appendChild(doneEl);
-      doneEl.style.animation='donePop .6s cubic-bezier(.68,-.55,.27,1.55) forwards';
-    },4200);
-
-    // Step 6: hide assembly, show chat success
-    setTimeout(()=>{
-      screen.classList.remove('active');
-      // Restore chat
-      const cf=document.getElementById('chatFullscreen');
-      cf.style.display='flex';cf.style.opacity='1';cf.style.pointerEvents='auto';
-      processOrderSuccess();
-    },5500);
-  }
-
-  /* ================================================================
-     ORDER SUCCESS (called after assembly)
-  ================================================================ */
-  function processOrderSuccess(){
-    updateProgress(7);setBotMood('🎉');
-    document.getElementById('botStatus').textContent='● Pesanan berhasil! 🎉';
-    launchConfetti();playSound('success');dropSticker('🎉',true);
-    showDeliveryTruck();
-
-    const total=calcTotal();
-    const dateStr=new Date().toLocaleString('id-ID');
-
-    // Save to history
-    saveOrder({rasa:orderState.rasa,ukuran:orderState.ukuran,tempat:orderState.tempat,toppings:[...orderState.toppings],nama:orderState.nama,total:total.toLocaleString('id-ID'),payment:orderState.payment,date:dateStr});
-
-    // Build WA message
-    const waText=encodeURIComponent(
-      '🍦 *Pesanan AfterRain Tales*\n'+
-      'Rasa: '+orderState.rasa+' ('+orderState.ukuran+')\n'+
-      'Tempat: '+orderState.tempat+'\n'+
-      'Topping: '+(orderState.toppings.join(', ')||'Tidak ada')+'\n'+
-      (orderState.giftMsg?'Gift: '+orderState.giftMsg+'\n':'')+
-      'Nama: '+orderState.nama+'\n'+
-      'Alamat: '+orderState.alamat+'\n'+
-      'Payment: '+orderState.payment+'\n'+
-      'Total: '+formatRp(total)
-    );
-
-    let sm='*🎉 PESANAN BERHASIL!* 🎊\n\n';
-    sm+='Terima kasih, *'+orderState.nama+'*! 😊\n\n';
-    sm+='<div class="success-receipt">';
-    sm+='📦 <strong>Detail Pesanan:</strong><br>';
-    sm+='• Rasa: '+orderState.rasa+' <span class="size-badge">'+orderState.ukuran+'</span><br>';
-    sm+='• Kemasan: '+orderState.tempat+'<br>';
-    sm+='• Topping: '+(orderState.toppings.join(', ')||'Tidak ada')+'<br>';
-    if(orderState.giftMsg)sm+='• 💌 Gift: <em>'+escapeHtml(orderState.giftMsg)+'</em><br>';
-    sm+='• Pembayaran: '+orderState.payment+'<br>';
-    sm+='• Alamat: '+orderState.alamat+'<br>';
-    sm+='• Total: <strong>'+formatRp(total)+'</strong>';
-    sm+='</div><br>';
-    sm+='⏱ Estimasi: *15-30 menit*\n\n';
-    sm+='Kasih bintang dulu ya! ⭐';
-
-    addBotMessage(sm,[],'',true);
-
-    // Rating stars
-    setTimeout(()=>showRating(waText),600);
-    showMulaiButton();
-  }
-
-  /* ================================================================
-     STAR RATING
-  ================================================================ */
-  function showRating(waText){
-    const area=document.getElementById('chatMessagesArea');if(!area)return;
-    const div=document.createElement('div');div.className='msg-bubble bot';
-    div.innerHTML='<strong>⭐ Kasih rating pesananmu!</strong><div class="star-rating" id="starRow"></div>';
-    area.appendChild(div);scrollToBottom();
-    const row=document.getElementById('starRow');
-    for(let i=1;i<=5;i++){
-      const btn=document.createElement('button');btn.className='star-btn';
-      btn.textContent='☆';btn.dataset.val=i;
-      btn.onclick=()=>handleRating(i,waText,row.parentElement);
-      row.appendChild(btn);
-    }
-    row.addEventListener('mouseover',e=>{if(e.target.dataset.val){const v=parseInt(e.target.dataset.val);row.querySelectorAll('.star-btn').forEach((b,idx)=>b.textContent=idx<v?'⭐':'☆');}});
-    row.addEventListener('mouseleave',()=>row.querySelectorAll('.star-btn').forEach(b=>b.textContent='☆'));
-  }
-
-  function handleRating(val,waText,container){
-    const reactions={1:"Aduh, mohon maaf ya! 😢 Kami akan berusaha lebih baik!",2:"Terima kasih, kami akan perbaiki! 🙏",3:"Lumayan! Kami terus berusaha ya! 😊",4:"Wah senang sekali! Makasih ya! 🥰",5:"WOW MAKASIH BANYAK! 🎉🎉🎉 Kamu the best!"};
-    if(container){const sr=container.querySelector('.star-rating');if(sr){sr.innerHTML='⭐'.repeat(val)+'☆'.repeat(5-val)+' ('+val+'/5)';sr.style.pointerEvents='none';}}
-    addBotMessage(reactions[val]||reactions[3]);
-    if(waText){
-      setTimeout(()=>{
-        addBotMessage('Mau share pesanan ke WhatsApp? 📱','','',false,waText);
-      },600);
-    }
-    addBotMessage("","" ,"",false);
-    // add finish buttons after rating
-    setTimeout(()=>{
-      addBotMessage("Terima kasih sudah memesan! 🍦💜\n\n_AfterRain Tales x Toko Es Krim_",[{label:"🔄 Pesan Lagi",value:"lagi"},{label:"🏠 Kembali ke Home",value:"home"}],'finish');
-    },800);
-  }
-
-  /* ================================================================
-     ADD BOT MESSAGE (extended for WA share)
-  ================================================================ */
-  function addBotMessage(text,buttons,actionType,isSuccess,waText){
-    const area=document.getElementById('chatMessagesArea');if(!area)return;
-    if(!text&&!waText)return;
-    buttons=buttons||[];actionType=actionType||'';isSuccess=isSuccess||false;
-    const time=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-    const div=document.createElement('div');div.className='msg-bubble bot'+(isSuccess?' success-msg':'');
-    let ft=text.replace(/\*(.*?)\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>').replace(/_(.*?)_/g,'<em>$1</em>');
-    div.innerHTML=ft+'<span class="msg-time">'+time+'</span>';
-    if(waText){
-      const waBtn=document.createElement('button');waBtn.className='wa-share-btn';
-      waBtn.innerHTML='📲 Bagikan ke WhatsApp';
-      waBtn.onclick=()=>window.open('https://wa.me/?text='+waText,'_blank');
-      div.appendChild(waBtn);
-    }
-    if(buttons.length>0){
-      let bh='<div class="quick-replies">';
-      for(let i=0;i<buttons.length;i++){
-        const b=buttons[i];
-        const sl=b.label.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        const sv=b.value.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        const st=actionType.replace(/'/g,"\\'").replace(/"/g,'&quot;');
-        bh+='<button class="quick-btn" onclick="handleQuickClick(\''+sv+'\',\''+sl+'\',\''+st+'\')">'+b.label+'</button>';
-      }
-      bh+='</div>';div.innerHTML+=bh;
-    }
-    area.appendChild(div);scrollToBottom();playSound('receive');
-  }
-
-  function addUserMessage(text){
-    const area=document.getElementById('chatMessagesArea');if(!area)return;
-    const time=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
-    const div=document.createElement('div');div.className='msg-bubble user';
-    div.innerHTML=escapeHtml(text)+'<span class="msg-time">'+time+'</span>';
-    area.appendChild(div);scrollToBottom();playSound('send');
-  }
-
-  /* ================================================================
-     PESAN LAGI
-  ================================================================ */
-  function handlePesanLagi(){
-    orderState={step:0,rasa:'',tempat:'',ukuran:'',toppings:[],giftMsg:'',nama:'',alamat:'',payment:''};
-    const m=document.getElementById('chatMessagesArea');if(m)m.innerHTML='';
-    showMulaiButton();updateProgress(0);setBotMood('🤖');
-    document.getElementById('botStatus').textContent='● Online — Siap Melayani!';
-    setTimeout(()=>{addBotMessage("Halo lagi! 🍦✨\n\nMau pesan lagi? Silakan klik tombol Mulai Pesan!");dropSticker('🍦',true);},400);
-  }
-
-  /* ================================================================
-     UTILITIES
-  ================================================================ */
-  function showTyping(){const e=document.getElementById('typingIndicator');if(e){e.classList.add('active');scrollToBottom();}}
-  function hideTyping(){const e=document.getElementById('typingIndicator');if(e)e.classList.remove('active');}
-  function scrollToBottom(){const a=document.getElementById('chatMessagesArea');if(a)setTimeout(()=>{a.scrollTop=a.scrollHeight;},50);}
-  function escapeHtml(t){if(!t)return'';const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
-  function removeLastBotMsg(){const area=document.getElementById('chatMessagesArea');if(!area)return;const msgs=area.querySelectorAll('.msg-bubble.bot');if(msgs.length>0)msgs[msgs.length-1].remove();}
-
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){const c=document.getElementById('chatFullscreen');if(c&&c.classList.contains('active'))closeChat();}});
+    });
   </script>
 </body>
 </html>
