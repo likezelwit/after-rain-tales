@@ -1,2 +1,308 @@
-# MoodTES
-hi
+/* ================================================================
+   DARK MODE LOGIC
+=============================================================== */
+function toggleDark(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+}
+
+/* ================================================================
+   SPARKLE HOVER EFFECT FOR CARDS
+=============================================================== */
+const cards = document.querySelectorAll('.sparkle-wrap');
+const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
+
+cards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    if (Math.random() > 0.85) {
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+      const rect = card.getBoundingClientRect();
+      sp.style.left = (e.clientX - rect.left) + 'px';
+      sp.style.top = (e.clientY - rect.top) + 'px';
+      card.appendChild(sp);
+      setTimeout(() => sp.remove(), 900);
+    }
+  });
+});
+
+
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
+  <title>AfterRain Art 🎨</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+  
+  <!-- Link ke CSS Eksternal -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- DARK MODE TOGGLE -->
+  <button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
+
+  <!-- FLOATING EMOJIS (Art Theme) -->
+  <span class="floating-emoji" style="top:8%;left:4%">🎨</span>
+  <span class="floating-emoji" style="top:25%;right:6%">✏️</span>
+  <span class="floating-emoji" style="top:55%;left:2%">🖌️</span>
+  <span class="floating-emoji" style="top:75%;right:4%">🌈</span>
+  <span class="floating-emoji" style="top:40%;left:92%">✨</span>
+  <span class="floating-emoji" style="top:65%;left:88%">💜</span>
+
+  <!-- HEADER -->
+  <header>
+    <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo" class="logo">
+    <h1>AfterRain Art 🎨</h1>
+    <p class="tagline">Jasa Ilustrasi Anime Style Penuh Warna</p>
+  </header>
+
+  <!-- MAIN -->
+  <div class="container">
+    
+    <!-- ABOUT SECTION -->
+    <section>
+      <div class="section-title">Tentang Kami</div>
+      <div class="box">
+        <p>
+          Halo! Selamat datang di <strong>AfterRain Art</strong>. 🌧️✨<br><br>
+          Kami adalah layanan ilustrasi freelance yang mengkhususkan diri dalam gaya anime 2D. 
+          Kami memiliki tim artist berbakat dengan gaya unik masing-masing. Temukan artist yang paling pas dengan imajinasimu!
+        </p>
+      </div>
+    </section>
+
+    <!-- ARTIST SECTION -->
+    <section>
+      <div class="section-title">Tim Artist Kami</div>
+      <div class="artist-grid">
+        
+        <!-- Artist 1: Aiko -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/aiko/200/200" alt="Aiko" class="artist-avatar">
+          <div class="artist-name">AIKO</div>
+          <div class="artist-role">The Speedster & Digital Stylist</div>
+          <p class="artist-desc">
+            Spesialis buat pelanggan yang butuh hasil cepat, gaya anime yang clean, baik versi digital maupun tradisional.
+          </p>
+        </div>
+
+        <!-- Artist 2: Putri -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/putri/200/200" alt="Putri" class="artist-avatar">
+          <div class="artist-name">PUTRI</div>
+          <div class="artist-role">The Sticker & Chibi Specialist</div>
+          <p class="artist-desc">
+            Spesialis buat pesanan imut, gaya chibi, desain stiker, dan lineart yang tegas.
+          </p>
+        </div>
+
+        <!-- Artist 3: Firda -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/firda/200/200" alt="Firda" class="artist-avatar">
+          <div class="artist-name">FIRDA</div>
+          <div class="artist-role">The Aesthetic & Mood Master</div>
+          <p class="artist-desc">
+            Spesialis buat karya yang estetik, penuh perasaan, dan punya detail arsiran pensil yang dalam.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section>
+      <div class="section-title">Daftar Harga</div>
+      <div class="pricing-grid">
+        
+        <!-- Card 1: Headshot -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animehead/400/300" alt="Headshot" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Headshot</span>
+              <span class="price-tag">Rp 50k</span>
+            </div>
+            <p class="price-desc">Ilustrasi kepala sampai bahu. Fokus pada ekspresi wajah dan rambut yang detail. Cocok untuk icon profil.</p>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Headshot%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Half Body -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animehalf/400/300" alt="Half Body" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Half Body</span>
+              <span class="price-tag">Rp 100k</span>
+            </div>
+            <p class="price-desc">Ilustrasi dari kepala sampai pinggang. Termasuk desain pakaian sederhana dan pose yang dinamis.</p>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Half%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Full Body -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animefull/400/300" alt="Full Body" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Full Body</span>
+              <span class="price-tag">Rp 200k</span>
+            </div>
+            <p class="price-desc">Karakter utuh dari ujung rambut sampai kaki. Detail tinggi pada kostum dan pose aksi.</p>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Full%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Chibi Style -->
+        <div class="price-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/animechibi/400/300" alt="Chibi Style" class="price-img">
+          <div class="price-content">
+            <div class="price-header">
+              <span class="price-title">Chibi Style</span>
+              <span class="price-tag">Rp 75k</span>
+            </div>
+            <p class="price-desc">Versi karakter yang imut dan kecil (Q-Version). Sangat lucu dan cocok untuk stiker atau hiasan.</p>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Chibi%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION -->
+    <section>
+      <div class="section-title">KARYA ARTIST KAMI</div>
+      
+      <!-- AIKO GALLERY -->
+      <div class="sub-section-title">✨ AIKO</div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-1/300/300" alt="Aiko Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-2/300/300" alt="Aiko Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-3/300/300" alt="Aiko Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-4/300/300" alt="Aiko Work 4"><div class="gallery-overlay">See Details</div></div>
+      </div>
+
+      <!-- FIRDA GALLERY -->
+      <div class="sub-section-title">🌧️ FIRDA</div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-1/300/300" alt="Firda Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-2/300/300" alt="Firda Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-3/300/300" alt="Firda Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-4/300/300" alt="Firda Work 4"><div class="gallery-overlay">See Details</div></div>
+      </div>
+
+      <!-- PUTRI GALLERY -->
+      <div class="sub-section-title">🌸 PUTRI</div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-1/300/300" alt="Putri Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-2/300/300" alt="Putri Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-3/300/300" alt="Putri Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-4/300/300" alt="Putri Work 4"><div class="gallery-overlay">See Details</div></div>
+      </div>
+
+    </section>
+
+    <!-- HOW TO ORDER SECTION -->
+    <section>
+      <div class="section-title">Cara Pesan</div>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <span class="step-icon">🎯</span>
+          <div class="step-text">Tentukan & Pilih</div>
+          <div class="step-desc">Pelanggan menentukan apa yang mau digambar dan memilih Artist yang ingin menggambarkan ide Anda.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <span class="step-icon">💬</span>
+          <div class="step-text">Diskusi Detail</div>
+          <div class="step-desc">Berikan ide spesifik/detail ke ARTIS kami yang dipilih pada langkah 1.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <span class="step-icon">💳</span>
+          <div class="step-text">Bayar DP</div>
+          <div class="step-desc">Setelah Artist menyetujui permintaan, Anda harus membayar DP sebesar setengah dari harga deal.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <span class="step-icon">✏️</span>
+          <div class="step-text">Sketsa & Pelunasan</div>
+          <div class="step-desc">Artist memberikan sketsa. Jika oke, Anda bisa membayar penuh untuk melanjutkannya!</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <span class="step-icon">⏳</span>
+          <div class="step-text">Proses Pengerjaan</div>
+          <div class="step-desc">Artist mengerjakan progressnya. Waktu tidak menentu sesuai kesulitan dan pilihan Artistnya.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">6</div>
+          <span class="step-icon">📁</span>
+          <div class="step-text">File Selesai</div>
+          <div class="step-desc">Gambar dikirim 4K. Anda juga bisa minta format file lain (biaya 2rb)!</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 AfterRain Art — Created by Aiko ✨</p>
+    <p><strong>Didukung oleh:</strong></p>
+    <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
+    <p>VowViw Entertainment</p>
+  </footer>
+
+  <!-- FLOATING WA BUTTON -->
+  <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20tertarik%20untuk%20komisi..." class="wa-float" target="_blank" title="Chat WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+    </svg>
+  </a>
+
+  <!-- Link ke JS Eksternal -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+editkan pada bagian tim artist kami untuk bagian profile putri ganti menjadi ini
+<a href="https://ibb.co.com/yFpMbsnp"><img src="https://i.ibb.co.com/Wv0dYKW0/30b55329-db77-4106-92f3-3477d411d80a.jpg" alt="30b55329-db77-4106-92f3-3477d411d80a" border="0"></a>
+
+
+dan FIRDA juga 
+<a href="https://ibb.co.com/KcnfJZQn"><img src="https://i.ibb.co.com/5XZSPDzZ/600d1f4d-9a66-4bb7-be14-8876fc3284b3.jpg" alt="600d1f4d-9a66-4bb7-be14-8876fc3284b3" border="0"></a>
+
+
+
+dan ini untuk karya artist kami bagian aiko
+<a href="https://ibb.co.com/PsFdh5mD"><img src="https://i.ibb.co.com/gbmxTDj4/7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1.jpg" alt="7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1" border="0"></a>
+
+<a href="https://ibb.co.com/n8LXc3tv"><img src="https://i.ibb.co.com/1JmCqsj5/923be934-fb14-4dfd-b217-e1c72b552e2d.jpg" alt="923be934-fb14-4dfd-b217-e1c72b552e2d" border="0"></a>
+
+
+<a href="https://ibb.co.com/mVGCVV0z"><img src="https://i.ibb.co.com/tT4MTTzC/a38a170e-d8ed-4167-a882-a8a4b6c1fabf.jpg" alt="a38a170e-d8ed-4167-a882-a8a4b6c1fabf" border="0"></a>
+
+<a href="https://ibb.co.com/qSmK0ML"><img src="https://i.ibb.co.com/V1MRHW0/wmremove-transformed.png" alt="wmremove-transformed" border="0"></a>
+
+
+untuk FIRDA
+<a href="https://ibb.co.com/hJVxkBfw"><img src="https://i.ibb.co.com/VcT0dgm5/image-1.jpg" alt="image-1" border="0"></a>
+
+<a href="https://ibb.co.com/2Gs75bq"><img src="https://i.ibb.co.com/T9bBrCc/image-2.jpg" alt="image-2" border="0"></a>
+
+
+
+Editkan hanya css dan html terpisah! tidak jadi 1 file dan jangan merubah style css nya! 
