@@ -5,137 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
   <title>AfterRain Art 🎨</title>
+  
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg1:#e6f0ff;--bg2:#fceeff;--bg3:#f0e6ff;
-      --card:rgba(255,255,255,0.85);--text:#444;--text2:#888;--border:rgba(107,124,255,0.15);
-      --accent:#6b7cff;--accent2:#e91e63;--acc3:#764ba2;
-      --shadow:rgba(107,124,255,0.18);
-      --header-bg:rgba(255,255,255,0.5);--footer-bg:rgba(255,255,255,0.6);
-    }
-    [data-theme="dark"]{
-      --bg1:#1a1a2e;--bg2:#16213e;--bg3:#0f3460;
-      --card:rgba(30,30,60,0.9);--text:#ddd;--text2:#aaa;--border:rgba(107,124,255,0.3);
-      --accent:#8a9eff;--accent2:#f06292;--acc3:#a77fcb;
-      --shadow:rgba(107,124,255,0.35);
-      --header-bg:rgba(20,20,45,0.8);--footer-bg:rgba(20,20,45,0.8);
-    }
-    *{margin:0;padding:0;box-sizing:border-box;transition:background-color .3s,color .3s}
-    body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 50%,var(--bg3) 100%);background-attachment:fixed;color:var(--text);min-height:100vh;overflow-x:hidden}
-
-    /* RAIN MIST EFFECT */
-    body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(transparent,transparent 60px,rgba(107,124,255,0.018) 60px,rgba(107,124,255,0.018) 61px);background-size:2px 61px;animation:mainDrizzle 1.2s linear infinite;pointer-events:none;z-index:0}
-    @keyframes mainDrizzle{0%{background-position:0 0}100%{background-position:0 61px}}
-
-    /* SPARKLE ON CARD HOVER */
-    .sparkle-wrap{position:relative;overflow:visible}
-    .sparkle{position:absolute;pointer-events:none;z-index:100;font-size:1.1em;opacity:0;animation:sparkleAnim .8s ease forwards}
-    @keyframes sparkleAnim{0%{opacity:1;transform:scale(0) rotate(0)}50%{opacity:1;transform:scale(1.3) rotate(30deg)}100%{opacity:0;transform:scale(.5) rotate(60deg) translateY(-30px)}}
-
-    /* FLOATING EMOJIS (Art Themed) */
-    .floating-emoji{position:fixed;font-size:1.8em;opacity:.12;pointer-events:none;z-index:0;animation:floatAround 18s ease-in-out infinite}
-    .floating-emoji:nth-child(2){animation-duration:22s;animation-delay:3s}
-    .floating-emoji:nth-child(3){animation-duration:16s;animation-delay:6s}
-    .floating-emoji:nth-child(4){animation-duration:20s;animation-delay:1s}
-    .floating-emoji:nth-child(5){animation-duration:24s;animation-delay:8s}
-    .floating-emoji:nth-child(6){animation-duration:19s;animation-delay:4s}
-    @keyframes floatAround{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(25px,-35px) rotate(8deg)}50%{transform:translate(-15px,-70px) rotate(-5deg)}75%{transform:translate(30px,-25px) rotate(6deg)}}
-
-    /* DARK MODE TOGGLE */
-    .dark-toggle{position:fixed;top:18px;right:18px;z-index:500;background:var(--card);border:2px solid var(--border);border-radius:50px;padding:8px 16px;cursor:pointer;font-size:1.1em;box-shadow:0 4px 15px var(--shadow);transition:all .3s}
-    .dark-toggle:hover{transform:scale(1.08)}
-
-    /* HEADER */
-    header{position:relative;z-index:1;text-align:center;padding:50px 20px 35px;background:var(--header-bg);backdrop-filter:blur(10px)}
-    .logo{width:120px;border-radius:22px;margin-bottom:12px;box-shadow:0 8px 25px var(--shadow);animation:float 3s ease-in-out infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    .logo:hover{transform:scale(1.07) rotate(3deg)!important;animation:none}
-    h1{font-family:'Pacifico',cursive;font-size:2.8em;color:var(--accent);text-shadow:2px 2px 4px rgba(0,0,0,0.08);margin-bottom:8px}
-    .tagline{font-size:1.2em;color:var(--text2);font-style:italic}
-
-    /* MAIN CONTAINER */
-    .container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 20px 80px}
-
-    /* SECTIONS */
-    section{margin-bottom:60px}
-    .section-title{font-family:'Pacifico',cursive;font-size:2em;color:var(--accent2);text-align:center;margin-bottom:30px;position:relative}
-    .section-title::after{content:'';display:block;width:60px;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin:8px auto 0;border-radius:2px}
-    
-    .sub-section-title{
-        font-size:1.4em;
-        font-weight:800;
-        color:var(--accent);
-        margin: 30px 0 15px;
-        padding-left:10px;
-        border-left: 5px solid var(--accent2);
-        display:flex;
-        align-items:center;
-        gap:10px;
-    }
-
-    /* ABOUT BOX */
-    .box{background:var(--card);margin:25px auto;padding:30px 28px;border-radius:22px;width:90%;max-width:700px;box-shadow:0 8px 25px var(--shadow);transition:all .3s ease}
-    .box p{font-size:1.05em;line-height:1.7;color:var(--text)}
-
-    /* ARTIST SECTION (NEW) */
-    .artist-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:25px;padding:0 10px}
-    .artist-card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 8px 25px var(--shadow);transition:transform .3s ease;display:flex;flex-direction:column;align-items:center;text-align:center;padding:25px;border:2px solid transparent}
-    .artist-card:hover{transform:translateY(-8px);border-color:var(--accent)}
-    .artist-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent2);margin-bottom:15px;background:#fff}
-    .artist-name{font-size:1.5em;font-weight:800;color:var(--text);margin-bottom:5px}
-    .artist-role{font-size:0.9em;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;background:rgba(233,30,99,0.1);padding:4px 12px;border-radius:20px}
-    .artist-desc{font-size:0.95em;color:var(--text2);line-height:1.6}
-
-    /* PRICING CARDS GRID */
-    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:25px;padding:0 10px}
-    .price-card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 8px 25px var(--shadow);transition:transform .3s ease;position:relative;display:flex;flex-direction:column}
-    .price-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px var(--shadow)}
-    .price-img{width:100%;height:200px;object-fit:cover;border-bottom:3px solid var(--border)}
-    .price-content{padding:20px;flex:1;display:flex;flex-direction:column}
-    .price-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-    .price-title{font-size:1.4em;font-weight:800;color:var(--accent)}
-    .price-tag{background:linear-gradient(135deg,var(--accent2),var(--acc3));color:white;padding:5px 12px;border-radius:12px;font-weight:bold;font-size:0.9em}
-    .price-desc{font-size:0.95em;color:var(--text2);margin-bottom:15px;flex-grow:1}
-    .price-cta{display:block;width:100%;text-align:center;background:var(--bg1);color:var(--accent);padding:10px 0;border-radius:12px;text-decoration:none;font-weight:bold;border:2px solid var(--border);transition:all .2s;cursor:pointer}
-    .price-cta:hover{background:var(--accent);color:white;border-color:var(--accent)}
-
-    /* PORTFOLIO GALLERY */
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px;margin-bottom:20px}
-    .gallery-item{position:relative;border-radius:15px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.1);transition:transform .3s}
-    .gallery-item:hover{transform:scale(1.03)}
-    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:filter .3s}
-    .gallery-item:hover img{filter:brightness(0.8)}
-    .gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;color:white;font-weight:bold;font-size:1.1em}
-    .gallery-item:hover .gallery-overlay{opacity:1}
-
-    /* HOW TO ORDER */
-    .steps-container{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
-    .step-card{background:var(--card);width:220px;padding:20px;border-radius:20px;text-align:center;box-shadow:0 5px 15px var(--shadow);position:relative}
-    .step-num{position:absolute;top:-15px;left:50%;transform:translateX(-50%);width:40px;height:40px;background:var(--accent2);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:1.2em;border:3px solid var(--card)}
-    .step-icon{font-size:3em;margin:10px 0;display:block}
-    .step-text{font-weight:700;color:var(--accent);margin-bottom:5px}
-    .step-desc{font-size:0.85em;color:var(--text2)}
-
-    /* FOOTER */
-    footer{position:relative;z-index:1;text-align:center;padding:35px 20px 30px;margin-top:50px;background:var(--footer-bg)}
-    footer p{margin:8px 0;font-size:.95em}
-    .footer-logo{width:80px;margin:10px auto;border-radius:15px}
-
-    /* FLOATING WHATSAPP */
-    .wa-float{position:fixed;bottom:30px;right:30px;background:#25d366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2em;box-shadow:0 4px 15px rgba(37,211,102,0.4);z-index:999;transition:transform .3s;text-decoration:none}
-    .wa-float:hover{transform:scale(1.1) rotate(10deg)}
-
-    /* RESPONSIVE */
-    @media(max-width:600px){
-      h1{font-size:2.2em}
-      .box{width:95%;padding:20px}
-      .section-title{font-size:1.6em}
-      .price-card{width:100%}
-      .floating-emoji{font-size:1.3em}
-      .artist-card{width:100%}
-    }
-  </style>
+  
+  <!-- Link ke CSS Eksternal -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -172,7 +47,7 @@
       </div>
     </section>
 
-    <!-- ARTIST SECTION (NEW) -->
+    <!-- ARTIST SECTION -->
     <section>
       <div class="section-title">Tim Artist Kami</div>
       <div class="artist-grid">
@@ -270,7 +145,7 @@
       </div>
     </section>
 
-    <!-- PORTFOLIO SECTION (UPDATED) -->
+    <!-- PORTFOLIO SECTION -->
     <section>
       <div class="section-title">KARYA ARTIST KAMI</div>
       
@@ -303,7 +178,7 @@
 
     </section>
 
-    <!-- HOW TO ORDER SECTION (UPDATED) -->
+    <!-- HOW TO ORDER SECTION -->
     <section>
       <div class="section-title">Cara Pesan</div>
       <div class="steps-container">
@@ -363,37 +238,7 @@
     </svg>
   </a>
 
-  <script>
-    /* ================================================================
-       DARK MODE LOGIC
-    ================================================================ */
-    function toggleDark(){
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
-    }
-
-    /* ================================================================
-       SPARKLE HOVER EFFECT FOR CARDS
-    ================================================================ */
-    const cards = document.querySelectorAll('.sparkle-wrap');
-    const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
-
-    cards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        if (Math.random() > 0.85) {
-          const sp = document.createElement('div');
-          sp.className = 'sparkle';
-          sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
-          const rect = card.getBoundingClientRect();
-          sp.style.left = (e.clientX - rect.left) + 'px';
-          sp.style.top = (e.clientY - rect.top) + 'px';
-          card.appendChild(sp);
-          setTimeout(() => sp.remove(), 900);
-        }
-      });
-    });
-  </script>
+  <!-- Link ke JS Eksternal -->
+  <script src="script.js"></script>
 </body>
 </html>
