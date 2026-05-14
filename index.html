@@ -58,13 +58,34 @@
     .container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 20px 80px}
 
     /* SECTIONS */
-    section{margin-bottom:50px}
+    section{margin-bottom:60px}
     .section-title{font-family:'Pacifico',cursive;font-size:2em;color:var(--accent2);text-align:center;margin-bottom:30px;position:relative}
     .section-title::after{content:'';display:block;width:60px;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));margin:8px auto 0;border-radius:2px}
+    
+    .sub-section-title{
+        font-size:1.4em;
+        font-weight:800;
+        color:var(--accent);
+        margin: 30px 0 15px;
+        padding-left:10px;
+        border-left: 5px solid var(--accent2);
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
 
     /* ABOUT BOX */
     .box{background:var(--card);margin:25px auto;padding:30px 28px;border-radius:22px;width:90%;max-width:700px;box-shadow:0 8px 25px var(--shadow);transition:all .3s ease}
     .box p{font-size:1.05em;line-height:1.7;color:var(--text)}
+
+    /* ARTIST SECTION (NEW) */
+    .artist-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:25px;padding:0 10px}
+    .artist-card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 8px 25px var(--shadow);transition:transform .3s ease;display:flex;flex-direction:column;align-items:center;text-align:center;padding:25px;border:2px solid transparent}
+    .artist-card:hover{transform:translateY(-8px);border-color:var(--accent)}
+    .artist-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid var(--accent2);margin-bottom:15px;background:#fff}
+    .artist-name{font-size:1.5em;font-weight:800;color:var(--text);margin-bottom:5px}
+    .artist-role{font-size:0.9em;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;background:rgba(233,30,99,0.1);padding:4px 12px;border-radius:20px}
+    .artist-desc{font-size:0.95em;color:var(--text2);line-height:1.6}
 
     /* PRICING CARDS GRID */
     .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:25px;padding:0 10px}
@@ -80,7 +101,7 @@
     .price-cta:hover{background:var(--accent);color:white;border-color:var(--accent)}
 
     /* PORTFOLIO GALLERY */
-    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:15px;margin-bottom:20px}
     .gallery-item{position:relative;border-radius:15px;overflow:hidden;aspect-ratio:1/1;cursor:pointer;box-shadow:0 5px 15px rgba(0,0,0,0.1);transition:transform .3s}
     .gallery-item:hover{transform:scale(1.03)}
     .gallery-item img{width:100%;height:100%;object-fit:cover;transition:filter .3s}
@@ -112,6 +133,7 @@
       .section-title{font-size:1.6em}
       .price-card{width:100%}
       .floating-emoji{font-size:1.3em}
+      .artist-card{width:100%}
     }
   </style>
 </head>
@@ -145,9 +167,46 @@
         <p>
           Halo! Selamat datang di <strong>AfterRain Art</strong>. 🌧️✨<br><br>
           Kami adalah layanan ilustrasi freelance yang mengkhususkan diri dalam gaya anime 2D. 
-          Baik itu karakter Oroniginal (OC), potret diri dalam anime (Avatars), atau ilustrasi untuk light novel, 
-          kami siap mewujudkan imajinasimu menjadi visual yang indah dan berwarna!
+          Kami memiliki tim artist berbakat dengan gaya unik masing-masing. Temukan artist yang paling pas dengan imajinasimu!
         </p>
+      </div>
+    </section>
+
+    <!-- ARTIST SECTION (NEW) -->
+    <section>
+      <div class="section-title">Tim Artist Kami</div>
+      <div class="artist-grid">
+        
+        <!-- Artist 1: Aiko -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/aiko/200/200" alt="Aiko" class="artist-avatar">
+          <div class="artist-name">AIKO</div>
+          <div class="artist-role">The Speedster & Digital Stylist</div>
+          <p class="artist-desc">
+            Spesialis buat pelanggan yang butuh hasil cepat, gaya anime yang clean, baik versi digital maupun tradisional.
+          </p>
+        </div>
+
+        <!-- Artist 2: Putri -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/putri/200/200" alt="Putri" class="artist-avatar">
+          <div class="artist-name">PUTRI</div>
+          <div class="artist-role">The Sticker & Chibi Specialist</div>
+          <p class="artist-desc">
+            Spesialis buat pesanan imut, gaya chibi, desain stiker, dan lineart yang tegas.
+          </p>
+        </div>
+
+        <!-- Artist 3: Firda -->
+        <div class="artist-card sparkle-wrap">
+          <img src="https://picsum.photos/seed/firda/200/200" alt="Firda" class="artist-avatar">
+          <div class="artist-name">FIRDA</div>
+          <div class="artist-role">The Aesthetic & Mood Master</div>
+          <p class="artist-desc">
+            Spesialis buat karya yang estetik, penuh perasaan, dan punya detail arsiran pensil yang dalam.
+          </p>
+        </div>
+
       </div>
     </section>
 
@@ -165,8 +224,7 @@
               <span class="price-tag">Rp 50k</span>
             </div>
             <p class="price-desc">Ilustrasi kepala sampai bahu. Fokus pada ekspresi wajah dan rambut yang detail. Cocok untuk icon profil.</p>
-            <!-- Link WhatsApp dengan Format Order Otomatis -->
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Headshot%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Headshot%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
           </div>
         </div>
 
@@ -179,8 +237,7 @@
               <span class="price-tag">Rp 100k</span>
             </div>
             <p class="price-desc">Ilustrasi dari kepala sampai pinggang. Termasuk desain pakaian sederhana dan pose yang dinamis.</p>
-            <!-- Link WhatsApp dengan Format Order Otomatis -->
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Half%20Body%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Half%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
           </div>
         </div>
 
@@ -193,8 +250,7 @@
               <span class="price-tag">Rp 200k</span>
             </div>
             <p class="price-desc">Karakter utuh dari ujung rambut sampai kaki. Detail tinggi pada kostum dan pose aksi.</p>
-            <!-- Link WhatsApp dengan Format Order Otomatis -->
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Full%20Body%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Full%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
           </div>
         </div>
 
@@ -207,43 +263,44 @@
               <span class="price-tag">Rp 75k</span>
             </div>
             <p class="price-desc">Versi karakter yang imut dan kecil (Q-Version). Sangat lucu dan cocok untuk stiker atau hiasan.</p>
-            <!-- Link WhatsApp dengan Format Order Otomatis -->
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Chibi%20Style%0A-%20Karakter%3A%0A-%20Referensi%3A%20(Link%2FFoto)" target="_blank" class="price-cta">Pesan Sekarang</a>
+            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Chibi%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- PORTFOLIO SECTION -->
+    <!-- PORTFOLIO SECTION (UPDATED) -->
     <section>
-      <div class="section-title">Galeri Karya</div>
+      <div class="section-title">KARYA ARTIST KAMI</div>
+      
+      <!-- AIKO GALLERY -->
+      <div class="sub-section-title">✨ AIKO</div>
       <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art1/300/300" alt="Karya 1">
-          <div class="gallery-overlay">See Details</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art2/300/300" alt="Karya 2">
-          <div class="gallery-overlay">See Details</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art3/300/300" alt="Karya 3">
-          <div class="gallery-overlay">See Details</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art4/300/300" alt="Karya 4">
-          <div class="gallery-overlay">See Details</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art5/300/300" alt="Karya 5">
-          <div class="gallery-overlay">See Details</div>
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/seed/art6/300/300" alt="Karya 6">
-          <div class="gallery-overlay">See Details</div>
-        </div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-1/300/300" alt="Aiko Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-2/300/300" alt="Aiko Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-3/300/300" alt="Aiko Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-4/300/300" alt="Aiko Work 4"><div class="gallery-overlay">See Details</div></div>
       </div>
+
+      <!-- FIRDA GALLERY -->
+      <div class="sub-section-title">🌧️ FIRDA</div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-1/300/300" alt="Firda Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-2/300/300" alt="Firda Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-3/300/300" alt="Firda Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-4/300/300" alt="Firda Work 4"><div class="gallery-overlay">See Details</div></div>
+      </div>
+
+      <!-- PUTRI GALLERY -->
+      <div class="sub-section-title">🌸 PUTRI</div>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-1/300/300" alt="Putri Work 1"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-2/300/300" alt="Putri Work 2"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-3/300/300" alt="Putri Work 3"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-4/300/300" alt="Putri Work 4"><div class="gallery-overlay">See Details</div></div>
+      </div>
+
     </section>
 
     <!-- HOW TO ORDER SECTION (UPDATED) -->
@@ -252,27 +309,39 @@
       <div class="steps-container">
         <div class="step-card">
           <div class="step-num">1</div>
-          <span class="step-icon">🤝</span>
-          <div class="step-text">Diskusi & DP</div>
-          <div class="step-desc">Hubungi kami & diskusi detail. Jika deal, wajib DP 50% dari harga final.</div>
+          <span class="step-icon">🎯</span>
+          <div class="step-text">Tentukan & Pilih</div>
+          <div class="step-desc">Pelanggan menentukan apa yang mau digambar dan memilih Artist yang ingin menggambarkan ide Anda.</div>
         </div>
         <div class="step-card">
           <div class="step-num">2</div>
-          <span class="step-icon">✏️</span>
-          <div class="step-text">Sketsa Awal</div>
-          <div class="step-desc">Setelah DP masuk, sketsa langsung dibuat & dikirim untuk dilihat.</div>
+          <span class="step-icon">💬</span>
+          <div class="step-text">Diskusi Detail</div>
+          <div class="step-desc">Berikan ide spesifik/detail ke ARTIS kami yang dipilih pada langkah 1.</div>
         </div>
         <div class="step-card">
           <div class="step-num">3</div>
-          <span class="step-icon">💸</span>
-          <div class="step-text">Pelunasan</div>
-          <div class="step-desc">Jika sketsa oke, silakan lakukan pembayaran penuh (Full Payment).</div>
+          <span class="step-icon">💳</span>
+          <div class="step-text">Bayar DP</div>
+          <div class="step-desc">Setelah Artist menyetujui permintaan, Anda harus membayar DP sebesar setengah dari harga deal.</div>
         </div>
         <div class="step-card">
           <div class="step-num">4</div>
-          <span class="step-icon">✨</span>
-          <div class="step-text">Finishing</div>
-          <div class="step-desc">Pengerjaan 2-5 jam (tergantung kesulitan). File HD dikirim!</div>
+          <span class="step-icon">✏️</span>
+          <div class="step-text">Sketsa & Pelunasan</div>
+          <div class="step-desc">Artist memberikan sketsa. Jika oke, Anda bisa membayar penuh untuk melanjutkannya!</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <span class="step-icon">⏳</span>
+          <div class="step-text">Proses Pengerjaan</div>
+          <div class="step-desc">Artist mengerjakan progressnya. Waktu tidak menentu sesuai kesulitan dan pilihan Artistnya.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">6</div>
+          <span class="step-icon">📁</span>
+          <div class="step-text">File Selesai</div>
+          <div class="step-desc">Gambar dikirim 4K. Anda juga bisa minta format file lain (biaya 2rb)!</div>
         </div>
       </div>
     </section>
@@ -287,7 +356,7 @@
     <p>VowViw Entertainment</p>
   </footer>
 
-  <!-- FLOATING WA BUTTON (UPDATED NUMBER) -->
+  <!-- FLOATING WA BUTTON -->
   <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20tertarik%20untuk%20komisi..." class="wa-float" target="_blank" title="Chat WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
       <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
