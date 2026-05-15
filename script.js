@@ -13,14 +13,9 @@ const artistsData = {
       "<strong>Character Design:</strong> Sangat mahir membuat desain karakter orisinal (OC) dari nol.",
       "<strong>Style Versatility:</strong> Bisa mengerjakan Simple Sketch, Chibi, hingga Premium Full Shading.",
       "<strong>Kecepatan Kerja:</strong> Stabil (1–3 jam tergantung kerumitan paket).",
-      "<strong>Pengalaman Genre:</strong> Anime/Manga dan Semi-Realism.",
-      "<strong>Konsultasi Konsep:</strong> Terbuka untuk diskusi ide di awal.",
-      "<strong>Sketch Cepat:</strong> Bisa selesai < 1 jam untuk kebutuhan mendadak.",
-      "<strong>Full Illustration:</strong> Membutuhkan waktu hingga 3 jam+ untuk kompleks."
+      "<strong>Pengalaman Genre:</strong> Anime/Manga dan Semi-Realism."
     ],
-    limits: [
-      "Tidak ada batasan spesifik (Open to all themes sesuai aturan umum)."
-    ],
+    limits: [ "Tidak ada batasan spesifik (Open to all themes sesuai aturan umum)." ],
     extraNote: ""
   },
   firda: {
@@ -33,15 +28,10 @@ const artistsData = {
     capabilities: [
       "<strong>Master of Contrast:</strong> Ahli memainkan efek cahaya dan bayangan yang tajam.",
       "<strong>Traditional Shading:</strong> Teknik arsir dan gradasi manual yang bervolume.",
-      "<strong>Atmospheric Background:</strong> Membangun suasana (mood) melalui detail latar belakang.",
-      "<strong>Kecepatan Kerja:</strong> Mengikuti standar 1–3 jam per karya.",
-      "<strong>Manual Sketch & Lineart:</strong> 1 jam (Fokus pada anatomi rapi).",
-      "<strong>Traditional Shading & Render:</strong> 3 jam+ (Detail mendalam)."
+      "<strong>Atmospheric Background:</strong> Membangun suasana (mood) melalui detail latar belakang."
     ],
-    limits: [
-      "<strong>No Mecha:</strong> Belum melayani robot/mesin dengan detail teknis kompleks."
-    ],
-    extraNote: "Hasil Akhir berupa file digital hasil scan/foto kualitas tinggi. Konsultasi arah cahaya sangat disarankan."
+    limits: [ "<strong>No Mecha:</strong> Belum melayani robot/mesin dengan detail teknis kompleks." ],
+    extraNote: "Hasil Akhir berupa file digital hasil scan/foto kualitas tinggi."
   },
   putri: {
     name: "Putri",
@@ -53,8 +43,7 @@ const artistsData = {
     capabilities: [
       "<strong>Chibi Style Specialist:</strong> Ahli membuat karakter chibi lucu dan proporsional.",
       "<strong>Traditional Sketching:</strong> Goresan tangan langsung yang rapi dan personal.",
-      "<strong>Soft Aesthetic:</strong> Keindahan garis manual lembut, cocok untuk koleksi/hadiah.",
-      "<strong>Kecepatan Kerja:</strong> 1–3 jam."
+      "<strong>Soft Aesthetic:</strong> Keindahan garis manual lembut, cocok untuk koleksi/hadiah."
     ],
     limits: [
       "<strong>No NSFW:</strong> Tidak menerima konten dewasa.",
@@ -102,10 +91,9 @@ cards.forEach(card => {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const lightboxClose = document.querySelector('.lightbox-close');
-const allImages = document.querySelectorAll('img');
 
 // Buka Lightbox saat gambar diklik
-allImages.forEach(img => {
+document.querySelectorAll('img').forEach(img => {
   img.addEventListener('click', (e) => {
     // Jangan trigger jika tombol close atau di dalam modal (kecuali gambar utama lightbox)
     if(e.target.closest('.profile-content') || e.target.closest('.lightbox-close') || e.target.closest('.wa-float')) return;
