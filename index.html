@@ -15,17 +15,566 @@
   <meta property="og:url" content="https://artales-id.vercel.app/">
   <meta property="og:image" content="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
 
-  <!-- Google Site Verification (Existing) -->
+  <!-- Google Site Verification -->
   <meta name="google-site-verification" content="ryuKeqZgakvTbwJRlAMW6tqvJ1Yg7mOXBX96H5iZxH8" />
 
-  <!-- FAVICON UPDATE -->
+  <!-- FAVICON -->
   <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
   
-  <!-- Link ke CSS Eksternal -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ================================================================
+       VARIABLES & RESET
+    ================================================================ */
+    :root {
+      --bg-color: #fff5f7;
+      --text-color: #4a4a4a;
+      --card-bg: #ffffff;
+      --primary: #ff8fa3;
+      --secondary: #c9184a;
+      --accent: #ffb3c1;
+      --shadow: 0 8px 24px rgba(255, 143, 163, 0.2);
+      --border-radius: 16px;
+      --modal-bg: rgba(0, 0, 0, 0.85);
+      --footer-bg: #fff0f3;
+      --success: #25D366; /* Saweria/WA Green */
+    }
+
+    [data-theme='dark'] {
+      --bg-color: #1a1a2e;
+      --text-color: #e0e0e0;
+      --card-bg: #16213e;
+      --primary: #e94560;
+      --secondary: #ff2e63;
+      --accent: #0f3460;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      --modal-bg: rgba(0, 0, 0, 0.95);
+      --footer-bg: #0f1623;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; cursor: zoom-in; }
+
+    /* ================================================================
+       LAYOUT & COMPONENTS
+    ================================================================ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary);
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.2rem;
+      color: var(--secondary);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .tagline { font-size: 1.1rem; opacity: 0.8; }
+
+    /* Section Titles */
+    .section-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: var(--secondary);
+      margin: 60px 0 30px;
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      font-weight: 800;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+
+    .sub-section-title {
+      text-align: center;
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin: 40px 0 20px;
+      font-weight: 700;
+    }
+
+    /* Box & Cards */
+    .box {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+      border: 2px solid transparent;
+    }
+    .box:hover { border-color: var(--primary); }
+
+    /* Artist Grid */
+    .artist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .artist-card {
+      background: var(--card-bg);
+      padding: 30px 20px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .artist-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(255, 143, 163, 0.4);
+    }
+
+    .artist-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 15px;
+      border: 3px solid var(--accent);
+      background: #eee;
+    }
+
+    .artist-name { font-size: 1.4rem; font-weight: 800; color: var(--secondary); margin-bottom: 5px; }
+    .artist-role { font-size: 0.85rem; color: var(--primary); font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+    .artist-desc { font-size: 0.9rem; opacity: 0.9; margin-bottom: 20px; flex-grow: 1; }
+
+    .btn-artist-order {
+      display: inline-block;
+      margin-top: auto;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .btn-artist-order:hover { background: var(--secondary); transform: scale(1.05); }
+
+    /* ================================================================
+       NEW: SHOP / TOKO SECTION
+    ================================================================ */
+    .shop-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
+      color: var(--text-color);
+      padding: 10px 30px;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .shop-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    .shop-content.active { display: grid; }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--accent);
+      position: relative;
+    }
+
+    .product-img-wrapper {
+      width: 100%;
+      aspect-ratio: 1/1;
+      overflow: hidden;
+      background: #f0f0f0;
+      position: relative;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    
+    .product-card:hover .product-img { transform: scale(1.05); }
+
+    .product-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent); color: white; opacity: 0.5;
+      font-weight: bold; text-align: center; padding: 10px;
+    }
+
+    .product-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+    .product-title { font-size: 1.1rem; font-weight: 800; color: var(--secondary); margin-bottom: 5px; }
+    .product-price { font-size: 1.2rem; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
+    
+    .product-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+    .tag {
+      font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+      background: rgba(255, 143, 163, 0.1); color: var(--secondary); font-weight: 600;
+    }
+
+    .product-note { font-size: 0.75rem; opacity: 0.7; margin-bottom: 15px; font-style: italic; }
+
+    .btn-buy {
+      margin-top: auto;
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: var(--success);
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+    .btn-buy:hover { background: #1ebc57; }
+
+    /* ================================================================
+       NEW: PAYMENT SECTION
+    ================================================================ */
+    .payment-section {
+      margin: 50px 0;
+    }
+    .payment-box {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 2px solid var(--success);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .payment-logo {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--secondary);
+      font-family: 'Pacifico', cursive;
+    }
+    .payment-desc { font-size: 0.95rem; max-width: 600px; }
+    .payment-methods-icons {
+      display: flex; gap: 10px; justify-content: center; margin-top: 5px; flex-wrap: wrap;
+    }
+    .pm-badge {
+      background: var(--bg-color); border: 1px solid var(--accent);
+      padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700;
+    }
+    .btn-saweria {
+      background: var(--success);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    .btn-saweria:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5); }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1/1;
+      cursor: zoom-in;
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.1); }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(255, 143, 163, 0.8);
+      display: flex; justify-content: center; align-items: center;
+      color: white; font-weight: 700; opacity: 0;
+      transition: opacity 0.3s ease; pointer-events: none;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* Steps Section */
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--primary);
+    }
+
+    .step-num { font-size: 2rem; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 5px; }
+    .step-icon { font-size: 1.5rem; display: block; margin: 10px 0; }
+    .step-text { font-weight: 700; color: var(--secondary); margin-bottom: 5px; }
+    .step-desc { font-size: 0.85rem; opacity: 0.8; }
+
+    /* FAQ SECTION STYLES */
+    .faq-container { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .faq-item summary {
+      padding: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+      position: relative;
+      color: var(--secondary);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 20px;
+      font-size: 1.5rem;
+      color: var(--primary);
+      transition: transform 0.3s;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p {
+      padding: 0 20px 20px;
+      border-top: 1px dashed var(--accent);
+      margin-top: 10px;
+      padding-top: 15px;
+      color: var(--text-color);
+    }
+
+    /* FOOTER UPDATE */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+      background: var(--footer-bg);
+      border-top: 1px solid var(--accent);
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .footer-content { flex-direction: row; justify-content: space-between; text-align: left; }
+      .footer-left { text-align: left; }
+      .footer-right { text-align: right; }
+    }
+
+    .footer-logo { width: 60px; margin-bottom: 10px; border-radius: 50%; }
+
+    .footer-links a {
+      display: block; margin: 5px 0; font-size: 0.9rem; color: var(--text-color); opacity: 0.8; transition: opacity 0.3s;
+    }
+    .footer-links a:hover { opacity: 1; color: var(--primary); text-decoration: underline; }
+
+    .footer-socials { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+
+    .social-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--card-bg); display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow); transition: transform 0.3s, background 0.3s;
+    }
+    .social-icon:hover { transform: translateY(-3px); background: var(--primary); color: white; }
+    .social-icon svg { width: 20px; height: 20px; fill: var(--text-color); }
+    .social-icon:hover svg { fill: white; }
+
+    /* Floating Elements */
+    .dark-toggle {
+      position: fixed; top: 20px; right: 20px;
+      background: var(--card-bg); border: 2px solid var(--primary);
+      color: var(--text-color); width: 50px; height: 50px; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; z-index: 1000;
+      box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+    }
+    .dark-toggle:hover { background: var(--primary); color: white; }
+
+    .wa-float {
+      position: fixed; bottom: 30px; right: 30px;
+      background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000;
+      transition: transform 0.3s;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    .floating-emoji {
+      position: fixed; font-size: 2rem; opacity: 0.15; z-index: -1;
+      animation: floatEmoji 10s infinite ease-in-out; pointer-events: none;
+    }
+
+    /* Animations */
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+    }
+
+    .sparkle {
+      position: absolute; pointer-events: none;
+      animation: fadeUp 0.9s forwards; font-size: 1.2rem; z-index: 10;
+    }
+
+    /* Modal Styles (Lightbox & Profile) */
+    .lightbox, .profile-modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--modal-bg); z-index: 2000;
+      display: none; justify-content: center; align-items: center; padding: 20px;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .lightbox.active, .profile-modal.active { display: flex; opacity: 1; }
+
+    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: zoom-out; object-fit: contain; }
+    .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; font-weight: bold; line-height: 1; }
+
+    .profile-content {
+      background: var(--card-bg); width: 100%; max-width: 600px; max-height: 90vh;
+      border-radius: var(--border-radius); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      display: flex; flex-direction: column; overflow: hidden; position: relative;
+      animation: slideUp 0.4s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .profile-header {
+      background: var(--primary); color: white; padding: 20px; text-align: center; position: relative;
+    }
+    .profile-close {
+      position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2);
+      border: none; color: white; width: 32px; height: 32px; border-radius: 50%;
+      cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    }
+    .profile-name { font-size: 2rem; font-family: 'Pacifico', cursive; margin-bottom: 5px; }
+    .profile-role { font-size: 1rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+
+    .profile-body { padding: 25px; overflow-y: auto; color: var(--text-color); }
+    .profile-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--accent); }
+    .profile-section h3 { color: var(--secondary); margin-bottom: 10px; font-size: 1.1rem; }
+    .profile-section ul { list-style: disc; margin-left: 20px; }
+    .hard-limits { background: rgba(233, 69, 96, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 8px; }
+    .hard-limits h4 { color: var(--secondary); margin-bottom: 5px; }
+
+    .profile-footer {
+      padding: 20px; border-top: 1px solid var(--accent); text-align: center; background: var(--card-bg);
+    }
+    .btn-wa-direct {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #25D366; color: white; font-weight: 800; padding: 15px 30px;
+      border-radius: 30px; text-decoration: none; font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+    }
+    .btn-wa-direct:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5); background: #20bd5a; }
+  </style>
 </head>
 <body>
 
@@ -43,17 +592,14 @@
   <!-- HEADER -->
   <header>
     <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo AfterRain Tales" class="logo">
-    
-    <!-- 2. GUNAKAN HEADING YANG BENAR (H1) -->
     <h1>AfterRain Tales - Jasa Art Commission Anime & Chibi</h1>
-    
     <p class="tagline">Jasa Ilustrasi Anime Style Penuh Warna</p>
   </header>
 
   <!-- MAIN -->
   <div class="container">
     
-    <!-- ABOUT SECTION + SEO TEXT -->
+    <!-- ABOUT SECTION -->
     <section>
       <div class="section-title">Tentang Kami</div>
       <div class="box">
@@ -63,7 +609,6 @@
           Kami memiliki tim artist berbakat dengan gaya unik masing-masing. Temukan artist yang paling pas dengan imajinasimu!
         </p>
         <br>
-        <!-- 4. TEKS "BASA-BASI" SEO -->
         <p style="text-align: justify; font-size: 0.95rem; color: var(--text-color); opacity: 0.9;">
           <strong>Selamat datang di AfterRain Tales</strong>, penyedia jasa art commission yang mengkhususkan diri pada gaya anime 2D. 
           Kami melayani pembuatan karakter digital, sketsa tradisional, hingga gambar chibi imut dengan harga terjangkau bagi pelajar maupun kolektor seni di seluruh Indonesia. 
@@ -74,7 +619,6 @@
 
     <!-- ARTIST SECTION -->
     <section>
-      <!-- 2. GUNAKAN HEADING YANG BENAR (H2) -->
       <div class="section-title">Pilihan Style Artist: Digital & Traditional</div>
       <div class="artist-grid">
         
@@ -120,6 +664,266 @@
       </div>
     </section>
 
+    <!-- NEW: TOKO KAMI SECTION -->
+    <section id="shop">
+      <div class="section-title">Toko Kami</div>
+      
+      <!-- Tabs -->
+      <div class="shop-tabs">
+        <button class="tab-btn active" onclick="openShop('aiko')">Toko AIKO</button>
+        <button class="tab-btn" onclick="openShop('firda')">Toko FIRDA</button>
+        <button class="tab-btn" onclick="openShop('putri')">Toko PUTRI</button>
+      </div>
+
+      <!-- Content: AIKO -->
+      <div id="shop-aiko" class="shop-content active shop-grid">
+        
+        <!-- Headshot -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/hR5Z11Rr/Whats-App-Image-2026-05-15-at-20-07-00.jpg" alt="Headshot Aiko" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Headshot</div>
+            <div class="product-price">Rp25.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+              <span class="tag">Priority</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp25.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Bust Up / Half Body -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <!-- Placeholder for unavailable image -->
+            <div class="product-placeholder">Gambar Belum Tersedia</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Bust Up / Half Body</div>
+            <div class="product-price">Rp40.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+              <span class="tag">Priority</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp40.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Full Body -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <div class="product-placeholder">Gambar Belum Tersedia</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Full Body</div>
+            <div class="product-price">Rp60.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+              <span class="tag">Priority</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Full%20Body%20(Rp60.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Character Sheet -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <div class="product-placeholder">Gambar Belum Tersedia</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Character Sheet</div>
+            <div class="product-price">Rp100.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+              <span class="tag">Priority</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Character%20Sheet%20(Rp100.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Content: FIRDA -->
+      <div id="shop-firda" class="shop-content shop-grid">
+        
+        <!-- Sketch Only -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/7tM99gX1/image-5.png" alt="Sketch Firda" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Sketch Only</div>
+            <div class="product-price">Rp15.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Sketch%20Only%20(Rp15.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Headshot -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/vxkhwcX6/image-4.png" alt="Headshot Firda" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Headshot</div>
+            <div class="product-price">Rp20.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp20.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Bust Up -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/HLVyJhK9/f222fb91-bb6d-4150-b1df-ce3d61e60e9d.jpg" alt="Bust Up Firda" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Bust Up</div>
+            <div class="product-price">Rp35.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp35.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Full Body -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <div class="product-placeholder">Gambar Belum Tersedia</div>
+          </div>
+          <div class="product-info">
+            <div class="product-title">Full Body</div>
+            <div class="product-price">Rp50.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Full%20Body%20(Rp50.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Content: PUTRI -->
+      <div id="shop-putri" class="shop-content shop-grid">
+        
+        <!-- Sketch Only -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/pBBW09ts/Whats-App-Image-2026-05-15-at-19-35-53.jpg" alt="Sketch Putri" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Sketch Only</div>
+            <div class="product-price">Rp10.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Sketch%20Only%20(Rp10.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Headshot -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/VWdKjmmk/0249c0f3-640e-4a9b-9f19-438fb6ffc193.jpg" alt="Headshot Putri" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Headshot</div>
+            <div class="product-price">Rp15.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp15.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Chibi / Mini Character -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/0Rt6YFRp/ffd5db26-2d72-4c37-943f-480cc551495d.jpg" alt="Chibi Putri" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Chibi / Mini Character</div>
+            <div class="product-price">Rp20.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Chibi%20(Rp20.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+        <!-- Bust Up -->
+        <div class="product-card">
+          <div class="product-img-wrapper">
+            <img src="https://i.ibb.co.com/wFSMzBzy/2a097d4b-4954-44a3-908b-2580ad9baa43.jpg" alt="Bust Up Putri" class="product-img">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Bust Up</div>
+            <div class="product-price">Rp30.000</div>
+            <div class="product-tags">
+              <span class="tag">Kilat</span>
+              <span class="tag">Santai</span>
+            </div>
+            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
+            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp30.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NEW: METODE PEMBAYARAN SECTION -->
+    <section class="payment-section">
+      <div class="section-title">Metode Pembayaran Kami!</div>
+      <div class="payment-box">
+        <div class="payment-logo">Saweria</div>
+        <p class="payment-desc">
+          Untuk kenyamanan dan keamanan transaksi, kami menggunakan platform <strong>Saweria</strong>. 
+          Kamu bisa melakukan pembayaran menggunakan berbagai metode e-wallet dan transfer bank instan.
+        </p>
+        <div class="payment-methods-icons">
+          <span class="pm-badge">DANA</span>
+          <span class="pm-badge">OVO</span>
+          <span class="pm-badge">GoPay</span>
+          <span class="pm-badge">QRIS</span>
+          <span class="pm-badge">LinkAja</span>
+        </div>
+        <br>
+        <!-- Link ini bisa diganti dengan link Saweria Manager yang sebenarnya -->
+        <a href="https://saweria.co" target="_blank" class="btn-saweria">
+          <span>💳</span> Bayar via Saweria
+        </a>
+      </div>
+    </section>
+
     <!-- PORTFOLIO SECTION -->
     <section>
       <div class="section-title">Karya Artist Kami</div>
@@ -127,7 +931,6 @@
       <!-- AIKO GALLERY -->
       <div class="sub-section-title">✨ Karya AIKO</div>
       <div class="gallery-grid">
-        <!-- 3. SEO PADA GAMBAR (ALT TEXT) -->
         <div class="gallery-item">
           <img src="https://i.ibb.co.com/gbmxTDj4/7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1.jpg" alt="Jasa gambar anime digital style Aiko AfterRain Tales">
           <div class="gallery-overlay">Lihat Detail</div>
@@ -158,7 +961,6 @@
           <div class="gallery-overlay">Lihat Detail</div>
         </div>
         <div class="gallery-item">
-          <!-- 3. SEO PADA GAMBAR (ALT TEXT KHUSUS) -->
           <img src="https://i.ibb.co.com/sJbTrknf/phototune-ai-1778732350.png" alt="Karya Traditional Art AfterRain Tales oleh Artist Firda">
           <div class="gallery-overlay">Lihat Detail</div>
         </div>
@@ -180,7 +982,6 @@
           <div class="gallery-overlay">Lihat Detail</div>
         </div>
         <div class="gallery-item">
-          <!-- 3. SEO PADA GAMBAR (ALT TEXT KHUSUS) -->
           <img src="https://i.ibb.co.com/MxC8Rgb1/5478625b-efa2-43b3-af8c-522111ddc688.jpg" alt="Jasa gambar chibi tradisional Putri AfterRain Tales">
           <div class="gallery-overlay">Lihat Detail</div>
         </div>
@@ -235,7 +1036,7 @@
       </div>
     </section>
 
-    <!-- NEW: FAQ SECTION -->
+    <!-- FAQ SECTION -->
     <section>
       <div class="section-title">FAQ - Pertanyaan Umum</div>
       <div class="faq-container">
@@ -266,11 +1067,11 @@
       </div>
     </section>
 
-    <!-- NEW: SOCIAL PROOF / TESTIMONIAL PLACEHOLDER -->
+    <!-- TESTIMONIAL PLACEHOLDER -->
     <section>
-      <div class="testimonial-box">
-        <div class="testimonial-title">Apa kata mereka?</div>
-        <div class="testimonial-sub">(Segera hadir setelah opening!)</div>
+      <div class="testimonial-box" style="background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255,143,163,0.1) 100%); padding: 40px; border-radius: var(--border-radius); text-align: center; box-shadow: var(--shadow); border: 2px dashed var(--primary); margin-bottom: 40px;">
+        <div style="font-family: 'Pacifico', cursive; font-size: 1.8rem; color: var(--secondary); margin-bottom: 10px;">Apa kata mereka?</div>
+        <div style="font-size: 0.9rem; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase;">(Segera hadir setelah opening!)</div>
         <div style="margin-top: 20px;">
           <span style="font-size: 2rem; animation: floatEmoji 3s infinite ease-in-out">⭐</span>
           <span style="font-size: 2rem; animation: floatEmoji 3s infinite ease-in-out 0.5s">⭐</span>
@@ -281,7 +1082,7 @@
 
   </div>
 
-  <!-- FOOTER (UPDATED DESIGN) -->
+  <!-- FOOTER -->
   <footer>
     <div class="container footer-content">
       
@@ -375,7 +1176,191 @@
     </div>
   </div>
 
-  <!-- Link ke JS Eksternal -->
-  <script src="script.js"></script>
+  <script>
+    /* ================================================================
+       DATA ARTIST (Database Sederhana)
+    ================================================================ */
+    const artistsData = {
+      aiko: {
+        name: "Aiko",
+        role: "The Speedster & Digital Stylist",
+        phone: "+62 895-3292-24959",
+        rawPhone: "62895329224959",
+        rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat komunikatif dan tepat waktu.",
+        type: "Digital Art Expert. Aiko fokus sepenuhnya pada pengerjaan digital menggunakan software terkini.",
+        capabilities: [
+          "<strong>Character Design:</strong> Sangat mahir membuat desain karakter orisinal (OC) dari nol.",
+          "<strong>Style Versatility:</strong> Bisa mengerjakan Simple Sketch, Chibi, hingga Premium Full Shading.",
+          "<strong>Kecepatan Kerja:</strong> Stabil (1–3 jam tergantung kerumitan paket).",
+          "<strong>Pengalaman Genre:</strong> Anime/Manga dan Semi-Realism."
+        ],
+        limits: [ "Tidak ada batasan spesifik (Open to all themes sesuai aturan umum)." ],
+        extraNote: ""
+      },
+      firda: {
+        name: "Firda",
+        role: "The Aesthetic & Mood Master",
+        phone: "+62 858-1937-7503",
+        rawPhone: "6285819377503",
+        rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat kuat dalam menciptakan suasana melalui kontras warna dramatis.",
+        type: "Traditional Art Specialist. Menggunakan media fisik untuk tekstur otentik.",
+        capabilities: [
+          "<strong>Master of Contrast:</strong> Ahli memainkan efek cahaya dan bayangan yang tajam.",
+          "<strong>Traditional Shading:</strong> Teknik arsir dan gradasi manual yang bervolume.",
+          "<strong>Atmospheric Background:</strong> Membangun suasana (mood) melalui detail latar belakang."
+        ],
+        limits: [ "<strong>No Mecha:</strong> Belum melayani robot/mesin dengan detail teknis kompleks." ],
+        extraNote: "Hasil Akhir berupa file digital hasil scan/foto kualitas tinggi."
+      },
+      putri: {
+        name: "Putri",
+        role: "The Sticker & Chibi Specialist",
+        phone: "+62 857-5755-2350",
+        rawPhone: "6285757552350",
+        rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat teliti dan mampu menangkap keinginan pelanggan secara detail.",
+        type: "Traditional Art Specialist. Fokus pada karya seni manual dengan sentuhan tekstur unik.",
+        capabilities: [
+          "<strong>Chibi Style Specialist:</strong> Ahli membuat karakter chibi lucu dan proporsional.",
+          "<strong>Traditional Sketching:</strong> Goresan tangan langsung yang rapi dan personal.",
+          "<strong>Soft Aesthetic:</strong> Keindahan garis manual lembut, cocok untuk koleksi/hadiah."
+        ],
+        limits: [
+          "<strong>No NSFW:</strong> Tidak menerima konten dewasa.",
+          "<strong>No Heavy Gore:</strong> Tidak menerima kekerasan ekstrem.",
+          "<strong>No Full Body:</strong> Saat ini hanya melayani maksimal Half Body."
+        ],
+        extraNote: "Hasil Akhir dikirim via Google Drive (Scan/Foto HRD)."
+      }
+    };
+
+    /* ================================================================
+       DARK MODE LOGIC
+    ================================================================ */
+    function toggleDark(){
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+    }
+
+    /* ================================================================
+       SHOP TAB LOGIC
+    ================================================================ */
+    function openShop(artistName) {
+      // Hide all contents
+      document.querySelectorAll('.shop-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      // Deactivate all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Show selected content
+      document.getElementById(`shop-${artistName}`).classList.add('active');
+      // Activate selected button (event bubbling handling simplified)
+      event.target.classList.add('active');
+    }
+
+    /* ================================================================
+       SPARKLE HOVER EFFECT FOR CARDS
+    ================================================================ */
+    const cards = document.querySelectorAll('.sparkle-wrap');
+    const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
+
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        if (Math.random() > 0.85) {
+          const sp = document.createElement('div');
+          sp.className = 'sparkle';
+          sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+          const rect = card.getBoundingClientRect();
+          sp.style.left = (e.clientX - rect.left) + 'px';
+          sp.style.top = (e.clientY - rect.top) + 'px';
+          card.appendChild(sp);
+          setTimeout(() => sp.remove(), 900);
+        }
+      });
+    });
+
+    /* ================================================================
+       LIGHTBOX (IMAGE PREVIEW) LOGIC
+    ================================================================ */
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.querySelector('.lightbox-close');
+
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        if(e.target.closest('.profile-content') || e.target.closest('.lightbox-close') || e.target.closest('.wa-float') || e.target.closest('.product-img')) return;
+        
+        lightboxImg.src = e.target.src;
+        lightbox.classList.add('active');
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    /* ================================================================
+       ARTIST PROFILE MODAL (SPA) LOGIC
+    ================================================================ */
+    const profileModal = document.getElementById('artist-profile');
+    const profileCloseBtn = document.querySelector('.profile-close');
+
+    const pName = document.getElementById('p-name');
+    const pRole = document.getElementById('p-role');
+    const pPhone = document.getElementById('p-phone');
+    const pRating = document.getElementById('p-rating');
+    const pType = document.getElementById('p-type');
+    const pCapabilities = document.getElementById('p-capabilities');
+    const pLimits = document.getElementById('p-limits');
+    const pExtraNote = document.getElementById('p-extra-note');
+    const pWaLink = document.getElementById('p-wa-link');
+
+    document.querySelectorAll('.btn-artist-order').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const artistId = btn.getAttribute('data-artist');
+        openArtistProfile(artistId);
+      });
+    });
+
+    function openArtistProfile(id) {
+      const data = artistsData[id];
+      if (!data) return;
+
+      pName.textContent = data.name;
+      pRole.textContent = data.role;
+      pPhone.textContent = data.phone;
+      pRating.textContent = data.rating;
+      pType.textContent = data.type;
+
+      pCapabilities.innerHTML = '<ul>' + data.capabilities.map(c => `<li>${c}</li>`).join('') + '</ul>';
+      pLimits.innerHTML = data.limits.map(l => `<li>${l}</li>`).join('');
+      pExtraNote.textContent = data.extraNote;
+
+      const message = `Halo ${data.name}, saya ingin memesan komisi denganmu...`;
+      pWaLink.href = `https://wa.me/${data.rawPhone}?text=${encodeURIComponent(message)}`;
+
+      profileModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProfile() {
+      profileModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    profileCloseBtn.addEventListener('click', closeProfile);
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) closeProfile();
+    });
+  </script>
 </body>
 </html>
