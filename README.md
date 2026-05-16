@@ -1,42 +1,25 @@
-/* ================================================================
-   DARK MODE LOGIC
-=============================================================== */
-function toggleDark(){
-  const html = document.documentElement;
-  const isDark = html.getAttribute('data-theme') === 'dark';
-  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
-}
-
-/* ================================================================
-   SPARKLE HOVER EFFECT FOR CARDS
-=============================================================== */
-const cards = document.querySelectorAll('.sparkle-wrap');
-const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
-
-cards.forEach(card => {
-  card.addEventListener('mousemove', e => {
-    if (Math.random() > 0.85) {
-      const sp = document.createElement('div');
-      sp.className = 'sparkle';
-      sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
-      const rect = card.getBoundingClientRect();
-      sp.style.left = (e.clientX - rect.left) + 'px';
-      sp.style.top = (e.clientY - rect.top) + 'px';
-      card.appendChild(sp);
-      setTimeout(() => sp.remove(), 900);
-    }
-  });
-});
-
-
 <!DOCTYPE html>
 <html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- 1. BAGIAN META TAG (SEO & IDENTITAS) -->
+  <title>AfterRain Tales | Jasa Art Commission Anime & Chibi Murah</title>
+  <meta name="description" content="Jasa art commission terpercaya mulai dari Rp20rb. Pesan gambar anime digital, traditional art, dan chibi dari artist Aiko, Firda, dan Putri di AfterRain Tales.">
+  <meta name="keywords" content="jasa gambar anime, art commission indonesia, gambar chibi murah, AfterRain Tales, jasa ilustrasi, digital art jakarta">
+  
+  <!-- Open Graph untuk Social Media Share -->
+  <meta property="og:title" content="AfterRain Tales - Mewujudkan Imajinasimu Lewat Seni">
+  <meta property="og:description" content="Pesan ilustrasi kustom dari tim artist berbakat kami. Proses cepat dan aman!">
+  <meta property="og:url" content="https://artales-id.vercel.app/">
+  <meta property="og:image" content="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
+
+  <!-- Google Site Verification (Existing) -->
+  <meta name="google-site-verification" content="ryuKeqZgakvTbwJRlAMW6tqvJ1Yg7mOXBX96H5iZxH8" />
+
+  <!-- FAVICON UPDATE -->
   <link rel="icon" href="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg">
-  <title>AfterRain Art 🎨</title>
   
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
@@ -49,7 +32,7 @@ cards.forEach(card => {
   <!-- DARK MODE TOGGLE -->
   <button class="dark-toggle" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
 
-  <!-- FLOATING EMOJIS (Art Theme) -->
+  <!-- FLOATING EMOJIS -->
   <span class="floating-emoji" style="top:8%;left:4%">🎨</span>
   <span class="floating-emoji" style="top:25%;right:6%">✏️</span>
   <span class="floating-emoji" style="top:55%;left:2%">🖌️</span>
@@ -59,119 +42,79 @@ cards.forEach(card => {
 
   <!-- HEADER -->
   <header>
-    <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo" class="logo">
-    <h1>AfterRain Art 🎨</h1>
+    <img src="https://i.ibb.co.com/21gtvQNk/Whats-App-Image-2026-04-04-at-14-45-13.jpg" alt="Logo AfterRain Tales" class="logo">
+    
+    <!-- 2. GUNAKAN HEADING YANG BENAR (H1) -->
+    <h1>AfterRain Tales - Jasa Art Commission Anime & Chibi</h1>
+    
     <p class="tagline">Jasa Ilustrasi Anime Style Penuh Warna</p>
   </header>
 
   <!-- MAIN -->
   <div class="container">
     
-    <!-- ABOUT SECTION -->
+    <!-- ABOUT SECTION + SEO TEXT -->
     <section>
       <div class="section-title">Tentang Kami</div>
       <div class="box">
         <p>
-          Halo! Selamat datang di <strong>AfterRain Art</strong>. 🌧️✨<br><br>
+          Halo! Selamat datang di <strong>AfterRain Tales</strong>. 🌧️✨<br><br>
           Kami adalah layanan ilustrasi freelance yang mengkhususkan diri dalam gaya anime 2D. 
           Kami memiliki tim artist berbakat dengan gaya unik masing-masing. Temukan artist yang paling pas dengan imajinasimu!
+        </p>
+        <br>
+        <!-- 4. TEKS "BASA-BASI" SEO -->
+        <p style="text-align: justify; font-size: 0.95rem; color: var(--text-color); opacity: 0.9;">
+          <strong>Selamat datang di AfterRain Tales</strong>, penyedia jasa art commission yang mengkhususkan diri pada gaya anime 2D. 
+          Kami melayani pembuatan karakter digital, sketsa tradisional, hingga gambar chibi imut dengan harga terjangkau bagi pelajar maupun kolektor seni di seluruh Indonesia. 
+          Apapun imajinasimu, tim artist kami siap mewujudkannya menjadi karya seni visual yang memukau.
         </p>
       </div>
     </section>
 
     <!-- ARTIST SECTION -->
     <section>
-      <div class="section-title">Tim Artist Kami</div>
+      <!-- 2. GUNAKAN HEADING YANG BENAR (H2) -->
+      <div class="section-title">Pilihan Style Artist: Digital & Traditional</div>
       <div class="artist-grid">
         
         <!-- Artist 1: Aiko -->
         <div class="artist-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/aiko/200/200" alt="Aiko" class="artist-avatar">
-          <div class="artist-name">AIKO</div>
-          <div class="artist-role">The Speedster & Digital Stylist</div>
-          <p class="artist-desc">
-            Spesialis buat pelanggan yang butuh hasil cepat, gaya anime yang clean, baik versi digital maupun tradisional.
-          </p>
+          <img src="https://i.ibb.co.com/xqXXC20g/784ff6a4-e04f-4d15-8c42-9e810b858969.jpg" alt="Aiko Digital Artist" class="artist-avatar">
+          <div>
+            <div class="artist-name">AIKO</div>
+            <div class="artist-role">The Speedster & Digital Stylist</div>
+            <p class="artist-desc">
+              Spesialis buat pelanggan yang butuh hasil cepat, gaya anime yang clean, baik versi digital maupun tradisional.
+            </p>
+          </div>
+          <button class="btn-artist-order" data-artist="aiko">Pesan Sekarang</button>
         </div>
 
         <!-- Artist 2: Putri -->
         <div class="artist-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/putri/200/200" alt="Putri" class="artist-avatar">
-          <div class="artist-name">PUTRI</div>
-          <div class="artist-role">The Sticker & Chibi Specialist</div>
-          <p class="artist-desc">
-            Spesialis buat pesanan imut, gaya chibi, desain stiker, dan lineart yang tegas.
-          </p>
+          <img src="https://i.ibb.co.com/Wv0dYKW0/30b55329-db77-4106-92f3-3477d411d80a.jpg" alt="Putri Chibi Specialist" class="artist-avatar">
+          <div>
+            <div class="artist-name">PUTRI</div>
+            <div class="artist-role">The Sticker & Chibi Specialist</div>
+            <p class="artist-desc">
+              Spesialis buat pesanan imut, gaya chibi, desain stiker, dan lineart yang tegas.
+            </p>
+          </div>
+          <button class="btn-artist-order" data-artist="putri">Pesan Sekarang</button>
         </div>
 
         <!-- Artist 3: Firda -->
         <div class="artist-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/firda/200/200" alt="Firda" class="artist-avatar">
-          <div class="artist-name">FIRDA</div>
-          <div class="artist-role">The Aesthetic & Mood Master</div>
-          <p class="artist-desc">
-            Spesialis buat karya yang estetik, penuh perasaan, dan punya detail arsiran pensil yang dalam.
-          </p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- PRICING SECTION -->
-    <section>
-      <div class="section-title">Daftar Harga</div>
-      <div class="pricing-grid">
-        
-        <!-- Card 1: Headshot -->
-        <div class="price-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/animehead/400/300" alt="Headshot" class="price-img">
-          <div class="price-content">
-            <div class="price-header">
-              <span class="price-title">Headshot</span>
-              <span class="price-tag">Rp 50k</span>
-            </div>
-            <p class="price-desc">Ilustrasi kepala sampai bahu. Fokus pada ekspresi wajah dan rambut yang detail. Cocok untuk icon profil.</p>
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Headshot%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
+          <img src="https://i.ibb.co.com/5XZSPDzZ/600d1f4d-9a66-4bb7-be14-8876fc3284b3.jpg" alt="Firda Traditional Artist" class="artist-avatar">
+          <div>
+            <div class="artist-name">FIRDA</div>
+            <div class="artist-role">The Aesthetic & Mood Master</div>
+            <p class="artist-desc">
+              Spesialis buat karya yang estetik, penuh perasaan, dan punya detail arsiran pensil yang dalam.
+            </p>
           </div>
-        </div>
-
-        <!-- Card 2: Half Body -->
-        <div class="price-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/animehalf/400/300" alt="Half Body" class="price-img">
-          <div class="price-content">
-            <div class="price-header">
-              <span class="price-title">Half Body</span>
-              <span class="price-tag">Rp 100k</span>
-            </div>
-            <p class="price-desc">Ilustrasi dari kepala sampai pinggang. Termasuk desain pakaian sederhana dan pose yang dinamis.</p>
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Half%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
-          </div>
-        </div>
-
-        <!-- Card 3: Full Body -->
-        <div class="price-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/animefull/400/300" alt="Full Body" class="price-img">
-          <div class="price-content">
-            <div class="price-header">
-              <span class="price-title">Full Body</span>
-              <span class="price-tag">Rp 200k</span>
-            </div>
-            <p class="price-desc">Karakter utuh dari ujung rambut sampai kaki. Detail tinggi pada kostum dan pose aksi.</p>
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Full%20Body%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
-          </div>
-        </div>
-
-        <!-- Card 4: Chibi Style -->
-        <div class="price-card sparkle-wrap">
-          <img src="https://picsum.photos/seed/animechibi/400/300" alt="Chibi Style" class="price-img">
-          <div class="price-content">
-            <div class="price-header">
-              <span class="price-title">Chibi Style</span>
-              <span class="price-tag">Rp 75k</span>
-            </div>
-            <p class="price-desc">Versi karakter yang imut dan kecil (Q-Version). Sangat lucu dan cocok untuk stiker atau hiasan.</p>
-            <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20mau%20pesan%20komisi%3A%0A-%20Tipe%3A%20Chibi%0A-%20Artist%3A%20(Sebutkan%20Artist)%0A-%20Detail%3A" target="_blank" class="price-cta">Pesan Sekarang</a>
-          </div>
+          <button class="btn-artist-order" data-artist="firda">Pesan Sekarang</button>
         </div>
 
       </div>
@@ -179,33 +122,72 @@ cards.forEach(card => {
 
     <!-- PORTFOLIO SECTION -->
     <section>
-      <div class="section-title">KARYA ARTIST KAMI</div>
+      <div class="section-title">Karya Artist Kami</div>
       
       <!-- AIKO GALLERY -->
-      <div class="sub-section-title">✨ AIKO</div>
+      <div class="sub-section-title">✨ Karya AIKO</div>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-1/300/300" alt="Aiko Work 1"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-2/300/300" alt="Aiko Work 2"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-3/300/300" alt="Aiko Work 3"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-aiko-4/300/300" alt="Aiko Work 4"><div class="gallery-overlay">See Details</div></div>
+        <!-- 3. SEO PADA GAMBAR (ALT TEXT) -->
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/gbmxTDj4/7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1.jpg" alt="Jasa gambar anime digital style Aiko AfterRain Tales">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/1JmCqsj5/923be934-fb14-4dfd-b217-e1c72b552e2d.jpg" alt="Contoh hasil commission digital art Aiko">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/tT4MTTzC/a38a170e-d8ed-4167-a882-a8a4b6c1fabf.jpg" alt="Ilustrasi karakter anime digital Aiko">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/V1MRHW0/wmremove-transformed.png" alt="Digital art full color Aiko">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
       </div>
 
       <!-- FIRDA GALLERY -->
-      <div class="sub-section-title">🌧️ FIRDA</div>
+      <div class="sub-section-title">🌧️ Karya FIRDA</div>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-1/300/300" alt="Firda Work 1"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-2/300/300" alt="Firda Work 2"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-3/300/300" alt="Firda Work 3"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-firda-4/300/300" alt="Firda Work 4"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/VcT0dgm5/image-1.jpg" alt="Sketsa tradisional pensil Firda">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/T9bBrCc/image-2.jpg" alt="Gambar traditional art shading Firda">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <!-- 3. SEO PADA GAMBAR (ALT TEXT KHUSUS) -->
+          <img src="https://i.ibb.co.com/sJbTrknf/phototune-ai-1778732350.png" alt="Karya Traditional Art AfterRain Tales oleh Artist Firda">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/Fkd9bHbd/phototune-ai-1778732775.png" alt="Hasil scan gambar tradisional kualitas tinggi">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
       </div>
 
       <!-- PUTRI GALLERY -->
-      <div class="sub-section-title">🌸 PUTRI</div>
+      <div class="sub-section-title">🌸 Karya PUTRI</div>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-1/300/300" alt="Putri Work 1"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-2/300/300" alt="Putri Work 2"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-3/300/300" alt="Putri Work 3"><div class="gallery-overlay">See Details</div></div>
-        <div class="gallery-item"><img src="https://picsum.photos/seed/art-putri-4/300/300" alt="Putri Work 4"><div class="gallery-overlay">See Details</div></div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/NdZ4nCz6/b9d169b8-8322-45be-ae03-5a58751a55a1.jpg" alt="Desain karakter chibi Putri">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/RTLS2Wkj/2eb30a90-adda-4487-b7a8-6fa54eea8c51.jpg" alt="Stiker custom lucu oleh Putri">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <!-- 3. SEO PADA GAMBAR (ALT TEXT KHUSUS) -->
+          <img src="https://i.ibb.co.com/MxC8Rgb1/5478625b-efa2-43b3-af8c-522111ddc688.jpg" alt="Jasa gambar chibi tradisional Putri AfterRain Tales">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://i.ibb.co.com/zh3JRk74/edb9022a-206e-4245-929e-947f58f567be.jpg" alt="Contoh lineart tangan tradisional">
+          <div class="gallery-overlay">Lihat Detail</div>
+        </div>
       </div>
 
     </section>
@@ -253,56 +235,788 @@ cards.forEach(card => {
       </div>
     </section>
 
+    <!-- NEW: FAQ SECTION -->
+    <section>
+      <div class="section-title">FAQ - Pertanyaan Umum</div>
+      <div class="faq-container">
+        <details class="faq-item">
+          <summary>Q: Bagaimana cara memesan (order)?</summary>
+          <p>A: Kamu bisa langsung pilih artist (Aiko/Firda/Putri) di website, lalu hubungi Manajer via WhatsApp/Discord untuk konsultasi. Pembayaran dilakukan di awal melalui link Saweria kami.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Q: Berapa lama proses pengerjaannya?</summary>
+          <p>A: Tergantung tingkat kesulitan. Biasanya memakan waktu 3 sampai 5 hari. Manajer akan memberikan update berkala setiap tahapannya.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Q: Apakah bisa minta revisi?</summary>
+          <p>A: Bisa! Kami memberikan 2x revisi gratis pada tahap sketsa. Jika sudah masuk tahap pewarnaan (coloring), revisi hanya untuk perubahan warna kecil.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Q: Metode pembayaran apa saja yang tersedia?</summary>
+          <p>A: Kami menggunakan Saweria, jadi kamu bisa bayar pakai Dana, OVO, GoPay, QRIS, atau LinkAja secara instan dan aman.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Q: Apakah saya boleh mencetak gambarnya untuk dijual lagi?</summary>
+          <p>A: Secara standar, harga kami untuk penggunaan pribadi (Personal Use). Jika ingin digunakan untuk jualan (Commercial Use), silakan bicarakan dengan Manajer karena akan ada biaya tambahan.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Q: Gambarnya dikirim lewat apa?</summary>
+          <p>A: Hasil akhir akan dikirim dalam format PNG/JPG resolusi tinggi melalui email atau link Google Drive agar kualitasnya tetap jernih (tidak pecah).</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- NEW: SOCIAL PROOF / TESTIMONIAL PLACEHOLDER -->
+    <section>
+      <div class="testimonial-box">
+        <div class="testimonial-title">Apa kata mereka?</div>
+        <div class="testimonial-sub">(Segera hadir setelah opening!)</div>
+        <div style="margin-top: 20px;">
+          <span style="font-size: 2rem; animation: floatEmoji 3s infinite ease-in-out">⭐</span>
+          <span style="font-size: 2rem; animation: floatEmoji 3s infinite ease-in-out 0.5s">⭐</span>
+          <span style="font-size: 2rem; animation: floatEmoji 3s infinite ease-in-out 1s">⭐</span>
+        </div>
+      </div>
+    </section>
+
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (UPDATED DESIGN) -->
   <footer>
-    <p>© 2026 AfterRain Art — Created by Aiko ✨</p>
-    <p><strong>Didukung oleh:</strong></p>
-    <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw" class="footer-logo">
-    <p>VowViw Entertainment</p>
+    <div class="container footer-content">
+      
+      <!-- Footer Kiri: Identitas -->
+      <div class="footer-left">
+        <img src="https://i.ibb.co.com/chgNwbpV/VVe-Logo.png" alt="VowViw Logo" class="footer-logo">
+        <h3 style="color: var(--secondary); font-family: 'Pacifico', cursive;">AfterRain Tales</h3>
+        <p style="font-size: 0.9rem; opacity: 0.8;">Created by Aiko ✨</p>
+        <p style="font-size: 0.8rem; margin-top: 5px;">Didukung oleh: <strong>VowViw Entertainment</strong></p>
+      </div>
+
+      <!-- Footer Tengah: Kontak & Socials -->
+      <div class="footer-center" style="text-align: center;">
+        <p><strong>Hubungi Kami:</strong></p>
+        <div style="margin: 10px 0;">
+          <a href="mailto:afterraintales@gmail.com" style="font-weight: 700; color: var(--primary);">afterraintales@gmail.com</a>
+        </div>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/after.rain.tales" target="_blank" class="social-icon" title="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@after.rain.tales" target="_blank" class="social-icon" title="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Kanan: Legal Links -->
+      <div class="footer-right">
+        <p style="font-weight: 700; margin-bottom: 10px;">Legal & Policy</p>
+        <div class="footer-links">
+          <a href="tos.html">Terms of Service (TOS)</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+        <p style="font-size: 0.75rem; margin-top: 15px; opacity: 0.6;">© 2026 AfterRain Art. All Rights Reserved.</p>
+      </div>
+
+    </div>
   </footer>
 
   <!-- FLOATING WA BUTTON -->
-  <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Art%2C%20saya%20tertarik%20untuk%20komisi..." class="wa-float" target="_blank" title="Chat WhatsApp">
+  <a href="https://wa.me/62895329224959?text=Halo%20AfterRain%20Tales%2C%20saya%20tertarik%20untuk%20komisi..." class="wa-float" target="_blank" title="Chat WhatsApp">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
       <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
     </svg>
   </a>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Preview">
+  </div>
+
+  <!-- ARTIST PROFILE MODAL (SPA) -->
+  <div id="artist-profile" class="profile-modal">
+    <div class="profile-content">
+      <div class="profile-header">
+        <button class="profile-close">&times;</button>
+        <h2 class="profile-name" id="p-name">Artist Name</h2>
+        <div class="profile-role" id="p-role">Role</div>
+      </div>
+      <div class="profile-body">
+        
+        <div class="profile-section">
+          <h3>📞 Kontak & Rating</h3>
+          <p><strong>Nomor:</strong> <span id="p-phone">...</span></p>
+          <p><strong>Rating:</strong> <span class="rating-stars" id="p-rating">...</span></p>
+        </div>
+
+        <div class="profile-section">
+          <h3>🎨 Tipe & Spesialisasi</h3>
+          <p><strong>Tipe Menggambar:</strong> <span id="p-type">...</span></p>
+          <div id="p-capabilities"></div>
+        </div>
+
+        <div class="profile-section hard-limits">
+          <h4>🚫 Batasan Pekerjaan (Hard Limits)</h4>
+          <ul id="p-limits"></ul>
+          <p id="p-extra-note" style="margin-top:10px; font-style: italic; font-size: 0.9em;"></p>
+        </div>
+
+      </div>
+      <div class="profile-footer">
+        <a href="#" id="p-wa-link" class="btn-wa-direct" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+          </svg>
+          Pesan Dengan Artist Ini
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- Link ke JS Eksternal -->
   <script src="script.js"></script>
 </body>
 </html>
 
+/* ================================================================
+   DATA ARTIST (Database Sederhana)
+=============================================================== */
+const artistsData = {
+  aiko: {
+    name: "Aiko",
+    role: "The Speedster & Digital Stylist",
+    phone: "+62 895-3292-24959",
+    rawPhone: "62895329224959",
+    rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat komunikatif dan tepat waktu.",
+    type: "Digital Art Expert. Aiko fokus sepenuhnya pada pengerjaan digital menggunakan software terkini.",
+    capabilities: [
+      "<strong>Character Design:</strong> Sangat mahir membuat desain karakter orisinal (OC) dari nol.",
+      "<strong>Style Versatility:</strong> Bisa mengerjakan Simple Sketch, Chibi, hingga Premium Full Shading.",
+      "<strong>Kecepatan Kerja:</strong> Stabil (1–3 jam tergantung kerumitan paket).",
+      "<strong>Pengalaman Genre:</strong> Anime/Manga dan Semi-Realism."
+    ],
+    limits: [ "Tidak ada batasan spesifik (Open to all themes sesuai aturan umum)." ],
+    extraNote: ""
+  },
+  firda: {
+    name: "Firda",
+    role: "The Aesthetic & Mood Master",
+    phone: "+62 858-1937-7503",
+    rawPhone: "6285819377503",
+    rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat kuat dalam menciptakan suasana melalui kontras warna dramatis.",
+    type: "Traditional Art Specialist. Menggunakan media fisik untuk tekstur otentik.",
+    capabilities: [
+      "<strong>Master of Contrast:</strong> Ahli memainkan efek cahaya dan bayangan yang tajam.",
+      "<strong>Traditional Shading:</strong> Teknik arsir dan gradasi manual yang bervolume.",
+      "<strong>Atmospheric Background:</strong> Membangun suasana (mood) melalui detail latar belakang."
+    ],
+    limits: [ "<strong>No Mecha:</strong> Belum melayani robot/mesin dengan detail teknis kompleks." ],
+    extraNote: "Hasil Akhir berupa file digital hasil scan/foto kualitas tinggi."
+  },
+  putri: {
+    name: "Putri",
+    role: "The Sticker & Chibi Specialist",
+    phone: "+62 857-5755-2350",
+    rawPhone: "6285757552350",
+    rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat teliti dan mampu menangkap keinginan pelanggan secara detail.",
+    type: "Traditional Art Specialist. Fokus pada karya seni manual dengan sentuhan tekstur unik.",
+    capabilities: [
+      "<strong>Chibi Style Specialist:</strong> Ahli membuat karakter chibi lucu dan proporsional.",
+      "<strong>Traditional Sketching:</strong> Goresan tangan langsung yang rapi dan personal.",
+      "<strong>Soft Aesthetic:</strong> Keindahan garis manual lembut, cocok untuk koleksi/hadiah."
+    ],
+    limits: [
+      "<strong>No NSFW:</strong> Tidak menerima konten dewasa.",
+      "<strong>No Heavy Gore:</strong> Tidak menerima kekerasan ekstrem.",
+      "<strong>No Full Body:</strong> Saat ini hanya melayani maksimal Half Body."
+    ],
+    extraNote: "Hasil Akhir dikirim via Google Drive (Scan/Foto HRD)."
+  }
+};
+
+/* ================================================================
+   DARK MODE LOGIC
+=============================================================== */
+function toggleDark(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+}
+
+/* ================================================================
+   SPARKLE HOVER EFFECT FOR CARDS
+=============================================================== */
+const cards = document.querySelectorAll('.sparkle-wrap');
+const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
+
+cards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    if (Math.random() > 0.85) {
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.textContent = sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+      const rect = card.getBoundingClientRect();
+      sp.style.left = (e.clientX - rect.left) + 'px';
+      sp.style.top = (e.clientY - rect.top) + 'px';
+      card.appendChild(sp);
+      setTimeout(() => sp.remove(), 900);
+    }
+  });
+});
+
+/* ================================================================
+   LIGHTBOX (IMAGE PREVIEW) LOGIC
+=============================================================== */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.querySelector('.lightbox-close');
+
+// Buka Lightbox saat gambar diklik
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('click', (e) => {
+    // Jangan trigger jika tombol close atau di dalam modal (kecuali gambar utama lightbox)
+    if(e.target.closest('.profile-content') || e.target.closest('.lightbox-close') || e.target.closest('.wa-float')) return;
+    
+    lightboxImg.src = e.target.src;
+    lightbox.classList.add('active');
+  });
+});
+
+// Tutup Lightbox
+function closeLightbox() {
+  lightbox.classList.remove('active');
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+// Tutup jika klik background gelap
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+/* ================================================================
+   ARTIST PROFILE MODAL (SPA) LOGIC
+=============================================================== */
+const profileModal = document.getElementById('artist-profile');
+const profileCloseBtn = document.querySelector('.profile-close');
+
+// Element untuk diisi data
+const pName = document.getElementById('p-name');
+const pRole = document.getElementById('p-role');
+const pPhone = document.getElementById('p-phone');
+const pRating = document.getElementById('p-rating');
+const pType = document.getElementById('p-type');
+const pCapabilities = document.getElementById('p-capabilities');
+const pLimits = document.getElementById('p-limits');
+const pExtraNote = document.getElementById('p-extra-note');
+const pWaLink = document.getElementById('p-wa-link');
+
+// Event Listener untuk tombol "Pesan Sekarang" di card artist
+document.querySelectorAll('.btn-artist-order').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const artistId = btn.getAttribute('data-artist');
+    openArtistProfile(artistId);
+  });
+});
+
+function openArtistProfile(id) {
+  const data = artistsData[id];
+  if (!data) return;
+
+  // Isi Data ke Modal
+  pName.textContent = data.name;
+  pRole.textContent = data.role;
+  pPhone.textContent = data.phone;
+  pRating.textContent = data.rating;
+  pType.textContent = data.type;
+
+  // Isi Capabilities (List)
+  pCapabilities.innerHTML = '<ul>' + data.capabilities.map(c => `<li>${c}</li>`).join('') + '</ul>';
+
+  // Isi Limits (List)
+  pLimits.innerHTML = data.limits.map(l => `<li>${l}</li>`).join('');
+  
+  // Isi Catatan Tambahan
+  pExtraNote.textContent = data.extraNote;
+
+  // Atur Link WhatsApp
+  const message = `Halo ${data.name}, saya ingin memesan komisi denganmu...`;
+  pWaLink.href = `https://wa.me/${data.rawPhone}?text=${encodeURIComponent(message)}`;
+
+  // Tampilkan Modal
+  profileModal.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Stop scroll background
+}
+
+function closeProfile() {
+  profileModal.classList.remove('active');
+  document.body.style.overflow = 'auto'; // Restore scroll
+}
+
+profileCloseBtn.addEventListener('click', closeProfile);
+
+// Tutup jika klik background gelap
+profileModal.addEventListener('click', (e) => {
+  if (e.target === profileModal) {
+    closeProfile();
+  }
+});
+
+/* ================================================================
+   VARIABLES & RESET
+=============================================================== */
+:root {
+  --bg-color: #fff5f7;
+  --text-color: #4a4a4a;
+  --card-bg: #ffffff;
+  --primary: #ff8fa3;
+  --secondary: #c9184a;
+  --accent: #ffb3c1;
+  --shadow: 0 8px 24px rgba(255, 143, 163, 0.2);
+  --border-radius: 16px;
+  --modal-bg: rgba(0, 0, 0, 0.85);
+  --footer-bg: #fff0f3;
+}
+
+[data-theme='dark'] {
+  --bg-color: #1a1a2e;
+  --text-color: #e0e0e0;
+  --card-bg: #16213e;
+  --primary: #e94560;
+  --secondary: #ff2e63;
+  --accent: #0f3460;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --modal-bg: rgba(0, 0, 0, 0.95);
+  --footer-bg: #0f1623;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; cursor: zoom-in; }
+
+/* ================================================================
+   LAYOUT & COMPONENTS
+=============================================================== */
+.container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+/* Header */
+header {
+  text-align: center;
+  padding: 60px 20px 40px;
+  animation: fadeInDown 0.8s ease;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--primary);
+  margin-bottom: 15px;
+  box-shadow: var(--shadow);
+}
+
+/* 2. GUNAKAN HEADING YANG BENAR (H1) */
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.2rem; /* Sedikit disesuaikan agar muat di mobile */
+  color: var(--secondary);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.tagline { font-size: 1.1rem; opacity: 0.8; }
+
+/* Section Titles */
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--secondary);
+  margin: 60px 0 30px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  font-weight: 800;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--primary);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* 2. GUNAKAN HEADING YANG BENAR (H2) */
+.sub-section-title {
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin: 40px 0 20px;
+  font-weight: 700;
+}
+
+/* Box & Cards */
+.box {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  border: 2px solid transparent;
+}
+.box:hover { border-color: var(--primary); }
+
+/* Artist Grid */
+.artist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.artist-card {
+  background: var(--card-bg);
+  padding: 30px 20px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.artist-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgba(255, 143, 163, 0.4);
+}
+
+.artist-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 15px;
+  border: 3px solid var(--accent);
+  background: #eee;
+}
+
+.artist-name { font-size: 1.4rem; font-weight: 800; color: var(--secondary); margin-bottom: 5px; }
+.artist-role { font-size: 0.85rem; color: var(--primary); font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+.artist-desc { font-size: 0.9rem; opacity: 0.9; margin-bottom: 20px; flex-grow: 1; }
+
+.btn-artist-order {
+  display: inline-block;
+  margin-top: auto;
+  background: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-artist-order:hover { background: var(--secondary); transform: scale(1.05); }
+
+/* Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.gallery-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  cursor: zoom-in;
+  box-shadow: var(--shadow);
+}
+
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img { transform: scale(1.1); }
+
+.gallery-overlay {
+  position: absolute; inset: 0;
+  background: rgba(255, 143, 163, 0.8);
+  display: flex; justify-content: center; align-items: center;
+  color: white; font-weight: 700; opacity: 0;
+  transition: opacity 0.3s ease; pointer-events: none;
+}
+
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+/* Steps Section */
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.step-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--primary);
+}
+
+.step-num { font-size: 2rem; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 5px; }
+.step-icon { font-size: 1.5rem; display: block; margin: 10px 0; }
+.step-text { font-weight: 700; color: var(--secondary); margin-bottom: 5px; }
+.step-desc { font-size: 0.85rem; opacity: 0.8; }
+
+/* FAQ SECTION STYLES */
+.faq-container { max-width: 800px; margin: 0 auto; }
+.faq-item {
+  background: var(--card-bg);
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.faq-item summary {
+  padding: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+  color: var(--secondary);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  font-size: 1.5rem;
+  color: var(--primary);
+  transition: transform 0.3s;
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+  padding: 0 20px 20px;
+  border-top: 1px dashed var(--accent);
+  margin-top: 10px;
+  padding-top: 15px;
+  color: var(--text-color);
+}
+
+/* TESTIMONIAL PLACEHOLDER */
+.testimonial-box {
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255,143,163,0.1) 100%);
+  padding: 40px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 2px dashed var(--primary);
+  margin-bottom: 40px;
+}
+.testimonial-title { font-family: 'Pacifico', cursive; font-size: 1.8rem; color: var(--secondary); margin-bottom: 10px; }
+.testimonial-sub { font-size: 0.9rem; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; }
+
+/* FOOTER UPDATE */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 60px;
+  background: var(--footer-bg);
+  border-top: 1px solid var(--accent);
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  .footer-left { text-align: left; }
+  .footer-right { text-align: right; }
+}
+
+.footer-logo { width: 60px; margin-bottom: 10px; border-radius: 50%; }
+
+.footer-links a {
+  display: block;
+  margin: 5px 0;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+.footer-links a:hover { opacity: 1; color: var(--primary); text-decoration: underline; }
+
+.footer-socials {
+  display: flex; justify-content: center; gap: 15px; margin-top: 15px;
+}
+
+.social-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--card-bg); display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow); transition: transform 0.3s, background 0.3s;
+}
+.social-icon:hover { transform: translateY(-3px); background: var(--primary); color: white; }
+.social-icon svg { width: 20px; height: 20px; fill: var(--text-color); }
+.social-icon:hover svg { fill: white; }
+
+/* Floating Elements */
+.dark-toggle {
+  position: fixed; top: 20px; right: 20px;
+  background: var(--card-bg); border: 2px solid var(--primary);
+  color: var(--text-color); width: 50px; height: 50px; border-radius: 50%;
+  font-size: 1.5rem; cursor: pointer; z-index: 1000;
+  box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+}
+.dark-toggle:hover { background: var(--primary); color: white; }
+
+.wa-float {
+  position: fixed; bottom: 30px; right: 30px;
+  background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000;
+  transition: transform 0.3s;
+}
+.wa-float:hover { transform: scale(1.1); }
+
+.floating-emoji {
+  position: fixed; font-size: 2rem; opacity: 0.15; z-index: -1;
+  animation: floatEmoji 10s infinite ease-in-out; pointer-events: none;
+}
+
+/* Animations */
+@keyframes floatEmoji {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(0.5); }
+}
+
+.sparkle {
+  position: absolute; pointer-events: none;
+  animation: fadeUp 0.9s forwards; font-size: 1.2rem; z-index: 10;
+}
+
+/* Modal Styles (Lightbox & Profile) */
+.lightbox, .profile-modal {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--modal-bg); z-index: 2000;
+  display: none; justify-content: center; align-items: center; padding: 20px;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.lightbox.active, .profile-modal.active { display: flex; opacity: 1; }
+
+.lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: zoom-out; object-fit: contain; }
+.lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; font-weight: bold; line-height: 1; }
+
+.profile-content {
+  background: var(--card-bg); width: 100%; max-width: 600px; max-height: 90vh;
+  border-radius: var(--border-radius); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; overflow: hidden; position: relative;
+  animation: slideUp 0.4s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.profile-header {
+  background: var(--primary); color: white; padding: 20px; text-align: center; position: relative;
+}
+.profile-close {
+  position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2);
+  border: none; color: white; width: 32px; height: 32px; border-radius: 50%;
+  cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+}
+.profile-name { font-size: 2rem; font-family: 'Pacifico', cursive; margin-bottom: 5px; }
+.profile-role { font-size: 1rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+
+.profile-body { padding: 25px; overflow-y: auto; color: var(--text-color); }
+.profile-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--accent); }
+.profile-section h3 { color: var(--secondary); margin-bottom: 10px; font-size: 1.1rem; }
+.profile-section ul { list-style: disc; margin-left: 20px; }
+.hard-limits { background: rgba(233, 69, 96, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 8px; }
+.hard-limits h4 { color: var(--secondary); margin-bottom: 5px; }
+
+.profile-footer {
+  padding: 20px; border-top: 1px solid var(--accent); text-align: center; background: var(--card-bg);
+}
+.btn-wa-direct {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25D366; color: white; font-weight: 800; padding: 15px 30px;
+  border-radius: 30px; text-decoration: none; font-size: 1.1rem;
+  transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+.btn-wa-direct:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5); background: #20bd5a; }
 
 
+editkan di bawah
+Pilihan Style Artist: Digital & Traditional
+dan di atas
+Karya Artist Kami
 
-editkan pada bagian tim artist kami untuk bagian profile putri ganti menjadi ini
-<a href="https://ibb.co.com/yFpMbsnp"><img src="https://i.ibb.co.com/Wv0dYKW0/30b55329-db77-4106-92f3-3477d411d80a.jpg" alt="30b55329-db77-4106-92f3-3477d411d80a" border="0"></a>
+tambahkan Toko Kami
+Toko ARTIST aiko
+Headshot: Rp25.000
+Gambar: https://i.ibb.co.com/hR5Z11Rr/Whats-App-Image-2026-05-15-at-20-07-00.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai, Priority
+
+Bust Up / Half Body: Rp40.000
+Gambar: belum tersedia
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai, Priority
+
+Full Body: Rp60.000
+Gambar: belum tersedia
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai, Priority
+
+Character Sheet: Rp100.000
+Gambar: belum tersedia
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai, Priority
 
 
-dan FIRDA juga 
-<a href="https://ibb.co.com/KcnfJZQn"><img src="https://i.ibb.co.com/5XZSPDzZ/600d1f4d-9a66-4bb7-be14-8876fc3284b3.jpg" alt="600d1f4d-9a66-4bb7-be14-8876fc3284b3" border="0"></a>
-
-
-
-dan ini untuk karya artist kami bagian aiko
-<a href="https://ibb.co.com/PsFdh5mD"><img src="https://i.ibb.co.com/gbmxTDj4/7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1.jpg" alt="7733d6c6-5fa5-487b-95b6-c2cf8d25ffe1" border="0"></a>
-
-<a href="https://ibb.co.com/n8LXc3tv"><img src="https://i.ibb.co.com/1JmCqsj5/923be934-fb14-4dfd-b217-e1c72b552e2d.jpg" alt="923be934-fb14-4dfd-b217-e1c72b552e2d" border="0"></a>
-
-
-<a href="https://ibb.co.com/mVGCVV0z"><img src="https://i.ibb.co.com/tT4MTTzC/a38a170e-d8ed-4167-a882-a8a4b6c1fabf.jpg" alt="a38a170e-d8ed-4167-a882-a8a4b6c1fabf" border="0"></a>
-
-<a href="https://ibb.co.com/qSmK0ML"><img src="https://i.ibb.co.com/V1MRHW0/wmremove-transformed.png" alt="wmremove-transformed" border="0"></a>
-
-
-untuk FIRDA
-<a href="https://ibb.co.com/hJVxkBfw"><img src="https://i.ibb.co.com/VcT0dgm5/image-1.jpg" alt="image-1" border="0"></a>
-
-<a href="https://ibb.co.com/2Gs75bq"><img src="https://i.ibb.co.com/T9bBrCc/image-2.jpg" alt="image-2" border="0"></a>
-
-
-
-Editkan hanya css dan html terpisah! tidak jadi 1 file dan jangan merubah style css nya! 
+Toko ARTIST firda
