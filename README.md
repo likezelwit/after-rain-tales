@@ -1020,3 +1020,22 @@ Mendukung Opsi: Kilat, Santai, Priority
 
 
 Toko ARTIST firda
+Sketch Only: Rp15.000
+Gambar: https://i.ibb.co.com/7tM99gX1/image-5.png
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Headshot: Rp20.000
+Gambar: https://i.ibb.co.com/vxkhwcX6/image-4.png
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Bust Up: Rp35.000
+Gambar: https://i.ibb.co.com/HLVyJhK9/f222fb91-bb6d-4150-b1df-ce3d61e60e9d.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Full Body: Rp50.000
+Gambar: belum tersedia
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
