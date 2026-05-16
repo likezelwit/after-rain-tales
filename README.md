@@ -1039,3 +1039,29 @@ Full Body: Rp50.000
 Gambar: belum tersedia
 Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
 Mendukung Opsi: Kilat, Santai
+
+
+Toko ARTIST putri
+Sketch Only: Rp10.000
+Gambar: https://i.ibb.co.com/pBBW09ts/Whats-App-Image-2026-05-15-at-19-35-53.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Headshot: Rp15.000
+Gambar: https://i.ibb.co.com/VWdKjmmk/0249c0f3-640e-4a9b-9f19-438fb6ffc193.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Chibi / Mini Character: Rp20.000
+Gambar: https://i.ibb.co.com/0Rt6YFRp/ffd5db26-2d72-4c37-943f-480cc551495d.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+Bust Up: Rp30.000
+Gambar: https://i.ibb.co.com/wFSMzBzy/2a097d4b-4954-44a3-908b-2580ad9baa43.jpg
+Catatan: HARGA DASAR, BELUM TERMASUK ADDON DAN LAIN LAIN
+Mendukung Opsi: Kilat, Santai
+
+
+dan tambahkan di bawah
+metode pembayaran kami! (Saweria)
