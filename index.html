@@ -37,7 +37,6 @@
       --accent: #ffb3c1;
       --shadow: 0 8px 24px rgba(255, 143, 163, 0.2);
       --border-radius: 16px;
-      --modal-bg: rgba(0, 0, 0, 0.85);
       --footer-bg: #fff0f3;
       --success: #25D366; /* Saweria/WA Green */
     }
@@ -50,7 +49,6 @@
       --secondary: #ff2e63;
       --accent: #0f3460;
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      --modal-bg: rgba(0, 0, 0, 0.95);
       --footer-bg: #0f1623;
     }
 
@@ -67,7 +65,7 @@
 
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
-    img { max-width: 100%; display: block; cursor: zoom-in; }
+    img { max-width: 100%; display: block; }
 
     /* ================================================================
        LAYOUT & COMPONENTS
@@ -129,6 +127,8 @@
       color: var(--primary);
       margin: 40px 0 20px;
       font-weight: 700;
+      border-bottom: 2px dashed var(--accent);
+      padding-bottom: 10px;
     }
 
     /* Box & Cards */
@@ -199,42 +199,12 @@
     .btn-artist-order:hover { background: var(--secondary); transform: scale(1.05); }
 
     /* ================================================================
-       NEW: SHOP / TOKO SECTION
+       NEW: SHOP SECTION (NO TABS)
     ================================================================ */
-    .shop-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
+    
+    .shop-category {
+      margin-bottom: 60px;
     }
-
-    .tab-btn {
-      background: var(--card-bg);
-      border: 2px solid var(--accent);
-      color: var(--text-color);
-      padding: 10px 30px;
-      border-radius: 50px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-
-    .tab-btn:hover, .tab-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .shop-content {
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
-    .shop-content.active { display: grid; }
 
     .shop-grid {
       display: grid;
@@ -259,6 +229,7 @@
       overflow: hidden;
       background: #f0f0f0;
       position: relative;
+      cursor: pointer;
     }
 
     .product-img {
@@ -275,6 +246,7 @@
       display: flex; align-items: center; justify-content: center;
       background: var(--accent); color: white; opacity: 0.5;
       font-weight: bold; text-align: center; padding: 10px;
+      font-size: 0.8rem;
     }
 
     .product-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
@@ -289,26 +261,25 @@
 
     .product-note { font-size: 0.75rem; opacity: 0.7; margin-bottom: 15px; font-style: italic; }
 
-    .btn-buy {
+    .btn-view {
       margin-top: auto;
       display: block;
       width: 100%;
       padding: 10px;
-      background: var(--success);
+      background: var(--secondary);
       color: white;
       text-align: center;
       border-radius: 8px;
       font-weight: 700;
+      cursor: pointer;
       transition: background 0.2s;
     }
-    .btn-buy:hover { background: #1ebc57; }
+    .btn-view:hover { background: #a01238; }
 
     /* ================================================================
        NEW: PAYMENT SECTION
     ================================================================ */
-    .payment-section {
-      margin: 50px 0;
-    }
+    .payment-section { margin: 50px 0; }
     .payment-box {
       background: var(--card-bg);
       border-radius: var(--border-radius);
@@ -343,6 +314,7 @@
       font-weight: 800;
       box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
       display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none;
     }
     .btn-saweria:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5); }
 
@@ -523,57 +495,137 @@
       animation: fadeUp 0.9s forwards; font-size: 1.2rem; z-index: 10;
     }
 
-    /* Modal Styles (Lightbox & Profile) */
-    .lightbox, .profile-modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--modal-bg); z-index: 2000;
-      display: none; justify-content: center; align-items: center; padding: 20px;
-      opacity: 0; transition: opacity 0.3s ease;
-    }
-    .lightbox.active, .profile-modal.active { display: flex; opacity: 1; }
-
-    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); cursor: zoom-out; object-fit: contain; }
-    .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; font-weight: bold; line-height: 1; }
-
-    .profile-content {
-      background: var(--card-bg); width: 100%; max-width: 600px; max-height: 90vh;
-      border-radius: var(--border-radius); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      display: flex; flex-direction: column; overflow: hidden; position: relative;
-      animation: slideUp 0.4s ease;
-    }
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    /* ================================================================
+       FULL PAGE SPA CONTAINER
+    ================================================================ */
+    .spa-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--bg-color);
+      z-index: 5000;
+      overflow-y: auto;
+      transform: translateX(100%); /* Hidden by default */
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      display: block;
     }
 
-    .profile-header {
-      background: var(--primary); color: white; padding: 20px; text-align: center; position: relative;
+    .spa-overlay.active {
+      transform: translateX(0); /* Slide in */
     }
-    .profile-close {
-      position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2);
-      border: none; color: white; width: 32px; height: 32px; border-radius: 50%;
-      cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-    }
-    .profile-name { font-size: 2rem; font-family: 'Pacifico', cursive; margin-bottom: 5px; }
-    .profile-role { font-size: 1rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
 
-    .profile-body { padding: 25px; overflow-y: auto; color: var(--text-color); }
-    .profile-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed var(--accent); }
-    .profile-section h3 { color: var(--secondary); margin-bottom: 10px; font-size: 1.1rem; }
-    .profile-section ul { list-style: disc; margin-left: 20px; }
-    .hard-limits { background: rgba(233, 69, 96, 0.1); border: 1px solid var(--primary); padding: 15px; border-radius: 8px; }
-    .hard-limits h4 { color: var(--secondary); margin-bottom: 5px; }
-
-    .profile-footer {
-      padding: 20px; border-top: 1px solid var(--accent); text-align: center; background: var(--card-bg);
+    .spa-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--accent);
+      z-index: 10;
     }
-    .btn-wa-direct {
+    
+    [data-theme='dark'] .spa-header { background: rgba(22, 33, 62, 0.9); }
+
+    .btn-back {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .spa-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px 20px 100px; /* Bottom padding for scroll space */
+    }
+
+    /* Product Detail Styles inside SPA */
+    .spa-hero-img {
+      width: 100%;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+    
+    .spa-title { font-size: 2rem; color: var(--secondary); margin-bottom: 10px; font-family: 'Pacifico', cursive; }
+    .spa-price { font-size: 2.5rem; color: var(--primary); font-weight: 900; margin-bottom: 20px; }
+    .spa-tags { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .spa-tag { background: var(--card-bg); border: 1px solid var(--primary); padding: 5px 15px; border-radius: 20px; font-weight: bold; color: var(--secondary); }
+    
+    .spa-section-box {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .spa-action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 15px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .spa-btn-wa {
+      background: var(--success);
+      color: white;
+      text-decoration: none;
+      padding: 15px 40px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
       display: inline-flex; align-items: center; gap: 10px;
-      background: #25D366; color: white; font-weight: 800; padding: 15px 30px;
-      border-radius: 30px; text-decoration: none; font-size: 1.1rem;
-      transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+      width: 100%;
+      max-width: 400px;
+      justify-content: center;
     }
-    .btn-wa-direct:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5); background: #20bd5a; }
+    .spa-btn-wa:hover { transform: translateY(-2px); background: #20bd5a; }
+
+    /* Artist Profile Styles inside SPA */
+    .artist-header-spa {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .artist-avatar-spa {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      margin: 0 auto 15px;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+    }
+
+    /* Lightbox (Still needed for Gallery) */
+    .lightbox {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9); z-index: 6000;
+      display: none; justify-content: center; align-items: center; padding: 20px;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 8px; cursor: zoom-out; }
+    .lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; line-height: 1; }
+
   </style>
 </head>
 <body>
@@ -632,7 +684,7 @@
               Spesialis buat pelanggan yang butuh hasil cepat, gaya anime yang clean, baik versi digital maupun tradisional.
             </p>
           </div>
-          <button class="btn-artist-order" data-artist="aiko">Pesan Sekarang</button>
+          <button class="btn-artist-order" onclick="openArtistSPA('aiko')">Lihat Profil</button>
         </div>
 
         <!-- Artist 2: Putri -->
@@ -645,7 +697,7 @@
               Spesialis buat pesanan imut, gaya chibi, desain stiker, dan lineart yang tegas.
             </p>
           </div>
-          <button class="btn-artist-order" data-artist="putri">Pesan Sekarang</button>
+          <button class="btn-artist-order" onclick="openArtistSPA('putri')">Lihat Profil</button>
         </div>
 
         <!-- Artist 3: Firda -->
@@ -658,245 +710,222 @@
               Spesialis buat karya yang estetik, penuh perasaan, dan punya detail arsiran pensil yang dalam.
             </p>
           </div>
-          <button class="btn-artist-order" data-artist="firda">Pesan Sekarang</button>
+          <button class="btn-artist-order" onclick="openArtistSPA('firda')">Lihat Profil</button>
         </div>
 
       </div>
     </section>
 
-    <!-- NEW: TOKO KAMI SECTION -->
+    <!-- TOKO KAMI (SEPARATED CATEGORIES) -->
     <section id="shop">
       <div class="section-title">Toko Kami</div>
-      
-      <!-- Tabs -->
-      <div class="shop-tabs">
-        <button class="tab-btn active" onclick="openShop('aiko')">Toko AIKO</button>
-        <button class="tab-btn" onclick="openShop('firda')">Toko FIRDA</button>
-        <button class="tab-btn" onclick="openShop('putri')">Toko PUTRI</button>
+
+      <!-- Kategori: AIKO -->
+      <div class="shop-category">
+        <div class="sub-section-title">Toko AIKO</div>
+        <div class="shop-grid">
+          
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('aiko_headshot')">
+              <img src="https://i.ibb.co.com/hR5Z11Rr/Whats-App-Image-2026-05-15-at-20-07-00.jpg" alt="Headshot Aiko" class="product-img">
+            </div>
+            <div class="product-info">
+              <div class="product-title">Headshot</div>
+              <div class="product-price">Rp25.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+                <span class="tag">Priority</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('aiko_headshot')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('aiko_bustup')">
+              <div class="product-placeholder">Gambar Belum Tersedia</div>
+            </div>
+            <div class="product-info">
+              <div class="product-title">Bust Up / Half Body</div>
+              <div class="product-price">Rp40.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+                <span class="tag">Priority</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('aiko_bustup')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('aiko_fullbody')">
+              <div class="product-placeholder">Gambar Belum Tersedia</div>
+            </div>
+            <div class="product-info">
+              <div class="product-title">Full Body</div>
+              <div class="product-price">Rp60.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+                <span class="tag">Priority</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('aiko_fullbody')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('aiko_charsheet')">
+              <div class="product-placeholder">Gambar Belum Tersedia</div>
+            </div>
+            <div class="product-info">
+              <div class="product-title">Character Sheet</div>
+              <div class="product-price">Rp100.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+                <span class="tag">Priority</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('aiko_charsheet')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <!-- Content: AIKO -->
-      <div id="shop-aiko" class="shop-content active shop-grid">
-        
-        <!-- Headshot -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/hR5Z11Rr/Whats-App-Image-2026-05-15-at-20-07-00.jpg" alt="Headshot Aiko" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Headshot</div>
-            <div class="product-price">Rp25.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
-              <span class="tag">Priority</span>
+      <!-- Kategori: FIRDA -->
+      <div class="shop-category">
+        <div class="sub-section-title">Toko FIRDA</div>
+        <div class="shop-grid">
+          
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('firda_sketch')">
+              <img src="https://i.ibb.co.com/7tM99gX1/image-5.png" alt="Sketch Firda" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp25.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Bust Up / Half Body -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <!-- Placeholder for unavailable image -->
-            <div class="product-placeholder">Gambar Belum Tersedia</div>
-          </div>
-          <div class="product-info">
-            <div class="product-title">Bust Up / Half Body</div>
-            <div class="product-price">Rp40.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
-              <span class="tag">Priority</span>
+            <div class="product-info">
+              <div class="product-title">Sketch Only</div>
+              <div class="product-price">Rp15.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('firda_sketch')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp40.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
-        <!-- Full Body -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <div class="product-placeholder">Gambar Belum Tersedia</div>
-          </div>
-          <div class="product-info">
-            <div class="product-title">Full Body</div>
-            <div class="product-price">Rp60.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
-              <span class="tag">Priority</span>
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('firda_headshot')">
+              <img src="https://i.ibb.co.com/vxkhwcX6/image-4.png" alt="Headshot Firda" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Full%20Body%20(Rp60.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Character Sheet -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <div class="product-placeholder">Gambar Belum Tersedia</div>
-          </div>
-          <div class="product-info">
-            <div class="product-title">Character Sheet</div>
-            <div class="product-price">Rp100.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
-              <span class="tag">Priority</span>
+            <div class="product-info">
+              <div class="product-title">Headshot</div>
+              <div class="product-price">Rp20.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('firda_headshot')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/62895329224959?text=Halo%20Aiko%2C%20saya%20tertarik%20memesan%20paket%20Character%20Sheet%20(Rp100.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('firda_bustup')">
+              <img src="https://i.ibb.co.com/HLVyJhK9/f222fb91-bb6d-4150-b1df-ce3d61e60e9d.jpg" alt="Bust Up Firda" class="product-img">
+            </div>
+            <div class="product-info">
+              <div class="product-title">Bust Up</div>
+              <div class="product-price">Rp35.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('firda_bustup')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('firda_fullbody')">
+              <div class="product-placeholder">Gambar Belum Tersedia</div>
+            </div>
+            <div class="product-info">
+              <div class="product-title">Full Body</div>
+              <div class="product-price">Rp50.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('firda_fullbody')">Lihat Selengkapnya</div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
-      <!-- Content: FIRDA -->
-      <div id="shop-firda" class="shop-content shop-grid">
-        
-        <!-- Sketch Only -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/7tM99gX1/image-5.png" alt="Sketch Firda" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Sketch Only</div>
-            <div class="product-price">Rp15.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+      <!-- Kategori: PUTRI -->
+      <div class="shop-category">
+        <div class="sub-section-title">Toko PUTRI</div>
+        <div class="shop-grid">
+          
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('putri_sketch')">
+              <img src="https://i.ibb.co.com/pBBW09ts/Whats-App-Image-2026-05-15-at-19-35-53.jpg" alt="Sketch Putri" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Sketch%20Only%20(Rp15.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Headshot -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/vxkhwcX6/image-4.png" alt="Headshot Firda" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Headshot</div>
-            <div class="product-price">Rp20.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+            <div class="product-info">
+              <div class="product-title">Sketch Only</div>
+              <div class="product-price">Rp10.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('putri_sketch')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp20.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
-        <!-- Bust Up -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/HLVyJhK9/f222fb91-bb6d-4150-b1df-ce3d61e60e9d.jpg" alt="Bust Up Firda" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Bust Up</div>
-            <div class="product-price">Rp35.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('putri_headshot')">
+              <img src="https://i.ibb.co.com/VWdKjmmk/0249c0f3-640e-4a9b-9f19-438fb6ffc193.jpg" alt="Headshot Putri" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp35.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Full Body -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <div class="product-placeholder">Gambar Belum Tersedia</div>
-          </div>
-          <div class="product-info">
-            <div class="product-title">Full Body</div>
-            <div class="product-price">Rp50.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+            <div class="product-info">
+              <div class="product-title">Headshot</div>
+              <div class="product-price">Rp15.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('putri_headshot')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285819377503?text=Halo%20Firda%2C%20saya%20tertarik%20memesan%20paket%20Full%20Body%20(Rp50.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
-      </div>
-
-      <!-- Content: PUTRI -->
-      <div id="shop-putri" class="shop-content shop-grid">
-        
-        <!-- Sketch Only -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/pBBW09ts/Whats-App-Image-2026-05-15-at-19-35-53.jpg" alt="Sketch Putri" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Sketch Only</div>
-            <div class="product-price">Rp10.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('putri_chibi')">
+              <img src="https://i.ibb.co.com/0Rt6YFRp/ffd5db26-2d72-4c37-943f-480cc551495d.jpg" alt="Chibi Putri" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Sketch%20Only%20(Rp10.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Headshot -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/VWdKjmmk/0249c0f3-640e-4a9b-9f19-438fb6ffc193.jpg" alt="Headshot Putri" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Headshot</div>
-            <div class="product-price">Rp15.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+            <div class="product-info">
+              <div class="product-title">Chibi / Mini Character</div>
+              <div class="product-price">Rp20.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('putri_chibi')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Headshot%20(Rp15.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
-        <!-- Chibi / Mini Character -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/0Rt6YFRp/ffd5db26-2d72-4c37-943f-480cc551495d.jpg" alt="Chibi Putri" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Chibi / Mini Character</div>
-            <div class="product-price">Rp20.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+          <div class="product-card">
+            <div class="product-img-wrapper" onclick="openProductSPA('putri_bustup')">
+              <img src="https://i.ibb.co.com/wFSMzBzy/2a097d4b-4954-44a3-908b-2580ad9baa43.jpg" alt="Bust Up Putri" class="product-img">
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Chibi%20(Rp20.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
-          </div>
-        </div>
-
-        <!-- Bust Up -->
-        <div class="product-card">
-          <div class="product-img-wrapper">
-            <img src="https://i.ibb.co.com/wFSMzBzy/2a097d4b-4954-44a3-908b-2580ad9baa43.jpg" alt="Bust Up Putri" class="product-img">
-          </div>
-          <div class="product-info">
-            <div class="product-title">Bust Up</div>
-            <div class="product-price">Rp30.000</div>
-            <div class="product-tags">
-              <span class="tag">Kilat</span>
-              <span class="tag">Santai</span>
+            <div class="product-info">
+              <div class="product-title">Bust Up</div>
+              <div class="product-price">Rp30.000</div>
+              <div class="product-tags">
+                <span class="tag">Kilat</span>
+                <span class="tag">Santai</span>
+              </div>
+              <div class="btn-view" onclick="openProductSPA('putri_bustup')">Lihat Selengkapnya</div>
             </div>
-            <div class="product-note">Harga Dasar, belum termasuk addon.</div>
-            <a href="https://wa.me/6285757552350?text=Halo%20Putri%2C%20saya%20tertarik%20memesan%20paket%20Bust%20Up%20(Rp30.000)..." target="_blank" class="btn-buy">Pesan via WA</a>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
 
@@ -917,7 +946,6 @@
           <span class="pm-badge">LinkAja</span>
         </div>
         <br>
-        <!-- Link ini bisa diganti dengan link Saweria Manager yang sebenarnya -->
         <a href="https://saweria.co" target="_blank" class="btn-saweria">
           <span>💳</span> Bayar via Saweria
         </a>
@@ -1130,62 +1158,162 @@
     </svg>
   </a>
 
-  <!-- LIGHTBOX MODAL -->
-  <div id="lightbox" class="lightbox">
-    <span class="lightbox-close">&times;</span>
-    <img id="lightbox-img" src="" alt="Preview">
+  <!-- FULL PAGE SPA OVERLAY -->
+  <div id="spa-overlay" class="spa-overlay">
+    <div class="spa-header">
+      <button class="btn-back" onclick="closeSPA()">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        Kembali
+      </button>
+    </div>
+    <div id="spa-content-area" class="spa-content">
+      <!-- Content Injected via JS -->
+    </div>
+    <div id="spa-action-area" class="spa-action-bar">
+      <!-- Action Button Injected via JS -->
+    </div>
   </div>
 
-  <!-- ARTIST PROFILE MODAL (SPA) -->
-  <div id="artist-profile" class="profile-modal">
-    <div class="profile-content">
-      <div class="profile-header">
-        <button class="profile-close">&times;</button>
-        <h2 class="profile-name" id="p-name">Artist Name</h2>
-        <div class="profile-role" id="p-role">Role</div>
-      </div>
-      <div class="profile-body">
-        
-        <div class="profile-section">
-          <h3>📞 Kontak & Rating</h3>
-          <p><strong>Nomor:</strong> <span id="p-phone">...</span></p>
-          <p><strong>Rating:</strong> <span class="rating-stars" id="p-rating">...</span></p>
-        </div>
-
-        <div class="profile-section">
-          <h3>🎨 Tipe & Spesialisasi</h3>
-          <p><strong>Tipe Menggambar:</strong> <span id="p-type">...</span></p>
-          <div id="p-capabilities"></div>
-        </div>
-
-        <div class="profile-section hard-limits">
-          <h4>🚫 Batasan Pekerjaan (Hard Limits)</h4>
-          <ul id="p-limits"></ul>
-          <p id="p-extra-note" style="margin-top:10px; font-style: italic; font-size: 0.9em;"></p>
-        </div>
-
-      </div>
-      <div class="profile-footer">
-        <a href="#" id="p-wa-link" class="btn-wa-direct" target="_blank">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
-          </svg>
-          Pesan Dengan Artist Ini
-        </a>
-      </div>
-    </div>
+  <!-- LIGHTBOX (Untuk Galeri) -->
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" src="" alt="Preview">
   </div>
 
   <script>
     /* ================================================================
-       DATA ARTIST (Database Sederhana)
+       DATA PRODUK & ARTIST (DATABASE SEDERHANA)
     ================================================================ */
+    const productsData = {
+      aiko_headshot: {
+        name: "Headshot",
+        price: "Rp25.000",
+        img: "https://i.ibb.co.com/hR5Z11Rr/Whats-App-Image-2026-05-15-at-20-07-00.jpg",
+        artistName: "Aiko",
+        artistPhone: "62895329224959",
+        tags: ["Kilat", "Santai", "Priority"],
+        desc: "Paket Headshot menampilkan wajah karakter hingga leher. Cocok untuk avatar profil atau icon. Gaya digital yang bersih dan warna penuh.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      aiko_bustup: {
+        name: "Bust Up / Half Body",
+        price: "Rp40.000",
+        img: null, // Placeholder
+        artistName: "Aiko",
+        artistPhone: "62895329224959",
+        tags: ["Kilat", "Santai", "Priority"],
+        desc: "Menampilkan karakter dari kepala hingga dada/pinggang. Detail background sederhana.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      aiko_fullbody: {
+        name: "Full Body",
+        price: "Rp60.000",
+        img: null,
+        artistName: "Aiko",
+        artistPhone: "62895329224959",
+        tags: ["Kilat", "Santai", "Priority"],
+        desc: "Menampilkan seluruh tubuh karakter. Sangat cocok untuk referensi desain karakter lengkap.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      aiko_charsheet: {
+        name: "Character Sheet",
+        price: "Rp100.000",
+        img: null,
+        artistName: "Aiko",
+        artistPhone: "62895329224959",
+        tags: ["Kilat", "Santai", "Priority"],
+        desc: "Paket komplit berisi beberapa pose dan ekspresi karakter yang sama. Ideal untuk game atau komik.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      firda_sketch: {
+        name: "Sketch Only",
+        price: "Rp15.000",
+        img: "https://i.ibb.co.com/7tM99gX1/image-5.png",
+        artistName: "Firda",
+        artistPhone: "6285819377503",
+        tags: ["Kilat", "Santai"],
+        desc: "Sketsa kasar berupa goresan pensil. Memberikan kesan artistik dan raw yang unik.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      firda_headshot: {
+        name: "Headshot",
+        price: "Rp20.000",
+        img: "https://i.ibb.co.com/vxkhwcX6/image-4.png",
+        artistName: "Firda",
+        artistPhone: "6285819377503",
+        tags: ["Kilat", "Santai"],
+        desc: "Potret kepala dengan gaya shading pensil yang kuat dan dramatis.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      firda_bustup: {
+        name: "Bust Up",
+        price: "Rp35.000",
+        img: "https://i.ibb.co.com/HLVyJhK9/f222fb91-bb6d-4150-b1df-ce3d61e60e9d.jpg",
+        artistName: "Firda",
+        artistPhone: "6285819377503",
+        tags: ["Kilat", "Santai"],
+        desc: "Gambar setengah badan dengan detail arsiran yang mendalam dan estetik.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      firda_fullbody: {
+        name: "Full Body",
+        price: "Rp50.000",
+        img: null,
+        artistName: "Firda",
+        artistPhone: "6285819377503",
+        tags: ["Kilat", "Santai"],
+        desc: "Gambar seluruh badan dengan nuansa traditional art yang kuat.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      putri_sketch: {
+        name: "Sketch Only",
+        price: "Rp10.000",
+        img: "https://i.ibb.co.com/pBBW09ts/Whats-App-Image-2026-05-15-at-19-35-53.jpg",
+        artistName: "Putri",
+        artistPhone: "6285757552350",
+        tags: ["Kilat", "Santai"],
+        desc: "Sketsa tangan yang rapi dengan garis yang tegas.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      putri_headshot: {
+        name: "Headshot",
+        price: "Rp15.000",
+        img: "https://i.ibb.co.com/VWdKjmmk/0249c0f3-640e-4a9b-9f19-438fb6ffc193.jpg",
+        artistName: "Putri",
+        artistPhone: "6285757552350",
+        tags: ["Kilat", "Santai"],
+        desc: "Potret kepala dengan sentuhan soft aesthetic yang manis.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      putri_chibi: {
+        name: "Chibi / Mini Character",
+        price: "Rp20.000",
+        img: "https://i.ibb.co.com/0Rt6YFRp/ffd5db26-2d72-4c37-943f-480cc551495d.jpg",
+        artistName: "Putri",
+        artistPhone: "6285757552350",
+        tags: ["Kilat", "Santai"],
+        desc: "Karakter versi chibi yang imut dan proporsional. Cocok untuk stiker.",
+        note: "Harga Dasar, belum termasuk addon."
+      },
+      putri_bustup: {
+        name: "Bust Up",
+        price: "Rp30.000",
+        img: "https://i.ibb.co.com/wFSMzBzy/2a097d4b-4954-44a3-908b-2580ad9baa43.jpg",
+        artistName: "Putri",
+        artistPhone: "6285757552350",
+        tags: ["Kilat", "Santai"],
+        desc: "Setengah badan dengan gaya tradisional yang lembut dan personal.",
+        note: "Harga Dasar, belum termasuk addon."
+      }
+    };
+
     const artistsData = {
       aiko: {
         name: "Aiko",
         role: "The Speedster & Digital Stylist",
         phone: "+62 895-3292-24959",
         rawPhone: "62895329224959",
+        avatar: "https://i.ibb.co.com/xqXXC20g/784ff6a4-e04f-4d15-8c42-9e810b858969.jpg",
         rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat komunikatif dan tepat waktu.",
         type: "Digital Art Expert. Aiko fokus sepenuhnya pada pengerjaan digital menggunakan software terkini.",
         capabilities: [
@@ -1202,6 +1330,7 @@
         role: "The Aesthetic & Mood Master",
         phone: "+62 858-1937-7503",
         rawPhone: "6285819377503",
+        avatar: "https://i.ibb.co.com/5XZSPDzZ/600d1f4d-9a66-4bb7-be14-8876fc3284b3.jpg",
         rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat kuat dalam menciptakan suasana melalui kontras warna dramatis.",
         type: "Traditional Art Specialist. Menggunakan media fisik untuk tekstur otentik.",
         capabilities: [
@@ -1217,6 +1346,7 @@
         role: "The Sticker & Chibi Specialist",
         phone: "+62 857-5755-2350",
         rawPhone: "6285757552350",
+        avatar: "https://i.ibb.co.com/Wv0dYKW0/30b55329-db77-4106-92f3-3477d411d80a.jpg",
         rating: "⭐⭐⭐⭐⭐ (5/5) — Dikenal sangat teliti dan mampu menangkap keinginan pelanggan secara detail.",
         type: "Traditional Art Specialist. Fokus pada karya seni manual dengan sentuhan tekstur unik.",
         capabilities: [
@@ -1234,6 +1364,118 @@
     };
 
     /* ================================================================
+       SPA LOGIC (FULL PAGE VIEW)
+    ================================================================ */
+    const spaOverlay = document.getElementById('spa-overlay');
+    const spaContent = document.getElementById('spa-content-area');
+    const spaAction = document.getElementById('spa-action-area');
+    let originalBodyOverflow = '';
+
+    function openProductSPA(productId) {
+      const data = productsData[productId];
+      if (!data) return;
+
+      // Hide scroll on body
+      originalBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      // Build HTML
+      const imgHtml = data.img 
+        ? `<img src="${data.img}" class="spa-hero-img" alt="${data.name}">` 
+        : `<div class="spa-hero-img" style="background:var(--accent); display:flex; align-items:center; justify-content:center; color:white; font-weight:bold; min-height:300px;">Gambar Belum Tersedia</div>`;
+
+      const tagsHtml = data.tags.map(tag => `<span class="spa-tag">${tag}</span>`).join('');
+
+      spaContent.innerHTML = `
+        ${imgHtml}
+        <h1 class="spa-title">${data.name}</h1>
+        <div class="spa-price">${data.price}</div>
+        <div class="spa-tags">${tagsHtml}</div>
+        
+        <div class="spa-section-box">
+          <h3 style="color:var(--secondary); margin-bottom:10px;">Deskripsi</h3>
+          <p>${data.desc}</p>
+          <p style="margin-top:10px; font-size:0.9rem; font-style:italic; opacity:0.8;">${data.note}</p>
+        </div>
+
+        <div class="spa-section-box">
+          <h3 style="color:var(--secondary); margin-bottom:10px;">Artist</h3>
+          <p>Dikerjakan oleh: <strong>${data.artistName}</strong></p>
+        </div>
+      `;
+
+      const waMessage = `Halo ${data.artistName}, saya ingin memesan paket ${data.name} (${data.price})...`;
+      spaAction.innerHTML = `
+        <a href="https://wa.me/${data.artistPhone}?text=${encodeURIComponent(waMessage)}" target="_blank" class="spa-btn-wa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+          Pesan via WhatsApp
+        </a>
+      `;
+
+      spaOverlay.classList.add('active');
+    }
+
+    function openArtistSPA(artistId) {
+      const data = artistsData[artistId];
+      if (!data) return;
+
+      // Hide scroll on body
+      originalBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      const capabilitiesHtml = data.capabilities.map(c => `<li style="margin-bottom:8px;">${c}</li>`).join('');
+      const limitsHtml = data.limits.map(l => `<li style="margin-bottom:5px;">${l}</li>`).join('');
+
+      spaContent.innerHTML = `
+        <div class="artist-header-spa">
+          <img src="${data.avatar}" class="artist-avatar-spa" alt="${data.name}">
+          <h1 class="spa-title" style="margin-bottom:5px;">${data.name}</h1>
+          <div style="font-size:1.2rem; color:var(--primary); font-weight:700; text-transform:uppercase; letter-spacing:1px;">${data.role}</div>
+        </div>
+
+        <div class="spa-section-box">
+          <h3 style="color:var(--secondary); margin-bottom:10px;">📞 Kontak & Rating</h3>
+          <p><strong>Nomor:</strong> ${data.phone}</p>
+          <p><strong>Rating:</strong> ${data.rating}</p>
+        </div>
+
+        <div class="spa-section-box">
+          <h3 style="color:var(--secondary); margin-bottom:10px;">🎨 Tipe & Spesialisasi</h3>
+          <p style="margin-bottom:10px;">${data.type}</p>
+          <ul style="padding-left:20px;">${capabilitiesHtml}</ul>
+        </div>
+
+        <div class="spa-section-box" style="border-color: #ff4757; background: rgba(255, 71, 87, 0.05);">
+          <h4 style="color:var(--secondary); margin-bottom:5px;">🚫 Batasan Pekerjaan (Hard Limits)</h4>
+          <ul style="padding-left:20px;">${limitsHtml}</ul>
+          ${data.extraNote ? `<p style="margin-top:10px; font-style: italic; font-size: 0.9em;">${data.extraNote}</p>` : ''}
+        </div>
+      `;
+
+      const waMessage = `Halo ${data.name}, saya ingin memesan komisi denganmu...`;
+      spaAction.innerHTML = `
+        <a href="https://wa.me/${data.rawPhone}?text=${encodeURIComponent(waMessage)}" target="_blank" class="spa-btn-wa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+          Pesan Dengan ${data.name}
+        </a>
+      `;
+
+      spaOverlay.classList.add('active');
+    }
+
+    function closeSPA() {
+      spaOverlay.classList.remove('active');
+      document.body.style.overflow = originalBodyOverflow || 'auto';
+      // Clear content after transition (optional optimization)
+      setTimeout(() => {
+        if(!spaOverlay.classList.contains('active')){
+           spaContent.innerHTML = '';
+           spaAction.innerHTML = '';
+        }
+      }, 400);
+    }
+
+    /* ================================================================
        DARK MODE LOGIC
     ================================================================ */
     function toggleDark(){
@@ -1244,26 +1486,7 @@
     }
 
     /* ================================================================
-       SHOP TAB LOGIC
-    ================================================================ */
-    function openShop(artistName) {
-      // Hide all contents
-      document.querySelectorAll('.shop-content').forEach(content => {
-        content.classList.remove('active');
-      });
-      // Deactivate all buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-
-      // Show selected content
-      document.getElementById(`shop-${artistName}`).classList.add('active');
-      // Activate selected button (event bubbling handling simplified)
-      event.target.classList.add('active');
-    }
-
-    /* ================================================================
-       SPARKLE HOVER EFFECT FOR CARDS
+       SPARKLE EFFECT & LIGHTBOX
     ================================================================ */
     const cards = document.querySelectorAll('.sparkle-wrap');
     const sparkleEmojis = ['✨','⭐','💫','🌟','❄️','🎨'];
@@ -1283,17 +1506,11 @@
       });
     });
 
-    /* ================================================================
-       LIGHTBOX (IMAGE PREVIEW) LOGIC
-    ================================================================ */
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxClose = document.querySelector('.lightbox-close');
 
-    document.querySelectorAll('img').forEach(img => {
+    document.querySelectorAll('.gallery-item img').forEach(img => {
       img.addEventListener('click', (e) => {
-        if(e.target.closest('.profile-content') || e.target.closest('.lightbox-close') || e.target.closest('.wa-float') || e.target.closest('.product-img')) return;
-        
         lightboxImg.src = e.target.src;
         lightbox.classList.add('active');
       });
@@ -1302,65 +1519,6 @@
     function closeLightbox() {
       lightbox.classList.remove('active');
     }
-
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    /* ================================================================
-       ARTIST PROFILE MODAL (SPA) LOGIC
-    ================================================================ */
-    const profileModal = document.getElementById('artist-profile');
-    const profileCloseBtn = document.querySelector('.profile-close');
-
-    const pName = document.getElementById('p-name');
-    const pRole = document.getElementById('p-role');
-    const pPhone = document.getElementById('p-phone');
-    const pRating = document.getElementById('p-rating');
-    const pType = document.getElementById('p-type');
-    const pCapabilities = document.getElementById('p-capabilities');
-    const pLimits = document.getElementById('p-limits');
-    const pExtraNote = document.getElementById('p-extra-note');
-    const pWaLink = document.getElementById('p-wa-link');
-
-    document.querySelectorAll('.btn-artist-order').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const artistId = btn.getAttribute('data-artist');
-        openArtistProfile(artistId);
-      });
-    });
-
-    function openArtistProfile(id) {
-      const data = artistsData[id];
-      if (!data) return;
-
-      pName.textContent = data.name;
-      pRole.textContent = data.role;
-      pPhone.textContent = data.phone;
-      pRating.textContent = data.rating;
-      pType.textContent = data.type;
-
-      pCapabilities.innerHTML = '<ul>' + data.capabilities.map(c => `<li>${c}</li>`).join('') + '</ul>';
-      pLimits.innerHTML = data.limits.map(l => `<li>${l}</li>`).join('');
-      pExtraNote.textContent = data.extraNote;
-
-      const message = `Halo ${data.name}, saya ingin memesan komisi denganmu...`;
-      pWaLink.href = `https://wa.me/${data.rawPhone}?text=${encodeURIComponent(message)}`;
-
-      profileModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeProfile() {
-      profileModal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
-    profileCloseBtn.addEventListener('click', closeProfile);
-    profileModal.addEventListener('click', (e) => {
-      if (e.target === profileModal) closeProfile();
-    });
   </script>
 </body>
 </html>
